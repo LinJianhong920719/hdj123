@@ -1,0 +1,17 @@
+//
+//  ModifyPwdViewController.h
+//  MailWorldClient
+//
+//  Created by liyoro on 13-11-1.
+//  Copyright (c) 2013年 liyoro. All rights reserved.
+//
+
+#import "BaseViewController.h"
+
+@interface ModifyPwdViewController : BaseViewController
+
+@property (nonatomic, strong) IBOutlet LIUITextField *oldpwdField;
+@property (nonatomic, strong) IBOutlet LIUITextField *newpwdField;
+@property (nonatomic, strong) IBOutlet LIUITextField *renewpwdField;
+@property (nonatomic, strong) NSString *phone;
+@end

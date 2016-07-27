@@ -1,0 +1,1056 @@
+//
+//  UserInfoViewController.m
+//  MailWorldClient
+//
+//  Created by liyoro on 13-11-3.
+//  Copyright (c) 2013年 liyoro. All rights reserved.
+//
+#import <QuartzCore/QuartzCore.h>
+#import "UserInfoFirstViewController.h"
+#import "ELCAssetTablePicker.h"
+#import "MailSettingViewController.h"
+
+#import "UserInformation.h"
+#import <QuartzCore/QuartzCore.h>
+
+@interface UserInfoFirstViewController () <UITextFieldDelegate, UIActionSheetDelegate> {
+       NSArray *DFDE;
+    UIDatePicker *datePicker;
+    NSLocale *datelocale;
+    UIActionSheet *sheet;
+     NSArray *provinces, *cities, *areas;
+      NSArray *DFD;
+    NSString *ppid;
+     NSString *cityId;
+    
+}
+
+@property (nonatomic, strong) ALAssetsLibrary *specialLibrary;
+@property (nonatomic, strong) UIImage *selectHeadImage;
+@property (nonatomic, strong) NSString *selectsex;
+
+@end
+
+@implementation UserInfoFirstViewController
+@synthesize proid;
+@synthesize textview;
+@synthesize businType;
+
+@synthesize pwd;
+@synthesize fieldEmail;
+@synthesize fieldTelephone;
+@synthesize fieldFaxl;
+@synthesize fieldProvinceId;
+@synthesize fieldAddress;
+@synthesize fieldMainProducts;
+@synthesize btnEE;
+@synthesize contentView;
+@synthesize headImage;
+@synthesize btnBoy;
+@synthesize btnGirl;
+@synthesize fieldName;
+@synthesize fieldCityId;
+@synthesize fieldBirth;
+@synthesize selectsex;
+@synthesize selectHeadImage;
+@synthesize type;
+@synthesize uid;
+@synthesize type_business;
+- (void) regSuccess {
+//    [Tools saveInteger:0 forKey:KEY_PRO_COUNT];
+//    [Tools saveInteger:0 forKey:KEY_INQ_COUNT];
+    MailSettingViewController *storeView = [[MailSettingViewController alloc]init];
+   
+    storeView.hidesBottomBarWhenPushed = NO;
+    [self.navigationController pushViewController:storeView animated:YES];
+
+}
+
+- (void) successed {
+//    [[AppDelegate sharedAppDelegate]loadMainView];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)sexClick:(id)sender {
+    UIButton *btn = (UIButton*)sender;
+    int tag = btn.tag;
+    
+    if (tag == 1) {//男
+        self.selectsex = @"male";
+
+    
+        [self.btnBoy setBackgroundColor:[UIColor colorWithRed:0.000000 green:0.619608 blue:0.878431 alpha:1]];//蓝
+        [self.btnGirl setBackgroundColor:[UIColor colorWithRed:0.713726 green:0.713726 blue:0.713726 alpha:1]];//灰
+    }
+    else {
+        self.selectsex = @"female";
+
+        
+        [self.btnBoy setBackgroundColor:[UIColor colorWithRed:0.713726 green:0.713726 blue:0.713726 alpha:1]];//灰
+        [self.btnGirl setBackgroundColor:[UIColor colorWithRed:1.000000 green:0.215686 blue:0.333333 alpha:1]];//红
+    }
+}
+
+- (IBAction)chooseImage:(id)sender {
+    
+    // 判断是否支持相机
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        sheet  = [[UIActionSheet alloc] initWithTitle:@"选择头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从相册选择", nil];
+    }
+    else {
+        sheet = [[UIActionSheet alloc] initWithTitle:@"选择头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"从相册选择", nil];
+    }
+    
+    sheet.tag = 255;
+    
+    [sheet showInView:self.view];
+}
+
+- (IBAction)pickImage:(id)sender {
+    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+    self.specialLibrary = library;
+    
+    NSMutableArray *groups = [NSMutableArray array];
+    [_specialLibrary enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+        if (group) {
+            [groups addObject:group];
+        } else {
+            // this is the end
+            [self displayPickerForGroup:[groups objectAtIndex:0]];
+        }
+    } failureBlock:^(NSError *error) {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Album Error: %@ - %@", [error localizedDescription], [error localizedRecoverySuggestion]] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+        
+        NSLog(@"A problem occured %@", [error description]);
+          }];
+}
+- (void)loadTypeData2 {
+    
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         ppid,                     @"classid",
+                         
+                         nil];
+    NSString *xpoint = @"province.php?";
+  
+    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
+        if (error) {
+            
+        }
+        else {
+            
+            if (respond.result == 1) {
+                DFDE=respond.respondArray;
+//                if(self.type==1){
+////                    for (NSArray *title in DFDE) {
+////                        if([serviceType2 isEqualToString:[title valueForKey:@"id"]]){
+////                            self.fieldCell7.text=[title valueForKey:@"name"];
+////                            
+////                            
+////                        }}
+//                }
+                
+                
+            }
+        }
+    }];
+}
+- (IBAction)TextField_DidEndOnExit:(id)sender {
+    // 隐藏键盘.
+    [sender resignFirstResponder];
+}
+- (void)displayPickerForGroup:(ALAssetsGroup *)group {
+	ELCAssetTablePicker *tablePicker = [[ELCAssetTablePicker alloc] initWithNibName: nil bundle: nil];
+    tablePicker.singleSelection = YES;
+    tablePicker.immediateReturn = YES;
+    
+	ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:tablePicker];
+    elcPicker.maximumImagesCount = 1;
+    elcPicker.delegate = self;
+	tablePicker.parent = elcPicker;
+    
+    // Move me
+    tablePicker.assetGroup = group;
+    [tablePicker.assetGroup setAssetsFilter:[ALAssetsFilter allAssets]];
+    
+    [self presentViewController:elcPicker animated:YES completion:nil];
+}
+- (IBAction)infosubddmit:(id)sender {
+    // 隐藏键盘.
+    [sender resignFirstResponder];
+}
+- (IBAction)infosubmit:(id)sender {
+    NSString *name = self.fieldName.text;
+      //  NSString *cityId = self.fieldCityId.text;
+    NSString *birth = self.fieldBirth.text;
+       NSString *textviewWord = self.textview.text;
+    NSLog(@"%@",textviewWord);
+        NSString *act = @"";
+    if (self.type == 1) {
+         act = @"add";
+        
+    }else{
+          act = @"add";
+    }
+
+   
+    
+         NSString *provid= ppid;
+    
+
+
+    name = name.length>0?name:@"";
+    birth = birth.length>0?birth:@"";
+    self.selectsex = self.selectsex.length>0?self.selectsex:@"male";
+    
+    [self.fieldName resignFirstResponder];
+    [self.fieldBirth resignFirstResponder];
+//    if (name.length == 0) {
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        hud.mode = MBProgressHUDModeText;
+//        hud.detailsLabelText = @"您的信息填写不完整！";
+//        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+//        hud.yOffset = -50.f;
+//        hud.removeFromSuperViewOnHide = YES;
+//        [hud hide:YES afterDelay:2];
+//        return;
+//    }
+    if (cityId.length == 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"您的信息填写不完整！";
+        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        return;
+    }
+//    if (birth.length == 0) {
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        hud.mode = MBProgressHUDModeText;
+//        hud.detailsLabelText = @"您的信息填写不完整！";
+//        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+//        hud.yOffset = -50.f;
+//        hud.removeFromSuperViewOnHide = YES;
+//        [hud hide:YES afterDelay:2];
+//        return;
+//    }
+    if (self.fieldEmail.text.length == 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"您的信息填写不完整！";
+        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        return;
+    }
+    if (self.fieldTelephone.text.length == 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"您的信息填写不完整！";
+        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        return;
+    }
+    if (self.fieldProvinceId.text.length == 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"您的信息填写不完整！";
+        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        return;
+    }
+//    if (textviewWord.length == 0) {
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        hud.mode = MBProgressHUDModeText;
+//        hud.detailsLabelText = @"您的信息填写不完整！";
+//        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+//        hud.yOffset = -50.f;
+//        hud.removeFromSuperViewOnHide = YES;
+//        [hud hide:YES afterDelay:2];
+//        return;
+//    }
+    NSData *imageToUpload = nil;
+    NSDictionary *dic;
+    if (self.selectHeadImage != nil) {
+        UIImage *tempImage = [self resize:CGSizeMake(200, 200)];
+        imageToUpload = UIImageJPEGRepresentation(tempImage, 0.5);
+        dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+               act,                    @"act",
+             
+               self.businType,                    @"type",
+               [AppConfig phone],                    @"phone",
+               self.pwd,                    @"pass",
+               self.fieldEmail.text,                    @"email",
+               self.fieldTelephone.text,                    @"telephone",
+             //  self.fieldFaxl.text,                    @"fax",
+               
+               textviewWord,                    @"address",
+              // self.fieldMainProducts.text,                    @"mainProducts",
+                           name,                              @"enterpriseName",
+               self.selectsex,                             @"sex",
+               birth,                             @"contactor",
+               provid,                    @"provinceId",
+                  cityId,                    @"cityId",
+               nil];
+         DLog(@"dddddd%@", dic);
+        DLog(@"dddddd%@", self.selectHeadImage);
+        HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        HUD.delegate = self;
+        HUD.labelText = @"资料提交中...";
+        [HUD show:YES];
+       
+        
+        NSString* str2=[SERVICE_URL stringByAppendingString:@"user_info.php?"];
+        AFHTTPClient *client= [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:str2]];
+        [client setParameterEncoding:AFJSONParameterEncoding];
+        
+        
+        NSMutableURLRequest *request = [client multipartFormRequestWithMethod:@"POST" path:str2 parameters:dic constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+            if (imageToUpload != nil) {
+                [formData appendPartWithFileData:imageToUpload name:@"image[]" fileName:@"my_head_img.jpg"  mimeType:@"image/jpg"];
+            }
+        }];
+        [request setTimeoutInterval:10];
+        
+        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+        
+        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSError* error;
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[operation responseData] options:kNilOptions error:&error];
+            
+            DLog(@"responseObject:%@", json);
+            int result = [[json valueForKey:@"success"]integerValue];
+            
+            if (result == 0) {
+                [HUD removeFromSuperview];
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"资料提交失败";
+                hud.yOffset = -50.f;
+                hud.removeFromSuperViewOnHide = YES;
+                [hud hide:YES afterDelay:2];
+            }
+            else {
+                [HUD removeFromSuperview];
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"资料提交成功";
+                hud.yOffset = -50.f;
+                hud.removeFromSuperViewOnHide = YES;
+                [hud hide:YES afterDelay:2];
+                
+                NSDictionary *respondData =[json valueForKey:@"result"] ;
+
+                
+                UserInformation *tempDto = [[UserInformation alloc]initWithAttributes:respondData];
+         
+                NSLog(@"%@", tempDto);
+                NSString *userid = tempDto.userid;
+               
+                [Tools saveBool:YES forKey:KEY_IS_LOGIN];
+                 [Tools saveObject:userid forKey:KEY_USER_ID];
+                 [Tools saveObject:[AppConfig phone] forKey:KEY_USER_PHONE];
+                [Tools saveObject:tempDto.username forKey:KEY_USER_NAME];
+            
+                [Tools saveObject:tempDto.usersex forKey:KEY_SEX];
+             
+                if(  [self isBlankString:tempDto.userheadimg]){
+                   
+                    
+                }else {
+                  
+                    [Tools saveObject:tempDto.userheadimg forKey:KEY_HEADIMG];
+                    
+                }
+                
+                //来源 1：门店 2：猫屋会员
+                [Tools saveInteger:tempDto.userfrom forKey:KEY_USERFROM];
+                [Tools saveObject:tempDto.shopid forKey:KEY_SHOPID];
+                [Tools saveObject:tempDto.userbirth forKey:KEY_BIRTH];
+                [Tools saveObject:tempDto.age forKey:KEY_AGE];
+                
+                [Tools saveObject:tempDto.userbgimg forKey:KEY_BGIMG];
+                
+              
+                
+                [self performSelector:@selector(regSuccess) withObject:nil afterDelay:2];
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            if (error) {
+                [HUD removeFromSuperview];
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"资料提交失败，请重试";
+                hud.yOffset = -50.f;
+                hud.removeFromSuperViewOnHide = YES;
+                
+                [hud hide:YES afterDelay:2];
+            }
+        }];
+        [client enqueueHTTPRequestOperation:operation];
+    }
+    else {
+     
+          NSDictionary    *dicc = [[NSDictionary alloc]initWithObjectsAndKeys:
+       
+               act,                    @"act",
+                       cityId,                    @"cityId",
+                             self.businType,                    @"type",
+                             [AppConfig phone],                    @"phone",
+                             self.pwd,                    @"pass",
+               self.fieldEmail.text,                    @"email",
+               self.fieldTelephone.text,                    @"telephone",
+          //     self.fieldFaxl.text,                    @"fax",
+       
+               textviewWord,                    @"address",
+               //self.fieldMainProducts.text,                    @"mainProducts",
+          
+               name,                              @"enterpriseName",
+               self.selectsex,                             @"sex",
+               birth,                             @"contactor",
+                              provid,                    @"provinceId",
+      
+              
+               nil];
+      
+        DLog(@"%@",dicc);
+        NSString *xpoint = @"user_info.php?";
+        [MailWorldRequest requestWithParams:dicc xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
+            if (error) {
+                [HUD removeFromSuperview];
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"资料提交失败，请重试";
+                hud.yOffset = -50.f;
+                hud.removeFromSuperViewOnHide = YES;
+                
+                [hud hide:YES afterDelay:2];
+            }
+            else {
+                [HUD removeFromSuperview];
+                
+                if (respond.result == YES) {
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"资料提交成功";
+                    hud.yOffset = -50.f;
+                    hud.removeFromSuperViewOnHide = YES;
+                    
+                    [hud hide:YES afterDelay:2];
+                    
+                    UserInformation *tempDto = [[UserInformation alloc]initWithAttributes:respond.respondData];
+                    
+               
+                    NSString *userid = tempDto.userid;
+            
+
+                       [Tools saveObject:[AppConfig phone] forKey:KEY_USER_PHONE];
+                    [Tools saveBool:YES forKey:KEY_IS_LOGIN];
+                        [Tools saveObject:userid forKey:KEY_USER_ID];
+                    [Tools saveObject:tempDto.username forKey:KEY_USER_NAME];
+                  
+                    [Tools saveObject:tempDto.usersex forKey:KEY_SEX];
+                   
+                   
+                    if(  [self isBlankString:tempDto.userheadimg]){
+                       
+                        
+                    }else {
+                        [Tools saveObject:tempDto.userheadimg forKey:KEY_HEADIMG];
+                        
+                    }
+                    
+                    //来源 1：门店 2：猫屋会员
+                    [Tools saveInteger:tempDto.userfrom forKey:KEY_USERFROM];
+                    [Tools saveObject:tempDto.shopid forKey:KEY_SHOPID];
+                    [Tools saveObject:tempDto.userbirth forKey:KEY_BIRTH];
+                    [Tools saveObject:tempDto.age forKey:KEY_AGE];
+                    
+                    [Tools saveObject:tempDto.userbgimg forKey:KEY_BGIMG];
+                    
+                   
+
+                      [self performSelector:@selector(regSuccess) withObject:nil afterDelay:2];
+                  
+                }
+                else {
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.detailsLabelText = respond.error_msg;
+                    hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+                    hud.yOffset = -50.f;
+                    hud.removeFromSuperViewOnHide = YES;
+                    
+                    [hud hide:YES afterDelay:2];
+                }
+            }
+        }];
+    }
+}
+
+- (void)loadTypeData {
+    
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         // self.proid,                     @"id",
+                         
+                         nil];
+    NSString *xpoint = @"province.php?";
+    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
+        if (error) {
+            
+        }
+        else {
+            
+            if (respond.result == 1) {
+                DFD=respond.respondArray;
+                
+                
+                
+            }
+        }
+    }];
+}
+- (IBAction)viewClick:(id)sender {
+
+    NSArray *array = [DFD valueForKey:@"province"];
+    sheet  = [[UIActionSheet alloc] initWithTitle:@"选择所在省份" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil, nil];
+    for (NSString *title in array) {
+        [sheet addButtonWithTitle:title];
+    }
+    
+    [sheet addButtonWithTitle:@"取消"];
+    sheet.cancelButtonIndex = [array count];
+    sheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+
+    sheet.tag = 2;
+   [sheet showInView:self.view];
+  }
+
+- (IBAction)viewCityClick:(id)sender {
+    
+    NSArray *array = [DFDE valueForKey:@"city"];
+    sheet  = [[UIActionSheet alloc] initWithTitle:@"选择所在城市" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil, nil];
+    for (NSString *title in array) {
+        [sheet addButtonWithTitle:title];
+    }
+    
+    [sheet addButtonWithTitle:@"取消"];
+    sheet.cancelButtonIndex = [array count];
+    sheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    
+    sheet.tag = 44;
+    if(array!=nil){
+        [sheet showInView:self.view];}else{
+            
+            [HUD removeFromSuperview];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"请先选择省份！";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            
+            [hud hide:YES afterDelay:2];
+            
+        }
+}
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+    
+            if (self.type == 1) {
+                  self.title = @"注帐帐户";
+            
+            }else{
+                         self.title = @"我的基本信息";
+            }
+
+      
+    }
+    return self;
+}
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
+}
+- (void)loadData {
+    HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    HUD.delegate = self;
+    HUD.labelText = @"数据加载中...";
+    [HUD show:YES];
+    //原网络请求地址
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         @"edit",     @"act",
+                         [Tools stringForKey:KEY_USER_ID],         @"uid",
+                           [Tools stringForKey:KEY_SEX],     @"type",
+             
+                         nil];
+    NSLog(@"%@",dic);
+    NSString *xpoint = @"user_info.php?";
+    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
+        if (error) {
+            [HUD removeFromSuperview];
+        }
+        else {
+            if (respond.result == 1) {
+                
+                
+           
+                NSLog(@"requestWithParamsDDD:%@",respond.respondData);
+                NSDictionary *temDic = respond.respondData;
+                                   NSLog(@"requestWithParamsDDD:%@",[temDic valueForKey:@"enterpriseName"]);
+                self.fieldName.text=[temDic valueForKey:@"enterpriseName"];
+                       self.fieldBirth.text=[temDic valueForKey:@"contactor"];
+                  self.fieldEmail.text=[temDic valueForKey:@"email"];
+                   self.fieldTelephone.text=[temDic valueForKey:@"telephone"];
+                 self.fieldFaxl.text=[temDic valueForKey:@"fax"];
+                   NSInteger prdoid= [[temDic valueForKey:@"provinceId"] intValue];
+                [self loadTypeData];
+               // DLog(@"ddd%@",DFD);
+                NSInteger dsddfd=prdoid-1;
+                NSLog(@"%d",dsddfd);
+                NSLog(@"%@", [DFD objectAtIndex:dsddfd]);
+             
+               self.fieldProvinceId.text= [[DFD objectAtIndex:dsddfd] valueForKey:@"province"];
+                  //self.fieldProvinceId.text=[temDic valueForKey:@"provinceId"];
+                 self.textview.text=[temDic valueForKey:@"address"];
+                         self.fieldMainProducts.text=[temDic valueForKey:@"mainProducts"];
+                NSString *DFD=[temDic valueForKey:@"logo"];
+                DLog(@"%@",[temDic valueForKey:@"logo"]);
+                
+                
+            
+               
+
+                if(  [self isBlankString:[temDic valueForKey:@"logo"]]){
+                    headImage.image = [UIImage imageNamed:@"bg_default"];
+                    
+                }else{
+                self.headImage.imageUrl = [temDic valueForKey:@"logo"];
+                    
+                }
+                
+             
+                
+                if ([[temDic valueForKey:@"sex"] isEqualToString:@"male"]) {
+                    self.selectsex = @"male";
+                    
+                    [self.btnBoy setBackgroundColor:[UIColor colorWithRed:0.000000 green:0.619608 blue:0.878431 alpha:1]];//蓝
+                    [self.btnGirl setBackgroundColor:[UIColor colorWithRed:0.713726 green:0.713726 blue:0.713726 alpha:1]];//灰
+                }
+                else {
+                    self.selectsex = @"female";
+                    [self.btnBoy setBackgroundColor:[UIColor colorWithRed:0.713726 green:0.713726 blue:0.713726 alpha:1]];//灰
+                    [self.btnGirl setBackgroundColor:[UIColor colorWithRed:1.000000 green:0.215686 blue:0.333333 alpha:1]];//红
+                }
+
+                //  self.fieldQQ.text=[temDic valueForKey:@"fax"];
+               // self.prizeName.text= [NSString stringWithFormat:@"%@",[temList valueForKey:@"prizename"]];
+                //      NSInteger prizestatu = [[temDic valueForKey:@"prizestatu"]integerValue];
+                
+//                NSArray *temList = [temDic valueForKey:@"images"];
+//                NSArray *attribute = [temDic valueForKey:@"attribute"];
+//                
+                
+                [HUD removeFromSuperview];
+
+                
+            }
+        }
+    }];
+}
+
+-(IBAction)dismissKeyBoard
+{
+    [textview resignFirstResponder];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+  
+    [self loadTypeData];
+    NSLog(@"%@", [AppConfig phone]);
+    UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 30)];
+    [topView setBarStyle:UIBarStyleBlack];
+    
+    UIBarButtonItem * helloButton = [[UIBarButtonItem alloc]initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
+    
+    UIBarButtonItem * btnSpace = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    
+    UIButton  *btnBack2 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 32)];
+    
+    [btnBack2 setTitle:@"完成" forState:UIControlStateNormal];
+    btnBack2.titleLabel.font = [UIFont systemFontOfSize:16.5];
+    [btnBack2 addTarget:self action:@selector(infosubmit:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *addBar = [[UIBarButtonItem alloc]initWithCustomView:btnBack2];
+     self.navigationItem.rightBarButtonItem = addBar;
+    UIBarButtonItem * doneButton = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(dismissKeyBoard)];
+    
+    
+    NSArray * buttonsArray = [NSArray arrayWithObjects:helloButton,btnSpace,doneButton,nil];
+ 
+    
+    [topView setItems:buttonsArray];
+    [self.textview setInputAccessoryView:topView];
+
+
+    self.textview.layer.borderColor = UIColor.grayColor.CGColor;
+     self.textview.layer.borderWidth = 0.3f;
+    provinces = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"city.plist" ofType:nil]];
+   // cities = [[provinces objectAtIndex:0] objectForKey:@"cities"];
+   // NSLog(@"%@",[[provinces objectAtIndex:1] objectForKey:@"state"]);
+ 
+   // self.locate.city = [cities objectAtIndex:0];
+   //  [Tools saveObject:@"1024" forKey:KEY_SEX];
+     // [Tools saveObject:@"8" forKey:KEY_USER_ID];
+
+    
+    //为图片设置边框
+    self.headImage.layer.cornerRadius = 6;
+    self.headImage.layer.masksToBounds = YES;
+    [self.headImage.layer setBorderWidth:2];
+    [self.headImage.layer setBorderColor:[[UIColor orangeColor] CGColor]];
+    self.headImage.contentMode = UIViewContentModeScaleAspectFill;
+
+    
+//    [self.fieldName setFrame:CGRectMake(self.fieldName.frame.origin.x, self.fieldName.frame.origin.y, self.fieldName.frame.size.width, 44)];
+//    [self.fieldBirth setFrame:CGRectMake(self.fieldBirth.frame.origin.x, self.fieldBirth.frame.origin.y, self.fieldBirth.frame.size.width, 44)];
+ 
+    [self.contentView setContentSize:CGSizeMake(320, self.view.frame.size.height+500)];
+    
+    // 建立 UIDatePicker
+   // datePicker = [[UIDatePicker alloc]init];
+    // 時區的問題請再找其他協助 不是本篇重點
+//    datelocale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
+//    datePicker.locale = datelocale;
+//    datePicker.timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
+//    datePicker.datePickerMode = UIDatePickerModeDate;
+    // 以下這行是重點 (螢光筆畫兩行) 將 UITextField 的 inputView 設定成 UIDatePicker
+    // 則原本會跳出鍵盤的地方 就改成選日期了
+ //   self.fieldBirth.inputView = datePicker;
+    
+    // 建立 UIToolbar
+//    UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 44)];
+//    toolBar.barStyle = UIBarStyleBlackTranslucent;
+//    
+//    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"取消"
+//                                                                     style:UIBarButtonItemStyleBordered
+//                                                                    target:self
+//                                                                    action:@selector(DatePickerDoneClick:)];
+    
+//    UIBarButtonItem *spaceBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+//                                                                                  target:nil
+//                                                                                  action:nil];
+//    
+//    UIBarButtonItem *confirmButton = [[UIBarButtonItem alloc] initWithTitle:@"确定"
+//                                                                      style:UIBarButtonItemStyleDone
+//                                                                     target:self
+//                                                                     action:@selector(DatePickerDoneClick:)];
+//    cancelButton.tag = 1;
+//    confirmButton.tag = 2;
+    
+//    [toolBar setItems:[NSArray arrayWithObjects:cancelButton, spaceBarItem,confirmButton, nil]];
+    
+    
+//    // 選取日期完成鈕 並給他一個 selector
+//    UIBarButtonItem *right = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self
+//                                                                          action:@selector(cancelPicker)];
+//    // 把按鈕加進 UIToolbar
+//    toolBar.items = [NSArray arrayWithObject:right];
+    // 以下這行也是重點 (螢光筆畫兩行)
+    // 原本應該是鍵盤上方附帶內容的區塊 改成一個 UIToolbar 並加上完成鈕
+    
+   // self.fieldBirth.inputAccessoryView = toolBar;
+    
+//    if ([Tools stringForKey:KEY_HEADIMG].length>0) {
+//        self.headImage.imageUrl = [Tools stringForKey:KEY_HEADIMG];
+//    }
+    
+       if (self.type == 2) {
+      
+ 
+ [self loadData];
+    //self.fieldName.text = [Tools stringForKey:KEY_USER_NAME];
+   // self.fieldBirth.text = [Tools stringForKey:KEY_BIRTH];
+           }
+    
+}
+- (IBAction)editBegin:(id)sender {
+    
+    //创建一个线程用来延迟视图上弹
+    NSThread *thread = [[NSThread alloc]initWithTarget:self selector:@selector(change:) object:nil];
+    [thread start];
+    //释放创建的对象
+   // [thread release];
+    
+}
+- (void)change:(id)sender
+{
+    //线程睡眠0.2秒以实现视图延迟上弹
+    [NSThread sleepForTimeInterval:0.2];
+    //创建一个仿射变换，平移(0, -100)视图上移100像素
+    CGAffineTransform pTransform = CGAffineTransformMakeTranslation(0, -100);
+    //使视图使用这个变换
+    self.view.transform = pTransform;
+    
+}
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if (textField == self.fieldName) {
+        return YES;
+    }
+    else  {
+        return YES;
+    }
+    return NO;
+}
+
+- (void)DatePickerDoneClick:(id)sender {
+    NSInteger tag = ((UIButton*)sender).tag;
+    if (tag == 1) {
+        [self.fieldBirth resignFirstResponder];
+    }
+    else {
+        [self.fieldBirth resignFirstResponder];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"yyyy-MM-dd" options:0 locale:datelocale];
+        [formatter setDateFormat:dateFormat];
+        [formatter setLocale:datelocale];
+        // 將選取後的日期 填入 UITextField
+        self.fieldBirth.text = [NSString stringWithFormat:@"%@",[formatter stringFromDate:datePicker.date]];
+    }
+}
+
+#pragma mark ELCImagePickerControllerDelegate Methods
+
+- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    [self dismissViewControllerAnimated:YES completion:nil];
+	
+    NSMutableArray *images = [NSMutableArray arrayWithCapacity:[info count]];
+	
+	for(NSDictionary *dict in info) {
+        
+        UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
+        [images addObject:image];
+        
+        self.selectHeadImage = image;
+        
+        UIImage *tempImage = [self resize:CGSizeMake(200, 200)];
+        self.headImage.image = tempImage;
+	}
+}
+
+- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark -UIActionSheetDelegate
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+  
+    //value = [NSNumber numberWithInt:0];
+    NSLog(@"@%d",actionSheet.tag);
+    if (actionSheet.tag == 255) {
+        
+        // 判断是否支持相机
+        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            
+            if (buttonIndex == sheet.cancelButtonIndex) {
+                return;
+            }
+            switch (buttonIndex) {
+                case 0: {// 相机
+                    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+                    imagePickerController.delegate = self;
+                    imagePickerController.allowsEditing = YES;
+                    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+                    [self presentViewController:imagePickerController animated:YES completion:^{}];
+                }
+                    break;
+                    
+                case 1: {// 相册
+                    [self pickImage:nil];
+                }
+                    break;
+            }
+        }
+       else {
+            if (buttonIndex == 0) {
+                [self pickImage:nil];
+            }
+        }
+        // 跳转到相机或相册页面
+    }else if(actionSheet.tag == 44){
+        //@"美食餐饮", @"休闲娱乐", @"丽人", @"生活服务"
+        if (buttonIndex == sheet.cancelButtonIndex) {
+            return;
+        }
+        
+        NSArray *array3=[DFDE objectAtIndex:buttonIndex];
+        DLog(@"EEE%@",array3);
+        
+        self.fieldCityId.text = [array3 valueForKey:@"city"];
+        cityId = [array3 valueForKey:@"id"];
+    
+    
+    
+    }else if (actionSheet.tag == 2) {
+        
+        //@"美食餐饮", @"休闲娱乐", @"丽人", @"生活服务"
+        if (buttonIndex == sheet.cancelButtonIndex) {
+            return;
+        }
+  
+        NSArray *array3=[DFD objectAtIndex:buttonIndex];
+        DLog(@"EEE%@",array3);
+        self.fieldProvinceId.text = [array3 valueForKey:@"province"];
+        ppid = [array3 valueForKey:@"id"];
+        [self loadTypeData2];
+    
+            }
+}
+
+#pragma mark - image pickerdelegte
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+	[picker dismissViewControllerAnimated:YES completion:^{}];
+    
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    self.headImage.image = image;
+    self.selectHeadImage = image;
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+	[self dismissViewControllerAnimated:YES completion:^{}];
+}
+
+- (UIImage *)resize:(CGSize)newSize
+{
+    CGImageRef imgRef = self.selectHeadImage.CGImage;
+    
+    CGFloat width = CGImageGetWidth(imgRef);
+    CGFloat height = CGImageGetHeight(imgRef);
+    
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    CGRect bounds = CGRectMake(0, 0, width, height);
+    if ( width > newSize.width || height > newSize.height )
+	{
+        CGFloat ratio = width/height;
+        if ( ratio > 1 )
+		{
+            bounds.size.width = newSize.width;
+            bounds.size.height = bounds.size.width / ratio;
+        }
+        else
+		{
+            bounds.size.height = newSize.height;
+            bounds.size.width = bounds.size.height * ratio;
+        }
+    }
+    
+    CGFloat scaleRatio = bounds.size.width / width;
+    CGSize imageSize = CGSizeMake(CGImageGetWidth(imgRef), CGImageGetHeight(imgRef));
+    CGFloat boundHeight;
+    UIImageOrientation orient = self.selectHeadImage.imageOrientation;
+    switch(orient) {
+            
+        case UIImageOrientationUp: //EXIF = 1
+            transform = CGAffineTransformIdentity;
+            break;
+            
+        case UIImageOrientationUpMirrored: //EXIF = 2
+            transform = CGAffineTransformMakeTranslation(imageSize.width, 0.0);
+            transform = CGAffineTransformScale(transform, -1.0, 1.0);
+            break;
+            
+        case UIImageOrientationDown: //EXIF = 3
+            transform = CGAffineTransformMakeTranslation(imageSize.width, imageSize.height);
+            transform = CGAffineTransformRotate(transform, M_PI);
+            break;
+            
+        case UIImageOrientationDownMirrored: //EXIF = 4
+            transform = CGAffineTransformMakeTranslation(0.0, imageSize.height);
+            transform = CGAffineTransformScale(transform, 1.0, -1.0);
+            break;
+            
+        case UIImageOrientationLeftMirrored: //EXIF = 5
+            boundHeight = bounds.size.height;
+            bounds.size.height = bounds.size.width;
+            bounds.size.width = boundHeight;
+            transform = CGAffineTransformMakeTranslation(imageSize.height, imageSize.width);
+            transform = CGAffineTransformScale(transform, -1.0, 1.0);
+            transform = CGAffineTransformRotate(transform, 3.0 * M_PI / 2.0);
+            break;
+            
+        case UIImageOrientationLeft: //EXIF = 6
+            boundHeight = bounds.size.height;
+            bounds.size.height = bounds.size.width;
+            bounds.size.width = boundHeight;
+            transform = CGAffineTransformMakeTranslation(0.0, imageSize.width);
+            transform = CGAffineTransformRotate(transform, 3.0 * M_PI / 2.0);
+            break;
+            
+        case UIImageOrientationRightMirrored: //EXIF = 7
+            boundHeight = bounds.size.height;
+            bounds.size.height = bounds.size.width;
+            bounds.size.width = boundHeight;
+            transform = CGAffineTransformMakeScale(-1.0, 1.0);
+            transform = CGAffineTransformRotate(transform, M_PI / 2.0);
+            break;
+            
+        case UIImageOrientationRight: //EXIF = 8
+            boundHeight = bounds.size.height;
+            bounds.size.height = bounds.size.width;
+            bounds.size.width = boundHeight;
+            transform = CGAffineTransformMakeTranslation(imageSize.height, 0.0);
+            transform = CGAffineTransformRotate(transform, M_PI / 2.0);
+            break;
+            
+        default:
+            [NSException raise:NSInternalInconsistencyException format:@"Invalid image orientation"];
+            
+    }
+    
+    UIGraphicsBeginImageContext(bounds.size);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    if ( orient == UIImageOrientationRight || orient == UIImageOrientationLeft )
+	{
+        CGContextScaleCTM(context, -scaleRatio, scaleRatio);
+        CGContextTranslateCTM(context, -height, 0);
+    }
+    else
+	{
+        CGContextScaleCTM(context, scaleRatio, -scaleRatio);
+        CGContextTranslateCTM(context, 0, -height);
+    }
+    
+    CGContextConcatCTM(context, transform);
+    
+    CGContextDrawImage(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, width, height), imgRef);
+    UIImage * imageCopy = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return imageCopy;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end

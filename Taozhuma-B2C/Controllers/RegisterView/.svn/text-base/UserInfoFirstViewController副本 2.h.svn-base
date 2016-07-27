@@ -1,0 +1,39 @@
+//
+//  UserInfoViewController.h
+//  MailWorldClient
+//
+//  Created by liyoro on 13-11-3.
+//  Copyright (c) 2013年 liyoro. All rights reserved.
+//
+
+#import "BaseViewController.h"
+#import "EMAsyncImageView.h"
+#import "ELCImagePickerController.h"
+
+@interface UserInfoFirstViewController : BaseViewController <ELCImagePickerControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+@property (nonatomic, strong) NSString *businType;
+@property (nonatomic, strong) NSString *pwd;
+@property (nonatomic, strong) IBOutlet UIScrollView *contentView;
+@property (nonatomic, strong) IBOutlet EMAsyncImageView *headImage;
+@property (nonatomic, strong) IBOutlet UIButton *btnBoy;
+@property (nonatomic, strong) IBOutlet UIButton *btnEE;
+@property (nonatomic, strong) IBOutlet UIButton *btnGirl;
+@property (nonatomic, strong) IBOutlet LIUITextField *fieldName;
+@property (nonatomic, strong) IBOutlet LIUITextField *fieldBirth;
+@property (nonatomic, strong) IBOutlet LIUITextField *fieldEmail;
+@property (nonatomic, strong) IBOutlet LIUITextField *fieldTelephone;
+@property (nonatomic, strong) IBOutlet LIUITextField *fieldFaxl;
+@property (nonatomic, strong) IBOutlet LIUITextField *fieldProvinceId;
+@property (nonatomic, strong) IBOutlet LIUITextField *fieldAddress;
+@property (nonatomic, strong) IBOutlet LIUITextField *fieldMainProducts;
+@property (nonatomic, assign) NSInteger proid; //1完善资料 2编辑
+@property (nonatomic, assign) NSInteger type; //1完善资料 2编辑
+@property (nonatomic, assign) NSInteger uid; //1完善资料 2编辑
+@property (nonatomic, assign) NSInteger type_business; //1完善资料 2编辑
+- (IBAction)sexClick:(id)sender;
+- (IBAction)chooseImage:(id)sender;
+- (IBAction)pickImage:(id)sender;
+@property (nonatomic, strong) IBOutlet UITextView *textview;
+- (IBAction)viewClick:(id)sender;
+@end

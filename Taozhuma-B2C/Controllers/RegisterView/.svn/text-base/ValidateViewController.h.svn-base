@@ -1,0 +1,13 @@
+//
+//  ValidateViewController.h
+//  MailWorldClient
+//
+//  Created by liyoro on 13-10-13.
+//  Copyright (c) 2013年 liyoro. All rights reserved.
+//
+
+#import "BaseViewController.h"
+
+@interface ValidateViewController : BaseViewController
+@property (nonatomic, strong) NSString *captcha;
+@end

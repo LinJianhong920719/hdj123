@@ -1,0 +1,173 @@
+//
+//  RegisterViewController.m
+//  MailWorldClient
+//
+//  Created by liyoro on 13-10-13.
+//  Copyright (c) 2013年 liyoro. All rights reserved.
+//
+
+#import "RegisterViewController.h"
+#import "ValidateViewController.h"
+
+#import "RegisterPost.h"
+
+@interface RegisterViewController () {
+    LIUITextField *phoneField;
+}
+
+@end
+
+@implementation RegisterViewController
+@synthesize source;
+@synthesize captcha;
+
+- (void)loadValidateView {
+    
+    ValidateViewController *validateView = [[ValidateViewController alloc]init];
+    validateView.hidesBottomBarWhenPushed = YES;
+    validateView.captcha=self.captcha;
+    [self.navigationController pushViewController:validateView animated:YES];
+}
+
+
+//    - (IBAction)regSuccess:(id)sender {
+//    [Tools saveInteger:0 forKey:KEY_PRO_COUNT];
+//    [Tools saveInteger:0 forKey:KEY_INQ_COUNT];
+//    MailSettingViewController *storeView = [[MailSettingViewController alloc]init];
+//    //PasswordViewController *storeView = [[PasswordViewController alloc]init];
+//    
+//    //storeView.title = @"新品展示";
+//    storeView.hidesBottomBarWhenPushed = NO;
+//    [self.navigationController pushViewController:storeView animated:YES];
+//    //    if (self.type == 1) {
+//    //        [[AppDelegate sharedAppDelegate]loadMainView];
+//    //    }
+//    //    else {
+//    //        [self.navigationController popViewControllerAnimated:YES];
+//    //    }
+//}
+- (IBAction)registerNext:(id)sender {
+    [phoneField resignFirstResponder];
+    NSString *phone = phoneField.text;
+    [Tools saveObject:phone forKey:KEY_USER_PHONE];
+    if (phone.length > 0) {
+        if ([Tools isValidateMobile:phone] == NO) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"请输入正确的手机号码！";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }
+    }
+    else if (phone.length == 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"请输入手机号码！";
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        return;
+    }
+
+
+    HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    HUD.delegate = self;
+    HUD.labelText = @"验证短信发送中...";
+    [HUD show:YES];
+    
+ 
+   
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                      //   @"reg",    @"reqtype",
+                         phone,     @"phone",
+                          @"1",     @"source",
+                         nil];
+    NSLog(@"%@",dic);
+    NSString *xpoint = @"captcha.php?";
+    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
+        if (error) {
+            [HUD removeFromSuperview];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"验证短信发送失败，请重试";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            
+            [hud hide:YES afterDelay:2];
+        }
+        else {
+            [HUD removeFromSuperview];
+            
+            if (respond.result == YES) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"验证短信发送成功";
+                hud.yOffset = -50.f;
+                hud.removeFromSuperViewOnHide = YES;
+                self.captcha=[respond.respondData valueForKey:@"captcha"];
+                     [Tools saveObject:phone forKey:KEY_USER_PHONE];
+                [hud hide:YES afterDelay:2];
+                [self performSelector:@selector(loadValidateView) withObject:nil afterDelay:2];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.detailsLabelText = respond.error_msg;
+                hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+                hud.yOffset = -50.f;
+                hud.removeFromSuperViewOnHide = YES;
+                
+                [hud hide:YES afterDelay:2];
+            }
+        }
+    }];
+//    [RegisterPost registerWithPhone:phone andBlock:^(RegisterPost *post, NSError *error) {
+//        
+//    }];
+}
+
+- (void)loadView {
+    [super loadView];
+    
+    self.title = @"注册";
+    
+    phoneField = [[LIUITextField alloc]initWithFrame:CGRectMake(20, 20, 280, 38)];
+    phoneField.placeholder = @"请输入你的手机号";
+    phoneField.keyboardType = UIKeyboardTypePhonePad;
+    [self.view addSubview:phoneField];
+    
+    UILabel *labelTip = [[UILabel alloc]initWithFrame:CGRectMake(20, phoneField.frame.origin.y+phoneField.frame.size.height+10, 280, 21)];
+    labelTip.textColor = [UIColor lightGrayColor];
+    [labelTip setFont:[UIFont systemFontOfSize:13]];
+    labelTip.text = @"为了验证你的身份，我们将会发送短信验证码";
+    [self.view addSubview:labelTip];
+    
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+//    UIBarButtonItem *nextBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:nil];
+   UIButton *btnBack2 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 32)];
+    
+    [btnBack2 setTitle:@"下一步" forState:UIControlStateNormal];
+    btnBack2.titleLabel.font = [UIFont systemFontOfSize:16.5];
+    [btnBack2 addTarget:self action:@selector(registerNext:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *nextBar = [[UIBarButtonItem alloc]initWithCustomView:btnBack2];
+
+//   UIBarButtonItem *nextBar = [[UIBarButtonItem alloc]initWithTitle:@"下一步" style:UIBarButtonItemStyleBordered target:self action:@selector(registerNext:)];
+   // nextBar.initWithBarButtonSystemItem
+    self.navigationItem.rightBarButtonItem = nextBar;
+    
+    [phoneField becomeFirstResponder];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end

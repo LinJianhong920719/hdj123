@@ -1,0 +1,15 @@
+//
+//  FindPwdViewController.h
+//  MailWorldClient
+//
+//  Created by liyoro on 13-11-7.
+//  Copyright (c) 2013年 liyoro. All rights reserved.
+//
+
+#import "BaseViewController.h"
+
+@interface FindPwdViewController : BaseViewController
+
+@property (nonatomic, strong) IBOutlet LIUITextField *phoneField;
+
+@end

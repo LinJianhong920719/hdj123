@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clearsContextBeforeDrawing="NO" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" rowHeight="103" id="2" customClass="CartCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="89"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <tableViewCellContentView key="contentView" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2" id="7Ej-40-dNj">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" id="57f-3Y-FaH" customClass="EMAsyncImageView">
+                        <rect key="frame" x="43" y="9" width="71" height="71"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                    <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="C8P-un-02J">
+                        <rect key="frame" x="0.0" y="0.0" width="43" height="86"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <inset key="imageEdgeInsets" minX="12" minY="34" maxX="13" maxY="34"/>
+                        <state key="normal" image="checkbox.png">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="chooseClick:" destination="2" eventType="touchUpInside" id="8AQ-eb-wEi"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="水果水果水果水果水果水果水果水果" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eKL-S6-4N5">
+                        <rect key="frame" x="123" y="19" width="173" height="23"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <color key="textColor" red="0.40000000000000002" green="0.39215686274509803" blue="0.39215686274509803" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button clearsContextBeforeDrawing="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VHt-KN-O1g">
+                        <rect key="frame" x="203" y="50" width="34" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                        <state key="normal" image="u-num-des.png">
+                            <color key="titleColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="deviceRGB"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="highlighted">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="buttonClick:" destination="2" eventType="touchUpInside" id="KXb-1Z-1OZ"/>
+                        </connections>
+                    </button>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" background="u-num-ipt.png" id="Pvr-5B-OZF">
+                        <rect key="frame" x="237" y="50" width="41" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
+                        <connections>
+                            <outlet property="delegate" destination="-1" id="VNw-yR-mIp"/>
+                        </connections>
+                    </textField>
+                    <button clearsContextBeforeDrawing="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="IJv-IB-pjN">
+                        <rect key="frame" x="279" y="50" width="34" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                        <state key="normal" image="u-num-plus.png">
+                            <color key="titleColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="deviceRGB"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="highlighted">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="buttonClick:" destination="2" eventType="touchUpInside" id="qpZ-0R-1LC"/>
+                        </connections>
+                    </button>
+                    <label hidden="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="商品已下架" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="L0I-Ck-PUa">
+                        <rect key="frame" x="43" y="9" width="71" height="71"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                        <color key="textColor" red="0.90196078430000004" green="0.1137254902" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </label>
+                    <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" image="暂无图片.png" id="7qW-Mx-aRY" customClass="EMAsyncImageView">
+                        <rect key="frame" x="48" y="14" width="61" height="61"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="¥30.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bdX-J2-hvf">
+                        <rect key="frame" x="126" y="56" width="60" height="13"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="1" green="0.025299146179999999" blue="0.019723877059999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
+                    <view clearsContextBeforeDrawing="NO" alpha="0.70000000000000018" contentMode="scaleToFill" id="KLG-xP-ph5">
+                        <rect key="frame" x="0.0" y="1" width="320" height="85"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="choose" destination="C8P-un-02J" id="nna-Nl-O26"/>
+                <outlet property="imagesView" destination="57f-3Y-FaH" id="RwL-yW-MgL"/>
+                <outlet property="increaseBtn" destination="IJv-IB-pjN" id="b3j-4I-cLt"/>
+                <outlet property="number" destination="Pvr-5B-OZF" id="OAM-Sj-UHy"/>
+                <outlet property="price" destination="bdX-J2-hvf" id="wzI-um-cdD"/>
+                <outlet property="prompt" destination="L0I-Ck-PUa" id="hib-8a-T9Q"/>
+                <outlet property="promptImages" destination="7qW-Mx-aRY" id="MUI-eS-HTm"/>
+                <outlet property="reduceBtn" destination="VHt-KN-O1g" id="uOo-gF-MXf"/>
+                <outlet property="title" destination="eKL-S6-4N5" id="nYs-8c-mpX"/>
+                <outlet property="transparent" destination="KLG-xP-ph5" id="Anf-iU-kDu"/>
+            </connections>
+            <point key="canvasLocation" x="23" y="-44.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="checkbox.png" width="32" height="32"/>
+        <image name="u-num-des.png" width="104" height="75"/>
+        <image name="u-num-ipt.png" width="123" height="75"/>
+        <image name="u-num-plus.png" width="104" height="75"/>
+        <image name="暂无图片.png" width="640" height="640"/>
+    </resources>
+</document>

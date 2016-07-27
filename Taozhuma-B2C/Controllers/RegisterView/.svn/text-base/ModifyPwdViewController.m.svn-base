@@ -1,0 +1,144 @@
+//
+//  ModifyPwdViewController.m
+//  MailWorldClient
+//
+//  Created by liyoro on 13-11-1.
+//  Copyright (c) 2013年 liyoro. All rights reserved.
+//
+
+#import "ModifyPwdViewController.h"
+#import "LoginViewController.h"
+#import "AppDelegate.h"
+
+@interface ModifyPwdViewController ()
+
+@end
+
+@implementation ModifyPwdViewController
+
+@synthesize phone;
+@synthesize oldpwdField;
+@synthesize newpwdField;
+@synthesize renewpwdField;
+
+- (void)changePwdSuccess {
+    //[Tools saveBool:NO forKey:KEY_IS_LOGIN];
+    
+    LoginViewController *storeView = [[LoginViewController alloc]init];
+    storeView.type=1;
+      //storeView.type2=1;
+    
+    storeView.hidesBottomBarWhenPushed = NO;
+    [self.navigationController pushViewController:storeView animated:YES];
+}
+
+- (IBAction)modpwdsubmit:(id)sender {
+    [oldpwdField resignFirstResponder];
+    [newpwdField resignFirstResponder];
+    [renewpwdField resignFirstResponder];
+    
+    NSString *oldpwd = oldpwdField.text;
+    NSString *newpwd = newpwdField.text;
+    NSString *renewpwd = renewpwdField.text;
+    
+   
+    if (![newpwd isEqualToString:renewpwd]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"2次输入的密码不一致";
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+    }
+    else {
+        HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        HUD.delegate = self;
+        HUD.labelText = @"正在提交...";
+        [HUD show:YES];
+        
+        NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                           
+                            phone,     @"phone",
+                             oldpwd,                               @"captcha",
+                             renewpwd,                             @"password",
+                             nil];
+        NSString *xpoint = @"password_reset.php?";
+        [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
+            if (error) {
+                [HUD removeFromSuperview];
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"密码修改失败，请重试";
+                hud.yOffset = -50.f;
+                hud.removeFromSuperViewOnHide = YES;
+                [hud hide:YES afterDelay:2];
+            }
+            else {
+                [HUD removeFromSuperview];
+                if (respond.result == 1) {
+                    oldpwdField.text = @"";
+                    newpwdField.text = @"";
+                    renewpwdField.text = @"";
+                    
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"密码修改成功";
+                    hud.yOffset = -50.f;
+                    hud.removeFromSuperViewOnHide = YES;
+                    [hud hide:YES afterDelay:2];
+                    
+                    [self performSelector:@selector(changePwdSuccess) withObject:nil afterDelay:2];
+                    
+                    //                UserInformation *tempDto = [[UserInformation alloc]initWithAttributes:respond.respondData];
+                    //                //                LoginPost *tempDto = [[LoginPost alloc]initWithAttributes:respond.respondData];
+                    //                NSString *userid = tempDto.userid;
+                    //                [Tools saveObject:userid forKey:KEY_USER_ID];
+                    //                //                [Tools saveObject:phone forKey:KEY_USER_PHONE];
+                    //                [Tools saveBool:YES forKey:KEY_IS_LOGIN];
+                    //                [Tools saveObject:tempDto.username forKey:KEY_USER_NAME];
+                    //                [Tools saveObject:tempDto.usermobile forKey:KEY_USER_PHONE];
+                    //                [Tools saveInteger:tempDto.usersex forKey:KEY_SEX];
+                    //                [Tools saveObject:tempDto.userheadimg forKey:KEY_HEADIMG];
+                    //                //来源 1：门店 2：猫屋会员
+                    //                [Tools saveInteger:tempDto.userfrom forKey:KEY_USERFROM];
+                    //                [Tools saveObject:tempDto.shopid forKey:KEY_SHOPID];
+                    //                [Tools saveObject:tempDto.userbirth forKey:KEY_BIRTH];
+                    //                [Tools saveObject:tempDto.age forKey:KEY_AGE];
+                    //                [Tools saveObject:tempDto.userbgimg forKey:KEY_BGIMG];
+                    
+                }
+                else {
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.detailsLabelText = respond.error_msg;
+                    hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+                    hud.yOffset = -50.f;
+                    hud.removeFromSuperViewOnHide = YES;
+                    [hud hide:YES afterDelay:2];
+                }
+            }
+        }];
+    }
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.title = @"修改密码";
+    }
+    return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    UIBarButtonItem *modifyBar = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStyleBordered target:self action:@selector(modpwdsubmit:)];
+    self.navigationItem.rightBarButtonItem = modifyBar;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end
