@@ -12,6 +12,8 @@
 #import "UIImageView+WebCache.h"
 #import "AFNetworkReachabilityManager.h"
 #import "SDRefresh.h"
+#import "MailWorldRequest.h"
+#import "MBProgressHUD.h"
 
 @interface BaseViewController : CustomViewController
 

@@ -38,6 +38,11 @@
 + (void) saveFloat:(float)floatValue forKey:(NSString *)key;
 + (float)floatForKey:(NSString *)key;
 
+/*＊
+ 手机号码验证 MODIFIED BY HELENSONG
+ */
++ (BOOL) isValidateMobile:(NSString *)mobile;
+
 /**
  *  清除缓存
  */

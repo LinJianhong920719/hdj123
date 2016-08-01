@@ -8,6 +8,7 @@
 
 #import "RegisterViewControllerNew.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MBProgressHUD.h"
 
 @interface RegisterViewControllerNew (){
     UIImageView *loginBgImage;
@@ -91,11 +92,143 @@
     [loginButton addTarget:self action:@selector(loginClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton];
     
+    UIButton *backButton = [[UIButton alloc]initWithFrame:CGRectMake(0.4125*ScreenWidth, viewBottom(loginButton)+0.287*ScreenHeight, 56, 11)];
+    [backButton setTitle:@"<<再逛逛" forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:12];
+    backButton.titleLabel.textColor = [UIColor blackColor];
+    [backButton setBackgroundColor:[UIColor clearColor]];
+    [self.view addSubview:backButton];
+    
+    [backButton addTarget:self action:@selector(backClick:) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
    
+}
+//登陆成功跳转页面
+- (IBAction)backClick:(id)sender {
+    
+    // 返回上页
+//        if (isBackToroot) {
+        if(true){
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+        else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+}
+
+//登陆
+//13612412490   7878
+- (void)loginClicked:(id)sender {
+
+    [checkField resignFirstResponder];
+
+
+    if (phoneField.text.length > 0) {
+        if ([Tools isValidateMobile:phoneField.text] == NO) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"请输入正确的手机号码！";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }
+    } else if (phoneField.text.length == 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"请输入手机号码！";
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:1];
+        return;
+    }
+    if (checkField.text.length == 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"请输入验证码！";
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        return;
+    }
+
+     MBProgressHUD *hud =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = @"正在登录...";
+    [hud show:YES];
+
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         phoneField.text,     @"phone",
+                         @"check",       @"act",
+                         @"e3dc653e2d68697346818dfc0b208322",       @"key",
+                         checkField.text,       @"captcha",
+                         nil];
+    NSLog(@"%@",dic);
+    NSString *xpoint = @"";
+    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
+
+        if (error) {
+//            [HUD removeFromSuperview];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:NO afterDelay:2];
+        } else {
+//            [HUD removeFromSuperview];
+            if (respond.result == YES) {
+
+
+
+
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"登录成功";
+                    hud.yOffset = -50.f;
+                    hud.removeFromSuperViewOnHide = YES;
+                    [hud hide:YES afterDelay:2];
+
+
+                    NSString *userid = [respond.respondData valueForKey:@"uid"];
+                    NSString *nikeName = [respond.respondData valueForKey:@"nikename"];
+                    NSString *level = [respond.respondData valueForKey:@"level"];
+                    NSString *head_icon = [respond.respondData valueForKey:@"head_icon"];
+                    NSString *cardnum = [respond.respondData valueForKey:@"cardnum"];
+                    NSString *amount = [respond.respondData valueForKey:@"amount"];
+//                    [Tools saveObject:level forKey:KEY_USER_TYPE];
+//                    [Tools saveObject:userid forKey:KEY_USER_ID];
+//                    [Tools saveObject:nikeName forKey:KEY_NIKE_NAME];
+//                    [Tools saveObject:phoneField.text forKey:KEY_USER_PHONE];
+//                    [Tools saveObject:level forKey:KEY_LEVEL];
+//                    [Tools saveObject:head_icon forKey:KEY_HEAD_ICON];
+//                    [Tools saveObject:cardnum forKey:KEY_CARDNUM];
+//                    [Tools saveObject:amount forKey:KEY_AMOUNT];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshOrderList" object:nil];
+//                    [Tools saveBool:YES forKey:KEY_IS_LOGIN];
+                    [self performSelector:@selector(backClick:) withObject:nil afterDelay:0.5];
+
+
+
+            } else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.detailsLabelText = respond.error_msg;
+                hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+                hud.yOffset = -50.f;
+                hud.removeFromSuperViewOnHide = YES;
+
+                [hud hide:YES afterDelay:2];
+            }
+        }
+    }];
+}
+//隐藏键盘方法
+-(void)hideKeyboard{
+    [checkField resignFirstResponder];
 }
 
 

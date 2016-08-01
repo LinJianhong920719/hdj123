@@ -179,7 +179,7 @@
     
     [MobClick startWithAppkey:UmengAppkey reportPolicy:BATCH  channelId:UMENG_CHANNEL_ID];
     
-    [MobClick checkUpdate];   //自动更新检查
+    //[MobClick checkUpdate];   //自动更新检查
     
     [MobClick updateOnlineConfig];  //在线参数配置
     
