@@ -21,6 +21,8 @@
 #define SaveData_LogisticsCompany @"logisticsCompany"       // 物流公司数据
 #define SaveData_Classification   @"classification"         // 商品分类数据
 
+#define TokenData   @"TokenData"         // token数据
+
 
 //=============================   用户属性   =================================//
 

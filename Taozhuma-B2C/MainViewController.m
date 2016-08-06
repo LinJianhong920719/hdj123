@@ -70,7 +70,7 @@
     
     //搜索
     UIImageView *_serachImage = [[UIImageView alloc]init];
-    [_serachImage setFrame:CGRectMake(viewRight(addressView)+45, 28, DEVICE_SCREEN_SIZE_WIDTH-addressView.frame.size.width-70, 28)];
+    [_serachImage setFrame:CGRectMake(viewRight(addressView)+45, 28, DEVICE_SCREEN_SIZE_WIDTH-addressView.frame.size.width-50, 28)];
     NSLog(@"111:%f",DEVICE_SCREEN_SIZE_WIDTH/320);
     [_serachImage setImage:[UIImage imageNamed:@"search"]];
     [topView addSubview:_serachImage];
@@ -80,6 +80,7 @@
     GTTabBar_Current = YES;
     SCNavTabBar_Current = YES;
     [self initTableView];
+//    NSLog(@"token2:%@",[Tools stringForKey:TokenData]);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,6 +119,10 @@
 
 
 - (void)initTableHeaderView {
+    
+
+    
+    
     //广告图数据
     NSArray *testArr = @[@"http://www.taozhuma.com/upfiles/product/20160429032809931486.jpg",@"http://imgsrc.baidu.com/forum/pic/item/0e2442a7d933c895d8064c31d11373f08202007b.jpg",@"http://d.3987.com/Qhyrz_130520/004.jpg"];
     UIView * topsView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 170)];

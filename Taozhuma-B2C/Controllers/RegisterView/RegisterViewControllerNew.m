@@ -8,7 +8,6 @@
 
 #import "RegisterViewControllerNew.h"
 #import <QuartzCore/QuartzCore.h>
-#import "MBProgressHUD.h"
 
 @interface RegisterViewControllerNew (){
     UIImageView *loginBgImage;
@@ -129,37 +128,39 @@
 
     if (phoneField.text.length > 0) {
         if ([Tools isValidateMobile:phoneField.text] == NO) {
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"请输入正确的手机号码！";
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
-            return;
+//            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//            hud.mode = MBProgressHUDModeText;
+//            hud.labelText = @"请输入正确的手机号码！";
+//            hud.yOffset = -50.f;
+//            hud.removeFromSuperViewOnHide = YES;
+//            [hud hide:YES afterDelay:2];
+//            return;
         }
     } else if (phoneField.text.length == 0) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"请输入手机号码！";
-        hud.yOffset = -50.f;
-        hud.removeFromSuperViewOnHide = YES;
-        [hud hide:YES afterDelay:1];
-        return;
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        hud.mode = MBProgressHUDModeText;
+//        hud.labelText = @"请输入手机号码！";
+//        hud.yOffset = -50.f;
+//        hud.removeFromSuperViewOnHide = YES;
+//        [hud hide:YES afterDelay:1];
+//        return;
     }
     if (checkField.text.length == 0) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"请输入验证码！";
-        hud.yOffset = -50.f;
-        hud.removeFromSuperViewOnHide = YES;
-        [hud hide:YES afterDelay:2];
-        return;
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        hud.mode = MBProgressHUDModeText;
+//        hud.labelText = @"请输入验证码！";
+//        hud.yOffset = -50.f;
+//        hud.removeFromSuperViewOnHide = YES;
+//        [hud hide:YES afterDelay:2];
+//        return;
     }
 
-     MBProgressHUD *hud =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeText;
-    hud.labelText = @"正在登录...";
-    [hud show:YES];
+//     MBProgressHUD *hud =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    hud.mode = MBProgressHUDModeText;
+//    hud.labelText = @"正在登录...";
+//    [hud show:YES];
+    NSMutableArray *allLevel = [[NSMutableArray alloc]init];
+    [allLevel removeAllObjects];
 
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          phoneField.text,     @"phone",
@@ -169,63 +170,43 @@
                          nil];
     NSLog(@"%@",dic);
     NSString *xpoint = @"";
-    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-
-        if (error) {
-//            [HUD removeFromSuperview];
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:NO afterDelay:2];
-        } else {
-//            [HUD removeFromSuperview];
-            if (respond.result == YES) {
-
-
-
-
-                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                    hud.mode = MBProgressHUDModeText;
-                    hud.labelText = @"登录成功";
-                    hud.yOffset = -50.f;
-                    hud.removeFromSuperViewOnHide = YES;
-                    [hud hide:YES afterDelay:2];
-
-
-                    NSString *userid = [respond.respondData valueForKey:@"uid"];
-                    NSString *nikeName = [respond.respondData valueForKey:@"nikename"];
-                    NSString *level = [respond.respondData valueForKey:@"level"];
-                    NSString *head_icon = [respond.respondData valueForKey:@"head_icon"];
-                    NSString *cardnum = [respond.respondData valueForKey:@"cardnum"];
-                    NSString *amount = [respond.respondData valueForKey:@"amount"];
-//                    [Tools saveObject:level forKey:KEY_USER_TYPE];
-//                    [Tools saveObject:userid forKey:KEY_USER_ID];
-//                    [Tools saveObject:nikeName forKey:KEY_NIKE_NAME];
-//                    [Tools saveObject:phoneField.text forKey:KEY_USER_PHONE];
-//                    [Tools saveObject:level forKey:KEY_LEVEL];
-//                    [Tools saveObject:head_icon forKey:KEY_HEAD_ICON];
-//                    [Tools saveObject:cardnum forKey:KEY_CARDNUM];
-//                    [Tools saveObject:amount forKey:KEY_AMOUNT];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshOrderList" object:nil];
-//                    [Tools saveBool:YES forKey:KEY_IS_LOGIN];
-                    [self performSelector:@selector(backClick:) withObject:nil afterDelay:0.5];
-
-
-
-            } else {
-                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                hud.mode = MBProgressHUDModeText;
-                hud.detailsLabelText = respond.error_msg;
-                hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
-                hud.yOffset = -50.f;
-                hud.removeFromSuperViewOnHide = YES;
-
-                [hud hide:YES afterDelay:2];
+    [HYBNetworking postWithUrl:xpoint  refreshCache:YES emphasis:NO params:nil success:^(id response) {
+        [HYBNetworking response:response success:^(id result, NSString *success_msg) {
+            
+            for (NSDictionary *temDic in result) {
+                
+                NSMutableArray *subArray = [[NSMutableArray alloc]init];
+                [subArray removeAllObjects];
+                
+                for (NSDictionary *dic in [temDic valueForKey:@"type"]) {
+                    
+                    NSString *images = [dic valueForKey:@"image"];
+                    if (!images) {
+                        images = @"";
+                    }
+                    NSDictionary *subClass = [NSDictionary dictionaryWithObjectsAndKeys:[dic valueForKey:@"id"], @"id", images, @"image", [dic valueForKey:@"name"], @"name", nil];
+                    
+                    [subArray addObject:subClass];
+                }
+                
+                NSString *image = [temDic valueForKey:@"image"];
+                if (!image) {
+                    image = @"";
+                }
+                
+                NSDictionary *dicLevel1 = [NSDictionary dictionaryWithObjectsAndKeys:image, @"image", [temDic valueForKey:@"name"], @"name", subArray, @"type", nil];
+                
+                [allLevel addObject:dicLevel1];
             }
-        }
-    }];
-}
+            
+            [Tools saveObject:allLevel forKey:SaveData_Classification];
+            
+        } fail:^(NSString *error_msg) {
+            
+        }];
+    } fail:^(NSError *error) {
+        
+    }];}
 //隐藏键盘方法
 -(void)hideKeyboard{
     [checkField resignFirstResponder];

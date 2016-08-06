@@ -38,6 +38,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[JTBaseNavigationController alloc] initWithRootViewController:[[TabBarController alloc] init]];
     
@@ -74,6 +75,9 @@
     [self configNetworking];
     //网络状态监控
     [self networkChanged];
+    
+    
+
 
     
     dispatch_group_t group =  dispatch_group_create();
@@ -332,6 +336,8 @@
     
 }
 
+
+
 #pragma mark - 获取分类数据
 
 - (void)loadClassificationData {
@@ -400,6 +406,33 @@
     } fail:^(NSError *error) {
     }];
     
+}
+
+//获取公告图片
+-(void)loadBanner{
+    NSMutableArray *pictureUrlArray = [[NSMutableArray alloc]init];
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:TokenData],     @"token",
+                         nil];
+    
+    NSString *path = [NSString stringWithFormat:@"index.php/Api/Ad/show?"];
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        //        NSString *token = [[dic valueForKey:@"data"]valueForKey:@"token"];
+        for (NSDictionary *temDic in [dic valueForKey:@"data"]) {
+            NSString *pictureUrl = [dic valueForKey:@"image"];
+            [pictureUrlArray addObject:pictureUrl];
+        }
+        NSLog(@"pictureUrlArray:%@",pictureUrlArray);
+        
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 @end
