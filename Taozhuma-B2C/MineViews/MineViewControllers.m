@@ -64,33 +64,20 @@
 - (void)customData {
     
     NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:@"我的钱包",@"title",@"user_wallet",@"imageName",@"1",@"viewType",nil];
-    NSDictionary *dic3 = [NSDictionary dictionaryWithObjectsAndKeys:@"优惠卷",@"title",@"user_coupon",@"imageName",@"3",@"viewType",nil];
-    NSDictionary *dic4 = [NSDictionary dictionaryWithObjectsAndKeys:@"我的收藏",@"title",@"user_favorites",@"imageName",@"4",@"viewType",nil];
+    NSDictionary *dic3 = [NSDictionary dictionaryWithObjectsAndKeys:@"优惠卷",@"title",@"user_coupon",@"imageName",@"2",@"viewType",nil];
+    NSDictionary *dic4 = [NSDictionary dictionaryWithObjectsAndKeys:@"我的收藏",@"title",@"user_favorites",@"imageName",@"3",@"viewType",nil];
 
-    NSDictionary *dic6 = [NSDictionary dictionaryWithObjectsAndKeys:@"收货地址",@"title",@"user_address",@"imageName",@"6",@"viewType",nil];
+    NSDictionary *dic6 = [NSDictionary dictionaryWithObjectsAndKeys:@"收货地址",@"title",@"user_address",@"imageName",@"4",@"viewType",nil];
     
     
-    NSDictionary *dic7 = [NSDictionary dictionaryWithObjectsAndKeys:@"在线客服",@"title",@"user_service",@"imageName",@"7",@"viewType",nil];
-    NSDictionary *dic8 = [NSDictionary dictionaryWithObjectsAndKeys:@"帮助中心",@"title",@"user_help",@"imageName",@"8",@"viewType",nil];
+    NSDictionary *dic7 = [NSDictionary dictionaryWithObjectsAndKeys:@"在线客服",@"title",@"user_service",@"imageName",@"5",@"viewType",nil];
+    NSDictionary *dic8 = [NSDictionary dictionaryWithObjectsAndKeys:@"帮助中心",@"title",@"user_help",@"imageName",@"6",@"viewType",nil];
     
     
     NSDictionary *dic01 = [NSDictionary dictionaryWithObjectsAndKeys:@[dic1,dic3,dic4,dic6],@"section",nil];
-//    NSDictionary *dic03 = [NSDictionary dictionaryWithObjectsAndKeys:@[dic10],@"section",nil];
     NSDictionary *dic02 = [NSDictionary dictionaryWithObjectsAndKeys:@[dic7,dic8],@"section",nil];
     _data = @[dic01,dic02];
-//    if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-//        //普通用户为1  会员为2
-//        if ([[Tools stringForKey:KEY_USER_TYPE]isEqualToString:@"1"]) {
-//            NSDictionary *dic02 = [NSDictionary dictionaryWithObjectsAndKeys:@[dic6,dic7,dic8],@"section",nil];
-//            _data = @[dic01,dic02,dic03];
-//        }else{
-//            NSDictionary *dic02 = [NSDictionary dictionaryWithObjectsAndKeys:@[dic3,dic6,dic7,dic8],@"section",nil];
-//            _data = @[dic01,dic02,dic03];
-//        }
-//    }else{
-//        NSDictionary *dic02 = [NSDictionary dictionaryWithObjectsAndKeys:@[dic3,dic6,dic8],@"section",nil];
-//        _data = @[dic01,dic02,dic03];
-//    }
+
     
     
     
@@ -354,81 +341,75 @@
 }
 
 //设置选中Cell的响应事件
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    NSDictionary *dic = [_data objectAtIndex:[indexPath section]];
-//    NSArray *array = [[dic valueForKey:@"section"] objectAtIndex:[indexPath row]];
-//    NSInteger type = [[array valueForKey:@"viewType"] integerValue];
-//    
-//    switch (type) {
-//        case 1: {
-//            //我的送餐地址
-//            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-//                AddressListViewController *addressListView = [[AddressListViewController alloc]init];
-//                addressListView.title = @"我的送餐地址";
-//                addressListView.hidesBottomBarWhenPushed = YES;
-//                addressListView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:addressListView animated:YES];
-//            }else{
-//                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
-//                registeredView.title = @"快捷登陆";
-//                registeredView.hidesBottomBarWhenPushed = YES;
-//                registeredView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:registeredView animated:YES];
-//                
-//            }
-//        } break;
-//        case 2: {
-//            //我的订单
-//        }break;
-//        case 3: {
-//            //我的会员卡
-//            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-//                MembershipCardViewController *membershipCardView = [[MembershipCardViewController alloc]init];
-//                membershipCardView.title = @"天下无卡";
-//                membershipCardView.hidesBottomBarWhenPushed = YES;
-//                membershipCardView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:membershipCardView animated:YES];
-//            }else{
-//                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
-//                registeredView.title = @"快捷登陆";
-//                registeredView.hidesBottomBarWhenPushed = YES;
-//                registeredView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:registeredView animated:YES];
-//            }
-//            
-//        } break;
-//        case 4: {
-//            //我的钱包
-//            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-//                [self isPassWord];
-//                
-//            }else{
-//                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
-//                registeredView.title = @"快捷登陆";
-//                registeredView.hidesBottomBarWhenPushed = YES;
-//                registeredView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:registeredView animated:YES];
-//            }
-//        } break;
-//        case 5: {
-//            //我的消息
-//        } break;
-//        case 6: {
-//            //我的收藏
-//            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-//                CollectionListViewController * disheView = [[CollectionListViewController alloc]init];
-//                disheView.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:disheView animated:YES];
-//            }else{
-//                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
-//                registeredView.title = @"快捷登陆";
-//                registeredView.hidesBottomBarWhenPushed = YES;
-//                registeredView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:registeredView animated:YES];
-//            }
-//            
-//        } break;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSDictionary *dic = [_data objectAtIndex:[indexPath section]];
+    NSArray *array = [[dic valueForKey:@"section"] objectAtIndex:[indexPath row]];
+    NSInteger type = [[array valueForKey:@"viewType"] integerValue];
+    
+    switch (type) {
+        case 1: {
+            //我的钱包
+            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+                [self isPassWord];
+                
+            }else{
+                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
+                registeredView.title = @"快捷登陆";
+                registeredView.hidesBottomBarWhenPushed = YES;
+                registeredView.navigationController.navigationBarHidden = YES;
+                [self.navigationController pushViewController:registeredView animated:YES];
+            }
+            
+        } break;
+        case 2: {
+            //我的优惠卷
+        }break;
+        case 3: {
+            //我的收藏
+            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+                CollectionListViewController * disheView = [[CollectionListViewController alloc]init];
+                disheView.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:disheView animated:YES];
+            }else{
+                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
+                registeredView.title = @"快捷登陆";
+                registeredView.hidesBottomBarWhenPushed = YES;
+                registeredView.navigationController.navigationBarHidden = YES;
+                [self.navigationController pushViewController:registeredView animated:YES];
+            }
+            
+        } break;
+        case 4: {
+            //我的送餐地址
+            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+                AddressListViewController *addressListView = [[AddressListViewController alloc]init];
+                addressListView.title = @"我的送餐地址";
+                addressListView.hidesBottomBarWhenPushed = YES;
+                addressListView.navigationController.navigationBarHidden = YES;
+                [self.navigationController pushViewController:addressListView animated:YES];
+            }else{
+                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
+                registeredView.title = @"快捷登陆";
+                registeredView.hidesBottomBarWhenPushed = YES;
+                registeredView.navigationController.navigationBarHidden = YES;
+                [self.navigationController pushViewController:registeredView animated:YES];
+                
+            }
+            
+        } break;
+        case 5: {
+            //客服电话
+            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",@"1008611"];
+            UIWebView * callWebview = [[UIWebView alloc] init];
+            [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
+            [self.view addSubview:callWebview];
+        } break;
+        case 6: {
+            //帮助中心
+            
+            
+        } break;
 //        case 7: {
 //            //意见反馈
 //            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
@@ -456,16 +437,8 @@
 //            [self.navigationController pushViewController:aboutUsView animated:YES];
 //            
 //        } break;
-//        case 10: {
-//            //客服电话
-//            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",@"4009619989"];
-//            UIWebView * callWebview = [[UIWebView alloc] init];
-//            [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
-//            [self.view addSubview:callWebview];
-//            
-//        } break;
-//    }
-//}
+    }
+}
 //
 ////判断钱包是否有密码
 //- (void)isPassWord{
