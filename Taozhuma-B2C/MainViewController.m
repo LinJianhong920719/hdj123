@@ -23,6 +23,7 @@
     BOOL GTTabBar_Current;      //GTTabBar是否当前选中的
     BOOL SCNavTabBar_Current;   //SCNavTabBar是否当前选中的
     NSInteger   currentItemIndex;
+    NSMutableArray *pictureUrlArray;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -103,8 +104,8 @@
     [self.view addSubview:_tableView];
     
 //    [_tableView registerClass:[ListShowCell class] forCellReuseIdentifier:LISTSHOW_CELL];
-    
-    [self initTableHeaderView];
+    [self loadBanner];
+   // [self initTableHeaderView];
     
     _tableView.tableFooterView = tableFooterView;
     _tableView.sectionHeaderHeight = 42;
@@ -119,10 +120,7 @@
 
 
 - (void)initTableHeaderView {
-    
-
-    
-    
+    NSLog(@"123:%@",pictureUrlArray);
     //广告图数据
     NSArray *testArr = @[@"http://www.taozhuma.com/upfiles/product/20160429032809931486.jpg",@"http://imgsrc.baidu.com/forum/pic/item/0e2442a7d933c895d8064c31d11373f08202007b.jpg",@"http://d.3987.com/Qhyrz_130520/004.jpg"];
     UIView * topsView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 170)];
@@ -248,6 +246,33 @@
 
     
 }
-
+//获取公告图片
+-(void)loadBanner{
+    NSLog(@"datasss:%@",[Tools stringForKey:TokenDatas]);
+    pictureUrlArray = [[NSMutableArray alloc]init];
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:TokenDatas],     @"token",
+                         nil];
+    
+    NSString *path = [NSString stringWithFormat:@"/Api/Ad/show?"];
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSLog(@"dic:%@",dic);
+        //        NSString *token = [[dic valueForKey:@"data"]valueForKey:@"token"];
+//        for (NSDictionary *temDic in [dic valueForKey:@"data"]) {
+//            NSString *pictureUrl = [dic valueForKey:@"image"];
+//            [pictureUrlArray addObject:pictureUrl];
+//        }
+        NSLog(@"pictureUrlArray:%@",pictureUrlArray);
+        [self initTableHeaderView];
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
+}
 
 @end

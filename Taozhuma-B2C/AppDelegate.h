@@ -13,6 +13,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 + (AppDelegate *)sharedAppDelegate;
-
+//获取Token信息
+-(void)getTokenMessage;
 @end
 

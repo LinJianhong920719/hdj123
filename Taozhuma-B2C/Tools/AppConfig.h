@@ -23,6 +23,12 @@
 //#define SERVICE_URL @"http://testb2c.taozhuma.com/v"VERSION"/"
 #define SERVICE_URL @"http://120.25.77.182/"
 #define WEB_URL     @"http://testb2c.taozhuma.com/"
+
+//============================ Token信息 ==========================//
+#define TokenDatas @"Token_datas"
+
+//用户手机号码
+#define KEY_USER_PHONE @"Key_user_phone"
 #endif
 
 
@@ -43,6 +49,7 @@
 #define TalkingData_Appkey     @"277FF417830E8317DDC1EF16386889B0" // TalkingData AppKey
 
 #define TALKINGDATA_CHANNEL_ID @"App Store" // TalkingData渠道 其他渠道@"umeng_channel_01"
+
 
 
 //==============================   融云   ==================================//

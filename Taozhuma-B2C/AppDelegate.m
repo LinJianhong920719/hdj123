@@ -62,21 +62,22 @@
     }
     
     // 启动引导图
-    [self guideManager];
+    //[self guideManager];
     
     // 友盟分析
-    [self umeng_Analytics];
+    //[self umeng_Analytics];
     // 友盟推送
-    [self umeng_Message:launchOptions];
+   // [self umeng_Message:launchOptions];
     // 友盟第三方登录
-    [self umeng_LoginQuick];
+    //[self umeng_LoginQuick];
     
     // 配置网络访问参数
     [self configNetworking];
     //网络状态监控
     [self networkChanged];
     
-    
+    //获取token信息
+    [self getTokenMessage];
 
 
     
@@ -84,12 +85,12 @@
     
     dispatch_group_async(group, global_quque, ^{
         // 获取分类数据
-        [self loadClassificationData];
+        //[self loadClassificationData];
     });
     
     dispatch_group_async(group, global_quque, ^{
         // 获取物流公司数据
-        [self loadLogisticsCompanyData];
+        //[self loadLogisticsCompanyData];
     });
     
     dispatch_group_notify(group, main_queue, ^{
@@ -340,93 +341,118 @@
 
 #pragma mark - 获取分类数据
 
-- (void)loadClassificationData {
-    
-    NSMutableArray *allLevel = [[NSMutableArray alloc]init];
-    [allLevel removeAllObjects];
-    
-    NSString *path = [NSString stringWithFormat:@"productType.do?"];
-    
-    [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking postWithUrl:path refreshCache:YES emphasis:NO params:nil success:^(id response) {
-        [HYBNetworking response:response success:^(id result, NSString *success_msg) {
-            
-            for (NSDictionary *temDic in result) {
-                
-                NSMutableArray *subArray = [[NSMutableArray alloc]init];
-                [subArray removeAllObjects];
-                
-                for (NSDictionary *dic in [temDic valueForKey:@"type"]) {
-                    
-                    NSString *images = [dic valueForKey:@"image"];
-                    if (!images) {
-                        images = @"";
-                    }
-                    NSDictionary *subClass = [NSDictionary dictionaryWithObjectsAndKeys:[dic valueForKey:@"id"], @"id", images, @"image", [dic valueForKey:@"name"], @"name", nil];
-                    
-                    [subArray addObject:subClass];
-                }
-                
-                NSString *image = [temDic valueForKey:@"image"];
-                if (!image) {
-                    image = @"";
-                }
-                
-                NSDictionary *dicLevel1 = [NSDictionary dictionaryWithObjectsAndKeys:image, @"image", [temDic valueForKey:@"name"], @"name", subArray, @"type", nil];
-                
-                [allLevel addObject:dicLevel1];
-            }
-            
-            [Tools saveObject:allLevel forKey:SaveData_Classification];
-            
-        } fail:^(NSString *error_msg) {
-            
-        }];
-    } fail:^(NSError *error) {
-        
-    }];
-    
-}
+//- (void)loadClassificationData {
+//    
+//    NSMutableArray *allLevel = [[NSMutableArray alloc]init];
+//    [allLevel removeAllObjects];
+//    
+//    NSString *path = [NSString stringWithFormat:@"productType.do?"];
+//    
+//    [HYBNetworking updateBaseUrl:SERVICE_URL];
+//    [HYBNetworking postWithUrl:path refreshCache:YES emphasis:NO params:nil success:^(id response) {
+//        [HYBNetworking response:response success:^(id result, NSString *success_msg) {
+//            
+//            for (NSDictionary *temDic in result) {
+//                
+//                NSMutableArray *subArray = [[NSMutableArray alloc]init];
+//                [subArray removeAllObjects];
+//                
+//                for (NSDictionary *dic in [temDic valueForKey:@"type"]) {
+//                    
+//                    NSString *images = [dic valueForKey:@"image"];
+//                    if (!images) {
+//                        images = @"";
+//                    }
+//                    NSDictionary *subClass = [NSDictionary dictionaryWithObjectsAndKeys:[dic valueForKey:@"id"], @"id", images, @"image", [dic valueForKey:@"name"], @"name", nil];
+//                    
+//                    [subArray addObject:subClass];
+//                }
+//                
+//                NSString *image = [temDic valueForKey:@"image"];
+//                if (!image) {
+//                    image = @"";
+//                }
+//                
+//                NSDictionary *dicLevel1 = [NSDictionary dictionaryWithObjectsAndKeys:image, @"image", [temDic valueForKey:@"name"], @"name", subArray, @"type", nil];
+//                
+//                [allLevel addObject:dicLevel1];
+//            }
+//            
+//            [Tools saveObject:allLevel forKey:SaveData_Classification];
+//            
+//        } fail:^(NSString *error_msg) {
+//            
+//        }];
+//    } fail:^(NSError *error) {
+//        
+//    }];
+//    
+//}
 
 #pragma mark - 获取物流公司数据
 
-- (void)loadLogisticsCompanyData {
-    
-    NSString *path = [NSString stringWithFormat:@"logistics.do?"];
-    
-    [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking postWithUrl:path refreshCache:YES emphasis:NO params:nil success:^(id response) {
-        [HYBNetworking response:response success:^(id result, NSString *success_msg) {
-            
-            [Tools saveObject:result forKey:SaveData_LogisticsCompany];
-            
-        } fail:^(NSString *error_msg) {
-            
-        }];
-    } fail:^(NSError *error) {
-    }];
-    
-}
+//- (void)loadLogisticsCompanyData {
+//    
+//    NSString *path = [NSString stringWithFormat:@"logistics.do?"];
+//    
+//    [HYBNetworking updateBaseUrl:SERVICE_URL];
+//    [HYBNetworking postWithUrl:path refreshCache:YES emphasis:NO params:nil success:^(id response) {
+//        [HYBNetworking response:response success:^(id result, NSString *success_msg) {
+//            
+//            [Tools saveObject:result forKey:SaveData_LogisticsCompany];
+//            
+//        } fail:^(NSString *error_msg) {
+//            
+//        }];
+//    } fail:^(NSError *error) {
+//    }];
+//    
+//}
 
 //获取公告图片
--(void)loadBanner{
-    NSMutableArray *pictureUrlArray = [[NSMutableArray alloc]init];
+//-(void)loadBanner{
+//    NSMutableArray *pictureUrlArray = [[NSMutableArray alloc]init];
+//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+//                         [Tools stringForKey:TokenData],     @"token",
+//                         nil];
+//    
+//    NSString *path = [NSString stringWithFormat:@"index.php/Api/Ad/show?"];
+//    
+//    [HYBNetworking updateBaseUrl:SERVICE_URL];
+//    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+//        
+//        NSDictionary *dic = response;
+//        //        NSString *token = [[dic valueForKey:@"data"]valueForKey:@"token"];
+//        for (NSDictionary *temDic in [dic valueForKey:@"data"]) {
+//            NSString *pictureUrl = [dic valueForKey:@"image"];
+//            [pictureUrlArray addObject:pictureUrl];
+//        }
+//        NSLog(@"pictureUrlArray:%@",pictureUrlArray);
+//        
+//        
+//        
+//    } fail:^(NSError *error) {
+//        
+//    }];
+//}
+
+//获取Token信息
+-(void)getTokenMessage{
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         [Tools stringForKey:TokenData],     @"token",
+                         @"hdjApp",     @"appid",
+                         @"HaoDangJia",@"appsecret",
                          nil];
     
-    NSString *path = [NSString stringWithFormat:@"index.php/Api/Ad/show?"];
+    NSString *path = [NSString stringWithFormat:@"index.php/Api/index/getToken?"];
     
     [HYBNetworking updateBaseUrl:SERVICE_URL];
     [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
         
         NSDictionary *dic = response;
-        //        NSString *token = [[dic valueForKey:@"data"]valueForKey:@"token"];
-        for (NSDictionary *temDic in [dic valueForKey:@"data"]) {
-            NSString *pictureUrl = [dic valueForKey:@"image"];
-            [pictureUrlArray addObject:pictureUrl];
-        }
-        NSLog(@"pictureUrlArray:%@",pictureUrlArray);
+        NSString *token = [[dic valueForKey:@"data"]valueForKey:@"token"];
+        NSLog(@"token:%@",token);
+       [Tools saveObject:token forKey:TokenDatas];
+        
         
         
         
@@ -434,5 +460,7 @@
         
     }];
 }
+
+
 
 @end
