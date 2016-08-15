@@ -24,11 +24,22 @@
 #define SERVICE_URL @"http://120.25.77.182/"
 #define WEB_URL     @"http://testb2c.taozhuma.com/"
 
-//============================ Token信息 ==========================//
+//============================ token信息 ==========================//
 #define TokenDatas @"Token_datas"
 
+//=====================用户信息======================//
+//用户id
+#define KEY_USER_ID @"key_user_id"
+//用户昵称
+#define KEY_USER_NAME @"key_user_name"
 //用户手机号码
-#define KEY_USER_PHONE @"Key_user_phone"
+#define KEY_USER_PHONE @"key_user_phone"
+//用户头像
+#define KEY_USER_IMAGE @"key_user_image"
+//用户手机号码
+#define KEY_USER_PHONE @"key_user_phone"
+
+#define KEY_IS_LOGIN @"key_is_login"
 #endif
 
 

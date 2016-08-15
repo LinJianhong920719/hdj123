@@ -35,6 +35,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //通知 接收
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadBanner) name:@"tokenMessage"object:nil];
     //隐藏导航栏
     [self hideNaviBar:YES];
     
@@ -104,7 +107,7 @@
     [self.view addSubview:_tableView];
     
 //    [_tableView registerClass:[ListShowCell class] forCellReuseIdentifier:LISTSHOW_CELL];
-    [self loadBanner];
+//    [self loadBanner];
    // [self initTableHeaderView];
     
     _tableView.tableFooterView = tableFooterView;
@@ -122,10 +125,10 @@
 - (void)initTableHeaderView {
     NSLog(@"123:%@",pictureUrlArray);
     //广告图数据
-    NSArray *testArr = @[@"http://www.taozhuma.com/upfiles/product/20160429032809931486.jpg",@"http://imgsrc.baidu.com/forum/pic/item/0e2442a7d933c895d8064c31d11373f08202007b.jpg",@"http://d.3987.com/Qhyrz_130520/004.jpg"];
+//    NSArray *testArr = @[@"http://www.taozhuma.com/upfiles/product/20160429032809931486.jpg",@"http://imgsrc.baidu.com/forum/pic/item/0e2442a7d933c895d8064c31d11373f08202007b.jpg",@"http://d.3987.com/Qhyrz_130520/004.jpg"];
     UIView * topsView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 170)];
     //广告图view
-    WHCircleImageView *circleImageView = [[WHCircleImageView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 140) AndImageUrlArray:testArr view:topsView];
+    WHCircleImageView *circleImageView = [[WHCircleImageView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 140) AndImageUrlArray:pictureUrlArray view:topsView];
     
     //公告view
     UIView *noticeView = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(circleImageView), DEVICE_SCREEN_SIZE_WIDTH, 30)];
@@ -254,22 +257,35 @@
                          [Tools stringForKey:TokenDatas],     @"token",
                          nil];
     
-    NSString *path = [NSString stringWithFormat:@"/Api/Ad/show?"];
+    NSString *xpoint = [NSString stringWithFormat:@"/Api/Ad/show?"];
     
     [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dic success:^(id response) {
         
         NSDictionary *dic = response;
-        NSLog(@"dic:%@",dic);
-        //        NSString *token = [[dic valueForKey:@"data"]valueForKey:@"token"];
-//        for (NSDictionary *temDic in [dic valueForKey:@"data"]) {
-//            NSString *pictureUrl = [dic valueForKey:@"image"];
-//            [pictureUrlArray addObject:pictureUrl];
-//        }
-        NSLog(@"pictureUrlArray:%@",pictureUrlArray);
-        [self initTableHeaderView];
-        
-        
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        pictureUrlArray = [[NSMutableArray alloc]init];
+        if([statusMsg intValue] == 4001){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"获取失败!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+            AppDelegate *ade = [[AppDelegate alloc] init];
+            [ade getTokenMessage];
+        }else{
+            for(NSDictionary *advImg in [dic valueForKey:@"data"]){
+                NSLog(@"image:%@",[advImg valueForKey:@"image"]);
+                
+                [pictureUrlArray addObject:[advImg valueForKey:@"image"]];
+                NSLog(@"Array:%@",[advImg valueForKey:@"pictureUrlArray"]);
+            }
+            [self initTableHeaderView];
+        }
+  
     } fail:^(NSError *error) {
         
     }];

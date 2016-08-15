@@ -21,9 +21,11 @@
 
 
 @property (strong, nonatomic) UIButton *btnToObtain;
+@property (nonatomic, assign) BOOL isBackToroot;
 @end
 
 @implementation RegisterViewControllerNew
+@synthesize isBackToroot;
 
 @synthesize btnToObtain;
 - (void)viewDidLoad {
@@ -115,18 +117,7 @@
     [super didReceiveMemoryWarning];
     
 }
-//登陆成功跳转页面
-- (IBAction)backClick:(id)sender {
-    
-    // 返回上页
-    //        if (isBackToroot) {
-    if(true){
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-    else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-}
+
 
 //登陆
 //13612412490   7878
@@ -175,46 +166,62 @@
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          phoneField.text,     @"phone",
                          checkField.text,       @"code",
+                         [Tools stringForKey:TokenDatas],     @"token",
                          nil];
     NSLog(@"%@",dic);
     NSString *xpoint = @"/Api/User/login";
-    [HYBNetworking postWithUrl:xpoint  refreshCache:YES emphasis:NO params:nil success:^(id response) {
-        [HYBNetworking response:response success:^(id result, NSString *success_msg) {
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        
+        if([statusMsg intValue] == 4001){
+            [hud removeFromSuperview];
+            //弹框提示登陆失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"登陆失败!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+            AppDelegate *ade = [[AppDelegate alloc] init];
+            [ade getTokenMessage];
+        }else{
+            [hud removeFromSuperview];
+            //弹框提示登陆成功
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"登陆成功!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
             
-            for (NSDictionary *temDic in result) {
-                
-                NSMutableArray *subArray = [[NSMutableArray alloc]init];
-                [subArray removeAllObjects];
-                
-                for (NSDictionary *dic in [temDic valueForKey:@"type"]) {
-                    
-                    NSString *images = [dic valueForKey:@"image"];
-                    if (!images) {
-                        images = @"";
-                    }
-                    NSDictionary *subClass = [NSDictionary dictionaryWithObjectsAndKeys:[dic valueForKey:@"id"], @"id", images, @"image", [dic valueForKey:@"name"], @"name", nil];
-                    
-                    [subArray addObject:subClass];
-                }
-                
-                NSString *image = [temDic valueForKey:@"image"];
-                if (!image) {
-                    image = @"";
-                }
-                
-                NSDictionary *dicLevel1 = [NSDictionary dictionaryWithObjectsAndKeys:image, @"image", [temDic valueForKey:@"name"], @"name", subArray, @"type", nil];
-                
-                [allLevel addObject:dicLevel1];
-            }
+            //获取登陆成功后接口返回的信息
+            NSString *userid = [[dic valueForKey:@"data"]valueForKey:@"id"];
+            NSString *nikeName = [[dic valueForKey:@"data"]valueForKey:@"u_nickname"];
+            NSString *userPhone = [[dic valueForKey:@"data"]valueForKey:@"u_phone"];
+            NSString *userImage = [[dic valueForKey:@"data"]valueForKey:@"u_image"];
             
-            [Tools saveObject:allLevel forKey:SaveData_Classification];
             
-        } fail:^(NSString *error_msg) {
+            [Tools saveObject:userid forKey:KEY_USER_ID];
+            [Tools saveObject:nikeName forKey:KEY_USER_NAME];
+            [Tools saveObject:userPhone forKey:KEY_USER_PHONE];
+            [Tools saveObject:userImage forKey:KEY_USER_IMAGE];
+            [Tools saveBool:YES forKey:KEY_IS_LOGIN];
             
-        }];
+            [self performSelector:@selector(backClick:) withObject:nil afterDelay:0.5];
+//            [Tools saveObject:token forKey:TokenDatas];
+        }
+        
+        
+        
+        
+        
     } fail:^(NSError *error) {
         
-    }];}
+    }];
+}
 
 //获取验证码
 - (IBAction)checkCodeClick:(id)sender {
@@ -296,7 +303,7 @@
                 [hud hide:YES afterDelay:2];
             }
         }
-          
+        
     } fail:^(NSError *error) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.mode = MBProgressHUDModeText;
@@ -322,6 +329,19 @@
         btnToObtain.backgroundColor = [UIColor grayColor];
         [btnToObtain setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     }
+}
+//登陆成功跳转页面
+- (IBAction)backClick:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMine" object:nil];
+    // 返回上页
+    if (isBackToroot) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+    
 }
 
 //隐藏键盘方法

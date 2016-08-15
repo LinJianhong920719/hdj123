@@ -37,7 +37,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
+    //获取token信息
+    [self getTokenMessage];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[JTBaseNavigationController alloc] initWithRootViewController:[[TabBarController alloc] init]];
@@ -76,8 +77,7 @@
     //网络状态监控
     [self networkChanged];
     
-    //获取token信息
-    [self getTokenMessage];
+    
 
 
     
@@ -452,9 +452,8 @@
         NSString *token = [[dic valueForKey:@"data"]valueForKey:@"token"];
         NSLog(@"token:%@",token);
        [Tools saveObject:token forKey:TokenDatas];
-        
-        
-        
+        //通知 发出
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"tokenMessage" object:nil];
         
     } fail:^(NSError *error) {
         

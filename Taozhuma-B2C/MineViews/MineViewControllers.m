@@ -28,6 +28,7 @@
 - (void)loadView {
     [super loadView];
     self.title = @"我的";
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshMine:) name:@"refreshMine"object:nil];
 }
 
 - (void)viewDidLoad {
@@ -63,7 +64,6 @@
 - (void)customData {
     
     NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:@"我的钱包",@"title",@"user_wallet",@"imageName",@"1",@"viewType",nil];
-//    NSDictionary *dic2 = [NSDictionary dictionaryWithObjectsAndKeys:@"我的订单",@"title",@"wm-061.png",@"imageName",@"2",@"viewType",nil];
     NSDictionary *dic3 = [NSDictionary dictionaryWithObjectsAndKeys:@"优惠卷",@"title",@"user_coupon",@"imageName",@"3",@"viewType",nil];
     NSDictionary *dic4 = [NSDictionary dictionaryWithObjectsAndKeys:@"我的收藏",@"title",@"user_favorites",@"imageName",@"4",@"viewType",nil];
 
@@ -122,51 +122,47 @@
     //添加中间用户头像显示
     logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake((headView.frame.size.width-75)/2, 75, 90, 90)];
     
-    logoImageView.image = [UIImage imageNamed:@"head_bg"];
-//    if([Tools boolForKey:KEY_IS_LOGIN]!= YES){
-//        logoImageView.image = [UIImage imageNamed:@"wm-078.png"];;
-//    }else{
-//        if([Tools stringForKey:KEY_HEAD_ICON].length>0){
-//            logoImageView.layer.cornerRadius = 42.5;
-//            logoImageView.layer.masksToBounds = YES;
-//            logoImageView.layer.borderColor = [[UIColor whiteColor]CGColor];
-//            logoImageView.layer.borderWidth = 2;
-//            [logoImageView sd_setImageWithURL:[NSURL URLWithString:[Tools stringForKey:KEY_HEAD_ICON]] placeholderImage:[UIImage imageNamed:@"wm-078.png"]];
-//        }else{
-//            
-//            logoImageView.image = [UIImage imageNamed:@"wm-078.png"];;
-//        }
-//        
-//    }
+    
+    if([Tools boolForKey:KEY_IS_LOGIN]!= YES){
+        logoImageView.image = [UIImage imageNamed:@"head_bg"];
+    }else{
+        if([Tools stringForKey:KEY_USER_IMAGE].length>0){
+            logoImageView.layer.cornerRadius = 42.5;
+            logoImageView.layer.masksToBounds = YES;
+            logoImageView.layer.borderColor = [[UIColor whiteColor]CGColor];
+            logoImageView.layer.borderWidth = 2;
+            [logoImageView sd_setImageWithURL:[NSURL URLWithString:[Tools stringForKey:KEY_USER_IMAGE]] placeholderImage:[UIImage imageNamed:@"head_bg"]];
+        }else{
+            logoImageView.image = [UIImage imageNamed:@"head_bg"];
+        }
+        
+    }
     //为UIImageView添加事件侦听
     logoImageView.userInteractionEnabled=YES;
-//    if([Tools boolForKey:KEY_IS_LOGIN]!= YES){
+    if([Tools boolForKey:KEY_IS_LOGIN]!= YES){
         UITapGestureRecognizer *singleTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(onClickImage:)];
         [logoImageView addGestureRecognizer:singleTap];
-//    }else{
-//        UITapGestureRecognizer *singleTaps =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(editUserInfoImage:)];
-//        [logoImageView addGestureRecognizer:singleTaps];
-//    }
-//    
+    }else{
+        UITapGestureRecognizer *singleTaps =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(editUserInfoImage:)];
+        [logoImageView addGestureRecognizer:singleTaps];
+    }
+//
     [headView addSubview:logoImageView];
 //
 //    //添加用户昵称
     userName = [[UILabel alloc]initWithFrame:CGRectMake((headView.frame.size.width-75)/2, viewBottom(logoImageView)+5, 90, 20)];
-    userName.text = @"快捷登录";
-    userName.textAlignment = NSTextAlignmentCenter;
-    userName.font = [UIFont boldSystemFontOfSize:16];
-    userName.textColor = FONTS_COLOR51;
-//    if([Tools boolForKey:KEY_IS_LOGIN]!= YES){
-//        userName.text = @"快捷登录";
-//        userName.textAlignment = NSTextAlignmentCenter;
-//        userName.font = [UIFont boldSystemFontOfSize:16];
-//        userName.textColor = [UIColor whiteColor];
-//    }else{
-//        userName.text = [Tools stringForKey:KEY_NIKE_NAME];
-//        userName.textAlignment = NSTextAlignmentCenter;
-//        userName.font = [UIFont boldSystemFontOfSize:16];
-//        userName.textColor = [UIColor whiteColor];
-//    }
+    
+    if([Tools boolForKey:KEY_IS_LOGIN]!= YES){
+        userName.text = @"快捷登录";
+        userName.textAlignment = NSTextAlignmentCenter;
+        userName.font = [UIFont boldSystemFontOfSize:16];
+        userName.textColor = FONTS_COLOR51;
+    }else{
+        userName.text = [Tools stringForKey:KEY_USER_NAME];
+        userName.textAlignment = NSTextAlignmentCenter;
+        userName.font = [UIFont boldSystemFontOfSize:14];
+        userName.textColor = FONTS_COLOR51;
+    }
     
     [headView addSubview:userName];
     
@@ -242,13 +238,14 @@
     registeredView.navigationController.navigationBarHidden = YES;
     [self.navigationController pushViewController:registeredView animated:YES];
 }
-//-(IBAction)editUserInfoImage:(id)sender{
+-(IBAction)editUserInfoImage:(id)sender{
+    NSLog(@"该方法尚未实现");
 //    EditUserInfoViewController *registeredView = [[EditUserInfoViewController alloc]init];
 //    registeredView.title = @"修改信息";
 //    registeredView.hidesBottomBarWhenPushed = YES;
 //    registeredView.navigationController.navigationBarHidden = YES;
 //    [self.navigationController pushViewController:registeredView animated:YES];
-//}
+}
 //设置按钮
 //- (IBAction)InformationClick:(id)sender {
 //    SetupViewController *setupView = [[SetupViewController alloc]init];
