@@ -350,16 +350,16 @@
     switch (type) {
         case 1: {
             //我的钱包
-            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-                [self isPassWord];
-                
-            }else{
-                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
-                registeredView.title = @"快捷登陆";
-                registeredView.hidesBottomBarWhenPushed = YES;
-                registeredView.navigationController.navigationBarHidden = YES;
-                [self.navigationController pushViewController:registeredView animated:YES];
-            }
+//            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+//                [self isPassWord];
+//                
+//            }else{
+//                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
+//                registeredView.title = @"快捷登陆";
+//                registeredView.hidesBottomBarWhenPushed = YES;
+//                registeredView.navigationController.navigationBarHidden = YES;
+//                [self.navigationController pushViewController:registeredView animated:YES];
+//            }
             
         } break;
         case 2: {
@@ -367,35 +367,35 @@
         }break;
         case 3: {
             //我的收藏
-            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-                CollectionListViewController * disheView = [[CollectionListViewController alloc]init];
-                disheView.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:disheView animated:YES];
-            }else{
-                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
-                registeredView.title = @"快捷登陆";
-                registeredView.hidesBottomBarWhenPushed = YES;
-                registeredView.navigationController.navigationBarHidden = YES;
-                [self.navigationController pushViewController:registeredView animated:YES];
-            }
+//            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+//                CollectionListViewController * disheView = [[CollectionListViewController alloc]init];
+//                disheView.hidesBottomBarWhenPushed = YES;
+//                [self.navigationController pushViewController:disheView animated:YES];
+//            }else{
+//                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
+//                registeredView.title = @"快捷登陆";
+//                registeredView.hidesBottomBarWhenPushed = YES;
+//                registeredView.navigationController.navigationBarHidden = YES;
+//                [self.navigationController pushViewController:registeredView animated:YES];
+//            }
             
         } break;
         case 4: {
             //我的送餐地址
-            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-                AddressListViewController *addressListView = [[AddressListViewController alloc]init];
-                addressListView.title = @"我的送餐地址";
-                addressListView.hidesBottomBarWhenPushed = YES;
-                addressListView.navigationController.navigationBarHidden = YES;
-                [self.navigationController pushViewController:addressListView animated:YES];
-            }else{
-                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
-                registeredView.title = @"快捷登陆";
-                registeredView.hidesBottomBarWhenPushed = YES;
-                registeredView.navigationController.navigationBarHidden = YES;
-                [self.navigationController pushViewController:registeredView animated:YES];
-                
-            }
+//            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+//                AddressListViewController *addressListView = [[AddressListViewController alloc]init];
+//                addressListView.title = @"我的送餐地址";
+//                addressListView.hidesBottomBarWhenPushed = YES;
+//                addressListView.navigationController.navigationBarHidden = YES;
+//                [self.navigationController pushViewController:addressListView animated:YES];
+//            }else{
+//                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
+//                registeredView.title = @"快捷登陆";
+//                registeredView.hidesBottomBarWhenPushed = YES;
+//                registeredView.navigationController.navigationBarHidden = YES;
+//                [self.navigationController pushViewController:registeredView animated:YES];
+//                
+//            }
             
         } break;
         case 5: {

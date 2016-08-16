@@ -11,10 +11,11 @@
 #import "ViewController.h"
 #import "WHCircleImageView.h"
 #import "MainViewCell.h"
+#import "MainProductEntity.h"
 
 #define tableViewFrame2     CGRectMake(0, ViewOrignY, ScreenWidth, ScreenHeight-ViewOrignY-50)
 
-@interface MainViewController ()<UITableViewDataSource, UITableViewDelegate>{
+@interface MainViewController ()<UITableViewDataSource,UITableViewDelegate>{
      UIScrollView * adverView;
      UIPageControl * pageControl;
      UIView *topView;
@@ -29,6 +30,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic,weak) NSTimer * timer;
 @property (nonatomic,strong) NSMutableArray * adverData;
+@property (nonatomic, strong) NSMutableArray *data;
 @end
 
 @implementation MainViewController
@@ -38,6 +40,7 @@
     
     //通知 接收
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadBanner) name:@"tokenMessage"object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadIndexData) name:@"loadTableMsg"object:nil];
     //隐藏导航栏
     [self hideNaviBar:YES];
     
@@ -83,7 +86,8 @@
     [self.view bringSubviewToFront:topView];
     GTTabBar_Current = YES;
     SCNavTabBar_Current = YES;
-    [self initTableView];
+    
+    _data = [[NSMutableArray alloc]init];
 //    NSLog(@"token2:%@",[Tools stringForKey:TokenData]);
 }
 
@@ -93,6 +97,7 @@
 }
 
 - (void)initTableView {
+    NSLog(@"ss:%lu",(unsigned long)[_data count]);
     
     UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 300)];
     tableFooterView.backgroundColor = [UIColor clearColor];
@@ -115,7 +120,7 @@
     _tableView.sectionFooterHeight = 10;
     
 //    _data = [[NSMutableArray alloc]init];
-    [self setupHeader];
+//    [self setupHeader];
 //    [self loadTableViewData];
     [self tableViewToTop];
     
@@ -123,9 +128,10 @@
 
 
 - (void)initTableHeaderView {
-    NSLog(@"123:%@",pictureUrlArray);
+    
     //广告图数据
-//    NSArray *testArr = @[@"http://www.taozhuma.com/upfiles/product/20160429032809931486.jpg",@"http://imgsrc.baidu.com/forum/pic/item/0e2442a7d933c895d8064c31d11373f08202007b.jpg",@"http://d.3987.com/Qhyrz_130520/004.jpg"];
+    NSLog(@"123:%@",pictureUrlArray);
+    
     UIView * topsView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 170)];
     //广告图view
     WHCircleImageView *circleImageView = [[WHCircleImageView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 140) AndImageUrlArray:pictureUrlArray view:topsView];
@@ -152,7 +158,7 @@
 
 - (void)setupHeader {
     SDRefreshHeaderView *refreshHeader = [SDRefreshHeaderView refreshView];
-    
+//    [self loadData];
     // 默认是在navigationController环境下，如果不是在此环境下，请设置 refreshHeader.isEffectedByNavigationController = NO;
     refreshHeader.isEffectedByNavigationController = NO;
     [refreshHeader addToScrollView:_tableView];
@@ -180,12 +186,13 @@
 }
 //cell个数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+//    return 2;
+    return [_data count];
 }
 //cell内容
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    NSInteger row = [indexPath row];
-    
+    NSInteger row = [indexPath row];
+    NSLog(@"row:%ld",(long)row);
     
     static NSString *CellIdentifier = @"MainViewCell";
     MainViewCell *cell = (MainViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -194,6 +201,78 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MainViewCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
+    if ([_data count] > 0) {
+        
+        MainProductEntity *entity = [_data objectAtIndex:row];
+        NSLog(@"advProductImage:%@",entity.advProductImage);
+        //类型名称
+        cell.titleName.text = entity.productTypeName;
+        //类型商品图片
+        if ([self isBlankString:entity.advProductImage]) {
+            cell.advImage.image = [UIImage imageNamed:@"暂无图片"];
+        }else{
+        [cell.advImage sd_setImageWithURL:[NSURL URLWithString:entity.advProductImage] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
+        }
+        //第一个商品
+        /*图片*/
+        if ([self isBlankString:entity.fristProductImage]) {
+            cell.fristProductImage.image = [UIImage imageNamed:@"暂无图片"];
+        }else{
+            [cell.fristProductImage sd_setImageWithURL:[NSURL URLWithString:entity.fristProductImage] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
+        }
+        if ([self isBlankString:entity.firstProductName]) {
+            cell.firstProductName.text = @"敬请期待";
+        }else{
+          cell.firstProductName.text = entity.firstProductName;
+        }
+        
+        if ([self isBlankString:entity.firstProductPirce]) {
+            cell.firstProductPirce.text = @"￥0.00";
+        }else{
+            cell.firstProductPirce.text = entity.firstProductPirce;
+        }
+        
+        
+        //第二个商品
+        /*图片*/
+        if ([self isBlankString:entity.secondProductImage]) {
+            cell.secondProductImage.image = [UIImage imageNamed:@"暂无图片"];
+        }else{
+            [cell.secondProductImage sd_setImageWithURL:[NSURL URLWithString:entity.secondProductImage] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
+        }
+        if ([self isBlankString:entity.secondProductName]) {
+            cell.secondProductName.text = @"敬请期待";
+        }else{
+            cell.secondProductName.text = entity.secondProductName;
+        }
+        if ([self isBlankString:entity.secondProductPrice]) {
+            cell.secondProductPrice.text = @"￥0.00";
+        }else{
+            cell.secondProductPrice.text = entity.secondProductPrice;
+        }
+        
+        
+        //第三个商品
+        /*图片*/
+        if ([self isBlankString:entity.thirdProductImage]) {
+            cell.thirdProductImage.image = [UIImage imageNamed:@"暂无图片"];
+        }else{
+            [cell.thirdProductImage sd_setImageWithURL:[NSURL URLWithString:entity.thirdProductImage] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
+        }
+        if ([self isBlankString:entity.secondProductName]) {
+            cell.thirdProductName.text = @"敬请期待";
+        }else{
+            cell.thirdProductName.text = entity.thirdProductName;
+        }
+        if ([self isBlankString:entity.secondProductName]) {
+            cell.thirdProductPrice.text = @"￥0.00";
+        }else{
+            cell.thirdProductPrice.text = entity.thirdProductPrice;
+        }
+        
+        
+    }
+    
     return cell;
 }
 
@@ -228,27 +307,27 @@
 // ----------------------------------------------------------------------------------------
 // scrollView 滚动时通知
 // ----------------------------------------------------------------------------------------
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-    if (_historicalItemsIndex == currentItemIndex) {
-        if (scrollView.contentOffset.y < contentInsetY) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"SlideDown" object:nil];
-            [UIView animateWithDuration:0.2 animations:^{
-                scrollView.frame = tableViewFrame;
-            } completion:^(BOOL finished){ }];
-        } else {
-            if (scrollView.contentOffset.y > scrollViewBeginDraggingY) {
-                //上拉
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"SlideUp" object:nil];
-                [UIView animateWithDuration:0.2 animations:^{
-                    scrollView.frame = tableViewFrame2;
-                } completion:^(BOOL finished){ }];
-            }
-        }
-    }
-
-    
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    
+//    if (_historicalItemsIndex == currentItemIndex) {
+//        if (scrollView.contentOffset.y < contentInsetY) {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"SlideDown" object:nil];
+//            [UIView animateWithDuration:0.2 animations:^{
+//                scrollView.frame = tableViewFrame;
+//            } completion:^(BOOL finished){ }];
+//        } else {
+//            if (scrollView.contentOffset.y > scrollViewBeginDraggingY) {
+//                //上拉
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"SlideUp" object:nil];
+//                [UIView animateWithDuration:0.2 animations:^{
+//                    scrollView.frame = tableViewFrame2;
+//                } completion:^(BOOL finished){ }];
+//            }
+//        }
+//    }
+//
+//    
+//}
 //获取公告图片
 -(void)loadBanner{
     NSLog(@"datasss:%@",[Tools stringForKey:TokenDatas]);
@@ -289,6 +368,50 @@
     } fail:^(NSError *error) {
         
     }];
+}
+
+// 获取首页列表数据
+// ----------------------------------------------------------------------------------------
+- (void)loadIndexData {
+    NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
+                          [Tools stringForKey:TokenDatas],                               @"token",
+                          @"68",   @"comId",
+                          nil];
+    
+    NSLog(@"dic:%@", dics);
+    NSString *xpoint = @"/Api/Goods/showIndex?";
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dics success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        pictureUrlArray = [[NSMutableArray alloc]init];
+        if([statusMsg intValue] == 4001){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"获取失败!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+            AppDelegate *ade = [[AppDelegate alloc] init];
+            [ade getTokenMessage];
+        }else{
+            for(NSDictionary *productMsgList in [dic valueForKey:@"data"]){
+                MainProductEntity *entity = [[MainProductEntity alloc]initWithAttributes:productMsgList];
+                [_data addObject:entity];
+                
+            }
+            NSLog(@"LIST:%@",_data);
+            [self initTableView];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
 }
 
 @end

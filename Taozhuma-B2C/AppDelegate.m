@@ -454,6 +454,7 @@
        [Tools saveObject:token forKey:TokenDatas];
         //通知 发出
         [[NSNotificationCenter defaultCenter] postNotificationName:@"tokenMessage" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"loadTableMsg" object:nil];
         
     } fail:^(NSError *error) {
         

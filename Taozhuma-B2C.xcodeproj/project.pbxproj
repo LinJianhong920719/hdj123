@@ -120,6 +120,8 @@
 		3756FEC21CED997500922D5B /* AdvertisementEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3756FEC11CED997500922D5B /* AdvertisementEntity.m */; };
 		3756FFAC1CEDAB7100922D5B /* WHCircleImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3756FFA91CEDAB7100922D5B /* WHCircleImageView.m */; };
 		3756FFAD1CEDAB7100922D5B /* WHCirCleImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3756FFAB1CEDAB7100922D5B /* WHCirCleImageViewCell.m */; };
+		37886CBA1D62F075005B6368 /* MainProductEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 37886CB81D62F075005B6368 /* MainProductEntity.m */; };
+		37886CBD1D630478005B6368 /* GoodsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 37886CBC1D630478005B6368 /* GoodsEntity.m */; };
 		378A61641D4636B600F34DD9 /* RegisteredViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 378A61631D4636B600F34DD9 /* RegisteredViewController.m */; };
 		378A61671D46393000F34DD9 /* RegisterViewControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 378A61661D46393000F34DD9 /* RegisterViewControllerNew.m */; };
 		378A616B1D463D1C00F34DD9 /* login_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 378A61691D463D1C00F34DD9 /* login_bg.png */; };
@@ -396,6 +398,10 @@
 		3756FFA91CEDAB7100922D5B /* WHCircleImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHCircleImageView.m; sourceTree = "<group>"; };
 		3756FFAA1CEDAB7100922D5B /* WHCirCleImageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHCirCleImageViewCell.h; sourceTree = "<group>"; };
 		3756FFAB1CEDAB7100922D5B /* WHCirCleImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHCirCleImageViewCell.m; sourceTree = "<group>"; };
+		37886CB81D62F075005B6368 /* MainProductEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainProductEntity.m; sourceTree = "<group>"; };
+		37886CB91D62F075005B6368 /* MainProductEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainProductEntity.h; sourceTree = "<group>"; };
+		37886CBB1D630478005B6368 /* GoodsEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsEntity.h; sourceTree = "<group>"; };
+		37886CBC1D630478005B6368 /* GoodsEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsEntity.m; sourceTree = "<group>"; };
 		378A61621D4636B600F34DD9 /* RegisteredViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisteredViewController.h; sourceTree = "<group>"; };
 		378A61631D4636B600F34DD9 /* RegisteredViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisteredViewController.m; sourceTree = "<group>"; };
 		378A61651D46393000F34DD9 /* RegisterViewControllerNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewControllerNew.h; sourceTree = "<group>"; };
@@ -963,6 +969,10 @@
 		3756FEBE1CED992100922D5B /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				37886CBB1D630478005B6368 /* GoodsEntity.h */,
+				37886CBC1D630478005B6368 /* GoodsEntity.m */,
+				37886CB81D62F075005B6368 /* MainProductEntity.m */,
+				37886CB91D62F075005B6368 /* MainProductEntity.h */,
 				37B6AF791CF325AC00A12DC2 /* CartsEntity */,
 				3756FEC01CED997500922D5B /* AdvertisementEntity.h */,
 				3756FEC11CED997500922D5B /* AdvertisementEntity.m */,
@@ -1341,6 +1351,7 @@
 				0A0B14981CDD9B9F006DD011 /* AFImageDownloader.m in Sources */,
 				0A070CF01CDC66CC00298DAB /* Tools.m in Sources */,
 				0A0B14951CDD9B9F006DD011 /* AFURLResponseSerialization.m in Sources */,
+				37886CBD1D630478005B6368 /* GoodsEntity.m in Sources */,
 				37AE2B841CEFF91300DC7007 /* SDRefreshHeaderView.m in Sources */,
 				0A0B149B1CDD9B9F006DD011 /* UIButton+AFNetworking.m in Sources */,
 				0AB929361CE2D93F00E98D62 /* Analytics.m in Sources */,
@@ -1385,6 +1396,7 @@
 				37BFE2FE1CF2F5CA0001081D /* MineOrderCellView.m in Sources */,
 				0A13F7E81CDB374A00AF5392 /* SDWebImageCompat.m in Sources */,
 				37B6AF701CF3244400A12DC2 /* CartCell.m in Sources */,
+				37886CBA1D62F075005B6368 /* MainProductEntity.m in Sources */,
 				0A13F7EF1CDB374A00AF5392 /* UIImage+GIF.m in Sources */,
 				3756FFAC1CEDAB7100922D5B /* WHCircleImageView.m in Sources */,
 				0A608B7F1CE5BD1300EDB38A /* LCnterView.m in Sources */,
