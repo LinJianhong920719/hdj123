@@ -39,7 +39,7 @@
     [super viewDidLoad];
     
     //通知 接收
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadBanner) name:@"tokenMessage"object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadBanner) name:@"tokenMessage"object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadIndexData) name:@"loadTableMsg"object:nil];
     //隐藏导航栏
     [self hideNaviBar:YES];
@@ -123,6 +123,7 @@
 //    [self setupHeader];
 //    [self loadTableViewData];
     [self tableViewToTop];
+    [self loadBanner];
     
 }
 
@@ -152,7 +153,6 @@
     [noticeView addSubview:_noticeLabel];
     [topsView addSubview:noticeView];
      _tableView.tableHeaderView = topsView;
-    
 }
 #pragma mark - SDRefresh
 
