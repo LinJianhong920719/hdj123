@@ -40,6 +40,26 @@
 #define KEY_USER_PHONE @"key_user_phone"
 
 #define KEY_IS_LOGIN @"key_is_login"
+
+//当前纬度
+#define CURRENT_LATITUDE @"current_latitude"
+//当前经度
+#define CURRENT_LONGITUDE @"current_longitude"
+//当前城市
+#define CURRENT_CITY_NAME @"current_city"
+//当前区县
+#define CURRENT_DISTRICT_NAME @"current_district"
+//当前街道
+#define CURRENT_STREET_NAME @"current_street"
+
+//手动定位纬度
+#define CUSTOM_LATITUDE @"custom_latitude"
+//手动定位经度
+#define CUSTOM_LONGITUDE @"custom_longitude"
+//手动定位城市
+#define CUSTOM_CITY_NAME @"custom_city"
+//定位搜索记录
+#define CUSTOM_RECORD @"custom_record"
 #endif
 
 

@@ -18,6 +18,7 @@
 #import "UMSocialSinaSSOHandler.h"
 #import <AdSupport/AdSupport.h>
 
+
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 #define _IPHONE80_ 80000
@@ -29,6 +30,7 @@
 
 @end
 
+BMKMapManager* _mapManager;
 @implementation AppDelegate
 
 + (AppDelegate *)sharedAppDelegate {
@@ -39,6 +41,18 @@
     // Override point for customization after application launch.
     //获取token信息
     [self getTokenMessage];
+    
+    // 要使用百度地图，请先启动BaiduMapManager
+    _mapManager = [[BMKMapManager alloc]init];
+    BOOL ret = [_mapManager start:@"dekD1hGpYbhaTFsj30yIyaFQ34nDLc0E" generalDelegate:self];
+    if (!ret) {
+        NSLog(@"manager start failed!");
+    }
+    //初始化BMKLocationService
+    _locService = [[BMKLocationService alloc]init];
+    _locService.delegate = self;
+    //启动LocationService
+    [_locService startUserLocationService];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[JTBaseNavigationController alloc] initWithRootViewController:[[TabBarController alloc] init]];
@@ -461,6 +475,38 @@
     }];
 }
 
+- (void)onGetNetworkState:(int)iError
+{
+    if (0 == iError) {
+        NSLog(@"联网成功");
+    }
+    else{
+        NSLog(@"onGetNetworkState %d",iError);
+    }
+    
+}
 
+- (void)onGetPermissionState:(int)iError
+{
+    if (0 == iError) {
+        NSLog(@"授权成功");
+    }
+    else {
+        NSLog(@"onGetPermissionState %d",iError);
+    }
+}
+//实现相关delegate 处理位置信息更新
+//处理方向变更信息
+- (void)didUpdateUserHeading:(BMKUserLocation *)userLocation
+{
+    NSLog(@"heading is %@",userLocation.heading);
+}
+//处理位置坐标更新
+- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
+{
+    [Tools saveDouble:userLocation.location.coordinate.latitude forKey:CURRENT_LATITUDE];
+    [Tools saveDouble:userLocation.location.coordinate.longitude forKey:CURRENT_LONGITUDE];
+    NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+}
 
 @end

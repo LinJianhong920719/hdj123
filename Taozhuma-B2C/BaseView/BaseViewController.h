@@ -14,6 +14,9 @@
 #import "SDRefresh.h"
 #import "MBProgressHUD.h"
 #import "AppDelegate.h"
+#import <BaiduMapAPI_Location/BMKLocationComponent.h>//引入定位功能所有的头文件
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>//引入base相关所有的头文件
+
 
 @interface BaseViewController : CustomViewController
 

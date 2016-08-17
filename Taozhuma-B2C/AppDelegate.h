@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>
+#import <BaiduMapAPI_Location/BMKLocationComponent.h>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, BMKGeneralDelegate,BMKLocationServiceDelegate>{
+    BMKLocationService* _locService;
+}
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) BMKMapManager* mapManager;
 
 + (AppDelegate *)sharedAppDelegate;
 //获取Token信息
