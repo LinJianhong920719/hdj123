@@ -43,6 +43,11 @@
         _tableView.rowHeight = 40;
         _tableView.scrollEnabled = NO;//不能滑动
         [self.view addSubview:_tableView];
+        
+        //去除tableView底部多余分割线
+        UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 1)];
+        tableFooterView.backgroundColor = [UIColor colorWithRed:238/255.0f green:239/255.0f blue:239/255.0f alpha:1];
+        _tableView.tableFooterView = tableFooterView;
     }
     return _tableView;
 }
@@ -50,7 +55,7 @@
     if (_collectionView == nil) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/4, 0, [UIScreen mainScreen].bounds.size.width*3/4, [UIScreen mainScreen].bounds.size.height - 64) collectionViewLayout:layout];//初始化，并设置布局方式
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/4, 0, [UIScreen mainScreen].bounds.size.width*3/4, [UIScreen mainScreen].bounds.size.height - 110) collectionViewLayout:layout];//初始化，并设置布局方式
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
@@ -92,7 +97,7 @@
     titleTextLable.textColor = [UIColor blackColor];//每一组的标题颜色
     titleTextLable.font = [UIFont systemFontOfSize:10];//每一组的标题的大小
     titleTextLable.text = category_arr[indexPath.row];
-    titleTextLable.backgroundColor = [UIColor colorWithRed:239/255.0f green:239/255.0f blue:239/255.0f alpha:1.0];
+    titleTextLable.backgroundColor = [UIColor whiteColor];
     cell.backgroundView = titleTextLable;
     cell.userInteractionEnabled = NO;
     
@@ -138,7 +143,7 @@
     
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.view.frame.size.width/4.0, self.view.frame.size.width/4.0);
+    return CGSizeMake(self.view.frame.size.width/4.0, self.view.frame.size.width/4.0*1.1);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -168,15 +173,18 @@
     if (cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
-    cell.backgroundColor = [UIColor clearColor];
+    cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.font = [UIFont systemFontOfSize:10];
+    cell.textLabel.textColor = [UIColor colorWithRed:102/255.0f green:102/255.0f  blue:102/255.0f  alpha:1];
+    cell.textLabel.highlightedTextColor = [UIColor colorWithRed:255/255.0f green:214/255.0f  blue:0/255.0f  alpha:1];
+//    cell.textLabel.textColor=[UIColor redColor];
     cell.textLabel.text = category_arr[indexPath.row];
     
     UIView *selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
-    selectedBackgroundView.backgroundColor = [UIColor whiteColor];
+    selectedBackgroundView.backgroundColor = [UIColor colorWithRed:239/255.0f green:239/255.0f blue:239/255.0f alpha:1];
     selectedBackgroundView.alpha = 0.8;
     UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 5, 40)];
-    lineLabel.backgroundColor = [UIColor redColor];
+    lineLabel.backgroundColor = [UIColor colorWithRed:255/255.0f green:214/255.0f  blue:0/255.0f  alpha:1];
     [selectedBackgroundView addSubview:lineLabel];
     cell.selectedBackgroundView = selectedBackgroundView;//自定义cell选中时的背景
     return cell;
@@ -198,9 +206,9 @@
         _isRelate = NO;
         [self.TableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
         //将CollectionView的滑动范围调整到tableView相对应的cell的内容
-        
+        _tableView.sectionIndexColor = [UIColor redColor];
         [self.CollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:indexPath.row] atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
-         [self.CollectionView setContentOffset:CGPointMake(self.CollectionView.contentOffset.x, self.CollectionView.contentOffset.y-43)];
+         [self.CollectionView setContentOffset:CGPointMake(self.CollectionView.contentOffset.x, self.CollectionView.contentOffset.y-42)];
         
     }
 }
