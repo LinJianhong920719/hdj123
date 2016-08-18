@@ -116,7 +116,12 @@
 		0AB929881CE3294C00E98D62 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB929871CE3294C00E98D62 /* libsqlite3.tbd */; };
 		0AB9298A1CE3297100E98D62 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB929891CE3297100E98D62 /* libstdc++.tbd */; };
 		0AD53BAC1CE039540060A92E /* NetworkingRespond.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD53BAB1CE039540060A92E /* NetworkingRespond.m */; };
-		3747D4781D61821F00053C19 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3747D4771D61821F00053C19 /* MBProgressHUD.m */; };
+		370372A31D6589D00055349A /* ClassifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 370372A21D6589D00055349A /* ClassifyViewController.m */; };
+		370372A91D6593370055349A /* CellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 370372A71D6593370055349A /* CellView.m */; };
+		370372AA1D6593370055349A /* CellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 370372A81D6593370055349A /* CellView.xib */; };
+		370373301D659FA80055349A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3703732F1D659FA80055349A /* MBProgressHUD.m */; };
+		370373341D65A9B90055349A /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 370373321D65A9B90055349A /* CollectionViewCell.m */; };
+		370373351D65A9B90055349A /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 370373331D65A9B90055349A /* CollectionViewCell.xib */; };
 		3756405E1D648DC1005465C8 /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3756405C1D648DC1005465C8 /* BaiduMapAPI_Base.framework */; };
 		3756405F1D648DC1005465C8 /* BaiduMapAPI_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3756405D1D648DC1005465C8 /* BaiduMapAPI_Location.framework */; };
 		3756FEC21CED997500922D5B /* AdvertisementEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3756FEC11CED997500922D5B /* AdvertisementEntity.m */; };
@@ -392,8 +397,16 @@
 		0AB929891CE3297100E98D62 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		0AD53BAA1CE039540060A92E /* NetworkingRespond.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkingRespond.h; sourceTree = "<group>"; };
 		0AD53BAB1CE039540060A92E /* NetworkingRespond.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkingRespond.m; sourceTree = "<group>"; };
-		3747D4761D61821F00053C19 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		3747D4771D61821F00053C19 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		370372A11D6589D00055349A /* ClassifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassifyViewController.h; sourceTree = "<group>"; };
+		370372A21D6589D00055349A /* ClassifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassifyViewController.m; sourceTree = "<group>"; };
+		370372A61D6593370055349A /* CellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellView.h; sourceTree = "<group>"; };
+		370372A71D6593370055349A /* CellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellView.m; sourceTree = "<group>"; };
+		370372A81D6593370055349A /* CellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CellView.xib; sourceTree = "<group>"; };
+		3703732E1D659FA80055349A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		3703732F1D659FA80055349A /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		370373311D65A9B90055349A /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		370373321D65A9B90055349A /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		370373331D65A9B90055349A /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
 		3756405C1D648DC1005465C8 /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Base.framework; path = ../../BaiduMap_IOSSDK_v3.0.0_Lib/BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
 		3756405D1D648DC1005465C8 /* BaiduMapAPI_Location.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Location.framework; path = ../../BaiduMap_IOSSDK_v3.0.0_Lib/BaiduMapAPI_Location.framework; sourceTree = "<group>"; };
 		3756406D1D6494D0005465C8 /* BaiduMapAPI_Cloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Cloud.framework; path = ../../BaiduMap_IOSSDK_v3.0_All/BaiduMapAPI_Cloud.framework; sourceTree = "<group>"; };
@@ -726,7 +739,7 @@
 		0A13F7AE1CDB2F3A00AF5392 /* TPLibraries */ = {
 			isa = PBXGroup;
 			children = (
-				3747D4751D61821F00053C19 /* MBProgressHUD */,
+				3703732D1D659FA80055349A /* MBProgressHUD */,
 				37B6AF831CF3291500A12DC2 /* EMAsyncImageView */,
 				37B6AF751CF3255400A12DC2 /* IQKeyBoardManager */,
 				37AE2B731CEFF91300DC7007 /* SDRefresh */,
@@ -748,6 +761,7 @@
 		0A13F7B01CDB322500AF5392 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				370372A01D6589D00055349A /* ClassifyView */,
 				378A61611D4636B600F34DD9 /* RegisterView */,
 				37B6AF681CF323F800A12DC2 /* CartView */,
 				37BFE2F81CF2EB710001081D /* MineViews */,
@@ -975,11 +989,33 @@
 			path = Wechat;
 			sourceTree = "<group>";
 		};
-		3747D4751D61821F00053C19 /* MBProgressHUD */ = {
+		370372A01D6589D00055349A /* ClassifyView */ = {
 			isa = PBXGroup;
 			children = (
-				3747D4761D61821F00053C19 /* MBProgressHUD.h */,
-				3747D4771D61821F00053C19 /* MBProgressHUD.m */,
+				370372A11D6589D00055349A /* ClassifyViewController.h */,
+				370372A21D6589D00055349A /* ClassifyViewController.m */,
+			);
+			path = ClassifyView;
+			sourceTree = "<group>";
+		};
+		370372A51D6593370055349A /* ClassCell */ = {
+			isa = PBXGroup;
+			children = (
+				370372A61D6593370055349A /* CellView.h */,
+				370372A71D6593370055349A /* CellView.m */,
+				370372A81D6593370055349A /* CellView.xib */,
+				370373311D65A9B90055349A /* CollectionViewCell.h */,
+				370373321D65A9B90055349A /* CollectionViewCell.m */,
+				370373331D65A9B90055349A /* CollectionViewCell.xib */,
+			);
+			path = ClassCell;
+			sourceTree = "<group>";
+		};
+		3703732D1D659FA80055349A /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				3703732E1D659FA80055349A /* MBProgressHUD.h */,
+				3703732F1D659FA80055349A /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
 			sourceTree = "<group>";
@@ -1001,6 +1037,7 @@
 		3756FEBF1CED992C00922D5B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				370372A51D6593370055349A /* ClassCell */,
 				37B6AF6C1CF3244400A12DC2 /* CartsCell */,
 				37AE2B891CEFFDAC00DC7007 /* MainViewCell.h */,
 				37AE2B8A1CEFFDAC00DC7007 /* MainViewCell.xib */,
@@ -1050,10 +1087,10 @@
 		37AC72431CEEBE0600110155 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				37BFE2D21CF2E5F50001081D /* MineView */,
 				378A61681D463D0000F34DD9 /* RegisterView */,
 				37B6AF871CF32C4200A12DC2 /* CartsView */,
 				37BFE2F51CF2E5FE0001081D /* MainView */,
-				37BFE2D21CF2E5F50001081D /* MineView */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -1326,8 +1363,10 @@
 				37B6AF8F1CF32C4200A12DC2 /* minus.png in Resources */,
 				37AC72531CEEDE3B00110155 /* search.png in Resources */,
 				0AB929701CE3012C00E98D62 /* UMSCommentInputController.xib in Resources */,
+				370373351D65A9B90055349A /* CollectionViewCell.xib in Resources */,
 				0A027EFE1CE18D5600B95294 /* Intro3-480.jpg in Resources */,
 				37B6AF711CF3244400A12DC2 /* CartCell.xib in Resources */,
+				370372AA1D6593370055349A /* CellView.xib in Resources */,
 				37AC72451CEEBE0600110155 /* notice.png in Resources */,
 				37B6AF901CF32C4200A12DC2 /* plus.png in Resources */,
 				37AE2B821CEFF91300DC7007 /* sdRefeshView_arrow@2x.png in Resources */,
@@ -1344,6 +1383,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				370372A31D6589D00055349A /* ClassifyViewController.m in Sources */,
 				0A0B149E1CDD9B9F006DD011 /* UIRefreshControl+AFNetworking.m in Sources */,
 				0A0B14991CDD9B9F006DD011 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				0A13F7F21CDB374A00AF5392 /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -1351,11 +1391,11 @@
 				0A13F7E61CDB374A00AF5392 /* NSData+ImageContentType.m in Sources */,
 				0A0B149F1CDD9B9F006DD011 /* UIWebView+AFNetworking.m in Sources */,
 				0A13F8011CDB381F00AF5392 /* CustomNaviBarSearchController.m in Sources */,
-				3747D4781D61821F00053C19 /* MBProgressHUD.m in Sources */,
 				0A608B801CE5BD1300EDB38A /* LDrawerViewController.m in Sources */,
 				0A0B149D1CDD9B9F006DD011 /* UIProgressView+AFNetworking.m in Sources */,
 				37AE2B851CEFF91300DC7007 /* SDRefreshView.m in Sources */,
 				37B6AF741CF3250E00A12DC2 /* TableViewCell.m in Sources */,
+				370373341D65A9B90055349A /* CollectionViewCell.m in Sources */,
 				3756FEC21CED997500922D5B /* AdvertisementEntity.m in Sources */,
 				37B6AF6B1CF323F800A12DC2 /* MyCartViewController.m in Sources */,
 				0A79CDDD1CE4746F0038EF7D /* MainViewController.m in Sources */,
@@ -1375,6 +1415,7 @@
 				0AB929361CE2D93F00E98D62 /* Analytics.m in Sources */,
 				0A13F7F41CDB374A00AF5392 /* UIView+WebCacheOperation.m in Sources */,
 				378A61671D46393000F34DD9 /* RegisterViewControllerNew.m in Sources */,
+				370372A91D6593370055349A /* CellView.m in Sources */,
 				0A13F8051CDB381F00AF5392 /* UtilityFunc.m in Sources */,
 				0A13F80E1CDB3E9100AF5392 /* ViewController.m in Sources */,
 				0A13F7E71CDB374A00AF5392 /* SDImageCache.m in Sources */,
@@ -1390,6 +1431,7 @@
 				0A13F80B1CDB3E3100AF5392 /* TabBarController.m in Sources */,
 				0A0B14971CDD9B9F006DD011 /* AFAutoPurgingImageCache.m in Sources */,
 				0A13F7F01CDB374A00AF5392 /* UIImage+MultiFormat.m in Sources */,
+				370373301D659FA80055349A /* MBProgressHUD.m in Sources */,
 				0A0B14931CDD9B9F006DD011 /* AFSecurityPolicy.m in Sources */,
 				0A0B146D1CDD9B90006DD011 /* HYBNetworking.m in Sources */,
 				0A13F7EB1CDB374A00AF5392 /* SDWebImageDownloaderOperation.m in Sources */,

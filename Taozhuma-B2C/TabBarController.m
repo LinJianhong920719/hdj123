@@ -13,6 +13,7 @@
 #import "AppConfig.h"
 #import "MineViewControllers.h"
 #import "MyCartViewController.h"
+#import "ClassifyViewController.h"
 
 #define Main_TabBarHeight 50
 
@@ -39,8 +40,8 @@
     firstVC.tabBarItem = firstItem;
     JTNavigationController *firstNav = [[JTNavigationController alloc] initWithRootViewController:firstVC];
     
-    ViewController *secondVC = [[ViewController alloc] init];
-    secondVC.title = @"分类";
+    ClassifyViewController *secondVC = [[ClassifyViewController alloc] init];
+//    secondVC.title = @"分类";
     UITabBarItem *secondItem = [[UITabBarItem alloc] initWithTitle:nil image:[self imageWithImageName:@"Classification_Normal"] selectedImage:[self imageWithImageName:@"Classification_Normal_S"]];
     secondItem.tag = 2;
     secondVC.tabBarItem = secondItem;
