@@ -12,6 +12,7 @@
 #import "WHCircleImageView.h"
 #import "MainViewCell.h"
 #import "MainProductEntity.h"
+#import "SearchViewController.h"
 
 #define tableViewFrame2     CGRectMake(0, ViewOrignY, ScreenWidth, ScreenHeight-ViewOrignY-50)
 
@@ -25,6 +26,8 @@
     BOOL SCNavTabBar_Current;   //SCNavTabBar是否当前选中的
     NSInteger   currentItemIndex;
     NSMutableArray *pictureUrlArray;
+    NSString *communityId;//小区id
+    NSString *communityName;//小区名称
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -39,11 +42,23 @@
     [super viewDidLoad];
     
     //通知 接收
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadBanner) name:@"tokenMessage"object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadIndexData) name:@"loadTableMsg"object:nil];
     //隐藏导航栏
     [self hideNaviBar:YES];
     
+    [self loadIndexAddressMsg];
+    GTTabBar_Current = YES;
+    SCNavTabBar_Current = YES;
+    
+    _data = [[NSMutableArray alloc]init];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+-(void)initTopNav{
     //自定义导航栏
     topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)];
     topView.backgroundColor = BACK_DEFAULT;
@@ -61,11 +76,17 @@
     UILabel *_loactionLabel = [[UILabel alloc]init];
     _loactionLabel.font = [UIFont systemFontOfSize:16];
     _loactionLabel.textColor = FONTS_COLOR51;
-    _loactionLabel.text = @"北京天安门";
+    if(communityName != nil){
+     _loactionLabel.text = communityName;
+    }else{
+        _loactionLabel.text = @"定位中";
+    }
+        
+    
     //根据lable的长度定义实际宽高
     CGSize labelSize = [_loactionLabel.text sizeWithFont:_loactionLabel.font
-                              constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)
-                              lineBreakMode:UILineBreakModeWordWrap];
+                                       constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)
+                                           lineBreakMode:UILineBreakModeWordWrap];
     [_loactionLabel setFrame:CGRectMake(viewRight(_loactionImageView)+5, 30, labelSize.width, labelSize.height)];
     [addressView addSubview:_loactionLabel];
     //定位image
@@ -80,20 +101,13 @@
     [_serachImage setFrame:CGRectMake(viewRight(addressView)+45, 28, DEVICE_SCREEN_SIZE_WIDTH-addressView.frame.size.width-50, 28)];
     NSLog(@"111:%f",DEVICE_SCREEN_SIZE_WIDTH/320);
     [_serachImage setImage:[UIImage imageNamed:@"search"]];
+    _serachImage.userInteractionEnabled=YES;
+    UITapGestureRecognizer *singleTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(onClickImage)];
+    [_serachImage addGestureRecognizer:singleTap];
     [topView addSubview:_serachImage];
     
     [self.view addSubview:topView];
     [self.view bringSubviewToFront:topView];
-    GTTabBar_Current = YES;
-    SCNavTabBar_Current = YES;
-    
-    _data = [[NSMutableArray alloc]init];
-//    NSLog(@"token2:%@",[Tools stringForKey:TokenData]);
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)initTableView {
@@ -412,6 +426,54 @@
         
     }];
     
+}
+//获取首页地址信息
+- (void)loadIndexAddressMsg {
+    NSLog(@"CURRENT_LONGITUDE:%@",[Tools stringForKey:CURRENT_LONGITUDE]);
+    NSLog(@"CURRENT_LATITUDE:%@",[Tools stringForKey:CURRENT_LATITUDE]);
+    NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
+                          [Tools stringForKey:CURRENT_LONGITUDE],                               @"longitude",
+                          [Tools stringForKey:CURRENT_LATITUDE],   @"latitude",
+                          nil];
+    
+    NSLog(@"dic:%@", dics);
+    NSString *xpoint = @"/Api/Community/show?";
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dics success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        pictureUrlArray = [[NSMutableArray alloc]init];
+        if([statusMsg intValue] == 4001){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"获取失败!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }else{
+            communityName = [[[dic valueForKey:@"data"] objectAtIndex:0]valueForKey:@"com_name"];
+            communityId = [[[dic valueForKey:@"data"] objectAtIndex:0]valueForKey:@"id"];
+            [self initTopNav];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+
+-(void)onClickImage{
+    
+    NSLog(@"图片被点击!");
+    SearchViewController *searchView= [[SearchViewController alloc]init];
+    //registeredView.title = @"快捷登录";
+    searchView.hidesBottomBarWhenPushed = YES;
+    searchView.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:searchView animated:YES];
 }
 
 @end

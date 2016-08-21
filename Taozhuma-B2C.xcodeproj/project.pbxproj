@@ -123,6 +123,9 @@
 		370373341D65A9B90055349A /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 370373321D65A9B90055349A /* CollectionViewCell.m */; };
 		370373351D65A9B90055349A /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 370373331D65A9B90055349A /* CollectionViewCell.xib */; };
 		37472E9D1D693C5E00F9CD6C /* ClassifyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 37472E9C1D693C5E00F9CD6C /* ClassifyModel.m */; };
+		37472EA11D6943B800F9CD6C /* icon_search.png in Resources */ = {isa = PBXBuildFile; fileRef = 37472E9F1D6943B800F9CD6C /* icon_search.png */; };
+		37472EA21D6943B800F9CD6C /* search_del.png in Resources */ = {isa = PBXBuildFile; fileRef = 37472EA01D6943B800F9CD6C /* search_del.png */; };
+		37472EA61D69467B00F9CD6C /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37472EA51D69467B00F9CD6C /* SearchViewController.m */; };
 		3756405E1D648DC1005465C8 /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3756405C1D648DC1005465C8 /* BaiduMapAPI_Base.framework */; };
 		3756405F1D648DC1005465C8 /* BaiduMapAPI_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3756405D1D648DC1005465C8 /* BaiduMapAPI_Location.framework */; };
 		3756FEC21CED997500922D5B /* AdvertisementEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3756FEC11CED997500922D5B /* AdvertisementEntity.m */; };
@@ -410,6 +413,10 @@
 		370373331D65A9B90055349A /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
 		37472E9B1D693C5E00F9CD6C /* ClassifyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassifyModel.h; sourceTree = "<group>"; };
 		37472E9C1D693C5E00F9CD6C /* ClassifyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassifyModel.m; sourceTree = "<group>"; };
+		37472E9F1D6943B800F9CD6C /* icon_search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_search.png; sourceTree = "<group>"; };
+		37472EA01D6943B800F9CD6C /* search_del.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_del.png; sourceTree = "<group>"; };
+		37472EA41D69467B00F9CD6C /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		37472EA51D69467B00F9CD6C /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		3756405C1D648DC1005465C8 /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Base.framework; path = ../../BaiduMap_IOSSDK_v3.0.0_Lib/BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
 		3756405D1D648DC1005465C8 /* BaiduMapAPI_Location.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Location.framework; path = ../../BaiduMap_IOSSDK_v3.0.0_Lib/BaiduMapAPI_Location.framework; sourceTree = "<group>"; };
 		3756406D1D6494D0005465C8 /* BaiduMapAPI_Cloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Cloud.framework; path = ../../BaiduMap_IOSSDK_v3.0_All/BaiduMapAPI_Cloud.framework; sourceTree = "<group>"; };
@@ -764,6 +771,7 @@
 		0A13F7B01CDB322500AF5392 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				37472EA31D69467B00F9CD6C /* SearchView */,
 				370372A01D6589D00055349A /* ClassifyView */,
 				378A61611D4636B600F34DD9 /* RegisterView */,
 				37B6AF681CF323F800A12DC2 /* CartView */,
@@ -1023,6 +1031,24 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		37472E9E1D6943B800F9CD6C /* searchView */ = {
+			isa = PBXGroup;
+			children = (
+				37472E9F1D6943B800F9CD6C /* icon_search.png */,
+				37472EA01D6943B800F9CD6C /* search_del.png */,
+			);
+			path = searchView;
+			sourceTree = "<group>";
+		};
+		37472EA31D69467B00F9CD6C /* SearchView */ = {
+			isa = PBXGroup;
+			children = (
+				37472EA41D69467B00F9CD6C /* SearchViewController.h */,
+				37472EA51D69467B00F9CD6C /* SearchViewController.m */,
+			);
+			path = SearchView;
+			sourceTree = "<group>";
+		};
 		3756FEBE1CED992100922D5B /* Entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -1092,6 +1118,7 @@
 		37AC72431CEEBE0600110155 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				37472E9E1D6943B800F9CD6C /* searchView */,
 				37BFE2D21CF2E5F50001081D /* MineView */,
 				378A61681D463D0000F34DD9 /* RegisterView */,
 				37B6AF871CF32C4200A12DC2 /* CartsView */,
@@ -1317,6 +1344,7 @@
 				37BFE2E41CF2E5F50001081D /* head_bg.png in Resources */,
 				0A027EF81CE18D5600B95294 /* Intro1-667.jpg in Resources */,
 				37BFE2E51CF2E5F50001081D /* more2.png in Resources */,
+				37472EA11D6943B800F9CD6C /* icon_search.png in Resources */,
 				37AC724F1CEEDE3B00110155 /* cart-add.png in Resources */,
 				37BFE2E91CF2E5F50001081D /* order_noPay.png in Resources */,
 				37BFE2ED1CF2E5F50001081D /* user_address.png in Resources */,
@@ -1332,6 +1360,7 @@
 				0AB9297A1CE3012C00E98D62 /* WeiboSDK.bundle in Resources */,
 				37AE2B8C1CEFFDAC00DC7007 /* MainViewCell.xib in Resources */,
 				0A608B861CE5BD6200EDB38A /* 2.PNG in Resources */,
+				37472EA21D6943B800F9CD6C /* search_del.png in Resources */,
 				37BFE2F21CF2E5F50001081D /* user_mask.png in Resources */,
 				0A027EFF1CE18D5600B95294 /* Intro3-568.jpg in Resources */,
 				0AB929771CE3012C00E98D62 /* UMSocialSDKResourcesNew.bundle in Resources */,
@@ -1447,6 +1476,7 @@
 				0A0B149C1CDD9B9F006DD011 /* UIImageView+AFNetworking.m in Sources */,
 				0A13F7EE1CDB374A00AF5392 /* UIButton+WebCache.m in Sources */,
 				0A13F8031CDB381F00AF5392 /* CustomNavigationController.m in Sources */,
+				37472EA61D69467B00F9CD6C /* SearchViewController.m in Sources */,
 				0A0B14941CDD9B9F006DD011 /* AFURLRequestSerialization.m in Sources */,
 				0A0B14961CDD9B9F006DD011 /* AFURLSessionManager.m in Sources */,
 				37B6AF781CF3255400A12DC2 /* IQKeyBoardManager.m in Sources */,
