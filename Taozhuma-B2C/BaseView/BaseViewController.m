@@ -46,7 +46,7 @@
     
     //重新设置右滑返回手势
     self.navigationController.interactivePopGestureRecognizer.delegate=(id<UIGestureRecognizerDelegate>)self;
-
+    
 }
 
 #pragma mark - 自定义刷新动画
@@ -96,10 +96,10 @@
 - (void)networkView {
     
     workView = [[UIView alloc]initWithFrame:CGRectMake(0, ViewOrignY, ScreenWidth, ScreenHeight-ViewOrignY)];
-//    workView.hidden = YES;
+    //    workView.hidden = YES;
     [workView setBackgroundColor:BGCOLOR_DEFAULT];
     [self.view addSubview:workView];
- 
+    
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading-2"]];
     imageView.frame = CGRectMake(0, (ScreenHeight - 350)/2, ScreenWidth, 130);
     imageView.backgroundColor = [UIColor redColor];
@@ -111,7 +111,7 @@
     titile.textAlignment = NSTextAlignmentCenter;
     titile.text = @"点击屏幕,重新加载";
     [workView addSubview:titile];
-
+    
     UIButton * loading = [UIButton buttonWithType:UIButtonTypeCustom];;
     loading.frame = workView.frame;
     [loading addTarget:self action:@selector(newloadDataClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -173,7 +173,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.view bringSubviewToFront:_customImage];
-    [self startLoading];
+    //    [self startLoading];
 }
 
 //视图已完全过渡到屏幕上时调用
@@ -193,5 +193,16 @@
     [super viewDidDisappear:animated];
 }
 
+- (void)showHUDText:(NSString *)text {
+    
+    if (text && text.length > 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = text;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+    }
+    
+}
 
 @end

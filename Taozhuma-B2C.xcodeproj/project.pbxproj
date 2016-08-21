@@ -122,6 +122,7 @@
 		370373301D659FA80055349A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3703732F1D659FA80055349A /* MBProgressHUD.m */; };
 		370373341D65A9B90055349A /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 370373321D65A9B90055349A /* CollectionViewCell.m */; };
 		370373351D65A9B90055349A /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 370373331D65A9B90055349A /* CollectionViewCell.xib */; };
+		37472E9D1D693C5E00F9CD6C /* ClassifyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 37472E9C1D693C5E00F9CD6C /* ClassifyModel.m */; };
 		3756405E1D648DC1005465C8 /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3756405C1D648DC1005465C8 /* BaiduMapAPI_Base.framework */; };
 		3756405F1D648DC1005465C8 /* BaiduMapAPI_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3756405D1D648DC1005465C8 /* BaiduMapAPI_Location.framework */; };
 		3756FEC21CED997500922D5B /* AdvertisementEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3756FEC11CED997500922D5B /* AdvertisementEntity.m */; };
@@ -407,6 +408,8 @@
 		370373311D65A9B90055349A /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		370373321D65A9B90055349A /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		370373331D65A9B90055349A /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		37472E9B1D693C5E00F9CD6C /* ClassifyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassifyModel.h; sourceTree = "<group>"; };
+		37472E9C1D693C5E00F9CD6C /* ClassifyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassifyModel.m; sourceTree = "<group>"; };
 		3756405C1D648DC1005465C8 /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Base.framework; path = ../../BaiduMap_IOSSDK_v3.0.0_Lib/BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
 		3756405D1D648DC1005465C8 /* BaiduMapAPI_Location.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Location.framework; path = ../../BaiduMap_IOSSDK_v3.0.0_Lib/BaiduMapAPI_Location.framework; sourceTree = "<group>"; };
 		3756406D1D6494D0005465C8 /* BaiduMapAPI_Cloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Cloud.framework; path = ../../BaiduMap_IOSSDK_v3.0_All/BaiduMapAPI_Cloud.framework; sourceTree = "<group>"; };
@@ -1023,6 +1026,8 @@
 		3756FEBE1CED992100922D5B /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				37472E9B1D693C5E00F9CD6C /* ClassifyModel.h */,
+				37472E9C1D693C5E00F9CD6C /* ClassifyModel.m */,
 				37886CBB1D630478005B6368 /* GoodsEntity.h */,
 				37886CBC1D630478005B6368 /* GoodsEntity.m */,
 				37886CB81D62F075005B6368 /* MainProductEntity.m */,
@@ -1434,6 +1439,7 @@
 				370373301D659FA80055349A /* MBProgressHUD.m in Sources */,
 				0A0B14931CDD9B9F006DD011 /* AFSecurityPolicy.m in Sources */,
 				0A0B146D1CDD9B90006DD011 /* HYBNetworking.m in Sources */,
+				37472E9D1D693C5E00F9CD6C /* ClassifyModel.m in Sources */,
 				0A13F7EB1CDB374A00AF5392 /* SDWebImageDownloaderOperation.m in Sources */,
 				0AD53BAC1CE039540060A92E /* NetworkingRespond.m in Sources */,
 				37B6AF7C1CF325AC00A12DC2 /* CartEntity.m in Sources */,

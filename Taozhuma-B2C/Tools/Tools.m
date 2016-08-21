@@ -7,6 +7,7 @@
 //
 
 #import "Tools.h"
+#import "AppConfig.h"
 
 @implementation Tools
 
@@ -97,6 +98,46 @@
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
     //    NSLog(@"phoneTest is %@",phoneTest);
     return [phoneTest evaluateWithObject:mobile];
+}
+
++ (BOOL)isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    if ([string isEqualToString:@"<null>"] || [string isEqualToString:@"(null)"] || [string isEqualToString:@"null"]) {
+        return YES;
+    }
+    return NO;
+}
+
++ (void)getTokenMessage {
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         @"hdjApp",     @"appid",
+                         @"HaoDangJia",@"appsecret",
+                         nil];
+    
+    NSString *path = [NSString stringWithFormat:@"index.php/Api/index/getToken?"];
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *token = [[dic valueForKey:@"data"]valueForKey:@"token"];
+        NSLog(@"token:%@",token);
+        [Tools saveObject:token forKey:TokenDatas];
+        //通知 发出
+        //        [[NSNotificationCenter defaultCenter] postNotificationName:@"tokenMessage" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"loadTableMsg" object:nil];
+        
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 @end

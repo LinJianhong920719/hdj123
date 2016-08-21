@@ -38,5 +38,11 @@
 - (void)endNetwork;//网络中断隐藏
 - (void)networkView;//网络中断显示模块布局
 
+/**
+ *  展开提示框
+ *
+ *  @param text 展示内容
+ */
+- (void)showHUDText:(NSString *)text;
 
 @end

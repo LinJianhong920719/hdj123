@@ -6,10 +6,9 @@
 //  Copyright © 2016年 Gnnt. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface ClassifyViewController : UIViewController
-
+@interface ClassifyViewController : BaseViewController
 
 @end
 

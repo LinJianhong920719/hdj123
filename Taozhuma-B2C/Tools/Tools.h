@@ -48,4 +48,18 @@
  */
 + (void)clearCaches;
 
+/**
+ *  判断NSString是否为空字符串
+ *
+ *  @param string 传入NSString
+ *
+ *  @return BOOL
+ */
++ (BOOL)isBlankString:(NSString *)string;
+
+/**
+ *  获取Token信息
+ */
++ (void)getTokenMessage;
+
 @end

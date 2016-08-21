@@ -8,13 +8,21 @@
 
 #import "ClassifyViewController.h"
 #import "CollectionViewCell.h"
+#import "ClassifyModel.h"
+
+#import "HYBNetworking.h"
+#import "AppConfig.h"
+#import "AppDelegate.h"
+#import "MBProgressHUD.h"
 
 @interface ClassifyViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 {
     NSMutableArray *category_arr;
+    NSMutableArray *commodity_arr;
     UICollectionView *_collectionView;
     UITableView *_tableView;
     BOOL _isRelate;
+    NSString *token;
 }
 
 @end
@@ -23,20 +31,83 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationItem setTitle:@"商品分类"];
-    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],NSForegroundColorAttributeName, nil];
-    self.view.backgroundColor = [UIColor clearColor];
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    category_arr = [NSMutableArray arrayWithObjects:@"古玩收藏",@"工艺一品",@"数码相机",@"男女饰品",@"品牌手表",@"男女包包",@"电脑手机",@"居家用品",@"运动休闲",nil];
+    
+    [self hideNaviBarLeftBtn:YES];
+    [self setNaviBarTitle:@"商品分类"];
+    
+    [Tools getTokenMessage];
+    token = [Tools stringForKey:TokenDatas];
+    
+    //    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],NSForegroundColorAttributeName, nil];
+    //    self.view.backgroundColor = [UIColor clearColor];
+    //    self.navigationController.navigationBar.translucent = NO;
+    //    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    
+    category_arr = [[NSMutableArray alloc]init];
+    commodity_arr = [[NSMutableArray alloc]init];
+    
     [self TableView];
     [self CollectionView];
     
+    [self getClassMessage];
+    
 }
--(UITableView *)TableView{
+
+//获取分类信息
+- (void)getClassMessage {
+    
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         @"1",      @"catId",
+                         token,     @"token",
+                         nil];
+    
+    NSString *path = [NSString stringWithFormat:@"/Api/Goods/getCatInfo?"];
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSString *status = [response valueForKey:@"status"];
+        NSString *message = [response valueForKey:@"message"];
+        NSArray *data = [response valueForKey:@"data"];
+        
+        if([status intValue] == 4001){
+            
+            //弹框提示获取失败
+            [self showHUDText:message];
+            
+            //重获数据
+            [self getClassMessage];
+            
+        } else {
+            
+            [category_arr removeAllObjects];
+            [commodity_arr removeAllObjects];
+            
+            for (NSDictionary *dic in data) {
+                ClassifyModel *model = [[ClassifyModel alloc]initWithDictionary:dic];
+                [category_arr addObject:model];
+                
+                NSMutableArray *array = [[NSMutableArray alloc]init];
+                for (NSDictionary *dic in model.subclass) {
+                    ClassifyModel *modelSub = [[ClassifyModel alloc]initWithDictionary:dic];
+                    [array addObject:modelSub];
+                }
+                [commodity_arr addObject:array];
+            }
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+
+
+- (UITableView *)TableView {
     if (_tableView == nil) {
         
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width/4,[UIScreen mainScreen].bounds.size.height) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, [UIScreen mainScreen].bounds.size.width/4, [UIScreen mainScreen].bounds.size.height) style:UITableViewStylePlain];
         //_tableView.backgroundColor = [UIColor redColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -51,11 +122,12 @@
     }
     return _tableView;
 }
--(UICollectionView *)CollectionView{
+
+- (UICollectionView *)CollectionView {
     if (_collectionView == nil) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/4, 0, [UIScreen mainScreen].bounds.size.width*3/4, [UIScreen mainScreen].bounds.size.height - 110) collectionViewLayout:layout];//初始化，并设置布局方式
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/4, 64, [UIScreen mainScreen].bounds.size.width*3/4, [UIScreen mainScreen].bounds.size.height - 110) collectionViewLayout:layout];//初始化，并设置布局方式
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
@@ -79,30 +151,27 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 9;
+    ClassifyModel *model = [category_arr objectAtIndex:section];
+    return model.subclass.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-   
     static NSString *identifier = @"CollectionViewCell";//注意，此处的identifier要与注册cell时使用的标识保持一致
     
     CollectionViewCell *cell = (CollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
-    cell.backgroundColor = [UIColor grayColor];
+    NSInteger section = [indexPath section];
+    NSInteger row     = [indexPath row];
+    
+    ClassifyModel *model = [commodity_arr[section] objectAtIndex:row];
+    
+    cell.backgroundColor = [UIColor whiteColor];
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [UIColor whiteColor].CGColor;
     
-    UILabel *titleTextLable = [[UILabel alloc]initWithFrame:cell.frame];
-    titleTextLable.textColor = [UIColor blackColor];//每一组的标题颜色
-    titleTextLable.font = [UIFont systemFontOfSize:10];//每一组的标题的大小
-    titleTextLable.text = category_arr[indexPath.row];
-    titleTextLable.backgroundColor = [UIColor whiteColor];
-    cell.backgroundView = titleTextLable;
-    cell.userInteractionEnabled = NO;
-    
     cell.collectImage.image = [UIImage imageNamed:@"login_bg.png"];
-    cell.collectName.text = @"我的";
+    cell.collectName.text = model.cat_name;
     cell.userInteractionEnabled = YES;
     
     return cell;
@@ -129,11 +198,13 @@
         [view removeFromSuperview];
     }
     
+    ClassifyModel *model = [category_arr objectAtIndex:[indexPath section]];
+    
     headerView.backgroundColor = [UIColor colorWithRed:239/255.0f green:239/255.0f blue:239/255.0f alpha:1.0];
     
     UILabel *label = [[UILabel alloc] initWithFrame:headerView.bounds];
     
-    label.text = category_arr[indexPath.section];
+    label.text = model.cat_s_name;
     label.textColor = [UIColor blackColor];
     label.font = [UIFont systemFontOfSize:10];
     
@@ -173,12 +244,14 @@
     if (cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
+    
+    ClassifyModel *model = [category_arr objectAtIndex:[indexPath row]];
+    
     cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.font = [UIFont systemFontOfSize:10];
     cell.textLabel.textColor = [UIColor colorWithRed:102/255.0f green:102/255.0f  blue:102/255.0f  alpha:1];
     cell.textLabel.highlightedTextColor = [UIColor colorWithRed:255/255.0f green:214/255.0f  blue:0/255.0f  alpha:1];
-//    cell.textLabel.textColor=[UIColor redColor];
-    cell.textLabel.text = category_arr[indexPath.row];
+    cell.textLabel.text = model.cat_s_name;
     
     UIView *selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
     selectedBackgroundView.backgroundColor = [UIColor colorWithRed:239/255.0f green:239/255.0f blue:239/255.0f alpha:1];
@@ -208,7 +281,7 @@
         //将CollectionView的滑动范围调整到tableView相对应的cell的内容
         _tableView.sectionIndexColor = [UIColor redColor];
         [self.CollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:indexPath.row] atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
-         [self.CollectionView setContentOffset:CGPointMake(self.CollectionView.contentOffset.x, self.CollectionView.contentOffset.y-42)];
+        [self.CollectionView setContentOffset:CGPointMake(self.CollectionView.contentOffset.x, self.CollectionView.contentOffset.y-42)];
         
     }
 }
