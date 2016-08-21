@@ -455,8 +455,8 @@
             [hud hide:YES afterDelay:2];
             return;
         }else{
-            communityName = [[[dic valueForKey:@"data"] objectAtIndex:0]valueForKey:@"com_name"];
-            communityId = [[[dic valueForKey:@"data"] objectAtIndex:0]valueForKey:@"id"];
+            communityName =  [NSString stringWithFormat:@"%@",[[[dic valueForKey:@"data"] objectAtIndex:0]valueForKey:@"com_name"]];
+            communityId =  [NSString stringWithFormat:@"%@",[[[dic valueForKey:@"data"] objectAtIndex:0]valueForKey:@"id"]];
             [self initTopNav];
         }
         
