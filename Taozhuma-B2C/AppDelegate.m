@@ -48,11 +48,13 @@ BMKMapManager* _mapManager;
     if (!ret) {
         NSLog(@"manager start failed!");
     }
-    //初始化BMKLocationService
-    _locService = [[BMKLocationService alloc]init];
-    _locService.delegate = self;
-    //启动LocationService
-    [_locService startUserLocationService];
+    //百度定位
+    [self initBDLocationManager];
+//    //初始化BMKLocationService
+//    _locService = [[BMKLocationService alloc]init];
+//    _locService.delegate = self;
+//    //启动LocationService
+//    [_locService startUserLocationService];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[JTBaseNavigationController alloc] initWithRootViewController:[[TabBarController alloc] init]];
@@ -475,6 +477,24 @@ BMKMapManager* _mapManager;
     }];
 }
 
+#pragma mark - 百度定位
+
+// ----------------------------------------------------------------------------------------
+// 初始化 BMKLocationService
+// ----------------------------------------------------------------------------------------
+- (void)initBDLocationManager {
+    //初始化BMKLocationService
+    _locService = [[BMKLocationService alloc]init];
+    _locService.delegate = self;
+    //设置距离过滤器(默认距离是米)
+    _locService.distanceFilter = 300;
+    //设置定位精度
+    _locService.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    
+    //启动LocationService
+    [_locService startUserLocationService];
+    
+}
 - (void)onGetNetworkState:(int)iError
 {
     if (0 == iError) {
@@ -507,6 +527,9 @@ BMKMapManager* _mapManager;
     [Tools saveDouble:userLocation.location.coordinate.latitude forKey:CURRENT_LATITUDE];
     [Tools saveDouble:userLocation.location.coordinate.longitude forKey:CURRENT_LONGITUDE];
     NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+    
+    //通知 发出
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"refAddress" object:nil];
 }
 
 @end

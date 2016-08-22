@@ -18,6 +18,10 @@
     UIImageView *firstImage;
     NSString *tagOrder;
     UIView *topView;
+    UILabel *firstLabel;
+    UILabel *secondLabel;
+    UILabel *thirdLabel;
+    NSString *sortStr;
 }
 
 @property (nonatomic, weak) SDRefreshHeaderView *refreshHeader;
@@ -63,7 +67,7 @@
 //    [backButton setBackgroundColor:[UIColor blueColor]];
     [backButton setImage:[UIImage imageNamed:@"header_back"] forState:UIControlStateNormal];//设置按钮的图片
     [backButton setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10) ];//将按钮的上下左右都缩进8个单位
-    [backButton addTarget:self action:@selector(InformationClick:) forControlEvents:UIControlEventTouchUpInside];//为按钮增加时间侦听
+    [backButton addTarget:self action:@selector(backClick:) forControlEvents:UIControlEventTouchUpInside];//为按钮增加时间侦听
     [topView addSubview:backButton];
     
     //搜索
@@ -84,7 +88,7 @@
     
     _data = [[NSMutableArray alloc]init];
     
-    _mTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 94, Reality_viewWidth, Reality_viewHeight-30) style:UITableViewStylePlain];
+    _mTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 94, Reality_viewWidth, ScreenHeight-100) style:UITableViewStylePlain];
     _mTableView.delegate = self;
     _mTableView.dataSource = self;
     _mTableView.scrollsToTop = YES;
@@ -109,7 +113,7 @@
     
     //第一个view
     UIView *firstView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Reality_viewWidth/3, 30)];
-    UILabel *firstLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Reality_viewWidth/3, 30)];
+    firstLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Reality_viewWidth/3, 30)];
     firstLabel.text = @"综合排序";
     firstLabel.textColor = [UIColor redColor];
     firstLabel.textAlignment = NSTextAlignmentCenter;
@@ -129,7 +133,7 @@
     
     //第二个view
     UIView *secondView = [[UIView alloc]initWithFrame:CGRectMake(Reality_viewWidth/3+1, 0, Reality_viewWidth/3, 30)];
-    UILabel *secondLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, secondView.frame.size.width/3*2-10, 30)];
+    secondLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, secondView.frame.size.width/3*2-10, 30)];
     secondLabel.text = @"按价格";
     secondLabel.textAlignment = NSTextAlignmentRight;
     secondLabel.font = [UIFont systemFontOfSize:10];
@@ -152,7 +156,7 @@
     //第三个view
     UIView *thirdView = [[UIView alloc]initWithFrame:CGRectMake(Reality_viewWidth/3*2+1, 0, Reality_viewWidth/3, 30)];
 //    thirdView.backgroundColor = [UIColor grayColor];
-    UILabel *thirdLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, thirdView.frame.size.width/3*2-10, 30)];
+    thirdLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, thirdView.frame.size.width/3*2-10, 30)];
     thirdLabel.text = @"按销量";
     thirdLabel.textAlignment = NSTextAlignmentRight;
     thirdLabel.font = [UIFont systemFontOfSize:10];
@@ -180,54 +184,54 @@
     UIButton *btn = (UIButton *)sender;
     if (btn.tag == 1001) {
         NSLog(@"_sort:%ld",(long)_sort);
-        [firstImage setImage:[UIImage imageNamed:@"wm-085"]];
-        [secondImage setImage:[UIImage imageNamed:@"wm-086"]];
-        [thirdImage setImage:[UIImage imageNamed:@"wm-086"]];
-        if(_sort == 1){
-            _sort = 2;
-            _pageno = 0;
-        }else if(_sort == 2){
-            _sort = 1;
-            _pageno = 0;
-        }else{
-            _sort = 1;
-        }
-//        [self loadData];
+        [firstLabel setTextColor:[UIColor redColor]];
+        [secondLabel setTextColor:FONTS_COLOR102];
+        [thirdLabel setTextColor:FONTS_COLOR102];
+        
+        [secondImage setImage:[UIImage imageNamed:@"sort"]];
+        [thirdImage setImage:[UIImage imageNamed:@"sort"]];
+
+        [self loadData];
     }
     else if (btn.tag == 1002) {
         NSLog(@"_sort:%ld",(long)_sort);
-        [firstImage setImage:[UIImage imageNamed:@"wm-086"]];
-        [secondImage setImage:[UIImage imageNamed:@"wm-085"]];
-        [thirdImage setImage:[UIImage imageNamed:@"wm-086"]];
+        [firstLabel setTextColor:FONTS_COLOR102];
+        [thirdImage setImage:[UIImage imageNamed:@"sort"]];
         if(_sort == 3){
             _sort = 4;
-            _pageno = 0;
+            [secondLabel setTextColor:[UIColor redColor]];
+            [secondImage setImage:[UIImage imageNamed:@"sort_down"]];
         }else if(_sort == 4){
             _sort = 3;
-            _pageno = 0;
+            [secondLabel setTextColor:[UIColor redColor]];
+            [secondImage setImage:[UIImage imageNamed:@"sort_up"]];
         }else{
             _sort = 3;
-            
+            [secondLabel setTextColor:[UIColor redColor]];
+            [secondImage setImage:[UIImage imageNamed:@"sort_up"]];
         }
         
-//        [self loadData];
+        [self loadData];
     }
     else if (btn.tag == 1003) {
         NSLog(@"_sort:%ld",(long)_sort);
-        [firstImage setImage:[UIImage imageNamed:@"wm-086"]];
-        [secondImage setImage:[UIImage imageNamed:@"wm-086"]];
-        [thirdImage setImage:[UIImage imageNamed:@"wm-085"]];
+        [firstLabel setTextColor:FONTS_COLOR102];
+        [secondImage setImage:[UIImage imageNamed:@"sort"]];
         if(_sort == 5){
             _sort = 6;
-            _pageno = 0;
+            [thirdLabel setTextColor:[UIColor redColor]];
+            [thirdImage setImage:[UIImage imageNamed:@"sort_down"]];
         }else if(_sort == 6){
             _sort = 5;
-            _pageno = 0;
+            [thirdLabel setTextColor:[UIColor redColor]];
+            [thirdImage setImage:[UIImage imageNamed:@"sort_up"]];
         }else{
             _sort = 5;
+            [thirdLabel setTextColor:[UIColor redColor]];
+            [thirdImage setImage:[UIImage imageNamed:@"sort_up"]];
             
         }
-//        [self loadData];
+        [self loadData];
         
     }
     
@@ -236,21 +240,24 @@
 #pragma mark - 加载数据
 
 - (void)loadData {
-    
-    //    if (_sort == 0) {
-    //        _sort = 1;
-    //    }
-    
-    if (_pageno == 0) {
-        _pageno = 1;
+    if(_sort == 1){
+        sortStr = @"";
+    }else if(_sort == 3){
+        sortStr = @"priceAsc";
+    }else if (_sort == 4){
+        sortStr = @"priceDesc";
+    }else if(_sort == 4){
+        sortStr = @"priceAsc";
+    }else if (_sort == 4){
+        sortStr = @"priceDesc";
     }
-    
     NSLog(@"content:%@",content);
     NSLog(@"userId:%@",[Tools stringForKey:KEY_USER_ID]);
+    NSLog(@"sort:%@",sortStr);
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          content,     @"content",
                          [Tools stringForKey:KEY_USER_ID],@"userId",
-                         @"",@"sort",
+                         sortStr,@"sort",
                          nil];
     
     NSString *path = [NSString stringWithFormat:@"/Api/Goods/searchGoods?"];
@@ -280,6 +287,7 @@
             [hud hide:YES afterDelay:2];
             return;
         }else{
+            [_data removeAllObjects];
             if([[dic valueForKey:@"data"] count] > 0 && [dic valueForKey:@"data"] != nil){
                 for(NSDictionary *proDiction in [dic valueForKey:@"data"]){
                     
@@ -316,7 +324,7 @@
     refreshHeader.beginRefreshingOperation = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             _pageno = 1;
-//            [self loadData];
+            [self loadData];
 //            [_mTableView reloadData];
             [weakRefreshHeader endRefreshing];
         });
@@ -378,7 +386,7 @@
         ProductEntity *entity = [_data objectAtIndex:[indexPath row]];
         
         cell.productName.text = [NSString stringWithFormat:@"%@",entity.productName];
-        cell.productPrice.text = [NSString stringWithFormat:@"%@",entity.productPrice];
+        cell.productPrice.text = [NSString stringWithFormat:@"￥%@",entity.productPrice];
         if ([self isBlankString:entity.productImage]) {
             cell.productImage.image = [UIImage imageNamed:@"暂无图片"];
         }else{
@@ -401,6 +409,9 @@
     
 //    [_mTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
+- (IBAction)backClick:(id)sender {
+    // 返回上页
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 @end

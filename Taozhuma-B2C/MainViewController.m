@@ -12,22 +12,20 @@
 #import "WHCircleImageView.h"
 #import "MainViewCell.h"
 #import "MainProductEntity.h"
-#import "SearchViewController.h"
+//#import "SearchViewController.h"
 
 #define tableViewFrame2     CGRectMake(0, ViewOrignY, ScreenWidth, ScreenHeight-ViewOrignY-50)
 
 @interface MainViewController ()<UITableViewDataSource,UITableViewDelegate>{
-     UIScrollView * adverView;
-     UIPageControl * pageControl;
-     UIView *topView;
-    CGFloat     scrollViewBeginDraggingY;    //记录开始拖拽时的 scrollView.contentOffset.y
-    CGFloat     scrollViewEndDraggingY;     //记录完成拖拽时的 scrollView.contentOffset.y
-    BOOL GTTabBar_Current;      //GTTabBar是否当前选中的
-    BOOL SCNavTabBar_Current;   //SCNavTabBar是否当前选中的
+    UIScrollView * adverView;
+    UIPageControl * pageControl;
+    UIView *topView;
+    
     NSInteger   currentItemIndex;
     NSMutableArray *pictureUrlArray;
     NSString *communityId;//小区id
     NSString *communityName;//小区名称
+    MBProgressHUD *hud;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -42,15 +40,21 @@
     [super viewDidLoad];
     
     //通知 接收
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadIndexData) name:@"loadTableMsg"object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mineView:) name:@"refAddress"object:nil];
+    
     //隐藏导航栏
     [self hideNaviBar:YES];
     
-    [self loadIndexAddressMsg];
-    GTTabBar_Current = YES;
-    SCNavTabBar_Current = YES;
-    
     _data = [[NSMutableArray alloc]init];
+    
+    [self loadBanner];
+    
+    [self initTableView];
+}
+
+- (void)mineView:(NSNotification*)notification {
+    
+    [self loadIndexAddressMsg];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,14 +62,16 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)initTopNav{
+- (void)initTopNav {
     //自定义导航栏
     topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)];
     topView.backgroundColor = BACK_DEFAULT;
+    
     //定位
     UIView *addressView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH/3, 40)];
     addressView.backgroundColor = [UIColor clearColor];
     [topView addSubview:addressView];
+    
     //定位image
     UIImageView *_loactionImageView = [[UIImageView alloc]init];
     [_loactionImageView setFrame:CGRectMake(14, 33, 10, 14)];
@@ -76,12 +82,11 @@
     UILabel *_loactionLabel = [[UILabel alloc]init];
     _loactionLabel.font = [UIFont systemFontOfSize:16];
     _loactionLabel.textColor = FONTS_COLOR51;
-    if(communityName != nil){
-     _loactionLabel.text = communityName;
-    }else{
+    if (communityName != nil) {
+        _loactionLabel.text = communityName;
+    } else {
         _loactionLabel.text = @"定位中";
     }
-        
     
     //根据lable的长度定义实际宽高
     CGSize labelSize = [_loactionLabel.text sizeWithFont:_loactionLabel.font
@@ -95,7 +100,6 @@
     [_loactionImageView1 setImage:[UIImage imageNamed:@"drop-down"]];
     [addressView addSubview:_loactionImageView1];
     
-    
     //搜索
     UIImageView *_serachImage = [[UIImageView alloc]init];
     [_serachImage setFrame:CGRectMake(viewRight(addressView)+45, 28, DEVICE_SCREEN_SIZE_WIDTH-addressView.frame.size.width-50, 28)];
@@ -108,6 +112,7 @@
     
     [self.view addSubview:topView];
     [self.view bringSubviewToFront:topView];
+    
 }
 
 - (void)initTableView {
@@ -125,19 +130,17 @@
     _tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_tableView];
     
-//    [_tableView registerClass:[ListShowCell class] forCellReuseIdentifier:LISTSHOW_CELL];
-//    [self loadBanner];
-   // [self initTableHeaderView];
+    //    [_tableView registerClass:[ListShowCell class] forCellReuseIdentifier:LISTSHOW_CELL];
+    //    [self loadBanner];
+    // [self initTableHeaderView];
     
     _tableView.tableFooterView = tableFooterView;
     _tableView.sectionHeaderHeight = 42;
     _tableView.sectionFooterHeight = 10;
     
-//    _data = [[NSMutableArray alloc]init];
-//    [self setupHeader];
-//    [self loadTableViewData];
-    [self tableViewToTop];
-    [self loadBanner];
+    //    _data = [[NSMutableArray alloc]init];
+    //    [self setupHeader];
+    //    [self loadTableViewData];
     
 }
 
@@ -166,13 +169,13 @@
     _noticeLabel.text = @"公告公告公告公告公告公告公告公告公告公告公告公告公告公告公告公告公告公告公告";
     [noticeView addSubview:_noticeLabel];
     [topsView addSubview:noticeView];
-     _tableView.tableHeaderView = topsView;
+    _tableView.tableHeaderView = topsView;
 }
 #pragma mark - SDRefresh
 
 - (void)setupHeader {
     SDRefreshHeaderView *refreshHeader = [SDRefreshHeaderView refreshView];
-//    [self loadData];
+    //    [self loadData];
     // 默认是在navigationController环境下，如果不是在此环境下，请设置 refreshHeader.isEffectedByNavigationController = NO;
     refreshHeader.isEffectedByNavigationController = NO;
     [refreshHeader addToScrollView:_tableView];
@@ -180,8 +183,8 @@
     __weak SDRefreshHeaderView *weakRefreshHeader = refreshHeader;
     refreshHeader.beginRefreshingOperation = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            _pageno = 1;
-//            [self loadData];
+            //            _pageno = 1;
+            //            [self loadData];
             [weakRefreshHeader endRefreshing];
         });
     };
@@ -196,11 +199,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     MainViewCell *cell = (MainViewCell *)[self tableView:_tableView cellForRowAtIndexPath:indexPath];
     return cell.frame.size.height;
-//    return 200;
+    //    return 200;
 }
 //cell个数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return 2;
+    //    return 2;
     return [_data count];
 }
 //cell内容
@@ -225,7 +228,7 @@
         if ([self isBlankString:entity.advProductImage]) {
             cell.advImage.image = [UIImage imageNamed:@"暂无图片"];
         }else{
-        [cell.advImage sd_setImageWithURL:[NSURL URLWithString:entity.advProductImage] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
+            [cell.advImage sd_setImageWithURL:[NSURL URLWithString:entity.advProductImage] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
         }
         //第一个商品
         /*图片*/
@@ -237,7 +240,7 @@
         if ([self isBlankString:entity.firstProductName]) {
             cell.firstProductName.text = @"敬请期待";
         }else{
-          cell.firstProductName.text = entity.firstProductName;
+            cell.firstProductName.text = entity.firstProductName;
         }
         
         if ([self isBlankString:entity.firstProductPirce]) {
@@ -290,95 +293,36 @@
     return cell;
 }
 
-// ----------------------------------------------------------------------------------------
-// tableView是否允许置顶
-// ----------------------------------------------------------------------------------------
-- (void)tableViewToTop {
-    if (GTTabBar_Current) {
-        if (SCNavTabBar_Current) {
-            _tableView.scrollsToTop = YES;
-        } else {
-            _tableView.scrollsToTop = NO;
-        }
-    } else {
-        _tableView.scrollsToTop = NO;
-    }
-}
-#pragma mark - UIScrollView
-
-// ----------------------------------------------------------------------------------------
-// 首次在某个方向上进行拖动时通知
-// ----------------------------------------------------------------------------------------
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    scrollViewBeginDraggingY = scrollView.contentOffset.y;
-}
-
-//完成拖拽
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    scrollViewEndDraggingY = scrollView.contentOffset.y;
-}
-
-// ----------------------------------------------------------------------------------------
-// scrollView 滚动时通知
-// ----------------------------------------------------------------------------------------
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    
-//    if (_historicalItemsIndex == currentItemIndex) {
-//        if (scrollView.contentOffset.y < contentInsetY) {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"SlideDown" object:nil];
-//            [UIView animateWithDuration:0.2 animations:^{
-//                scrollView.frame = tableViewFrame;
-//            } completion:^(BOOL finished){ }];
-//        } else {
-//            if (scrollView.contentOffset.y > scrollViewBeginDraggingY) {
-//                //上拉
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"SlideUp" object:nil];
-//                [UIView animateWithDuration:0.2 animations:^{
-//                    scrollView.frame = tableViewFrame2;
-//                } completion:^(BOOL finished){ }];
-//            }
-//        }
-//    }
-//
-//    
-//}
 //获取公告图片
--(void)loadBanner{
-    NSLog(@"datasss:%@",[Tools stringForKey:TokenDatas]);
+- (void)loadBanner {
+    
     pictureUrlArray = [[NSMutableArray alloc]init];
-    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         [Tools stringForKey:TokenDatas],     @"token",
-                         nil];
     
     NSString *xpoint = [NSString stringWithFormat:@"/Api/Ad/show?"];
     
     [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dic success:^(id response) {
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:nil success:^(id response) {
         
         NSDictionary *dic = response;
         NSString *statusMsg = [dic valueForKey:@"status"];
+        
         pictureUrlArray = [[NSMutableArray alloc]init];
-        if([statusMsg intValue] == 4001){
+        if ([statusMsg intValue] == 4001) {
             //弹框提示获取失败
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"获取失败!";
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
-            return;
-            AppDelegate *ade = [[AppDelegate alloc] init];
-            [ade getTokenMessage];
-        }else{
+            [self showHUDText:@"获取失败!"];
+            
+        } else {
+            
             for(NSDictionary *advImg in [dic valueForKey:@"data"]){
                 NSLog(@"image:%@",[advImg valueForKey:@"image"]);
                 
                 [pictureUrlArray addObject:[advImg valueForKey:@"image"]];
                 NSLog(@"Array:%@",[advImg valueForKey:@"pictureUrlArray"]);
             }
+            
             [self initTableHeaderView];
         }
-  
+        
     } fail:^(NSError *error) {
         
     }];
@@ -387,12 +331,11 @@
 // 获取首页列表数据
 // ----------------------------------------------------------------------------------------
 - (void)loadIndexData {
+    [_data removeAllObjects];
     NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
-                          [Tools stringForKey:TokenDatas],                               @"token",
                           @"68",   @"comId",
                           nil];
     
-    NSLog(@"dic:%@", dics);
     NSString *xpoint = @"/Api/Goods/showIndex?";
     
     [HYBNetworking updateBaseUrl:SERVICE_URL];
@@ -400,26 +343,33 @@
         
         NSDictionary *dic = response;
         NSString *statusMsg = [dic valueForKey:@"status"];
+        NSLog(@"statusMsg:%@",statusMsg);
+        
         pictureUrlArray = [[NSMutableArray alloc]init];
-        if([statusMsg intValue] == 4001){
+        
+        if ([statusMsg intValue] == 201) {
             //弹框提示获取失败
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"获取失败!";
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
-            return;
-            AppDelegate *ade = [[AppDelegate alloc] init];
-            [ade getTokenMessage];
-        }else{
-            for(NSDictionary *productMsgList in [dic valueForKey:@"data"]){
-                MainProductEntity *entity = [[MainProductEntity alloc]initWithAttributes:productMsgList];
-                [_data addObject:entity];
+            [self showHUDText:@"暂无数据"];
+            
+        }else if ([statusMsg intValue] == 4001) {
+            //弹框提示获取失败
+            [self showHUDText:@"获取失败!"];
+            
+        } else {
+            
+            NSArray *data = [dic valueForKey:@"data"];
+            
+//            if (![Tools isBlankString:(NSString *)data]) {
+            if ([data count] > 0) {
+                for (NSDictionary *productMsgList in data) {
+                    MainProductEntity *entity = [[MainProductEntity alloc]initWithAttributes:productMsgList];
+                    [_data addObject:entity];
+                }
                 
+                NSLog(@"LIST:%@",_data);
+                [_tableView reloadData];
             }
-            NSLog(@"LIST:%@",_data);
-            [self initTableView];
+            
         }
         
     } fail:^(NSError *error) {
@@ -427,16 +377,15 @@
     }];
     
 }
+
 //获取首页地址信息
 - (void)loadIndexAddressMsg {
-    NSLog(@"CURRENT_LONGITUDE:%@",[Tools stringForKey:CURRENT_LONGITUDE]);
-    NSLog(@"CURRENT_LATITUDE:%@",[Tools stringForKey:CURRENT_LATITUDE]);
+    
     NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
-                          [Tools stringForKey:CURRENT_LONGITUDE],                               @"longitude",
+                          [Tools stringForKey:CURRENT_LONGITUDE],  @"longitude",
                           [Tools stringForKey:CURRENT_LATITUDE],   @"latitude",
                           nil];
     
-    NSLog(@"dic:%@", dics);
     NSString *xpoint = @"/Api/Community/show?";
     
     [HYBNetworking updateBaseUrl:SERVICE_URL];
@@ -444,20 +393,19 @@
         
         NSDictionary *dic = response;
         NSString *statusMsg = [dic valueForKey:@"status"];
-        pictureUrlArray = [[NSMutableArray alloc]init];
+        
         if([statusMsg intValue] == 4001){
             //弹框提示获取失败
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"获取失败!";
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
-            return;
-        }else{
-            communityName =  [NSString stringWithFormat:@"%@",[[[dic valueForKey:@"data"] objectAtIndex:0]valueForKey:@"com_name"]];
-            communityId =  [NSString stringWithFormat:@"%@",[[[dic valueForKey:@"data"] objectAtIndex:0]valueForKey:@"id"]];
+            [self showHUDText:@"获取失败!"];
+            
+        } else {
+            
+            NSArray *data = [dic valueForKey:@"data"];
+            communityName = [data[0] valueForKey:@"com_name"];
+            communityId = [data[0] valueForKey:@"id"];
+            
             [self initTopNav];
+            [self loadIndexData];
         }
         
     } fail:^(NSError *error) {
@@ -469,11 +417,11 @@
 -(void)onClickImage{
     
     NSLog(@"图片被点击!");
-    SearchViewController *searchView= [[SearchViewController alloc]init];
+    //    SearchViewController *searchView= [[SearchViewController alloc]init];
     //registeredView.title = @"快捷登录";
-    searchView.hidesBottomBarWhenPushed = YES;
-    searchView.navigationController.navigationBarHidden = YES;
-    [self.navigationController pushViewController:searchView animated:YES];
+    //    searchView.hidesBottomBarWhenPushed = YES;
+    //    searchView.navigationController.navigationBarHidden = YES;
+    //    [self.navigationController pushViewController:searchView animated:YES];
 }
 
 @end

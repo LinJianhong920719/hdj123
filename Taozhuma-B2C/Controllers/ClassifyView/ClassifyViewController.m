@@ -170,6 +170,7 @@
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [UIColor whiteColor].CGColor;
     
+//    [cell.collectImage sd_setImageWithURL:[NSURL URLWithString:****] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
     cell.collectImage.image = [UIImage imageNamed:@"login_bg.png"];
     cell.collectName.text = model.cat_name;
     cell.userInteractionEnabled = YES;
