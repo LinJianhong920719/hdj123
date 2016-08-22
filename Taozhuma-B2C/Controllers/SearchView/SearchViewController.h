@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "SearchProductListViewController.h"
 
 @interface SearchViewController : BaseViewController {}
 

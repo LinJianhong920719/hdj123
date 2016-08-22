@@ -93,7 +93,15 @@
     [self.view addSubview:backView];
     
     //搜索历史
-    UIView *historySearchView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 109)];
+    UIView *historySearchView = [[UIView alloc]init];
+    if([historyArray count] == 0){
+        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 60)];
+    }else if([historyArray count] >0 && [historyArray count] <5){
+        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 80)];
+    }
+    else{
+      [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 109)];
+    }
 //    historySearchView.backgroundColor = [UIColor greenColor];
     UIImageView *sImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 20, 12, 12)];
     [sImage setImage:[UIImage imageNamed:@"search_history"]];
@@ -132,6 +140,8 @@
         CGColorRef colorref = CGColorCreate(colorSpace,(CGFloat[]){ 153, 153, 153, 1 });
         
         [but.layer setBorderColor:colorref];//边框颜色
+        
+        [but addTarget:self action:@selector(butClick:) forControlEvents:UIControlEventTouchUpInside];
         [historySearchView addSubview:but];
         i++;
     }
@@ -145,7 +155,7 @@
     
     
     //热门搜索
-    UIView *hotSearchView = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(line), ScreenWidth, 109)];
+    UIView *hotSearchView = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(line), ScreenWidth, 129)];
 //        hotSearchView.backgroundColor = [UIColor greenColor];
     UIImageView *hImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 20, 12, 12)];
     [hImage setImage:[UIImage imageNamed:@"search_hot"]];
@@ -161,13 +171,14 @@
     int i2 = 0;
     int j2;
     for (NSString *serMsg2 in hotArray) {
-        if(i2 >= 4){
+        if(i2 >= 4 && i2<8){
             j2=i2-4;
             but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*j2, viewBottom(hLabel)+40, 60, 25)];
+        }else if (i2>=8){
+            j2=i2-8;
+            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*j2, viewBottom(hLabel)+70, 60, 25)];
         }else{
-            
             but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*i2, viewBottom(hLabel)+10, 60, 25)];
-            
         }
         
 
@@ -182,6 +193,7 @@
         CGColorRef colorref = CGColorCreate(colorSpace,(CGFloat[]){ 153, 153, 153, 1 });
         
         [but.layer setBorderColor:colorref];//边框颜色
+        [but addTarget:self action:@selector(butClick:) forControlEvents:UIControlEventTouchUpInside];
         [hotSearchView addSubview:but];
         i2++;
     }
@@ -201,6 +213,11 @@
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"是否清除搜索历史" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"清除", nil];
     alert.tag = btn.tag;
     [alert show];
+    
+}
+- (IBAction)butClick:(id)sender {
+    UIButton *btn = (UIButton *)sender;
+    [self toSearchProductList:btn.titleLabel.text];
     
 }
 
@@ -268,6 +285,7 @@
         }
         [searchArray insertObject:searchLabel.text atIndex:0];
         [[NSUserDefaults standardUserDefaults] setObject:searchArray forKey:@"SearchHistory"];
+        [self toSearchProductList:searchLabel.text];
     }
 }
 //隐藏键盘方法
@@ -276,6 +294,12 @@
     
 }
 
+-(void)toSearchProductList:(NSString *)content{
+        SearchProductListViewController *detailsView = [[SearchProductListViewController alloc]init];
+        detailsView.content = content;
+        detailsView.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:detailsView animated:YES];
+}
 
 
 @end
