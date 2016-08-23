@@ -31,6 +31,8 @@
 }
 
 - (void)initMainView {
+    //通知 接收
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchHome) name:@"refSelectedIndex"object:nil];
     
     [Tools saveInteger:1 forKey:KEY_TabBarNum];
 
@@ -107,6 +109,9 @@
     [Tools saveInteger:Item.tag forKey:KEY_TabBarNum];
     [[NSNotificationCenter defaultCenter] postNotificationName:TabBarIndex_Change object:nil];
     
+}
+-(void)switchHome{
+    self.selectedIndex = 1;
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController willBeginCustomizingViewControllers:(NSArray *)viewControllers {

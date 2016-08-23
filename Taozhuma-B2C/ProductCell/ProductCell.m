@@ -13,6 +13,7 @@
 @synthesize productName;
 @synthesize productPrice;
 @synthesize addCart;
+@synthesize delCollect;
 
 - (void)awakeFromNib {
     // Initialization code

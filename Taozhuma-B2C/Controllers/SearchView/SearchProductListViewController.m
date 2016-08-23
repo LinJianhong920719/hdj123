@@ -286,6 +286,8 @@
             hud.removeFromSuperViewOnHide = YES;
             [hud hide:YES afterDelay:2];
             return;
+        }if([statusMsg intValue] == 4002){
+            [self showHUDText:@"获取失败!"];
         }else{
             [_data removeAllObjects];
             if([[dic valueForKey:@"data"] count] > 0 && [dic valueForKey:@"data"] != nil){
@@ -393,6 +395,7 @@
             [cell.productImage sd_setImageWithURL:[NSURL URLWithString:entity.productImage] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
         }
         cell.addCart.tag = [entity.productID integerValue];
+        cell.delCollect.hidden = YES;
     }
     return cell;
 }

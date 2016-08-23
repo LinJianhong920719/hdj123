@@ -9,6 +9,7 @@
 #import "MineViewControllers.h"
 #import "MineOrderCellView.h"
 #import "RegisterViewControllerNew.h"
+#import "CollectionListViewController.h"
 
 @interface MineViewControllers () <UITableViewDataSource,UITableViewDelegate> {
     NSArray *_data;
@@ -367,17 +368,17 @@
         }break;
         case 3: {
             //我的收藏
-//            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-//                CollectionListViewController * disheView = [[CollectionListViewController alloc]init];
-//                disheView.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:disheView animated:YES];
-//            }else{
-//                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
-//                registeredView.title = @"快捷登陆";
-//                registeredView.hidesBottomBarWhenPushed = YES;
-//                registeredView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:registeredView animated:YES];
-//            }
+            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+                CollectionListViewController * collectionListView = [[CollectionListViewController alloc]init];
+                collectionListView.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:collectionListView animated:YES];
+            }else{
+                RegisterViewControllerNew *registeredView = [[RegisterViewControllerNew alloc]init];
+                registeredView.title = @"快捷登陆";
+                registeredView.hidesBottomBarWhenPushed = YES;
+                registeredView.navigationController.navigationBarHidden = YES;
+                [self.navigationController pushViewController:registeredView animated:YES];
+            }
             
         } break;
         case 4: {

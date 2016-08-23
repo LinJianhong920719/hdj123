@@ -38,10 +38,16 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <state key="normal" title="Button" image="cart-add.png"/>
                     </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xon-RD-aK9">
+                        <rect key="frame" x="287" y="23" width="25" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <state key="normal" title="Button" image="collection_rel.png"/>
+                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
                 <outlet property="addCart" destination="wI3-cl-Bqn" id="ufN-So-HHq"/>
+                <outlet property="delCollect" destination="xon-RD-aK9" id="eK1-QT-dkA"/>
                 <outlet property="productImage" destination="9k4-DN-nDP" id="pdC-9g-zAw"/>
                 <outlet property="productName" destination="ZZg-9w-9sr" id="f0r-Fn-1nD"/>
                 <outlet property="productPrice" destination="PG9-sI-tjY" id="zTE-9k-5Ud"/>
@@ -51,5 +57,6 @@
     </objects>
     <resources>
         <image name="cart-add.png" width="40" height="40"/>
+        <image name="collection_rel.png" width="30" height="30"/>
     </resources>
 </document>

@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *productName;
 @property (weak, nonatomic) IBOutlet UILabel *productPrice;
 @property (weak, nonatomic) IBOutlet UIButton *addCart;
+@property (weak, nonatomic) IBOutlet UIButton *delCollect;
 
 @end

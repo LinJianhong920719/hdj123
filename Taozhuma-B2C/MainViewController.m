@@ -17,6 +17,7 @@
 
 #import "GBTopLineViewModel.h"
 #import "GBTopLineView.h"
+#import "ProductDetailViewController.h"
 
 #define kMidViewWidth   250
 #define kMidViewHeight  50
@@ -285,10 +286,23 @@
         if ([self isBlankString:entity.secondProductName]) {
             cell.thirdProductPrice.text = @"￥0.00";
         }else{
-            cell.thirdProductPrice.text = entity.thirdProductPrice;
+            
+            cell.thirdProductPrice.text = [NSString stringWithFormat:@"￥%@",entity.thirdProductPrice];
         }
         
         [cell.moreBtn addTarget:self action:@selector(moreClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [cell.firstProductBtn addTarget:self action:@selector(productClicked:) forControlEvents:UIControlEventTouchUpInside];
+        cell.firstProductBtn.tag = entity.advProductId.intValue;
+        
+        [cell.secondProductBtn addTarget:self action:@selector(productClicked:) forControlEvents:UIControlEventTouchUpInside];
+        cell.secondProductBtn.tag = entity.fristProductId.intValue;
+        
+        [cell.thirdProductBtn addTarget:self action:@selector(productClicked:) forControlEvents:UIControlEventTouchUpInside];
+        cell.thirdProductBtn.tag = entity.secondProductId.intValue;
+        
+        [cell.fourProductBtn addTarget:self action:@selector(productClicked:) forControlEvents:UIControlEventTouchUpInside];
+        cell.fourProductBtn.tag = entity.thirdProductId.intValue;
         
         
     }
@@ -298,12 +312,19 @@
 
 //点击更多跳转的页面
 - (IBAction)moreClicked:(id)sender {
-NSLog(@"more");
-//    [self.navigationController popToRootViewControllerAnimated:NO];
-//    [[UITabBarController sharedAppDelegate].mainTabBarController setSelectedIndex:0];
+    //通知 发出
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refSelectedIndex" object:nil];
+}
+- (IBAction)productClicked:(id)sender {
+    UIButton *btn = (UIButton *)sender;
+    ProductDetailViewController *productDetailView= [[ProductDetailViewController alloc]init];
+    productDetailView.goodId = btn.tag;
+    productDetailView.title = @"商品详情";
+    productDetailView.hidesBottomBarWhenPushed = YES;
+    productDetailView.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:productDetailView animated:YES];
     
 }
-
 //获取公告图片
 - (void)loadBanner {
     
@@ -432,7 +453,6 @@ NSLog(@"more");
     
     NSLog(@"图片被点击!");
         SearchViewController *searchView= [[SearchViewController alloc]init];
-//    registeredView.title = @"快捷登录";
         searchView.hidesBottomBarWhenPushed = YES;
         searchView.navigationController.navigationBarHidden = YES;
         [self.navigationController pushViewController:searchView animated:YES];
