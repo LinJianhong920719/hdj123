@@ -32,6 +32,7 @@
 
 BMKMapManager* _mapManager;
 @implementation AppDelegate
+@synthesize isStop;
 
 + (AppDelegate *)sharedAppDelegate {
     return (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -41,6 +42,7 @@ BMKMapManager* _mapManager;
     // Override point for customization after application launch.
     //获取token信息
     [self getTokenMessage];
+    isStop = false;
     
     // 要使用百度地图，请先启动BaiduMapManager
     _mapManager = [[BMKMapManager alloc]init];
@@ -524,12 +526,19 @@ BMKMapManager* _mapManager;
 //处理位置坐标更新
 - (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
 {
-    [Tools saveDouble:userLocation.location.coordinate.latitude forKey:CURRENT_LATITUDE];
-    [Tools saveDouble:userLocation.location.coordinate.longitude forKey:CURRENT_LONGITUDE];
-    NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+    if (isStop == false) {
+        if (userLocation.location != nil) {
+            [Tools saveDouble:userLocation.location.coordinate.latitude forKey:CURRENT_LATITUDE];
+            [Tools saveDouble:userLocation.location.coordinate.longitude forKey:CURRENT_LONGITUDE];
+            NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+            
+            //通知 发出
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refAddress" object:nil];
+        }
+        isStop = true;
+    }
     
-    //通知 发出
-     [[NSNotificationCenter defaultCenter] postNotificationName:@"refAddress" object:nil];
+    
 }
 
 @end

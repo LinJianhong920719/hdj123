@@ -12,8 +12,14 @@
 #import "WHCircleImageView.h"
 #import "MainViewCell.h"
 #import "MainProductEntity.h"
-//#import "SearchViewController.h"
+#import "SearchViewController.h"
 
+
+#import "GBTopLineViewModel.h"
+#import "GBTopLineView.h"
+
+#define kMidViewWidth   250
+#define kMidViewHeight  50
 #define tableViewFrame2     CGRectMake(0, ViewOrignY, ScreenWidth, ScreenHeight-ViewOrignY-50)
 
 @interface MainViewController ()<UITableViewDataSource,UITableViewDelegate>{
@@ -23,15 +29,20 @@
     
     NSInteger   currentItemIndex;
     NSMutableArray *pictureUrlArray;
+    NSMutableArray *noticeArray;
     NSString *communityId;//小区id
     NSString *communityName;//小区名称
     MBProgressHUD *hud;
+    WHCircleImageView *circleImageView;
+    UIView * topsView;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic,weak) NSTimer * timer;
 @property (nonatomic,strong) NSMutableArray * adverData;
 @property (nonatomic, strong) NSMutableArray *data;
+@property(nonatomic,strong)NSMutableArray*dataArr;
+@property (nonatomic,strong) GBTopLineView *TopLineView;
 @end
 
 @implementation MainViewController
@@ -50,6 +61,9 @@
     [self loadBanner];
     
     [self initTableView];
+    
+    _dataArr=[[NSMutableArray alloc]init];
+    
 }
 
 - (void)mineView:(NSNotification*)notification {
@@ -150,25 +164,12 @@
     //广告图数据
     NSLog(@"123:%@",pictureUrlArray);
     
-    UIView * topsView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 170)];
+    topsView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 170)];
     //广告图view
-    WHCircleImageView *circleImageView = [[WHCircleImageView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 140) AndImageUrlArray:pictureUrlArray view:topsView];
-    
-    //公告view
-    UIView *noticeView = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(circleImageView), DEVICE_SCREEN_SIZE_WIDTH, 30)];
-    noticeView.backgroundColor = [UIColor whiteColor];
-    //公告image
-    UIImageView *_noticeImageView = [[UIImageView alloc]init];
-    [_noticeImageView setFrame:CGRectMake(6, 7, 20, 16)];
-    [_noticeImageView setImage:[UIImage imageNamed:@"notice"]];
-    [noticeView addSubview:_noticeImageView];
-    //公告message
-    UILabel *_noticeLabel = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(_noticeImageView)+5, 6, DEVICE_SCREEN_SIZE_WIDTH-_noticeImageView.frame.size.width-10, 18)];
-    _noticeLabel.font = [UIFont systemFontOfSize:13];
-    _noticeLabel.textColor = FONTS_COLOR102;
-    _noticeLabel.text = @"公告公告公告公告公告公告公告公告公告公告公告公告公告公告公告公告公告公告公告";
-    [noticeView addSubview:_noticeLabel];
-    [topsView addSubview:noticeView];
+    circleImageView = [[WHCircleImageView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 140) AndImageUrlArray:pictureUrlArray view:topsView];
+    [self createTopLineView];
+    [self getData];
+
     _tableView.tableHeaderView = topsView;
 }
 #pragma mark - SDRefresh
@@ -287,16 +288,27 @@
             cell.thirdProductPrice.text = entity.thirdProductPrice;
         }
         
+        [cell.moreBtn addTarget:self action:@selector(moreClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
         
     }
     
     return cell;
 }
 
+//点击更多跳转的页面
+- (IBAction)moreClicked:(id)sender {
+NSLog(@"more");
+//    [self.navigationController popToRootViewControllerAnimated:NO];
+//    [[UITabBarController sharedAppDelegate].mainTabBarController setSelectedIndex:0];
+    
+}
+
 //获取公告图片
 - (void)loadBanner {
     
     pictureUrlArray = [[NSMutableArray alloc]init];
+    noticeArray = [[NSMutableArray alloc]init];
     
     NSString *xpoint = [NSString stringWithFormat:@"/Api/Ad/show?"];
     
@@ -317,6 +329,8 @@
                 NSLog(@"image:%@",[advImg valueForKey:@"image"]);
                 
                 [pictureUrlArray addObject:[advImg valueForKey:@"image"]];
+                [noticeArray addObject:[advImg valueForKey:@"intro"]];
+                
                 NSLog(@"Array:%@",[advImg valueForKey:@"pictureUrlArray"]);
             }
             
@@ -417,11 +431,40 @@
 -(void)onClickImage{
     
     NSLog(@"图片被点击!");
-    //    SearchViewController *searchView= [[SearchViewController alloc]init];
-    //registeredView.title = @"快捷登录";
-    //    searchView.hidesBottomBarWhenPushed = YES;
-    //    searchView.navigationController.navigationBarHidden = YES;
-    //    [self.navigationController pushViewController:searchView animated:YES];
+        SearchViewController *searchView= [[SearchViewController alloc]init];
+//    registeredView.title = @"快捷登录";
+        searchView.hidesBottomBarWhenPushed = YES;
+        searchView.navigationController.navigationBarHidden = YES;
+        [self.navigationController pushViewController:searchView animated:YES];
+}
+
+#pragma mark-创建头条视图
+-(void)createTopLineView{
+    
+    _TopLineView = [[GBTopLineView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 30)];
+    _TopLineView.center = CGPointMake(ScreenWidth/2.0, ScreenHeight/2.0-130);
+    _TopLineView.backgroundColor = [UIColor whiteColor];
+    __weak __typeof(self)weakSelf = self;
+    _TopLineView.clickBlock = ^(NSInteger index){
+        GBTopLineViewModel *model = weakSelf.dataArr[index];
+        NSLog(@"%@,%@",model.type,model.title);
+    };
+    
+    [topsView addSubview:_TopLineView];
+    
+}
+#pragma mark-获取数据
+- (void)getData
+{
+    NSArray *arr1 = @[@"最新",@"最热",@"推荐",@"关注",@"反馈"];
+//    NSArray *arr2 = @[@"66万硬币买车",@"泰坦尼克号重建",@"小德法网首胜纳达尔",@"欢迎大家来关注我的github主页",@"开发群qq：433060483"];
+    for (int i=0; i<noticeArray.count; i++) {
+        GBTopLineViewModel *model = [[GBTopLineViewModel alloc]init];
+        model.type = arr1[i];
+        model.title = noticeArray[i];
+        [_dataArr addObject:model];
+    }
+    [_TopLineView setVerticalShowDataArr:_dataArr];
 }
 
 @end

@@ -16,6 +16,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) BMKMapManager* mapManager;
+@property (nonatomic, assign) BOOL isStop;
 
 + (AppDelegate *)sharedAppDelegate;
 //获取Token信息

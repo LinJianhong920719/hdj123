@@ -28,6 +28,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *thirdProductName;//第叁个产品名称
 @property (weak, nonatomic) IBOutlet UILabel *thirdProductPrice;//第叁个产品价格
 @property (weak, nonatomic) IBOutlet UIImageView *thirdAddCartImage;//第叁个产品加入购物车
+@property (weak, nonatomic) IBOutlet UIButton *moreBtn;
+@property (weak, nonatomic) IBOutlet UIButton *firstProductBtn;
+@property (weak, nonatomic) IBOutlet UIButton *secondProductBtn;
+@property (weak, nonatomic) IBOutlet UIButton *thirdProductBtn;
+@property (weak, nonatomic) IBOutlet UIButton *fourProductBtn;
 
 
 

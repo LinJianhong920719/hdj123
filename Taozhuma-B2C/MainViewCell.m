@@ -28,6 +28,11 @@
 @synthesize thirdProductName;//第叁个产品名称
 @synthesize thirdProductPrice;//第叁个产品价格
 @synthesize thirdAddCartImage;//第叁个产品加入购物车
+@synthesize moreBtn;
+@synthesize firstProductBtn;
+@synthesize secondProductBtn;
+@synthesize thirdProductBtn;
+@synthesize fourProductBtn;
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
