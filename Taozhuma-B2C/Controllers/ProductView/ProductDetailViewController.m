@@ -23,6 +23,13 @@
     NSString *goodsMsgStr;
     NSString *mode;
     UIButton *collectBtn;
+    NSString *cartNum;
+    UILabel *noLabel;
+    UILabel *countLabel;
+    NSString *shopId;
+    NSString *pMode;
+    NSString *count;
+    NSString *cartTNum;
 }
 
 @end
@@ -85,7 +92,7 @@
     if (isCollect) {
         [collectBtn setBackgroundImage:[UIImage imageNamed:@"deta_collect_active"] forState:UIControlStateNormal];
     }else{
-       [collectBtn setBackgroundImage:[UIImage imageNamed:@"deta_collect"] forState:UIControlStateNormal];
+        [collectBtn setBackgroundImage:[UIImage imageNamed:@"deta_collect"] forState:UIControlStateNormal];
     }
     [collectBtn addTarget:self action:@selector(collectBtn:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -199,9 +206,12 @@
     [cartBtn setBackgroundImage:[UIImage imageNamed:@"deta_cart"] forState:UIControlStateNormal];
     [bottomView addSubview:cartBtn];
     
-    UILabel *countLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,0,0,0)];
+    //购物车数量显示
+    countLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,0,0,0)];
     [countLabel setNumberOfLines:0];  //必须是这组值
-    NSString *count = @"1";
+
+    count = [NSString stringWithFormat: @"%@",cartNum];
+
     countLabel.text = count;
     countLabel.font = [UIFont systemFontOfSize:12];
     countLabel.textColor = [UIColor whiteColor];
@@ -217,25 +227,50 @@
     countLabel.layer.masksToBounds = YES;
     [bottomView addSubview:countLabel];
     
-    
+    //减号按钮
     UIButton *subBtu = [[UIButton alloc]initWithFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH*0.70, 15, 20, 20)];
     [subBtu setBackgroundImage:[UIImage imageNamed:@"minus_active"] forState:UIControlStateNormal];
+    [subBtu addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    subBtu.tag = 1;
     [bottomView addSubview:subBtu];
     
-    UILabel *noLabel = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(subBtu)+5, 15, 30, 20)];
-    noLabel.text = @"0";
+    //中间数量显示
+    noLabel = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(subBtu)+5, 15, 30, 20)];
+    noLabel.text = [NSString stringWithFormat: @"%@",cartTNum];;
     noLabel.textColor = FONTS_COLOR51;
     noLabel.font = [UIFont systemFontOfSize:12];
     noLabel.textAlignment = NSTextAlignmentCenter;
     [bottomView addSubview:noLabel];
     
+    //加号按钮
     UIButton *addBtu = [[UIButton alloc]initWithFrame:CGRectMake(viewRight(noLabel)+5, 15, 20, 20)];
     [addBtu setBackgroundImage:[UIImage imageNamed:@"plus_active"] forState:UIControlStateNormal];
+    [addBtu addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    addBtu.tag = 2;
     [bottomView addSubview:addBtu];
     
     [self.view addSubview:bottomView];
     
 }
+//商品加减操作
+- (IBAction)btnClicked:(id)sender {
+    UIButton *btn = (UIButton *)sender;
+    if (btn.tag == 1) {
+        if (noLabel.text.intValue == 0) {
+            [self showHUDText:@"无法再减少了"];
+        }else{
+            pMode = @"dec";
+            [self doProductNumMethon];
+        }
+    }else{
+        pMode = @"inc";
+        [self doProductNumMethon];
+    }
+    
+    
+    
+}
+//收藏与取消收藏方法
 - (IBAction)collectBtn:(id)sender {
     if (isCollect) {
         mode = @"move";
@@ -245,6 +280,54 @@
         isCollect = true;
     }
     [self doCollectMethod];
+}
+
+//商品数量加减方法
+- (void)doProductNumMethon {
+    
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [NSString stringWithFormat: @"%ld", (long)goodId],   @"goodId",
+                         [Tools stringForKey:KEY_USER_ID],  @"userId",
+                         shopId,@"shopId",
+                         @"1",@"num",
+                         pMode,@"mode",
+                         nil];
+    
+    NSString *xpoint = [NSString stringWithFormat:@"/Api/Cart/edit?"];
+    NSLog(@"dics:%@",dic);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        
+        pictureUrlArray = [[NSMutableArray alloc]init];
+        if ([statusMsg intValue] == 4001) {
+            //弹框提示获取失败
+            [self showHUDText:@"获取失败!"];
+            
+        }else if ([statusMsg intValue] == 201){
+            if ([pMode isEqualToString:@"dec"]) {
+                noLabel.text = [NSString stringWithFormat: @"%d",noLabel.text.intValue-1];
+                
+                count = [NSString stringWithFormat: @"%d",count.intValue-1];
+                countLabel.text = count;
+                
+                
+            }else if ([pMode isEqualToString:@"inc"]){
+                noLabel.text = [NSString stringWithFormat: @"%d",noLabel.text.intValue+1];
+                count = [NSString stringWithFormat: @"%d",count.intValue+1];
+                countLabel.text = count;
+            }
+        }else if ([statusMsg intValue] == 4002){
+            [self showHUDText:@"暂无数据"];
+        }else {
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 //获取公告图片
@@ -275,7 +358,7 @@
         }else {
             NSString *diss = [[dic valueForKey:@"data"]valueForKey:@"good_image"];
             pictureUrlArray = [diss componentsSeparatedByString:@";"];
-            
+            shopId = [[dic valueForKey:@"data"]valueForKey:@"shop_id"];
             goodtName = [[dic valueForKey:@"data"]valueForKey:@"good_name"];
             goodtPrice = [NSString stringWithFormat:@"￥%@",[[dic valueForKey:@"data"]valueForKey:@"good_price"]];
             NSString *colStatus = [[dic valueForKey:@"data"]valueForKey:@"collect_status"];
@@ -288,6 +371,8 @@
             goodsSizeStr = [[dic valueForKey:@"data"]valueForKey:@"good_size"];
             goodsDateStr = [[dic valueForKey:@"data"]valueForKey:@"Shelf_life"];
             goodsMsgStr = [[dic valueForKey:@"data"]valueForKey:@"good_introduce"];
+            cartNum = [[dic valueForKey:@"data"]valueForKey:@"cart_num"];
+            cartTNum = [[dic valueForKey:@"data"]valueForKey:@"cart_t_num"];
             
             [self initUI];
         }
@@ -331,7 +416,7 @@
             }else{
                 [collectBtn setBackgroundImage:[UIImage imageNamed:@"deta_collect"] forState:UIControlStateNormal];
             }
-    
+            
         }
         
     } fail:^(NSError *error) {

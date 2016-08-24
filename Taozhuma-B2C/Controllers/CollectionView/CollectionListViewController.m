@@ -261,9 +261,10 @@
             [self showHUDText:@"暂无数据"];
         }else {
             [self showHUDText:@"操作成功"];
-            [_tableView reloadData];
+            
         }
-        
+        [self loadData];
+        [_tableView reloadData];
         
     } fail:^(NSError *error) {
         
@@ -271,60 +272,7 @@
     
 }
 
-////删除cell
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return YES;
-//}
-////删除cell
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-//
-//    TakeOutEntity *entitys = [_data objectAtIndex:[indexPath row]];
-//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         [Tools stringForKey:KEY_USER_ID],               @"uid",
-//                         @"cancel",     @"act",
-//                         @"e3dc653e2d68697346818dfc0b208322",       @"key",
-//                         @"1",@"type",
-//                         entitys.shopId,@"val",
-//                         nil];
-//    NSLog(@"%@",dic);
-//    NSString *xpoint = FAVXPOINT;
-//    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-//        if (error) {
-//            [HUD removeFromSuperview];
-//            
-//            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//            hud.mode = MBProgressHUDModeText;
-//            hud.labelText = @"删除失败,请稍后重试";
-//            hud.yOffset = -50.f;
-//            hud.removeFromSuperViewOnHide = YES;
-//            [hud hide:YES afterDelay:2];
-//        } else {
-//            [HUD removeFromSuperview];
-//            if (respond.result == YES) {
-//                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//                hud.mode = MBProgressHUDModeText;
-//                hud.labelText = @"删除成功";
-//                hud.yOffset = -50.f;
-//                hud.removeFromSuperViewOnHide = YES;
-//                [hud hide:YES afterDelay:1];
-//                
-//                [_data removeObjectAtIndex:indexPath.row];
-//                //去除cell
-//                [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            } else {
-//                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//                hud.mode = MBProgressHUDModeText;
-//                hud.detailsLabelText = respond.error_msg;
-//                hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
-//                hud.yOffset = -50.f;
-//                hud.removeFromSuperViewOnHide = YES;
-//                [hud hide:YES afterDelay:2];
-//            }
-//            
-//        }
-//    }];
-//    
-//}
+
 
 //点击事件
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
