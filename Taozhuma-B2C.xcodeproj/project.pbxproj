@@ -128,6 +128,10 @@
 		37472EA11D6943B800F9CD6C /* icon_search.png in Resources */ = {isa = PBXBuildFile; fileRef = 37472E9F1D6943B800F9CD6C /* icon_search.png */; };
 		37472EA21D6943B800F9CD6C /* search_del.png in Resources */ = {isa = PBXBuildFile; fileRef = 37472EA01D6943B800F9CD6C /* search_del.png */; };
 		37472EA61D69467B00F9CD6C /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37472EA51D69467B00F9CD6C /* SearchViewController.m */; };
+		37491E1D1D6D926C0033C48D /* CouponsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37491E1C1D6D926C0033C48D /* CouponsViewController.m */; };
+		37491E231D6D93A60033C48D /* NewCouponsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37491E221D6D93A60033C48D /* NewCouponsViewController.m */; };
+		37491E261D6D93C60033C48D /* UseCouponsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37491E251D6D93C60033C48D /* UseCouponsViewController.m */; };
+		37491E291D6D93E30033C48D /* OverdueCouponsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37491E281D6D93E30033C48D /* OverdueCouponsViewController.m */; };
 		3756405E1D648DC1005465C8 /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3756405C1D648DC1005465C8 /* BaiduMapAPI_Base.framework */; };
 		3756405F1D648DC1005465C8 /* BaiduMapAPI_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3756405D1D648DC1005465C8 /* BaiduMapAPI_Location.framework */; };
 		3756FEC21CED997500922D5B /* AdvertisementEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3756FEC11CED997500922D5B /* AdvertisementEntity.m */; };
@@ -446,6 +450,14 @@
 		37472EA01D6943B800F9CD6C /* search_del.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_del.png; sourceTree = "<group>"; };
 		37472EA41D69467B00F9CD6C /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		37472EA51D69467B00F9CD6C /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		37491E1B1D6D926C0033C48D /* CouponsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponsViewController.h; sourceTree = "<group>"; };
+		37491E1C1D6D926C0033C48D /* CouponsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponsViewController.m; sourceTree = "<group>"; };
+		37491E211D6D93A60033C48D /* NewCouponsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewCouponsViewController.h; sourceTree = "<group>"; };
+		37491E221D6D93A60033C48D /* NewCouponsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewCouponsViewController.m; sourceTree = "<group>"; };
+		37491E241D6D93C60033C48D /* UseCouponsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UseCouponsViewController.h; sourceTree = "<group>"; };
+		37491E251D6D93C60033C48D /* UseCouponsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UseCouponsViewController.m; sourceTree = "<group>"; };
+		37491E271D6D93E30033C48D /* OverdueCouponsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverdueCouponsViewController.h; sourceTree = "<group>"; };
+		37491E281D6D93E30033C48D /* OverdueCouponsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverdueCouponsViewController.m; sourceTree = "<group>"; };
 		3756405C1D648DC1005465C8 /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Base.framework; path = ../../BaiduMap_IOSSDK_v3.0.0_Lib/BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
 		3756405D1D648DC1005465C8 /* BaiduMapAPI_Location.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Location.framework; path = ../../BaiduMap_IOSSDK_v3.0.0_Lib/BaiduMapAPI_Location.framework; sourceTree = "<group>"; };
 		3756406D1D6494D0005465C8 /* BaiduMapAPI_Cloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Cloud.framework; path = ../../BaiduMap_IOSSDK_v3.0_All/BaiduMapAPI_Cloud.framework; sourceTree = "<group>"; };
@@ -832,6 +844,7 @@
 		0A13F7B01CDB322500AF5392 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				37491E1A1D6D926C0033C48D /* CouponsView */,
 				37FE5F281D6C533900012513 /* CollectionView */,
 				37EACEBD1D6A955200674EE9 /* ProductView */,
 				37472EA31D69467B00F9CD6C /* SearchView */,
@@ -1129,6 +1142,21 @@
 				37472EA51D69467B00F9CD6C /* SearchViewController.m */,
 			);
 			path = SearchView;
+			sourceTree = "<group>";
+		};
+		37491E1A1D6D926C0033C48D /* CouponsView */ = {
+			isa = PBXGroup;
+			children = (
+				37491E1B1D6D926C0033C48D /* CouponsViewController.h */,
+				37491E1C1D6D926C0033C48D /* CouponsViewController.m */,
+				37491E211D6D93A60033C48D /* NewCouponsViewController.h */,
+				37491E221D6D93A60033C48D /* NewCouponsViewController.m */,
+				37491E241D6D93C60033C48D /* UseCouponsViewController.h */,
+				37491E251D6D93C60033C48D /* UseCouponsViewController.m */,
+				37491E271D6D93E30033C48D /* OverdueCouponsViewController.h */,
+				37491E281D6D93E30033C48D /* OverdueCouponsViewController.m */,
+			);
+			path = CouponsView;
 			sourceTree = "<group>";
 		};
 		3756FEBE1CED992100922D5B /* Entity */ = {
@@ -1590,6 +1618,7 @@
 				0A13F7F21CDB374A00AF5392 /* UIImageView+HighlightedWebCache.m in Sources */,
 				37B6AF861CF3291500A12DC2 /* EMAsyncImageView.m in Sources */,
 				0A13F7E61CDB374A00AF5392 /* NSData+ImageContentType.m in Sources */,
+				37491E261D6D93C60033C48D /* UseCouponsViewController.m in Sources */,
 				0A0B149F1CDD9B9F006DD011 /* UIWebView+AFNetworking.m in Sources */,
 				0A13F8011CDB381F00AF5392 /* CustomNaviBarSearchController.m in Sources */,
 				0A608B801CE5BD1300EDB38A /* LDrawerViewController.m in Sources */,
@@ -1636,6 +1665,7 @@
 				0A0B14971CDD9B9F006DD011 /* AFAutoPurgingImageCache.m in Sources */,
 				0A13F7F01CDB374A00AF5392 /* UIImage+MultiFormat.m in Sources */,
 				370373301D659FA80055349A /* MBProgressHUD.m in Sources */,
+				37491E1D1D6D926C0033C48D /* CouponsViewController.m in Sources */,
 				0A0B14931CDD9B9F006DD011 /* AFSecurityPolicy.m in Sources */,
 				0A0B146D1CDD9B90006DD011 /* HYBNetworking.m in Sources */,
 				37472E9D1D693C5E00F9CD6C /* ClassifyModel.m in Sources */,
@@ -1664,6 +1694,7 @@
 				0A13F7E81CDB374A00AF5392 /* SDWebImageCompat.m in Sources */,
 				37B6AF701CF3244400A12DC2 /* CartCell.m in Sources */,
 				37886CBA1D62F075005B6368 /* MainProductEntity.m in Sources */,
+				37491E291D6D93E30033C48D /* OverdueCouponsViewController.m in Sources */,
 				37EACEC01D6A955200674EE9 /* ProductListViewController.m in Sources */,
 				0A13F7EF1CDB374A00AF5392 /* UIImage+GIF.m in Sources */,
 				3756FFAC1CEDAB7100922D5B /* WHCircleImageView.m in Sources */,
@@ -1673,6 +1704,7 @@
 				37AE2B8D1CEFFDAC00DC7007 /* MainViewCell.m in Sources */,
 				0A025F851CDAEE1F00AFE6C7 /* main.m in Sources */,
 				3728E06B1D6BE30900BF638D /* GBTopLineViewModel.m in Sources */,
+				37491E231D6D93A60033C48D /* NewCouponsViewController.m in Sources */,
 				37AE2B861CEFF91300DC7007 /* UIView+SDExtension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

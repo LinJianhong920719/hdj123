@@ -122,9 +122,9 @@
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
         _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 95, 0);
     }
-    [self setupHeader];
+//    [self setupHeader];
 //    [self networkView];
-//    [self emptyView];
+    [self emptyView];
 }
 
 
@@ -148,19 +148,19 @@
 
 - (void)totalLocation {
     
-    //    CGSize countSize = [labelCount.text sizeWithFont:labelCount.font constrainedToSize:CGSizeMake(MAXFLOAT, 45)];
-    //    [labelCount setFrame:CGRectMake(btnDetermine.frame.origin.x-16-countSize.width, 0, countSize.width, 45)];
-    //
-    //    [iconRMB setFrame:CGRectMake(labelCount.frame.origin.x-11, 18, 7, 9)];
-    //
-    //    CGSize subLabelSize = [subtotalLabel.text sizeWithFont:subtotalLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 45)];
-    //    [subtotalLabel setFrame:CGRectMake(iconRMB.frame.origin.x-subLabelSize.width-6, 0, subLabelSize.width, 45)];
-    //
-    //
-    //    [labelCount setFrame:CGRectMake(0, 0, btnDetermine.frame.origin.x-16, 45)];
+        CGSize countSize = [labelCount.text sizeWithFont:labelCount.font constrainedToSize:CGSizeMake(MAXFLOAT, 45)];
+        [labelCount setFrame:CGRectMake(btnDetermine.frame.origin.x-16-countSize.width, 0, countSize.width, 45)];
+    
+        [iconRMB setFrame:CGRectMake(labelCount.frame.origin.x-11, 18, 7, 9)];
+    
+        CGSize subLabelSize = [subtotalLabel.text sizeWithFont:subtotalLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 45)];
+        [subtotalLabel setFrame:CGRectMake(iconRMB.frame.origin.x-subLabelSize.width-6, 0, subLabelSize.width, 45)];
+    
+    
+        [labelCount setFrame:CGRectMake(0, 0, btnDetermine.frame.origin.x-16, 45)];
     
     labelCount.text = @"合计：¥0.0";
-//    labelPreferential.text = @"为你节省：¥0.0";
+    labelPreferential.text = @"为你节省：¥0.0";
     labelPreferential.text = @"不含运费";
 }
 
@@ -278,34 +278,34 @@
     [emptyView addSubview:btn];
 }
 
-//- (IBAction)mailhome:(id)sender {
-//    //    [[AppDelegate sharedAppDelegate]loadMainView];
+- (IBAction)mailhome:(id)sender {
+    //    [[AppDelegate sharedAppDelegate]loadMainView];
 //    SearchListViewController *searchList = [[SearchListViewController alloc]init];
 //    searchList.search = @"";
 //    searchList.hidesBottomBarWhenPushed = YES;
 //    [self.navigationController pushViewController:searchList animated:YES];
-//}
+}
 
 #pragma mark -
 
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-// 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+ 
 //    if ([Tools intForKey:KEY_TabBarNum] == 3) {
 //        //页面统计-开始
 //        [Statistical beginLogPageView:UmengEventID];
 //    }
-//}
-//
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [super viewDidDisappear:animated];
-//    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
 //    if ([Tools intForKey:KEY_TabBarNum] == 3) {
 //        //页面统计-结束
 //        [Statistical endLogPageView:UmengEventID];
 //    }
-//    
-//}
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

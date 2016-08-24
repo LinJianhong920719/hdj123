@@ -10,6 +10,10 @@
 #import "MineOrderCellView.h"
 #import "RegisterViewControllerNew.h"
 #import "CollectionListViewController.h"
+#import "CouponsViewController.h"
+#import "NewCouponsViewController.h"
+#import "UseCouponsViewController.h"
+#import "OverdueCouponsViewController.h"
 
 @interface MineViewControllers () <UITableViewDataSource,UITableViewDelegate> {
     NSArray *_data;
@@ -365,6 +369,19 @@
         } break;
         case 2: {
             //我的优惠卷
+            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+                CouponsViewController * couponsTotalView = [[CouponsViewController alloc]init];
+                couponsTotalView.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:couponsTotalView animated:YES];
+    
+            }else{
+                RegisterViewControllerNew *registeredView = [[RegisterViewControllerNew alloc]init];
+                registeredView.title = @"快捷登陆";
+                registeredView.hidesBottomBarWhenPushed = YES;
+                registeredView.navigationController.navigationBarHidden = YES;
+                [self.navigationController pushViewController:registeredView animated:YES];
+            }
+            
         }break;
         case 3: {
             //我的收藏
