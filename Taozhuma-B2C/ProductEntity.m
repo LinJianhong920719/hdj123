@@ -19,9 +19,9 @@
         return nil;
     }
     
-    productID             = [attributes valueForKey:@"id"];
+    productID             = [attributes valueForKey:@"good_id"];
     productName          = [attributes valueForKey:@"good_name"];
-    productImage     = [attributes valueForKey:@"good_detail_image"];
+    productImage     = [attributes valueForKey:@"good_image"];
     productPrice           = [attributes valueForKey:@"good_price"];
 
     return self;

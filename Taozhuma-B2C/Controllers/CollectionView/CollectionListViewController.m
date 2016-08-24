@@ -44,8 +44,7 @@
     
     [super viewDidLoad];
      [self loadData];
-    //隐藏默认返回键
-//    [self hideNaviBarPurple:YES];
+
     
     _data = [[NSMutableArray alloc]init];
     [_data removeAllObjects];
@@ -136,7 +135,7 @@
         } else {
             
             NSArray *data = [dic valueForKey:@"data"];
-            
+            NSLog(@"data:%@",data);
            
             if ([data count] > 0) {
                 for (NSDictionary *productMsgList in data) {
@@ -229,16 +228,54 @@
             [cell.productImage sd_setImageWithURL:[NSURL URLWithString:entity.productImage] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
         }
         cell.addCart.hidden = YES;
+        [cell.delCollect addTarget:self action:@selector(delCollectClicked:) forControlEvents:UIControlEventTouchUpInside];
+        cell.delCollect.tag = entity.productID.intValue;
     }
     return cell;
 }
+//取消收藏按钮
+- (IBAction)delCollectClicked:(id)sender {
+    UIButton *btn = (UIButton *)sender;
 
+    NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
+                          [NSString stringWithFormat: @"%ld", (long)btn.tag],   @"goodId",
+                          [Tools stringForKey:KEY_USER_ID],  @"userId",
+                          @"move",@"mode",
+                          nil];
+    
+    NSString *xpoint = [NSString stringWithFormat:@"/Api/User/collectGoods?"];
+    NSLog(@"dics:%@",dics);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dics success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        
+        if ([statusMsg intValue] == 4001) {
+            //弹框提示获取失败
+            [self showHUDText:@"操作失败!"];
+            
+        }else if ([statusMsg intValue] == 201){
+            [self showHUDText:@"暂无数据"];
+        }else if ([statusMsg intValue] == 4002){
+            [self showHUDText:@"暂无数据"];
+        }else {
+            [self showHUDText:@"操作成功"];
+            [_tableView reloadData];
+        }
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
 
-//删除cell
+////删除cell
 //- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
 //    return YES;
 //}
-//删除cell
+////删除cell
 //- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 //
 //    TakeOutEntity *entitys = [_data objectAtIndex:[indexPath row]];
@@ -292,25 +329,25 @@
 //点击事件
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSUInteger row = [indexPath row];
+    
     ProductEntity *entity = [_data objectAtIndex:row];
     
+    
     ProductDetailViewController * disheView = [[ProductDetailViewController alloc]init];
-    disheView.goodId = entity.productID;
-    disheView.title = entity.shopName;
-    disheView.sendPrice = [entity.sendPrice floatValue];
+    disheView.goodId = entity.productID.intValue;
+    disheView.title = @"商品详情";
     disheView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:disheView animated:YES];
     
     [self.navigationController setToolbarHidden:YES animated:YES];
     [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+}
+
+//收藏与取消收藏操作
+- (void)doCollectMethod {
     
     
-//    ProductDetailViewController *productDetailView= [[ProductDetailViewController alloc]init];
-//    productDetailView.goodId = entity.productID;
-//    productDetailView.title = @"商品详情";
-//    productDetailView.hidesBottomBarWhenPushed = YES;
-//    productDetailView.navigationController.navigationBarHidden = YES;
-//    [self.navigationController pushViewController:productDetailView animated:YES];
 }
 
 @end
