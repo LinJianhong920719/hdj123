@@ -6,10 +6,9 @@
 //  Copyright © 2016年 Raykin. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 
-@interface CouponsViewController : UIViewController<UIScrollViewDelegate>
+@interface CouponsViewController : BaseViewController <UIScrollViewDelegate>
 {
     NSArray  *_VCAry;
     NSArray  *_TitleAry;
@@ -17,7 +16,5 @@
     UIScrollView *_MeScroolView;
 }
 - (instancetype)initWithAddVCARY:(NSArray*)VCS TitleS:(NSArray*)TitleS;
-
-
 
 @end

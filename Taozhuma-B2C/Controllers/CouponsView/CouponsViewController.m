@@ -118,7 +118,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"优惠券";
+    [self setNaviBarTitle:@"优惠券"];
 
     [self initWithAddVCARY:@[[NewCouponsViewController new],[UseCouponsViewController new],[OverdueCouponsViewController new]]TitleS:@[@"未使用",@"已使用",@"已失效"]];
     
