@@ -19,6 +19,7 @@
     // Do any additional setup after loading the view.
     //隐藏导航栏
     [self hideNaviBar:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning {

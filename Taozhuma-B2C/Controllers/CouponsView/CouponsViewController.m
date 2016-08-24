@@ -24,50 +24,48 @@
 
 @implementation CouponsViewController
 
--(instancetype)initWithAddVCARY:(NSArray *)VCS TitleS:(NSArray *)TitleS{
-    if (self = [super init]) {
-        _VCAry = VCS;
-        _TitleAry = TitleS;
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-        
+- (void)initWithAddVCARY:(NSArray *)VCS TitleS:(NSArray *)TitleS{
+
+    _VCAry                        = VCS;
+    _TitleAry                     = TitleS;
+    self.edgesForExtendedLayout   = UIRectEdgeNone;
+
         //先初始化各个界面
-        UIView *BJView  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MeW, 40)];
-        BJView.backgroundColor = [UIColor whiteColor];
+    UIView *BJView                = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MeW, 40)];
+    BJView.backgroundColor        = [UIColor whiteColor];
         [self.view addSubview:BJView];
-        
-        for (int i = 0 ; i<_VCAry.count; i++) {
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-            btn.frame = CGRectMake(i*(MeW/_VCAry.count), 0, MeW/_VCAry.count, BJView.frame.size.height-2);
+
+    for (int i                    = 0 ; i<_VCAry.count; i++) {
+    UIButton *btn                 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame                     = CGRectMake(i*(MeW/_VCAry.count), 0, MeW/_VCAry.count, BJView.frame.size.height-2);
             [btn setTitle:_TitleAry[i] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
-            btn.tag = 1000+i;
+    btn.tag                       = 1000+i;
             [btn addTarget:self action:@selector(SeleScrollBtn:) forControlEvents:UIControlEventTouchUpInside];
             [BJView addSubview:btn];
         }
-        
-        _LineView = [[UIView alloc] initWithFrame:CGRectMake(0, BJView.frame.size.height-2, MeW/_VCAry.count, 2)];
-        _LineView.backgroundColor = [UIColor redColor];
+
+    _LineView                     = [[UIView alloc] initWithFrame:CGRectMake(0, BJView.frame.size.height-2, MeW/_VCAry.count, 2)];
+    _LineView.backgroundColor     = [UIColor redColor];
         [BJView addSubview:_LineView];
-        
-        
-        _MeScroolView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, BJView.frame.size.height, MeW, MeH-BJView.frame.size.height-64)];
-        _MeScroolView.backgroundColor = [UIColor whiteColor];
-        _MeScroolView.pagingEnabled = YES;
-        _MeScroolView.delegate = self;
+
+
+    _MeScroolView                 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, BJView.frame.size.height, MeW, MeH-BJView.frame.size.height-64)];
+    _MeScroolView.backgroundColor = [UIColor whiteColor];
+    _MeScroolView.pagingEnabled   = YES;
+    _MeScroolView.delegate        = self;
         [self.view addSubview:_MeScroolView];
-        
-        for (int i2 = 0; i2<_VCAry.count; i2++) {
-            UIView *view = [[_VCAry objectAtIndex:i2] view];
-            view.frame = CGRectMake(i2*MeW, 0, MeW, _MeScroolView.frame.size.height);
+
+    for (int i2                   = 0; i2<_VCAry.count; i2++) {
+    UIView *view                  = [[_VCAry objectAtIndex:i2] view];
+    view.frame                    = CGRectMake(i2*MeW, 0, MeW, _MeScroolView.frame.size.height);
             [_MeScroolView addSubview:view];
             [self addChildViewController:[_VCAry objectAtIndex:i2]];
         }
-        
+
         [_MeScroolView setContentSize:CGSizeMake(MeW*_VCAry.count, _MeScroolView.frame.size.height)];
-        
-    }
-    return self;
+
 }
 
 /**
@@ -122,9 +120,8 @@
 
     [self initWithAddVCARY:@[[NewCouponsViewController new],[UseCouponsViewController new],[OverdueCouponsViewController new]]TitleS:@[@"未使用",@"已使用",@"已失效"]];
     
+//    [self initWithAddVCARY]
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

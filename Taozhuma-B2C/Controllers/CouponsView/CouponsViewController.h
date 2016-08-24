@@ -15,6 +15,7 @@
     UIView   *_LineView;
     UIScrollView *_MeScroolView;
 }
-- (instancetype)initWithAddVCARY:(NSArray*)VCS TitleS:(NSArray*)TitleS;
+
+- (void)initWithAddVCARY:(NSArray*)VCS TitleS:(NSArray*)TitleS;
 
 @end
