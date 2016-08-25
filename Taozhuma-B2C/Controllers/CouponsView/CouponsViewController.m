@@ -25,13 +25,14 @@
 @implementation CouponsViewController
 
 - (void)initWithAddVCARY:(NSArray *)VCS TitleS:(NSArray *)TitleS{
-
+   
     _VCAry                        = VCS;
     _TitleAry                     = TitleS;
+     NSLog(@"_TitleAry:%@",_TitleAry);
     self.edgesForExtendedLayout   = UIRectEdgeNone;
 
         //先初始化各个界面
-    UIView *BJView                = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MeW, 40)];
+    UIView *BJView                = [[UIView alloc] initWithFrame:CGRectMake(0, 64, MeW, 40)];
     BJView.backgroundColor        = [UIColor whiteColor];
         [self.view addSubview:BJView];
 
@@ -40,7 +41,8 @@
     btn.frame                     = CGRectMake(i*(MeW/_VCAry.count), 0, MeW/_VCAry.count, BJView.frame.size.height-2);
             [btn setTitle:_TitleAry[i] forState:UIControlStateNormal];
             [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+            [btn setTitleColor:[UIColor colorWithRed:255/255.0f green:80/255.0f blue:0 alpha:1.0] forState:UIControlStateSelected];
+        btn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
     btn.tag                       = 1000+i;
             [btn addTarget:self action:@selector(SeleScrollBtn:) forControlEvents:UIControlEventTouchUpInside];
             [BJView addSubview:btn];
@@ -49,9 +51,10 @@
     _LineView                     = [[UIView alloc] initWithFrame:CGRectMake(0, BJView.frame.size.height-2, MeW/_VCAry.count, 2)];
     _LineView.backgroundColor     = [UIColor redColor];
         [BJView addSubview:_LineView];
-
-
-    _MeScroolView                 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, BJView.frame.size.height, MeW, MeH-BJView.frame.size.height-64)];
+    
+//    [self.view addSubview:BJView];
+    _MeScroolView                 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, BJView.frame.size.height+24+40, MeW, MeH-BJView.frame.size.height-64)];
+    
     _MeScroolView.backgroundColor = [UIColor whiteColor];
     _MeScroolView.pagingEnabled   = YES;
     _MeScroolView.delegate        = self;
@@ -59,13 +62,13 @@
 
     for (int i2                   = 0; i2<_VCAry.count; i2++) {
     UIView *view                  = [[_VCAry objectAtIndex:i2] view];
-    view.frame                    = CGRectMake(i2*MeW, 0, MeW, _MeScroolView.frame.size.height);
+    view.frame                    = CGRectMake(i2*MeW, BJView.frame.size.height-40, MeW, _MeScroolView.frame.size.height);
             [_MeScroolView addSubview:view];
             [self addChildViewController:[_VCAry objectAtIndex:i2]];
         }
 
         [_MeScroolView setContentSize:CGSizeMake(MeW*_VCAry.count, _MeScroolView.frame.size.height)];
-
+NSLog(@"y;%f",_MeScroolView.frame.origin.y);
 }
 
 /**
