@@ -122,6 +122,14 @@
 		370373301D659FA80055349A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3703732F1D659FA80055349A /* MBProgressHUD.m */; };
 		370373341D65A9B90055349A /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 370373321D65A9B90055349A /* CollectionViewCell.m */; };
 		370373351D65A9B90055349A /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 370373331D65A9B90055349A /* CollectionViewCell.xib */; };
+		370E31AF1D6E89E50016FD77 /* coupon_none.png in Resources */ = {isa = PBXBuildFile; fileRef = 370E31AC1D6E89E50016FD77 /* coupon_none.png */; };
+		370E31B01D6E89E50016FD77 /* coupon_useful.png in Resources */ = {isa = PBXBuildFile; fileRef = 370E31AD1D6E89E50016FD77 /* coupon_useful.png */; };
+		370E31B11D6E89E50016FD77 /* coupon_useless.png in Resources */ = {isa = PBXBuildFile; fileRef = 370E31AE1D6E89E50016FD77 /* coupon_useless.png */; };
+		370E31B61D6E89F30016FD77 /* EffectiveCouponsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 370E31B41D6E89F30016FD77 /* EffectiveCouponsCell.m */; };
+		370E31B71D6E89F30016FD77 /* EffectiveCouponsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 370E31B51D6E89F30016FD77 /* EffectiveCouponsCell.xib */; };
+		370E31BB1D6E8CE60016FD77 /* OverdueCouponsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 370E31B91D6E8CE60016FD77 /* OverdueCouponsCell.m */; };
+		370E31BC1D6E8CE60016FD77 /* OverdueCouponsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 370E31BA1D6E8CE60016FD77 /* OverdueCouponsCell.xib */; };
+		370E31BF1D6E8FD90016FD77 /* CouponsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 370E31BD1D6E8FD90016FD77 /* CouponsEntity.m */; };
 		3728E06A1D6BE30900BF638D /* GBTopLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728E0671D6BE30900BF638D /* GBTopLineView.m */; };
 		3728E06B1D6BE30900BF638D /* GBTopLineViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728E0691D6BE30900BF638D /* GBTopLineViewModel.m */; };
 		37472E9D1D693C5E00F9CD6C /* ClassifyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 37472E9C1D693C5E00F9CD6C /* ClassifyModel.m */; };
@@ -440,6 +448,17 @@
 		370373311D65A9B90055349A /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		370373321D65A9B90055349A /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		370373331D65A9B90055349A /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		370E31AC1D6E89E50016FD77 /* coupon_none.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coupon_none.png; sourceTree = "<group>"; };
+		370E31AD1D6E89E50016FD77 /* coupon_useful.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coupon_useful.png; sourceTree = "<group>"; };
+		370E31AE1D6E89E50016FD77 /* coupon_useless.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coupon_useless.png; sourceTree = "<group>"; };
+		370E31B31D6E89F30016FD77 /* EffectiveCouponsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectiveCouponsCell.h; sourceTree = "<group>"; };
+		370E31B41D6E89F30016FD77 /* EffectiveCouponsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EffectiveCouponsCell.m; sourceTree = "<group>"; };
+		370E31B51D6E89F30016FD77 /* EffectiveCouponsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EffectiveCouponsCell.xib; sourceTree = "<group>"; };
+		370E31B81D6E8CE60016FD77 /* OverdueCouponsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverdueCouponsCell.h; sourceTree = "<group>"; };
+		370E31B91D6E8CE60016FD77 /* OverdueCouponsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverdueCouponsCell.m; sourceTree = "<group>"; };
+		370E31BA1D6E8CE60016FD77 /* OverdueCouponsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverdueCouponsCell.xib; sourceTree = "<group>"; };
+		370E31BD1D6E8FD90016FD77 /* CouponsEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponsEntity.m; sourceTree = "<group>"; };
+		370E31BE1D6E8FD90016FD77 /* CouponsEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponsEntity.h; sourceTree = "<group>"; };
 		3728E0661D6BE30900BF638D /* GBTopLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBTopLineView.h; sourceTree = "<group>"; };
 		3728E0671D6BE30900BF638D /* GBTopLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBTopLineView.m; sourceTree = "<group>"; };
 		3728E0681D6BE30900BF638D /* GBTopLineViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBTopLineViewModel.h; sourceTree = "<group>"; };
@@ -1107,6 +1126,29 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		370E31AB1D6E89E50016FD77 /* CouponsView */ = {
+			isa = PBXGroup;
+			children = (
+				370E31AC1D6E89E50016FD77 /* coupon_none.png */,
+				370E31AD1D6E89E50016FD77 /* coupon_useful.png */,
+				370E31AE1D6E89E50016FD77 /* coupon_useless.png */,
+			);
+			path = CouponsView;
+			sourceTree = "<group>";
+		};
+		370E31B21D6E89F30016FD77 /* CouponsCell */ = {
+			isa = PBXGroup;
+			children = (
+				370E31B31D6E89F30016FD77 /* EffectiveCouponsCell.h */,
+				370E31B41D6E89F30016FD77 /* EffectiveCouponsCell.m */,
+				370E31B51D6E89F30016FD77 /* EffectiveCouponsCell.xib */,
+				370E31B81D6E8CE60016FD77 /* OverdueCouponsCell.h */,
+				370E31B91D6E8CE60016FD77 /* OverdueCouponsCell.m */,
+				370E31BA1D6E8CE60016FD77 /* OverdueCouponsCell.xib */,
+			);
+			path = CouponsCell;
+			sourceTree = "<group>";
+		};
 		3728E0651D6BE30900BF638D /* GBTopLineView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1162,6 +1204,8 @@
 		3756FEBE1CED992100922D5B /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				370E31BD1D6E8FD90016FD77 /* CouponsEntity.m */,
+				370E31BE1D6E8FD90016FD77 /* CouponsEntity.h */,
 				37EACEB41D6A923600674EE9 /* ProductEntity.m */,
 				37EACEB51D6A923600674EE9 /* ProductEntity.h */,
 				37472E9B1D693C5E00F9CD6C /* ClassifyModel.h */,
@@ -1180,6 +1224,7 @@
 		3756FEBF1CED992C00922D5B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				370E31B21D6E89F30016FD77 /* CouponsCell */,
 				37EACEB71D6A93CA00674EE9 /* ProductCell */,
 				370372A51D6593370055349A /* ClassCell */,
 				37B6AF6C1CF3244400A12DC2 /* CartsCell */,
@@ -1231,6 +1276,7 @@
 		37AC72431CEEBE0600110155 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				370E31AB1D6E89E50016FD77 /* CouponsView */,
 				37FE5F2C1D6C565300012513 /* CollectionView */,
 				37FE5F191D6C2E5400012513 /* ProductView */,
 				37472E9E1D6943B800F9CD6C /* searchView */,
@@ -1513,6 +1559,7 @@
 				0AB929751CE3012C00E98D62 /* UMSnsAccountViewController.xib in Resources */,
 				0A027EFA1CE18D5600B95294 /* Intro2-480.jpg in Resources */,
 				0A027EF71CE18D5600B95294 /* Intro1-568.jpg in Resources */,
+				370E31B01D6E89E50016FD77 /* coupon_useful.png in Resources */,
 				0A027F021CE18D5600B95294 /* Intro4-480.jpg in Resources */,
 				0AB929711CE3012C00E98D62 /* UMSCommentInputControlleriPad.xib in Resources */,
 				0A025F901CDAEE1F00AFE6C7 /* Assets.xcassets in Resources */,
@@ -1569,6 +1616,7 @@
 				37BFE2F41CF2E5F50001081D /* user_wallet.png in Resources */,
 				0AB929731CE3012C00E98D62 /* UMShareEditViewControlleriPad.xib in Resources */,
 				37FE5F271D6C2E5400012513 /* plus_active.png in Resources */,
+				370E31B11D6E89E50016FD77 /* coupon_useless.png in Resources */,
 				37AC72471CEEDDB100110155 /* 暂无图片.png in Resources */,
 				37FE5F2F1D6C565300012513 /* collection_null.png in Resources */,
 				37AC724E1CEEDE3B00110155 /* address.png in Resources */,
@@ -1580,6 +1628,7 @@
 				37BFE2E61CF2E5F50001081D /* order_all.png in Resources */,
 				0AB929761CE3012C00E98D62 /* UMSShareListController.xib in Resources */,
 				37BFE28E1CF2CDBF0001081D /* a.jpg in Resources */,
+				370E31BC1D6E8CE60016FD77 /* OverdueCouponsCell.xib in Resources */,
 				0A027F041CE18D5600B95294 /* Intro4-667.jpg in Resources */,
 				37FE5F251D6C2E5400012513 /* deta_share.png in Resources */,
 				0A027F031CE18D5600B95294 /* Intro4-568.jpg in Resources */,
@@ -1593,7 +1642,9 @@
 				37B6AF711CF3244400A12DC2 /* CartCell.xib in Resources */,
 				370372AA1D6593370055349A /* CellView.xib in Resources */,
 				37AC72451CEEBE0600110155 /* notice.png in Resources */,
+				370E31AF1D6E89E50016FD77 /* coupon_none.png in Resources */,
 				37B6AF901CF32C4200A12DC2 /* plus.png in Resources */,
+				370E31B71D6E89F30016FD77 /* EffectiveCouponsCell.xib in Resources */,
 				37EACEBC1D6A93CA00674EE9 /* ProductCell.xib in Resources */,
 				37AE2B821CEFF91300DC7007 /* sdRefeshView_arrow@2x.png in Resources */,
 				37AC72521CEEDE3B00110155 /* pro-hot.png in Resources */,
@@ -1613,6 +1664,7 @@
 				37FE5F2B1D6C533900012513 /* CollectionListViewController.m in Sources */,
 				37EACEC31D6A96EF00674EE9 /* SearchProductListViewController.m in Sources */,
 				370372A31D6589D00055349A /* ClassifyViewController.m in Sources */,
+				370E31B61D6E89F30016FD77 /* EffectiveCouponsCell.m in Sources */,
 				0A0B149E1CDD9B9F006DD011 /* UIRefreshControl+AFNetworking.m in Sources */,
 				0A0B14991CDD9B9F006DD011 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				0A13F7F21CDB374A00AF5392 /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -1665,6 +1717,8 @@
 				0A0B14971CDD9B9F006DD011 /* AFAutoPurgingImageCache.m in Sources */,
 				0A13F7F01CDB374A00AF5392 /* UIImage+MultiFormat.m in Sources */,
 				370373301D659FA80055349A /* MBProgressHUD.m in Sources */,
+				370E31BF1D6E8FD90016FD77 /* CouponsEntity.m in Sources */,
+				370E31BB1D6E8CE60016FD77 /* OverdueCouponsCell.m in Sources */,
 				37491E1D1D6D926C0033C48D /* CouponsViewController.m in Sources */,
 				0A0B14931CDD9B9F006DD011 /* AFSecurityPolicy.m in Sources */,
 				0A0B146D1CDD9B90006DD011 /* HYBNetworking.m in Sources */,

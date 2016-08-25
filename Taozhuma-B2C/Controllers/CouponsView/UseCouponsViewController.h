@@ -10,4 +10,5 @@
 
 @interface UseCouponsViewController : BaseViewController
 
+@property (nonatomic, strong) UITableView* mTableView;
 @end

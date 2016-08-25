@@ -10,4 +10,6 @@
 
 @interface OverdueCouponsViewController : BaseViewController
 
+@property (nonatomic, strong) UITableView* mTableView;
+
 @end
