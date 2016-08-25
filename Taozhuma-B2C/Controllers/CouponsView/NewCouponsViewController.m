@@ -283,8 +283,8 @@
     NSString *path = [NSString stringWithFormat:@"/Api/Coupon/activate?"];
     
     [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
-        
+//    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+    [HYBNetworking postWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
         NSDictionary *dic = response;
         NSLog(@"response:%@",response);
         NSString *statusMsg = [dic valueForKey:@"status"];
