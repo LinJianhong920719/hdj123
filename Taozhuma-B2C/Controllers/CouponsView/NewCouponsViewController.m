@@ -236,15 +236,15 @@
         cell.couponsDate.text = [NSString stringWithFormat:@"%@ - %@",entity.startTime,entity.endTime];
         cell.couponsGoods.text = @"指定商品专享";
         if([entity.type isEqualToString:@"0"]){
-            type = @"直减";
-            cell.couponsName.text = [NSString stringWithFormat:@"%@%@",entity.expValue,type];
+            type = @"元直减";
+            cell.couponsName.text = [NSString stringWithFormat:@"%@%@",[self removeFloatAllZero:entity.expValue],type];
         }else if([entity.type isEqualToString:@"1"]){
             type = @"满50减";
             
-            cell.couponsName.text = [NSString stringWithFormat:@"%@%@",type,entity.expValue];
+            cell.couponsName.text = [NSString stringWithFormat:@"%@%@",type,[self removeFloatAllZero:entity.expValue]];
         }else if ([entity.type isEqualToString:@"2"]){
             type = @"满100减";
-            cell.couponsName.text = [NSString stringWithFormat:@"%@%@",type,entity.expValue];
+            cell.couponsName.text = [NSString stringWithFormat:@"%@%@",type,[self removeFloatAllZero:entity.expValue]];
         }
         
         
@@ -293,24 +293,8 @@
     NSString *path = [NSString stringWithFormat:@"/Api/Coupon/activate?"];
     
     [HYBNetworking updateBaseUrl:SERVICE_URL];
-    
-//    NSString* requestUrlString = @"http://120.25.77.182/Api/Coupon/activate?";
-//    NSURL *baseURL = [NSURL URLWithString:[requestUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:baseURL];
-//    [request setHTTPMethod:@"POST"];
-//    NSString *postString =@"card_num=R8M41E0D1471706241&userId=7";
-//    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
-//    request.timeoutInterval = 30;
-//    NSHTTPURLResponse *response = nil;
-//    NSError *error = nil;
-//    NSData *respData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error
-//
-//                        ];
-//
-//    NSLog(@"response:%@",respData);
-    
-//    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
-    [HYBNetworking postWithUrl:path refreshCache:YES emphasis:NO params:dic progress:nil success:^(id response) {
+
+    [HYBNetworking postWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
         NSDictionary *dic = response;
         NSLog(@"response:%@",response);
         NSString *statusMsg = [dic valueForKey:@"status"];
@@ -346,5 +330,16 @@
 
 }
 
+//去掉小数点之后的0；
+-(NSString*)removeFloatAllZero:(NSString*)string
+{
+
+    //    第二种方法
+    NSString * testNumber = string;
+    NSString * outNumber = [NSString stringWithFormat:@"%@",@(testNumber.floatValue)];
+    
+    
+    return outNumber;
+}
 
 @end
