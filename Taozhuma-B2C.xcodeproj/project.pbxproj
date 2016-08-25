@@ -863,6 +863,7 @@
 		0A13F7B01CDB322500AF5392 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				37BC6B191D6ED27100B99CC8 /* MyWalletView */,
 				37491E1A1D6D926C0033C48D /* CouponsView */,
 				37FE5F281D6C533900012513 /* CollectionView */,
 				37EACEBD1D6A955200674EE9 /* ProductView */,
@@ -1370,6 +1371,13 @@
 				37B6AF8C1CF32C4200A12DC2 /* store.png */,
 			);
 			path = CartsView;
+			sourceTree = "<group>";
+		};
+		37BC6B191D6ED27100B99CC8 /* MyWalletView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MyWalletView;
 			sourceTree = "<group>";
 		};
 		37BFE2D21CF2E5F50001081D /* MineView */ = {

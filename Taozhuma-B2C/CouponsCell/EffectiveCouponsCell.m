@@ -13,6 +13,7 @@
 @synthesize couponsName;
 @synthesize couponsGoods;
 @synthesize couponsDate;
+@synthesize couponsImage;
 
 - (void)awakeFromNib {
     [super awakeFromNib];

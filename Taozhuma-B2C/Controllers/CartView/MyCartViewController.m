@@ -555,7 +555,61 @@
 
 #pragma mark 加载数据
 
-//- (void)loadData {
+- (void)loadData {
+    
+    NSLog(@"userId:%@",[Tools stringForKey:KEY_USER_ID]);
+    
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],@"userId",
+                         nil];
+    
+    NSString *path = [NSString stringWithFormat:@"/Api/Cart/show?"];
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSLog(@"response:%@",response);
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        if([statusMsg intValue] == 4001){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"获取失败!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }if([statusMsg intValue] == 201){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"无数据";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }if([statusMsg intValue] == 4002){
+            [self showHUDText:@"获取失败!"];
+        }else{
+            
+            if([[dic valueForKey:@"data"] count] > 0 && [dic valueForKey:@"data"] != nil){
+               
+            }else{
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"无数据";
+                hud.yOffset = -50.f;
+                hud.removeFromSuperViewOnHide = YES;
+                [hud hide:YES afterDelay:2];
+            }
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
 //    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
 //                         [Tools stringForKey:KEY_USER_ID],           @"uid",
 //                         nil];
@@ -644,7 +698,7 @@
 //        [self endLoading];
 //        [self totalPriceAndNum];
 //    }];
-//}
+}
 
 #pragma mark - 数据源-代理
 //设置cell每行间隔的高度
