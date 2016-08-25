@@ -240,7 +240,7 @@
             cell.couponsName.text = [NSString stringWithFormat:@"%@%@",entity.expValue,type];
         }else if([entity.type isEqualToString:@"1"]){
             type = @"满50减";
-            [removeFloatAllZero:entity.expValue];
+            
             cell.couponsName.text = [NSString stringWithFormat:@"%@%@",type,entity.expValue];
         }else if ([entity.type isEqualToString:@"2"]){
             type = @"满100减";
