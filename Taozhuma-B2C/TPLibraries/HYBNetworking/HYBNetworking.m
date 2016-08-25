@@ -303,14 +303,6 @@ static inline NSString *cachePath() {
     // 临时参数(无加密) 用于缓存记录地址
     NSDictionary *tempParams = params;
     
-    if (emphasis) {
-        // 重要接口加密
-        params = [HYBNetworking emphasisEncryption:params];
-    } else {
-        // 普通接口加密
-        params = [HYBNetworking commonEncryption:params];
-    }
-    
   if ([self baseUrl] == nil) {
     if ([NSURL URLWithString:url] == nil) {
       HYBAppLog(@"URLString无效，无法生成URL。可能是URL中有中文，请尝试Encode URL");
@@ -456,11 +448,13 @@ static inline NSString *cachePath() {
           }
       }
     
+      NSLog(@"%@%@", url, params);
     session = [manager POST:url parameters:params progress:^(NSProgress * _Nonnull downloadProgress) {
       if (progress) {
         progress(downloadProgress.completedUnitCount, downloadProgress.totalUnitCount);
       }
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"responseObject == %@", responseObject);
       [self successResponse:responseObject callback:success];
 
       if (sg_cachePost) {
@@ -1032,63 +1026,6 @@ static inline NSString *cachePath() {
       fail(error);
     }
   }
-}
-
-+ (NSDictionary *)emphasisEncryption:(NSDictionary *)params {
-    
-    // 加密后字符串
-    NSArray *arr = [params allKeys];
-    arr = [arr sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2){
-        NSComparisonResult result = [obj1 compare:obj2];
-        return result==NSOrderedDescending;
-    }];
-    
-    NSString *spec;
-    for (NSString *key in arr) {
-        NSString *dicStr = [NSString stringWithFormat:@"%@=%@", key, [params objectForKey:key]];
-        if (spec) {
-            spec = [NSString stringWithFormat:@"%@&%@",spec,dicStr];
-        } else {
-            spec = [NSString stringWithFormat:@"%@",dicStr];
-        }
-    }
-    
-    // 拼接字符串
-    NSString *signString = [NSString stringWithFormat:@"%@taozhumab2c@corp.com",spec];
-    // 首次加密 并 转成大写
-    NSString *signMD5First = [[NSString hybnetworking_md5:signString] uppercaseString];
-    // 二次加密 并 转成大写
-    NSString *signMD5Second = [[NSString hybnetworking_md5:signMD5First] uppercaseString];
-    
-    // 参数
-    NSMutableDictionary *paramsEncrypt = [NSMutableDictionary dictionary];
-    [paramsEncrypt setDictionary:params];
-    [paramsEncrypt setObject:signMD5Second forKey:@"sign"];
-    
-    return paramsEncrypt;
-}
-
-+ (NSDictionary *)commonEncryption:(NSDictionary *)params {
-    
-    // 获取时间戳 (秒，10位)
-    NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
-    NSTimeInterval a = [dat timeIntervalSince1970];
-    NSString *timeString = [NSString stringWithFormat:@"%0.0f", a];
-    // 拼接字符串
-    NSString *signString = [NSString stringWithFormat:@"%@taozhumab2c@corp.com",timeString];
-    // 首次加密 并 转成大写
-    NSString *signMD5First = [[NSString hybnetworking_md5:signString] uppercaseString];
-    // 二次加密 并 转成大写
-    NSString *signMD5Second = [[NSString hybnetworking_md5:signMD5First] uppercaseString];
-    
-    // 参数
-    NSMutableDictionary *paramsEncrypt = [NSMutableDictionary dictionary];
-    [paramsEncrypt setDictionary:params];
-    [paramsEncrypt setObject:timeString forKey:@"time"];
-    [paramsEncrypt setObject:signMD5Second forKey:@"sign"];
-    
-    
-    return paramsEncrypt;
 }
 
 @end

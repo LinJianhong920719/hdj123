@@ -101,9 +101,6 @@
 
 - (void)loadData {
     
-    
-    NSLog(@"userId:%@",[Tools stringForKey:KEY_USER_ID]);
-    
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          @"1",     @"status",
                          [Tools stringForKey:KEY_USER_ID],@"userId",
@@ -112,7 +109,7 @@
     NSString *path = [NSString stringWithFormat:@"/Api/Coupon/show?"];
     
     [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+    [HYBNetworking postWithUrl:path refreshCache:YES params:dic success:^(id response) {
         
         NSDictionary *dic = response;
         NSLog(@"response:%@",response);
