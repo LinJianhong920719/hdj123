@@ -448,13 +448,11 @@ static inline NSString *cachePath() {
           }
       }
     
-      NSLog(@"%@%@", url, params);
     session = [manager POST:url parameters:params progress:^(NSProgress * _Nonnull downloadProgress) {
       if (progress) {
         progress(downloadProgress.completedUnitCount, downloadProgress.totalUnitCount);
       }
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"responseObject == %@", responseObject);
       [self successResponse:responseObject callback:success];
 
       if (sg_cachePost) {
