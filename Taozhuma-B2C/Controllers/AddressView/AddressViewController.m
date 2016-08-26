@@ -9,6 +9,7 @@
 #import "AddressViewController.h"
 #import "AddressEntity.h"
 #import "AddressCell.h"
+#import "AddAddressViewController.h"
 
 #define Reality_viewHeight ScreenHeight-ViewOrignY-40-50
 #define Reality_viewWidth ScreenWidth
@@ -273,54 +274,7 @@
     
     
 }
-//兑换按钮
--(void)cardBtnClick:(UIButton*)btn{
-    NSLog(@"userId:%@",[Tools stringForKey:KEY_USER_ID]);
-    
-    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         cardNumberField.text,     @"card_num",
-                         [Tools stringForKey:KEY_USER_ID],@"userId",
-                         nil];
-    
-    NSString *path = [NSString stringWithFormat:@"/Api/Coupon/activate?"];
-    
-    [HYBNetworking updateBaseUrl:SERVICE_URL];
 
-    [HYBNetworking postWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
-        NSDictionary *dic = response;
-        NSLog(@"response:%@",response);
-        NSString *statusMsg = [dic valueForKey:@"status"];
-        if([statusMsg intValue] == 4001){
-            //弹框提示获取失败
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"获取失败!";
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
-            return;
-        }if([statusMsg intValue] == 201){
-            //弹框提示获取失败
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"无数据";
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
-            return;
-        }if([statusMsg intValue] == 4002){
-            [self showHUDText:@"获取失败!"];
-        }else{
-            [self showHUDText:@"兑换成功!"];
-            [self loadData];
-            [_mTableView reloadData];
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
-
-}
 
 //去掉小数点之后的0；
 -(NSString*)removeFloatAllZero:(NSString*)string
@@ -335,17 +289,12 @@
 }
 
 //新增地址
-- (IBAction)backClick:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMine" object:nil];
-    // 返回上页
-    if (isBackToroot) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-    else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    
-    
+- (IBAction)addClick:(id)sender {
+    AddAddressViewController *addAddressView = [[AddAddressViewController alloc]init];
+    addAddressView.title = @"添加地址";
+    addAddressView.hidesBottomBarWhenPushed = YES;
+    addAddressView.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:addAddressView animated:YES];
 }
 
 @end

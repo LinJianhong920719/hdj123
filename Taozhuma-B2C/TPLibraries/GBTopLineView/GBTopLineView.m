@@ -164,6 +164,7 @@
 - (void)createHidenView
 {
     self.hidenView = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height, self.frame.size.width, self.frame.size.height)];
+    NSLog(@"self.frame.size.height:%f",self.frame.size.height);
     [self addSubview:self.hidenView];
     
     //此处是类型按钮(不需要点击)

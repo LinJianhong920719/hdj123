@@ -464,7 +464,8 @@
 -(void)createTopLineView{
     
     _TopLineView = [[GBTopLineView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 30)];
-    _TopLineView.center = CGPointMake(ScreenWidth/2.0, ScreenHeight/2.0-130);
+    _TopLineView.center = CGPointMake(DEVICE_SCREEN_SIZE_WIDTH/2.0, 154);
+    NSLog(@"ss:%f",DEVICE_SCREEN_SIZE_HEIGHT/2.0-130);
     _TopLineView.backgroundColor = [UIColor whiteColor];
     __weak __typeof(self)weakSelf = self;
     _TopLineView.clickBlock = ^(NSInteger index){
