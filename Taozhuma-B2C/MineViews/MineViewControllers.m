@@ -14,6 +14,7 @@
 #import "NewCouponsViewController.h"
 #import "UseCouponsViewController.h"
 #import "OverdueCouponsViewController.h"
+#import "AddressViewController.h"
 
 @interface MineViewControllers () <UITableViewDataSource,UITableViewDelegate> {
     NSArray *_data;
@@ -400,20 +401,20 @@
         } break;
         case 4: {
             //我的送餐地址
-//            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-//                AddressListViewController *addressListView = [[AddressListViewController alloc]init];
-//                addressListView.title = @"我的送餐地址";
-//                addressListView.hidesBottomBarWhenPushed = YES;
-//                addressListView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:addressListView animated:YES];
-//            }else{
-//                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
-//                registeredView.title = @"快捷登陆";
-//                registeredView.hidesBottomBarWhenPushed = YES;
-//                registeredView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:registeredView animated:YES];
-//                
-//            }
+            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+                AddressViewController *addressListView = [[AddressViewController alloc]init];
+                addressListView.title = @"我的地址";
+                addressListView.hidesBottomBarWhenPushed = YES;
+                addressListView.navigationController.navigationBarHidden = YES;
+                [self.navigationController pushViewController:addressListView animated:YES];
+            }else{
+                RegisterViewControllerNew *registeredView = [[RegisterViewControllerNew alloc]init];
+                registeredView.title = @"快捷登陆";
+                registeredView.hidesBottomBarWhenPushed = YES;
+                registeredView.navigationController.navigationBarHidden = YES;
+                [self.navigationController pushViewController:registeredView animated:YES];
+                
+            }
             
         } break;
         case 5: {
