@@ -10,6 +10,7 @@
 #import "AddressEntity.h"
 #import "AddressCell.h"
 #import "AddAddressViewController.h"
+#import "AddressDetailViewController.h"
 
 #define Reality_viewHeight ScreenHeight-ViewOrignY-40-50
 #define Reality_viewWidth ScreenWidth
@@ -97,6 +98,9 @@
     loadLabel.font = [UIFont systemFontOfSize:12];
     loadLabel.textColor = [UIColor colorWithRed:255/255.0f green:80/255.0f blue:0 alpha:1.0];
     [topsView addSubview:loadLabel];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(loadLabel), DEVICE_SCREEN_SIZE_WIDTH, 10)];
+    view.backgroundColor = BGCOLOR_DEFAULT;
+    [topsView addSubview:view];
     
     
     _mTableView.tableHeaderView = topsView;
@@ -230,7 +234,7 @@
     
     if (cell == nil) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"EffectiveCouponsCell" owner:self options:nil];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"AddressCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
     
@@ -247,15 +251,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    //    ProductEntity *entity = [_data objectAtIndex:[indexPath row]];
+        AddressEntity *entity = [_data objectAtIndex:[indexPath row]];
     
-    //    OrderDetailsViewController *detailsView = [[OrderDetailsViewController alloc]init];
-    //    detailsView.orderID = entity.orderID;
-    //    detailsView.title = @"订单详情";
-    //    detailsView.hidesBottomBarWhenPushed = YES;
-    //    [self.navigationController pushViewController:detailsView animated:YES];
+        AddressDetailViewController *addressDetail = [[AddressDetailViewController alloc]init];
+        addressDetail.addressId = entity.addressID;
+        addressDetail.title = @"订单详情";
+        addressDetail.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:addressDetail animated:YES];
     
-    //    [_mTableView deselectRowAtIndexPath:indexPath animated:YES];
+        [_mTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 - (IBAction)backClick:(id)sender {
     // 返回上页

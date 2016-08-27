@@ -130,6 +130,7 @@
 		370E31BB1D6E8CE60016FD77 /* OverdueCouponsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 370E31B91D6E8CE60016FD77 /* OverdueCouponsCell.m */; };
 		370E31BC1D6E8CE60016FD77 /* OverdueCouponsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 370E31BA1D6E8CE60016FD77 /* OverdueCouponsCell.xib */; };
 		370E31BF1D6E8FD90016FD77 /* CouponsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 370E31BD1D6E8FD90016FD77 /* CouponsEntity.m */; };
+		372335CD1D71304100741706 /* AddressDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372335CC1D71304100741706 /* AddressDetailViewController.m */; };
 		3728E06A1D6BE30900BF638D /* GBTopLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728E0671D6BE30900BF638D /* GBTopLineView.m */; };
 		3728E06B1D6BE30900BF638D /* GBTopLineViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728E0691D6BE30900BF638D /* GBTopLineViewModel.m */; };
 		37472E9D1D693C5E00F9CD6C /* ClassifyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 37472E9C1D693C5E00F9CD6C /* ClassifyModel.m */; };
@@ -471,6 +472,8 @@
 		370E31BA1D6E8CE60016FD77 /* OverdueCouponsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverdueCouponsCell.xib; sourceTree = "<group>"; };
 		370E31BD1D6E8FD90016FD77 /* CouponsEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponsEntity.m; sourceTree = "<group>"; };
 		370E31BE1D6E8FD90016FD77 /* CouponsEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponsEntity.h; sourceTree = "<group>"; };
+		372335CB1D71304100741706 /* AddressDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressDetailViewController.h; sourceTree = "<group>"; };
+		372335CC1D71304100741706 /* AddressDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressDetailViewController.m; sourceTree = "<group>"; };
 		3728E0661D6BE30900BF638D /* GBTopLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBTopLineView.h; sourceTree = "<group>"; };
 		3728E0671D6BE30900BF638D /* GBTopLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBTopLineView.m; sourceTree = "<group>"; };
 		3728E0681D6BE30900BF638D /* GBTopLineViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBTopLineViewModel.h; sourceTree = "<group>"; };
@@ -1443,6 +1446,8 @@
 		37BD3A0D1D6FE37500BAACF7 /* AddressView */ = {
 			isa = PBXGroup;
 			children = (
+				372335CB1D71304100741706 /* AddressDetailViewController.h */,
+				372335CC1D71304100741706 /* AddressDetailViewController.m */,
 				37BD3A0E1D6FE37500BAACF7 /* AddressViewController.h */,
 				37BD3A0F1D6FE37500BAACF7 /* AddressViewController.m */,
 				37FC003F1D70126700EE8D58 /* AddAddressViewController.h */,
@@ -1876,6 +1881,7 @@
 				37FE5F181D6C2A8800012513 /* ImageScrollView.m in Sources */,
 				0A608B7F1CE5BD1300EDB38A /* LCnterView.m in Sources */,
 				0A608B821CE5BD1300EDB38A /* LLeftViewController.m in Sources */,
+				372335CD1D71304100741706 /* AddressDetailViewController.m in Sources */,
 				37AE2B8D1CEFFDAC00DC7007 /* MainViewCell.m in Sources */,
 				0A025F851CDAEE1F00AFE6C7 /* main.m in Sources */,
 				3728E06B1D6BE30900BF638D /* GBTopLineViewModel.m in Sources */,
