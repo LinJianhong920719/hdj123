@@ -218,6 +218,7 @@
 		37CA1F881D7167B000DCF2AB /* MyWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA1F861D7167B000DCF2AB /* MyWalletCell.m */; };
 		37CA1F891D7167B000DCF2AB /* MyWalletCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37CA1F871D7167B000DCF2AB /* MyWalletCell.xib */; };
 		37CA1F8C1D716C5B00DCF2AB /* MyWalletEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA1F8B1D716C5B00DCF2AB /* MyWalletEntity.m */; };
+		37CA1F961D71916500DCF2AB /* CartStoreEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA1F951D71916500DCF2AB /* CartStoreEntity.m */; };
 		37EACEB61D6A923600674EE9 /* ProductEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EACEB41D6A923600674EE9 /* ProductEntity.m */; };
 		37EACEBB1D6A93CA00674EE9 /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EACEB91D6A93CA00674EE9 /* ProductCell.m */; };
 		37EACEBC1D6A93CA00674EE9 /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37EACEBA1D6A93CA00674EE9 /* ProductCell.xib */; };
@@ -611,6 +612,8 @@
 		37CA1F871D7167B000DCF2AB /* MyWalletCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyWalletCell.xib; sourceTree = "<group>"; };
 		37CA1F8A1D716C5B00DCF2AB /* MyWalletEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWalletEntity.h; sourceTree = "<group>"; };
 		37CA1F8B1D716C5B00DCF2AB /* MyWalletEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWalletEntity.m; sourceTree = "<group>"; };
+		37CA1F941D71916500DCF2AB /* CartStoreEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartStoreEntity.h; sourceTree = "<group>"; };
+		37CA1F951D71916500DCF2AB /* CartStoreEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CartStoreEntity.m; sourceTree = "<group>"; };
 		37EACEB41D6A923600674EE9 /* ProductEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductEntity.m; sourceTree = "<group>"; };
 		37EACEB51D6A923600674EE9 /* ProductEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductEntity.h; sourceTree = "<group>"; };
 		37EACEB81D6A93CA00674EE9 /* ProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCell.h; sourceTree = "<group>"; };
@@ -1290,6 +1293,8 @@
 				37BD3A021D6FE0CC00BAACF7 /* AddressEntity.m */,
 				37CA1F8A1D716C5B00DCF2AB /* MyWalletEntity.h */,
 				37CA1F8B1D716C5B00DCF2AB /* MyWalletEntity.m */,
+				37CA1F941D71916500DCF2AB /* CartStoreEntity.h */,
+				37CA1F951D71916500DCF2AB /* CartStoreEntity.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -1850,6 +1855,7 @@
 				0A13F7F21CDB374A00AF5392 /* UIImageView+HighlightedWebCache.m in Sources */,
 				37B6AF861CF3291500A12DC2 /* EMAsyncImageView.m in Sources */,
 				0A13F7E61CDB374A00AF5392 /* NSData+ImageContentType.m in Sources */,
+				37CA1F961D71916500DCF2AB /* CartStoreEntity.m in Sources */,
 				37491E261D6D93C60033C48D /* UseCouponsViewController.m in Sources */,
 				0A0B149F1CDD9B9F006DD011 /* UIWebView+AFNetworking.m in Sources */,
 				0A13F8011CDB381F00AF5392 /* CustomNaviBarSearchController.m in Sources */,

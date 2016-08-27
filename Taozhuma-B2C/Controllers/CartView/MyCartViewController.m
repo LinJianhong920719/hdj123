@@ -19,7 +19,7 @@
 //#import "ActivitiesDetailsViewController.h"
 //#import "RCIM_CustomerServiceViewController.h"
 
-#define UmengEventID @"MyCartViewController"
+//#define UmengEventID @"MyCartViewController"
 
 @interface MyCartViewController () {
     BOOL GTTabBar_Current;      //GTTabBar是否当前选中的
@@ -34,6 +34,7 @@
     UIButton *rightBtn;
     UIView *emptyView;
     NSMutableArray *sectionArray;
+    
 }
 
 @end
@@ -46,7 +47,7 @@
 
 - (void)loadView {
     [super loadView];
-    
+    [self loadData];
     //取消scrollview内容自动调整
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -122,8 +123,9 @@
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
         _tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 95, 0);
     }
-//    [self setupHeader];
-//    [self networkView];
+    
+    //    [self setupHeader];
+    //    [self networkView];
     [self emptyView];
 }
 
@@ -139,7 +141,7 @@
     refreshHeader.beginRefreshingOperation = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-//            [self loadData];
+            [self loadData];
             [weakRefreshHeader endRefreshing];
         });
     };
@@ -148,16 +150,16 @@
 
 - (void)totalLocation {
     
-        CGSize countSize = [labelCount.text sizeWithFont:labelCount.font constrainedToSize:CGSizeMake(MAXFLOAT, 45)];
-        [labelCount setFrame:CGRectMake(btnDetermine.frame.origin.x-16-countSize.width, 0, countSize.width, 45)];
+    CGSize countSize = [labelCount.text sizeWithFont:labelCount.font constrainedToSize:CGSizeMake(MAXFLOAT, 45)];
+    [labelCount setFrame:CGRectMake(btnDetermine.frame.origin.x-16-countSize.width, 0, countSize.width, 45)];
     
-        [iconRMB setFrame:CGRectMake(labelCount.frame.origin.x-11, 18, 7, 9)];
+    [iconRMB setFrame:CGRectMake(labelCount.frame.origin.x-11, 18, 7, 9)];
     
-        CGSize subLabelSize = [subtotalLabel.text sizeWithFont:subtotalLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 45)];
-        [subtotalLabel setFrame:CGRectMake(iconRMB.frame.origin.x-subLabelSize.width-6, 0, subLabelSize.width, 45)];
+    CGSize subLabelSize = [subtotalLabel.text sizeWithFont:subtotalLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 45)];
+    [subtotalLabel setFrame:CGRectMake(iconRMB.frame.origin.x-subLabelSize.width-6, 0, subLabelSize.width, 45)];
     
     
-        [labelCount setFrame:CGRectMake(0, 0, btnDetermine.frame.origin.x-16, 45)];
+    [labelCount setFrame:CGRectMake(0, 0, btnDetermine.frame.origin.x-16, 45)];
     
     labelCount.text = @"合计：¥0.0";
     labelPreferential.text = @"为你节省：¥0.0";
@@ -194,47 +196,47 @@
     if (submitStr.length > 0) {
         
         //执行修改
-//        NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                             [Tools stringForKey:KEY_USER_ID],           @"uid",
-//                             modifyStr,              @"cids",
-//                             nil];
-//        NSString *xpoint = @"toEditCart.do?";
-//        [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-//            if (error) {
-//                btnDetermine.userInteractionEnabled = YES;
-//            } else {
-//                
-//                if(respond.result == 1) {
-//                    btnDetermine.userInteractionEnabled = YES;
-//                    //跳转到确认订单页
-//                    ConfirmOrderViewController *confirmOrder = [[ConfirmOrderViewController alloc] init];
-//                    confirmOrder.title = @"确认订单";
-//                    confirmOrder.from = 2;
-//                    confirmOrder.submitStr = submitStr;
-//                    confirmOrder.hidesBottomBarWhenPushed = YES;
-//                    [self.navigationController pushViewController:confirmOrder animated:YES];
-//                }else{
-//                    btnDetermine.userInteractionEnabled = YES;
-//                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//                    hud.mode = MBProgressHUDModeText;
-//                    hud.labelText = respond.error_msg;
-//                    hud.yOffset = -50.f;
-//                    hud.removeFromSuperViewOnHide = YES;
-//                    [hud hide:YES afterDelay:2];
-//                    
-//                }
-//                
-//            }
-//        }];
-//        
-//    } else {
-//        btnDetermine.userInteractionEnabled = YES;
-//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//        hud.mode = MBProgressHUDModeText;
-//        hud.detailsLabelText = @"请选择商品";
-//        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
-//        hud.removeFromSuperViewOnHide = YES;
-//        [hud hide:YES afterDelay:2];
+        //        NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+        //                             [Tools stringForKey:KEY_USER_ID],           @"uid",
+        //                             modifyStr,              @"cids",
+        //                             nil];
+        //        NSString *xpoint = @"toEditCart.do?";
+        //        [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
+        //            if (error) {
+        //                btnDetermine.userInteractionEnabled = YES;
+        //            } else {
+        //
+        //                if(respond.result == 1) {
+        //                    btnDetermine.userInteractionEnabled = YES;
+        //                    //跳转到确认订单页
+        //                    ConfirmOrderViewController *confirmOrder = [[ConfirmOrderViewController alloc] init];
+        //                    confirmOrder.title = @"确认订单";
+        //                    confirmOrder.from = 2;
+        //                    confirmOrder.submitStr = submitStr;
+        //                    confirmOrder.hidesBottomBarWhenPushed = YES;
+        //                    [self.navigationController pushViewController:confirmOrder animated:YES];
+        //                }else{
+        //                    btnDetermine.userInteractionEnabled = YES;
+        //                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        //                    hud.mode = MBProgressHUDModeText;
+        //                    hud.labelText = respond.error_msg;
+        //                    hud.yOffset = -50.f;
+        //                    hud.removeFromSuperViewOnHide = YES;
+        //                    [hud hide:YES afterDelay:2];
+        //
+        //                }
+        //
+        //            }
+        //        }];
+        //
+        //    } else {
+        //        btnDetermine.userInteractionEnabled = YES;
+        //        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        //        hud.mode = MBProgressHUDModeText;
+        //        hud.detailsLabelText = @"请选择商品";
+        //        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+        //        hud.removeFromSuperViewOnHide = YES;
+        //        [hud hide:YES afterDelay:2];
     }
     
 }
@@ -259,11 +261,11 @@
     label.font = [UIFont boldSystemFontOfSize:13];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"您的购物车还是空的，添加点商品吧！";
-//    if([[Tools stringForKey:KEY_USER_TYPE]integerValue] == 6 || [Tools boolForKey:KEY_IS_LOGIN] != YES ){
-//        label.text = @"购物车空空如也";
-//    }else{
-//        label.text = @"您的购物车还是空的，添加点商品吧！";
-//    }
+    //    if([[Tools stringForKey:KEY_USER_TYPE]integerValue] == 6 || [Tools boolForKey:KEY_IS_LOGIN] != YES ){
+    //        label.text = @"购物车空空如也";
+    //    }else{
+    //        label.text = @"您的购物车还是空的，添加点商品吧！";
+    //    }
     [emptyView addSubview:label];
     
     UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake((self.view.frame.size.width - 145)/2, label.frame.size.height + label.frame.origin.y + 20, 145, 35)];
@@ -280,30 +282,30 @@
 
 - (IBAction)mailhome:(id)sender {
     //    [[AppDelegate sharedAppDelegate]loadMainView];
-//    SearchListViewController *searchList = [[SearchListViewController alloc]init];
-//    searchList.search = @"";
-//    searchList.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:searchList animated:YES];
+    //    SearchListViewController *searchList = [[SearchListViewController alloc]init];
+    //    searchList.search = @"";
+    //    searchList.hidesBottomBarWhenPushed = YES;
+    //    [self.navigationController pushViewController:searchList animated:YES];
 }
 
 #pragma mark -
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
- 
-//    if ([Tools intForKey:KEY_TabBarNum] == 3) {
-//        //页面统计-开始
-//        [Statistical beginLogPageView:UmengEventID];
-//    }
+    
+    //    if ([Tools intForKey:KEY_TabBarNum] == 3) {
+    //        //页面统计-开始
+    //        [Statistical beginLogPageView:UmengEventID];
+    //    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
-//    if ([Tools intForKey:KEY_TabBarNum] == 3) {
-//        //页面统计-结束
-//        [Statistical endLogPageView:UmengEventID];
-//    }
+    //    if ([Tools intForKey:KEY_TabBarNum] == 3) {
+    //        //页面统计-结束
+    //        [Statistical endLogPageView:UmengEventID];
+    //    }
     
 }
 
@@ -328,14 +330,14 @@
     [rightBtn addTarget:self action:@selector(editorClick:) forControlEvents:UIControlEventTouchUpInside];
     [self setNaviBarRightBtn:rightBtn];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameWillChange:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeCart:) name:@"changeCartNum"object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chooseCart:) name:@"chooseCartNum"object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartSub:) name:@"cartSubtotal"object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refCart:) name:@"refreshCart"object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeGTTabBarIndex:) name:GTTabBarIndex_Change object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openActView:) name:OpenActivitiesShowView object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openCustomerServiceView:) name:OpenCustomerService object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameWillChange:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeCart:) name:@"changeCartNum"object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chooseCart:) name:@"chooseCartNum"object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartSub:) name:@"cartSubtotal"object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refCart:) name:@"refreshCart"object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeGTTabBarIndex:) name:GTTabBarIndex_Change object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openActView:) name:OpenActivitiesShowView object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openCustomerServiceView:) name:OpenCustomerService object:nil];
     
     GTTabBar_Current = YES;
     
@@ -345,7 +347,7 @@
     
     sectionArray = [[NSMutableArray alloc]init];
     
-//    [self loadData];
+    //    [self loadData];
     
 }
 
@@ -372,15 +374,15 @@
 // 展开活动详情通知
 // ------------------------------------------------------------------------------------------
 //- (void)openActView:(NSNotification*)notification {
-//    
+//
 //    //是否是当前正在显示
 //    if ([Tools intForKey:KEY_TabBarNum] == 3) {
-//        
+//
 //        NSDictionary *info = [notification object];
-//        
+//
 //        NSString *title = [NSString stringWithFormat:@"%@",[info valueForKey:@"title"]];
 //        NSString *webLink = [NSString stringWithFormat:@"%@",[info valueForKey:@"webLink"]];
-//        
+//
 //        ActivitiesDetailsViewController *activitiesDetailsView = [[ActivitiesDetailsViewController alloc]init];
 //        activitiesDetailsView.title = title;
 //        activitiesDetailsView.linkDddress = webLink;
@@ -393,21 +395,21 @@
 // GTTabBar菜单项变更通知
 // ----------------------------------------------------------------------------------------
 //- (void)changeGTTabBarIndex:(NSNotification*)notification {
-//    
+//
 //    if ([Tools intForKey:KEY_TabBarNum] == 3) {
-//        
+//
 //        if (!GTTabBar_Current) {
 //            //页面统计-开始
 //            [Statistical beginLogPageView:UmengEventID];
 //            //计数统计
 //            [Statistical event:UmengEventID];
 //        }
-//        
+//
 //        GTTabBar_Current = YES;
 //    } else {
 //        //页面统计-结束
 //        [Statistical endLogPageView:UmengEventID];
-//        
+//
 //        GTTabBar_Current = NO;
 //    }
 //    _tableView.scrollsToTop = GTTabBar_Current;
@@ -417,7 +419,7 @@
 // 展开客服会话页
 // ------------------------------------------------------------------------------------------
 //- (void)openCustomerServiceView:(NSNotification*)notification {
-//    
+//
 //    //是否是当前正在显示
 //    if ([Tools intForKey:KEY_TabBarNum] == 3) {
 //        if (![self.navigationController.topViewController isKindOfClass:[RCIM_CustomerServiceViewController class]]) {
@@ -456,7 +458,7 @@
 - (void) refCart:(NSNotification*) notification {
     [stoData removeAllObjects];
     [proData removeAllObjects];
-//    [self loadData];
+    //    [self loadData];
     
     [self totalLocation];
 }
@@ -520,9 +522,9 @@
 }
 
 //- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-//    
+//
 //    if (buttonIndex == 1)  {
-//        
+//
 //        CartProductEntity *entity = [proData objectAtIndex:alertView.tag];
 //        NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
 //                             [Tools stringForKey:KEY_USER_ID],               @"uid",
@@ -532,7 +534,7 @@
 //        [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
 //            if (error) {
 //            } else {
-//                
+//
 //                if (respond.result == 1) {
 //                    //删除成功后刷新数据与执行刷新购物车数量通知
 //                    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshNum" object:nil];
@@ -541,7 +543,7 @@
 //                }
 //            }
 //        }];
-//        
+//
 //    }
 //}
 
@@ -549,7 +551,7 @@
     [stoData removeAllObjects];
     [proData removeAllObjects];
     [_tableView reloadData];
-//    [self loadData];
+    //    [self loadData];
 }
 
 
@@ -594,7 +596,16 @@
         }else{
             
             if([[dic valueForKey:@"data"] count] > 0 && [dic valueForKey:@"data"] != nil){
-               
+                NSLog(@"data:%@",[dic valueForKey:@"data"]);
+                for (NSDictionary *temList in [dic valueForKey:@"data"]){
+                    CartStoreEntity *entity = [[CartStoreEntity alloc]initWithAttributes:temList];
+                    [stoData addObject:entity];
+                    for (NSDictionary *proDic in entity.carts) {
+                        CartProductEntity *entitys = [[CartProductEntity alloc]initWithAttributes:proDic];
+                        [proData addObject:entitys];
+                    }
+                    
+                }
             }else{
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 hud.mode = MBProgressHUDModeText;
@@ -609,95 +620,7 @@
     } fail:^(NSError *error) {
         
     }];
-    
-//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         [Tools stringForKey:KEY_USER_ID],           @"uid",
-//                         nil];
-//    NSString *xpoint = @"tomycart.do?";
-//    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-//        if (error) {
-//            [self startNetwork];
-//        } else {
-//            [self endNetwork];
-//            if ([respond.respondArray count] > 0) {
-//                
-//                settlementView.hidden = NO;
-//                rightBtn.hidden = NO;
-//                emptyView.hidden = YES;
-//                
-//                [stoData removeAllObjects];
-//                [proData removeAllObjects];
-//                
-//                [sectionArray removeAllObjects];
-//                
-//                NSInteger row = 0;
-//                NSInteger section = 0;
-//                
-//                /**
-//                 *  区分同专区(活动id相同) 不同厂商商品
-//                 *
-//                 *  @param multiple       自定义倍数
-//                 *  @param serialNumber   自定义序号
-//                 */
-//                long multiple = 10000000;
-//                int serialNumber = 0;
-//                
-//                for (NSDictionary *temList in respond.respondArray) {
-//                    
-//                    serialNumber ++;
-//                    long actualNumber = multiple*serialNumber;
-//                    
-//                    CartStoreEntity *entity = [[CartStoreEntity alloc]initWithAttributes:temList];
-//                    entity.shopId = [NSString stringWithFormat:@"%ld",actualNumber+[entity.shopId integerValue]];
-//                    entity.preferential = 0.0;
-//                    
-//                    [stoData addObject:entity];
-//                    
-//                    NSMutableArray *rowArray = [[NSMutableArray alloc]init];
-//                    
-//                    for (NSDictionary *proDic in entity.carts) {
-//                        
-//                        CartProductEntity *entitys = [[CartProductEntity alloc]initWithAttributes:proDic];
-//                        entitys.shopId = [NSString stringWithFormat:@"%ld",actualNumber+[entitys.shopId integerValue]];
-//                        entitys.preferential = @"0";
-//                        
-//                        if (entitys.chooseTag == nil) {
-//                            entitys.chooseTag = @"1";
-//                        }
-//                        
-//                        entitys.subtotal = [NSString stringWithFormat:@"%0.1f",[entitys.number integerValue]*[entitys.price floatValue]];
-//                        
-//                        [proData addObject:entitys];
-//                        
-//                        [rowArray addObject:[NSString stringWithFormat:@"%ld",(long)row]];
-//                        
-//                        row ++;
-//                    }
-//                    
-//                    if (entity.chooseTag == nil) {
-//                        entity.chooseTag = @"1";
-//                    }
-//                    
-//                    entity.subNumber = @"0";
-//                    entity.subPrice = @"0";
-//                    entity.discountPrice = @"0";
-//                    
-//                    [sectionArray addObject:rowArray];
-//                    section ++;
-//                    
-//                }
-//                [checkAllButton setImage:[UIImage imageNamed:@"icon-checked-60.png"] forState:UIControlStateNormal];
-//                [_tableView reloadData];
-//            } else {
-//                
-//                settlementView.hidden = YES;
-//                rightBtn.hidden = YES;
-//                emptyView.hidden = NO;
-//            }
-//        }
-//        [self endLoading];
-//        [self totalPriceAndNum];
-//    }];
+
 }
 
 #pragma mark - 数据源-代理
@@ -708,15 +631,15 @@
 
 //分区数
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-//    return [stoData count];
-    return 1;
+    return [stoData count];
+    //    return 1;
 }
 
 //指定每个分区中有多少行
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    CartStoreEntity *entity = [stoData objectAtIndex:section];
-//    return [entity.carts count];
-    return 10;
+        CartStoreEntity *entity = [stoData objectAtIndex:section];
+        return [entity.carts count];
+//    return 10;
 }
 
 //设置每行调用的cell
@@ -730,138 +653,24 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-//    NSArray *rowArray = [sectionArray objectAtIndex:[indexPath section]];
-//    NSInteger row = [[rowArray objectAtIndex:[indexPath row]]integerValue];
-//    
-//    if ([stoData count] > 0) {
-//        
-//        CartProductEntity *entity = [proData objectAtIndex:row];
-//        
-//        cell.cid = entity.cid;
-//        cell.num = entity.number;
-//        cell.type =  [entity.type intValue];
-//        cell.shopId = entity.shopId;
-//        cell.imagesView.image = [UIImage imageNamed:@"tzm-125"];
-////        if ([Tools isBlankString:entity.image]) {
-////            cell.imagesView.image = [UIImage imageNamed:@"tzm-125"];
-////        } else {
-////            [cell.imagesView sd_setImageWithURL:[NSURL URLWithString:entity.image] placeholderImage:[UIImage imageNamed:@"tzm-125"] options:SDWebImageRetryFailed];
-////        }
-//        
-//        cell.imagesView.layer.borderWidth = 0.5;
-//        cell.imagesView.layer.borderColor = [UIColorWithRGBA(180, 180, 180, 1)CGColor];
-//        
-//        cell.number.text = entity.number;
-//        cell.number.layer.borderWidth = 0.5;
-//        cell.number.layer.borderColor = [UIColorWithRGBA(180, 180, 180, 1)CGColor];
-//        
-//        cell.title.text = entity.name;
-//        [cell.title setNumberOfLines:2];
-//        cell.title.font =[UIFont systemFontOfSize:12];
-//        CGSize nameSize = [cell.title.text sizeWithFont:cell.title.font constrainedToSize:CGSizeMake(DEVICE_SCREEN_SIZE_WIDTH-viewRight(cell.imagesView)-55,100) lineBreakMode:NSLineBreakByWordWrapping];
-//        
-//        if((long)nameSize.height>20){
-//            cell.title.frame = CGRectMake(viewRight(cell.imagesView)+8, 0, nameSize.width, 50);
-//        }else{
-//            cell.title.frame = CGRectMake(viewRight(cell.imagesView)+8, 0, nameSize.width, 32);
-//        }
-//        
-//        if ([entity.skuValue isEqualToString:@""]) {
-//            cell.attribute.hidden=YES;
-//        }else{
-//            cell.attribute.hidden=NO;
-//            cell.attribute.text = entity.skuValue;
-//            cell.attribute.textColor = UIColorWithRGBA(102, 100, 100, 1);
-//            [cell.attribute setFrame:CGRectMake( viewRight(cell.imagesView)+PROPORTION414*10, cell.number.frame.origin.y-13, 200, 11)];
-//        }
-//        
-//        
-//        
-//        cell.price.text = [NSString stringWithFormat:@"¥%@", entity.price];
-//        
-//        cell.priceFloat = [entity.price floatValue];
-//        cell.inventory = @"9999";
-//        
-//        cell.chooseTag = entity.chooseTag;
-//        
-//        NSInteger status = [entity.status intValue];
-//        NSInteger type = [entity.type intValue];
-//        NSInteger isActive = [entity.isActive intValue];
-//        if (status == 1) {
-//            cell.transparent.hidden = YES;
-//            cell.choose.hidden = NO;
-//        } else {
-//            cell.transparent.hidden = NO;
-//            cell.promptImages.image = [UIImage imageNamed:@"已下架-01"];
-//            cell.choose.hidden = YES;
-//        }
-//        if (type !=0) {
-//            cell.activityType.hidden=NO;
-//            if(type==2){
-//                cell.activityType.text=@"限量购";
-//            }else if(type==5){
-//                cell.activityType.text=@"专场活动";
-//            }else if(type==4){
-//                cell.activityType.text=@"场景活动";
-//            }else if(type==3){
-//                cell.activityType.text=@"钱包活动";
-//            }
-//            cell.activityType.textColor =THEME_COLORS_RED;
-//            [cell.activityType setFrame:CGRectMake( DEVICE_SCREEN_SIZE_WIDTH-70, cell.activityType.frame.origin.y, 60, 25)];
-//            if(isActive == 2){
-//                cell.transparent.hidden = NO;
-//                cell.promptImages.image = [UIImage imageNamed:@"已结束-01"];
-//                
-//                cell.choose.hidden = YES;
-//            }else {
-//                cell.transparent.hidden = YES;
-//                cell.choose.hidden = NO;
-//            }
-//        }
-//        
-//        //是否为编辑状态
-//        if ([rightBtn.titleLabel.text isEqual:@"编辑"]) {
-//            [cell setHidden:YES];
-//            
-//        } else {
-//            [cell setHidden:NO];
-//            
-//        }
-//        
-//        cell.delBtn.tag = row;
-//        [cell.delBtn addTarget:self action:@selector(delCartClick:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.delBtn setFrame:CGRectMake( DEVICE_SCREEN_SIZE_WIDTH-40, cell.activityType.frame.origin.y-10, 40, 40)];
-//        [cell.delBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-//        
-//        UIImage *chooseImage;
-//        if ([cell.chooseTag integerValue] == 1) {
-//            chooseImage = [UIImage imageNamed:@"icon-checked-60.png"];
-//            [cell setChecked:YES];
-//        } else {
-//            chooseImage = [UIImage imageNamed:@"icon-check-60.png"];
-//            [cell setChecked:NO];
-//        }
-//        [cell.choose setImage:chooseImage forState:UIControlStateNormal];
-//    }
-    
     return cell;
 }
 
 //设置选中Cell的响应事件
 //- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
+//
 //    NSArray *rowArray = [sectionArray objectAtIndex:[indexPath section]];
 //    NSInteger row = [[rowArray objectAtIndex:[indexPath row]]integerValue];
-//    
+//
 //    CartProductEntity *entity = [proData objectAtIndex:row];
-//    
+//
 //    ProductDetailsViewController * detailView = [[ProductDetailsViewController alloc]init];
 //    detailView.hidesBottomBarWhenPushed = YES;
 //    detailView.proId = entity.productId;
 //    detailView.activityId =[NSString stringWithFormat:@"%@",entity.activityId];;
 //    detailView.title = @"商品详情";
 //    [self.navigationController pushViewController:detailView animated:YES];
-//    
+//
 //}
 
 #pragma mark TableViewCell 分组 headerView footerView
@@ -886,7 +695,7 @@
     UILabel *selectAllLabel = [[UILabel alloc] initWithFrame:CGRectMake(43, 0, 250, 32)];
     selectAllLabel.textColor = UIColorWithRGBA(159, 160, 160, 1);
     selectAllLabel.font = [UIFont boldSystemFontOfSize:13];
-//    selectAllLabel.text = entity.shopName;
+    //    selectAllLabel.text = entity.shopName;
     selectAllLabel.backgroundColor = [UIColor clearColor];
     [view addSubview:selectAllLabel];
     selectAllLabel.text = @"123";
@@ -901,28 +710,28 @@
     //定义商家全选按钮
     UIButton *shopSelectButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 43, 32)];
     [shopSelectButton setImageEdgeInsets:UIEdgeInsetsMake(7.0, 12.0, 7.0, 13.0)];
-//    [shopSelectButton setTag:[entity.shopId integerValue]];
+    //    [shopSelectButton setTag:[entity.shopId integerValue]];
     [shopSelectButton addTarget:self action:@selector(selectedStore:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:shopSelectButton];
     
-    if ([entity.chooseTag integerValue] == 0) {
-        [shopSelectButton setImage:[UIImage imageNamed:@"icon-check-60.png"] forState:UIControlStateNormal];
-    } else {
-        [shopSelectButton setImage:[UIImage imageNamed:@"icon-checked-60.png"] forState:UIControlStateNormal];
-    }
+//    if ([entity.chooseTag integerValue] == 0) {
+//        [shopSelectButton setImage:[UIImage imageNamed:@"icon-check-60.png"] forState:UIControlStateNormal];
+//    } else {
+//        [shopSelectButton setImage:[UIImage imageNamed:@"icon-checked-60.png"] forState:UIControlStateNormal];
+//    }
     
     return view;
 }
 
 // section 底部间距
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-//    CartStoreEntity *entity = [stoData objectAtIndex:section];
-//    //通过discountType判断是否存在满减或者满折显示tableView高度
-//    if (entity.discountType > 0) {
-//        return 41+20.0;
-//    }else{
-//        return 41;
-//    }
+    //    CartStoreEntity *entity = [stoData objectAtIndex:section];
+    //    //通过discountType判断是否存在满减或者满折显示tableView高度
+    //    if (entity.discountType > 0) {
+    //        return 41+20.0;
+    //    }else{
+    //        return 41;
+    //    }
     return 41;
 }
 
@@ -930,11 +739,11 @@
     CartStoreEntity *entity = [stoData objectAtIndex:section];
     
     CGFloat discountHeight;
-    if (entity.discountType > 0) {
-        discountHeight = 20.0;
-    }else{
-        discountHeight = 00.0;
-    }
+//    if (entity.discountType > 0) {
+//        discountHeight = 20.0;
+//    }else{
+//        discountHeight = 00.0;
+//    }
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 41+discountHeight)];
     [view setBackgroundColor:[UIColor clearColor]];
     
@@ -947,7 +756,7 @@
     [bgView addSubview:line];
     
     
-    entity.preferential = 0.0;
+//    entity.preferential = 0.0;
     
     // -------------------- 小计 --------------------
     
@@ -955,13 +764,13 @@
     [subtotalPrice setTextAlignment:NSTextAlignmentRight];
     [subtotalPrice setTextColor:THEME_COLORS_RED];
     [subtotalPrice setFont:[UIFont systemFontOfSize:16]];
-    [subtotalPrice setText:[NSString stringWithFormat:@"%@",entity.discountPrice]];
+//    [subtotalPrice setText:[NSString stringWithFormat:@"%@",entity.discountPrice]];
     [view addSubview:subtotalPrice];
     
     UILabel *subtotalNum = [[UILabel alloc]init];
     [subtotalNum setTextColor:COLOR_898989];
     [subtotalNum setFont:[UIFont systemFontOfSize:12]];
-    [subtotalNum setText:[NSString stringWithFormat:@"小计(共%@件):",entity.subNumber]];
+//    [subtotalNum setText:[NSString stringWithFormat:@"小计(共%@件):",entity.subNumber]];
     [view addSubview:subtotalNum];
     
     
@@ -995,77 +804,77 @@
     [bgView addSubview:preferentialLabel];
     
     
-    switch (entity.discountType) {
-        case 1: {
-            discountStyle.text = @"减";
-            discountStyle.backgroundColor = COLOR_46D232;
-            discountStyle.hidden = NO;
-            discountText.hidden = NO;
-        }   break;
-        case 2: {
-            discountStyle.text = @"折";
-            discountStyle.backgroundColor = THEME_COLORS_RED;
-            discountStyle.hidden = NO;
-            discountText.hidden = NO;
-        }   break;
-        default: {
-            discountStyle.hidden = YES;
-            discountText.hidden = YES;
-        }   break;
-    }
+//    switch (entity.discountType) {
+//        case 1: {
+//            discountStyle.text = @"减";
+//            discountStyle.backgroundColor = COLOR_46D232;
+//            discountStyle.hidden = NO;
+//            discountText.hidden = NO;
+//        }   break;
+//        case 2: {
+//            discountStyle.text = @"折";
+//            discountStyle.backgroundColor = THEME_COLORS_RED;
+//            discountStyle.hidden = NO;
+//            discountText.hidden = NO;
+//        }   break;
+//        default: {
+//            discountStyle.hidden = YES;
+//            discountText.hidden = YES;
+//        }   break;
+//    }
     
     
-    CGFloat subPrice = [entity.subPrice floatValue];       //小计金额
-    NSInteger subNumber = [entity.subNumber integerValue];  //小计数量
+//    CGFloat subPrice = [entity.subPrice floatValue];       //小计金额
+//    NSInteger subNumber = [entity.subNumber integerValue];  //小计数量
     
     discountText.hidden = NO;
     discountStyle.hidden = NO;
     
-    switch (entity.discountType) {
-        case 1: {
-            CGFloat needToPrice;        //需要达到的数值
-            CGFloat preferential;       //达成后减免的金额
-            
-            for (NSDictionary *dic in entity.discountArray) {
-                
-                needToPrice =  [[dic valueForKey:@"om"]floatValue];
-                preferential = [[dic valueForKey:@"m"]floatValue];
-                
-//                NSLog(@"subPrice:%0.1f preferential:%0.1f needToPrice:%0.1f",subPrice,preferential,needToPrice);
-                if (subPrice >= needToPrice) {
-                    thresholdLabel.text = [NSString stringWithFormat:@"满减(满%0.0f)",needToPrice];
-                    preferentialLabel.text = [NSString stringWithFormat:@"-%0.1f",preferential];
-                } else {
-                    discountText.text = [NSString stringWithFormat:@"再凑%0.1f可减%0.1f",needToPrice-subPrice,preferential];
-                    break;
-                }
-                
-            }
-        }   break;
-        case 2: {
-            NSInteger needToNumber;     //需要达到的数值
-            CGFloat discount;           //达成后减免的折扣
-            
-            for (NSDictionary *dic in entity.discountArray) {
-                needToNumber =  [[dic valueForKey:@"om"]integerValue];
-                discount = [[dic valueForKey:@"m"]floatValue];
-                
-                if (subNumber >= needToNumber) {
-                    thresholdLabel.text = [NSString stringWithFormat:@"满折(满%ld件)",(long)needToNumber];
-                    preferentialLabel.text = [NSString stringWithFormat:@"打%0.1f折",discount];
-                } else {
-                    discountText.text = [NSString stringWithFormat:@"再凑%ld件可%0.1f折",(long)(needToNumber-subNumber),discount];
-                    break;
-                }
-                
-            }
-        }   break;
-    }
+//    switch (entity.discountType) {
+//        case 1: {
+//            CGFloat needToPrice;        //需要达到的数值
+//            CGFloat preferential;       //达成后减免的金额
+//            
+//            for (NSDictionary *dic in entity.discountArray) {
+//                
+//                needToPrice =  [[dic valueForKey:@"om"]floatValue];
+//                preferential = [[dic valueForKey:@"m"]floatValue];
+//                
+//                //                NSLog(@"subPrice:%0.1f preferential:%0.1f needToPrice:%0.1f",subPrice,preferential,needToPrice);
+//                if (subPrice >= needToPrice) {
+//                    thresholdLabel.text = [NSString stringWithFormat:@"满减(满%0.0f)",needToPrice];
+//                    preferentialLabel.text = [NSString stringWithFormat:@"-%0.1f",preferential];
+//                } else {
+//                    discountText.text = [NSString stringWithFormat:@"再凑%0.1f可减%0.1f",needToPrice-subPrice,preferential];
+//                    break;
+//                }
+//                
+//            }
+//        }   break;
+//        case 2: {
+//            NSInteger needToNumber;     //需要达到的数值
+//            CGFloat discount;           //达成后减免的折扣
+//            
+//            for (NSDictionary *dic in entity.discountArray) {
+//                needToNumber =  [[dic valueForKey:@"om"]integerValue];
+//                discount = [[dic valueForKey:@"m"]floatValue];
+//                
+//                if (subNumber >= needToNumber) {
+//                    thresholdLabel.text = [NSString stringWithFormat:@"满折(满%ld件)",(long)needToNumber];
+//                    preferentialLabel.text = [NSString stringWithFormat:@"打%0.1f折",discount];
+//                } else {
+//                    discountText.text = [NSString stringWithFormat:@"再凑%ld件可%0.1f折",(long)(needToNumber-subNumber),discount];
+//                    break;
+//                }
+//                
+//            }
+//        }   break;
+//    }
     
-    if (entity.preferential > 0) {
-        thresholdLabel.hidden = NO;
-        preferentialLabel.hidden = NO;
-    }
+//    if (entity.preferential > 0) {
+//        thresholdLabel.hidden = NO;
+//        preferentialLabel.hidden = NO;
+//    }
     
     if (discountText.text.length) {
         discountStyle.hidden = NO;
@@ -1140,9 +949,9 @@
     for (int i = 0; i < stoData.count; i ++) {
         CartStoreEntity *entity = [stoData objectAtIndex:i];
         if ([entity.shopId integerValue] == shopId) {
-            entity.chooseTag = choosetag;
+//            entity.chooseTag = choosetag;
         }
-        [array addObject:entity.chooseTag];
+//        [array addObject:entity.chooseTag];
     }
     //是否存在没选中的
     if ([array containsObject:@"0"]) {
@@ -1159,62 +968,62 @@
 /** 点击勾选商家 */
 
 - (IBAction)selectedStore:(id)sender {
-    UIButton *btn = (UIButton *)sender;
-    //建立动态数组 保存所有商家的选择状态
-    NSMutableArray *array = [[NSMutableArray alloc]init];
-    for (int i = 0; i < stoData.count; i ++) {
-        CartStoreEntity *entity = [stoData objectAtIndex:i];
-        if ([entity.shopId integerValue] == btn.tag) {
-            if ([entity.chooseTag integerValue] == 0) {
-                entity.chooseTag = @"1";
-            } else {
-                entity.chooseTag = @"0";
-            }
-            [self selectedProduct:btn.tag setChooseTag:entity.chooseTag];
-        }
-        [array addObject:entity.chooseTag];
-    }
-    
-    //是否存在没选中的
-    if ([array containsObject:@"0"]) {
-        //是 全部改为不选
-        [self changeButtonStyle:NO];
-    } else {
-        //否 全部改为选中
-        [self changeButtonStyle:YES];
-    }
-    [self totalPriceAndNum];
+//    UIButton *btn = (UIButton *)sender;
+//    //建立动态数组 保存所有商家的选择状态
+//    NSMutableArray *array = [[NSMutableArray alloc]init];
+//    for (int i = 0; i < stoData.count; i ++) {
+//        CartStoreEntity *entity = [stoData objectAtIndex:i];
+//        if ([entity.shopId integerValue] == btn.tag) {
+//            if ([entity.chooseTag integerValue] == 0) {
+//                entity.chooseTag = @"1";
+//            } else {
+//                entity.chooseTag = @"0";
+//            }
+//            [self selectedProduct:btn.tag setChooseTag:entity.chooseTag];
+//        }
+//        [array addObject:entity.chooseTag];
+//    }
+//    
+//    //是否存在没选中的
+//    if ([array containsObject:@"0"]) {
+//        //是 全部改为不选
+//        [self changeButtonStyle:NO];
+//    } else {
+//        //否 全部改为选中
+//        [self changeButtonStyle:YES];
+//    }
+//    [self totalPriceAndNum];
 }
 
 
 /** 点击全选 */
 
 - (void) selectedAll {
-    //建立动态数组 保存所有商家的选择状态
-    NSMutableArray *array = [[NSMutableArray alloc]init];
-    for (int i = 0; i < stoData.count; i ++) {
-        CartStoreEntity *entity = [stoData objectAtIndex:i];
-        [array addObject:entity.chooseTag];
-    }
-    //是否存在没选中的
-    if ([array containsObject:@"0"]) {
-        //是 全部改为选中
-        for (int i = 0; i < stoData.count; i ++) {
-            CartStoreEntity *entity = [stoData objectAtIndex:i];
-            entity.chooseTag = @"1";
-        }
-        [self changeButtonStyle:YES];
-        [self selectedProduct:@"1"];
-    } else {
-        //是 全部改为不选
-        for (int i = 0; i < stoData.count; i ++) {
-            CartStoreEntity *entity = [stoData objectAtIndex:i];
-            entity.chooseTag = @"0";
-        }
-        [self changeButtonStyle:NO];
-        [self selectedProduct:@"0"];
-    }
-    [self totalPriceAndNum];
+//    //建立动态数组 保存所有商家的选择状态
+//    NSMutableArray *array = [[NSMutableArray alloc]init];
+//    for (int i = 0; i < stoData.count; i ++) {
+//        CartStoreEntity *entity = [stoData objectAtIndex:i];
+//        [array addObject:entity.chooseTag];
+//    }
+//    //是否存在没选中的
+//    if ([array containsObject:@"0"]) {
+//        //是 全部改为选中
+//        for (int i = 0; i < stoData.count; i ++) {
+//            CartStoreEntity *entity = [stoData objectAtIndex:i];
+//            entity.chooseTag = @"1";
+//        }
+//        [self changeButtonStyle:YES];
+//        [self selectedProduct:@"1"];
+//    } else {
+//        //是 全部改为不选
+//        for (int i = 0; i < stoData.count; i ++) {
+//            CartStoreEntity *entity = [stoData objectAtIndex:i];
+//            entity.chooseTag = @"0";
+//        }
+//        [self changeButtonStyle:NO];
+//        [self selectedProduct:@"0"];
+//    }
+//    [self totalPriceAndNum];
 }
 
 
@@ -1258,21 +1067,21 @@
             }
         }
         
-        switch (entity.discountType) {
-            case 0: {
-                entity.preferential = 0.0;
-            }   break;
-            case 1: {
-//                entity.preferential = [self storePreferentialArray:entity.discountArray totalPrice:price];
-            }   break;
-            case 2: {
-//                entity.preferential = [self storeDiscountArray:entity.discountArray totalPrice:price totalNumber:(long)number];
-            }   break;
-        }
-        
-        entity.subNumber = [NSString stringWithFormat:@"%ld",(long)number];
-        entity.subPrice = [NSString stringWithFormat:@"%0.1f",price];
-        entity.discountPrice = [NSString stringWithFormat:@"%0.1f",price - entity.preferential];
+//        switch (entity.discountType) {
+//            case 0: {
+//                entity.preferential = 0.0;
+//            }   break;
+//            case 1: {
+//                //                entity.preferential = [self storePreferentialArray:entity.discountArray totalPrice:price];
+//            }   break;
+//            case 2: {
+//                //                entity.preferential = [self storeDiscountArray:entity.discountArray totalPrice:price totalNumber:(long)number];
+//            }   break;
+//        }
+//        
+//        entity.subNumber = [NSString stringWithFormat:@"%ld",(long)number];
+//        entity.subPrice = [NSString stringWithFormat:@"%0.1f",price];
+//        entity.discountPrice = [NSString stringWithFormat:@"%0.1f",price - entity.preferential];
     }
     
     [NSThread detachNewThreadSelector:@selector(totalAllPrice) toTarget:self withObject:nil];
@@ -1281,46 +1090,46 @@
 /** 满减计算 */
 
 //- (CGFloat)storePreferentialArray:(NSArray *)array totalPrice:(CGFloat)price {
-//    
+//
 //    CGFloat needToPrice;        //需要达到的数值
 //    CGFloat preferential;       //达成后减免的金额
-//    
+//
 //    CGFloat returePrice = 0.0;
-//    
+//
 //    for (NSDictionary *dic in array) {
 //        needToPrice =  [[dic valueForKey:@"om"]floatValue];
 //        preferential = [[dic valueForKey:@"m"]floatValue];
-//        
+//
 //        if (price >= needToPrice) {
 //            returePrice = preferential;
 //        } else {
 //            break;
 //        }
 //    }
-//    
+//
 //    return returePrice;
 //}
 //
 ///** 满折计算 */
 //
 //- (CGFloat)storeDiscountArray:(NSArray *)array totalPrice:(CGFloat)price totalNumber:(NSInteger)number {
-//    
+//
 //    NSInteger needToNumber;     //需要达到的数值
 //    CGFloat discount;           //达成后减免的折扣
-//    
+//
 //    CGFloat returePrice = 0.0;
-//    
+//
 //    for (NSDictionary *dic in array) {
 //        needToNumber =  [[dic valueForKey:@"om"]integerValue];
 //        discount = [[dic valueForKey:@"m"]floatValue];
-//        
+//
 //        if (number >= needToNumber) {
 //            returePrice = price * (1-discount/10);
 //        } else {
 //            break;
 //        }
 //    }
-//    
+//
 //    NSLog(@"%0.1f * (1-%0.1f/10) = %f",price,discount,returePrice);
 //    return returePrice;
 //}
@@ -1338,8 +1147,8 @@
     
     for (int i = 0; i < stoData.count; i ++) {
         CartStoreEntity *entity = [stoData objectAtIndex:i];
-        allPrice += [entity.discountPrice floatValue];
-        preferential += entity.preferential;
+//        allPrice += [entity.discountPrice floatValue];
+//        preferential += entity.preferential;
     }
     
     labelCount.text = [NSString stringWithFormat:@"总计：¥%0.1f",allPrice];

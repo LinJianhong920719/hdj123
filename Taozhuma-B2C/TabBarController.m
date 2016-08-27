@@ -49,13 +49,6 @@
     secondVC.tabBarItem = secondItem;
     JTNavigationController *secondNav = [[JTNavigationController alloc] initWithRootViewController:secondVC];
     
-//    ViewController *thirdVC = [[ViewController alloc] init];
-//    thirdVC.title = @"TV";
-//    UITabBarItem *thirdItem = [[UITabBarItem alloc] initWithTitle:nil image:[self imageWithImageName:@"TV_Normal"] selectedImage:[self imageWithImageName:@"TV_Normal_S"]];
-//    thirdItem.tag = 3;
-//    thirdVC.tabBarItem = thirdItem;
-//    JTNavigationController *thirdNav = [[JTNavigationController alloc] initWithRootViewController:thirdVC];
-    
     MyCartViewController *fourthVC = [[MyCartViewController alloc] init];
     fourthVC.title = @"购物车";
     UITabBarItem *fourthItem = [[UITabBarItem alloc] initWithTitle:nil image:[self imageWithImageName:@"Cart_Normal"] selectedImage:[self imageWithImageName:@"Cart_Normal_S"]];
