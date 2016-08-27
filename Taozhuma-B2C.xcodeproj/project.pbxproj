@@ -184,8 +184,6 @@
 		37B6AF8F1CF32C4200A12DC2 /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 37B6AF8A1CF32C4200A12DC2 /* minus.png */; };
 		37B6AF901CF32C4200A12DC2 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 37B6AF8B1CF32C4200A12DC2 /* plus.png */; };
 		37B6AF911CF32C4200A12DC2 /* store.png in Resources */ = {isa = PBXBuildFile; fileRef = 37B6AF8C1CF32C4200A12DC2 /* store.png */; };
-		37BD39FF1D6FDED300BAACF7 /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37BD39FD1D6FDED300BAACF7 /* AddressCell.m */; };
-		37BD3A001D6FDED300BAACF7 /* AddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37BD39FE1D6FDED300BAACF7 /* AddressCell.xib */; };
 		37BD3A031D6FE0CC00BAACF7 /* AddressEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 37BD3A021D6FE0CC00BAACF7 /* AddressEntity.m */; };
 		37BD3A0B1D6FE35700BAACF7 /* address_edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 37BD3A091D6FE35700BAACF7 /* address_edit.png */; };
 		37BD3A0C1D6FE35700BAACF7 /* address_location.png in Resources */ = {isa = PBXBuildFile; fileRef = 37BD3A0A1D6FE35700BAACF7 /* address_location.png */; };
@@ -213,6 +211,13 @@
 		37BFE2FE1CF2F5CA0001081D /* MineOrderCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37BFE2FD1CF2F5CA0001081D /* MineOrderCellView.m */; };
 		37C3A5971D6972DB00E7E398 /* search_history.png in Resources */ = {isa = PBXBuildFile; fileRef = 37C3A5951D6972DB00E7E398 /* search_history.png */; };
 		37C3A5981D6972DB00E7E398 /* search_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = 37C3A5961D6972DB00E7E398 /* search_hot.png */; };
+		37CA1F731D71633C00DCF2AB /* EditUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA1F721D71633C00DCF2AB /* EditUserInfoViewController.m */; };
+		37CA1F7D1D7166D200DCF2AB /* MyWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA1F7C1D7166D200DCF2AB /* MyWalletViewController.m */; };
+		37CA1F821D71676D00DCF2AB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA1F801D71676D00DCF2AB /* AddressCell.m */; };
+		37CA1F831D71676D00DCF2AB /* AddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37CA1F811D71676D00DCF2AB /* AddressCell.xib */; };
+		37CA1F881D7167B000DCF2AB /* MyWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA1F861D7167B000DCF2AB /* MyWalletCell.m */; };
+		37CA1F891D7167B000DCF2AB /* MyWalletCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37CA1F871D7167B000DCF2AB /* MyWalletCell.xib */; };
+		37CA1F8C1D716C5B00DCF2AB /* MyWalletEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA1F8B1D716C5B00DCF2AB /* MyWalletEntity.m */; };
 		37EACEB61D6A923600674EE9 /* ProductEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EACEB41D6A923600674EE9 /* ProductEntity.m */; };
 		37EACEBB1D6A93CA00674EE9 /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EACEB91D6A93CA00674EE9 /* ProductCell.m */; };
 		37EACEBC1D6A93CA00674EE9 /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37EACEBA1D6A93CA00674EE9 /* ProductCell.xib */; };
@@ -563,9 +568,6 @@
 		37B6AF8A1CF32C4200A12DC2 /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
 		37B6AF8B1CF32C4200A12DC2 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		37B6AF8C1CF32C4200A12DC2 /* store.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = store.png; sourceTree = "<group>"; };
-		37BD39FC1D6FDED300BAACF7 /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
-		37BD39FD1D6FDED300BAACF7 /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
-		37BD39FE1D6FDED300BAACF7 /* AddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressCell.xib; sourceTree = "<group>"; };
 		37BD3A011D6FE0CC00BAACF7 /* AddressEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressEntity.h; sourceTree = "<group>"; };
 		37BD3A021D6FE0CC00BAACF7 /* AddressEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressEntity.m; sourceTree = "<group>"; };
 		37BD3A091D6FE35700BAACF7 /* address_edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = address_edit.png; sourceTree = "<group>"; };
@@ -597,6 +599,18 @@
 		37BFE2FD1CF2F5CA0001081D /* MineOrderCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineOrderCellView.m; sourceTree = "<group>"; };
 		37C3A5951D6972DB00E7E398 /* search_history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_history.png; sourceTree = "<group>"; };
 		37C3A5961D6972DB00E7E398 /* search_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_hot.png; sourceTree = "<group>"; };
+		37CA1F711D71633C00DCF2AB /* EditUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditUserInfoViewController.h; sourceTree = "<group>"; };
+		37CA1F721D71633C00DCF2AB /* EditUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditUserInfoViewController.m; sourceTree = "<group>"; };
+		37CA1F7B1D7166D200DCF2AB /* MyWalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWalletViewController.h; sourceTree = "<group>"; };
+		37CA1F7C1D7166D200DCF2AB /* MyWalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWalletViewController.m; sourceTree = "<group>"; };
+		37CA1F7F1D71676D00DCF2AB /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
+		37CA1F801D71676D00DCF2AB /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
+		37CA1F811D71676D00DCF2AB /* AddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressCell.xib; sourceTree = "<group>"; };
+		37CA1F851D7167B000DCF2AB /* MyWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWalletCell.h; sourceTree = "<group>"; };
+		37CA1F861D7167B000DCF2AB /* MyWalletCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWalletCell.m; sourceTree = "<group>"; };
+		37CA1F871D7167B000DCF2AB /* MyWalletCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyWalletCell.xib; sourceTree = "<group>"; };
+		37CA1F8A1D716C5B00DCF2AB /* MyWalletEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWalletEntity.h; sourceTree = "<group>"; };
+		37CA1F8B1D716C5B00DCF2AB /* MyWalletEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWalletEntity.m; sourceTree = "<group>"; };
 		37EACEB41D6A923600674EE9 /* ProductEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductEntity.m; sourceTree = "<group>"; };
 		37EACEB51D6A923600674EE9 /* ProductEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductEntity.h; sourceTree = "<group>"; };
 		37EACEB81D6A93CA00674EE9 /* ProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCell.h; sourceTree = "<group>"; };
@@ -904,6 +918,8 @@
 		0A13F7B01CDB322500AF5392 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				37CA1F741D71659500DCF2AB /* MyWalletView */,
+				37CA1F701D71633C00DCF2AB /* UserInfoView */,
 				372335CE1D71388300741706 /* SetupView */,
 				37BD3A0D1D6FE37500BAACF7 /* AddressView */,
 				37BC6B191D6ED27100B99CC8 /* MyWalletView */,
@@ -1272,6 +1288,8 @@
 				3756FEC11CED997500922D5B /* AdvertisementEntity.m */,
 				37BD3A011D6FE0CC00BAACF7 /* AddressEntity.h */,
 				37BD3A021D6FE0CC00BAACF7 /* AddressEntity.m */,
+				37CA1F8A1D716C5B00DCF2AB /* MyWalletEntity.h */,
+				37CA1F8B1D716C5B00DCF2AB /* MyWalletEntity.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -1279,7 +1297,8 @@
 		3756FEBF1CED992C00922D5B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				37BD39FB1D6FDEC100BAACF7 /* AddressCell */,
+				37CA1F841D71678C00DCF2AB /* MyWalletView */,
+				37CA1F7E1D71676D00DCF2AB /* AddressCell */,
 				370E31B21D6E89F30016FD77 /* CouponsCell */,
 				37EACEB71D6A93CA00674EE9 /* ProductCell */,
 				370372A51D6593370055349A /* ClassCell */,
@@ -1436,17 +1455,6 @@
 			path = MyWalletView;
 			sourceTree = "<group>";
 		};
-		37BD39FB1D6FDEC100BAACF7 /* AddressCell */ = {
-			isa = PBXGroup;
-			children = (
-				37BD39FC1D6FDED300BAACF7 /* AddressCell.h */,
-				37BD39FD1D6FDED300BAACF7 /* AddressCell.m */,
-				37BD39FE1D6FDED300BAACF7 /* AddressCell.xib */,
-			);
-			name = AddressCell;
-			path = ../../AddressCell;
-			sourceTree = "<group>";
-		};
 		37BD3A081D6FE35700BAACF7 /* AddressView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1521,6 +1529,44 @@
 			);
 			name = MineViews;
 			path = ../MineViews;
+			sourceTree = "<group>";
+		};
+		37CA1F701D71633C00DCF2AB /* UserInfoView */ = {
+			isa = PBXGroup;
+			children = (
+				37CA1F711D71633C00DCF2AB /* EditUserInfoViewController.h */,
+				37CA1F721D71633C00DCF2AB /* EditUserInfoViewController.m */,
+			);
+			path = UserInfoView;
+			sourceTree = "<group>";
+		};
+		37CA1F741D71659500DCF2AB /* MyWalletView */ = {
+			isa = PBXGroup;
+			children = (
+				37CA1F7B1D7166D200DCF2AB /* MyWalletViewController.h */,
+				37CA1F7C1D7166D200DCF2AB /* MyWalletViewController.m */,
+			);
+			path = MyWalletView;
+			sourceTree = "<group>";
+		};
+		37CA1F7E1D71676D00DCF2AB /* AddressCell */ = {
+			isa = PBXGroup;
+			children = (
+				37CA1F7F1D71676D00DCF2AB /* AddressCell.h */,
+				37CA1F801D71676D00DCF2AB /* AddressCell.m */,
+				37CA1F811D71676D00DCF2AB /* AddressCell.xib */,
+			);
+			path = AddressCell;
+			sourceTree = "<group>";
+		};
+		37CA1F841D71678C00DCF2AB /* MyWalletView */ = {
+			isa = PBXGroup;
+			children = (
+				37CA1F851D7167B000DCF2AB /* MyWalletCell.h */,
+				37CA1F861D7167B000DCF2AB /* MyWalletCell.m */,
+				37CA1F871D7167B000DCF2AB /* MyWalletCell.xib */,
+			);
+			path = MyWalletView;
 			sourceTree = "<group>";
 		};
 		37EACEB71D6A93CA00674EE9 /* ProductCell */ = {
@@ -1735,7 +1781,6 @@
 				37BFE2EF1CF2E5F50001081D /* user_coupon.png in Resources */,
 				0A027F001CE18D5600B95294 /* Intro3-667.jpg in Resources */,
 				37FE5F301D6C565300012513 /* collection_rel.png in Resources */,
-				37BD3A001D6FDED300BAACF7 /* AddressCell.xib in Resources */,
 				37BD3A0C1D6FE35700BAACF7 /* address_location.png in Resources */,
 				0A027EFD1CE18D5600B95294 /* Intro2-736.jpg in Resources */,
 				37BFE2EC1CF2E5F50001081D /* share.png in Resources */,
@@ -1750,6 +1795,7 @@
 				37AC72471CEEDDB100110155 /* 暂无图片.png in Resources */,
 				37FE5F2F1D6C565300012513 /* collection_null.png in Resources */,
 				37FC00631D702A4300EE8D58 /* Address.plist in Resources */,
+				37CA1F831D71676D00DCF2AB /* AddressCell.xib in Resources */,
 				37AC724E1CEEDE3B00110155 /* address.png in Resources */,
 				37AC72501CEEDE3B00110155 /* drop-down.png in Resources */,
 				37BFE2EA1CF2E5F50001081D /* order_quality.png in Resources */,
@@ -1765,6 +1811,7 @@
 				37FE5F251D6C2E5400012513 /* deta_share.png in Resources */,
 				0A027F031CE18D5600B95294 /* Intro4-568.jpg in Resources */,
 				0A608B851CE5BD6200EDB38A /* 1.PNG in Resources */,
+				37CA1F891D7167B000DCF2AB /* MyWalletCell.xib in Resources */,
 				37B6AF8F1CF32C4200A12DC2 /* minus.png in Resources */,
 				37AC72531CEEDE3B00110155 /* search.png in Resources */,
 				37FE5F211D6C2E5400012513 /* deta_back.png in Resources */,
@@ -1796,6 +1843,7 @@
 				37FE5F2B1D6C533900012513 /* CollectionListViewController.m in Sources */,
 				37EACEC31D6A96EF00674EE9 /* SearchProductListViewController.m in Sources */,
 				370372A31D6589D00055349A /* ClassifyViewController.m in Sources */,
+				37CA1F881D7167B000DCF2AB /* MyWalletCell.m in Sources */,
 				370E31B61D6E89F30016FD77 /* EffectiveCouponsCell.m in Sources */,
 				0A0B149E1CDD9B9F006DD011 /* UIRefreshControl+AFNetworking.m in Sources */,
 				0A0B14991CDD9B9F006DD011 /* AFNetworkActivityIndicatorManager.m in Sources */,
@@ -1815,6 +1863,7 @@
 				3756FEC21CED997500922D5B /* AdvertisementEntity.m in Sources */,
 				37B6AF6B1CF323F800A12DC2 /* MyCartViewController.m in Sources */,
 				37EACEBB1D6A93CA00674EE9 /* ProductCell.m in Sources */,
+				37CA1F821D71676D00DCF2AB /* AddressCell.m in Sources */,
 				0A79CDDD1CE4746F0038EF7D /* MainViewController.m in Sources */,
 				37FC00691D702FA300EE8D58 /* LTPickerView.m in Sources */,
 				0A13F7EC1CDB374A00AF5392 /* SDWebImageManager.m in Sources */,
@@ -1846,10 +1895,12 @@
 				0A13F8041CDB381F00AF5392 /* CustomViewController.m in Sources */,
 				37FC00621D702A4300EE8D58 /* UIViewExt.m in Sources */,
 				0A13F7E51CDB374A00AF5392 /* MKAnnotationView+WebCache.m in Sources */,
+				37CA1F8C1D716C5B00DCF2AB /* MyWalletEntity.m in Sources */,
 				0A027EE41CE189EF00B95294 /* GuideManager.m in Sources */,
 				0A070CF71CDC6F3300298DAB /* UIColor+RandomColor.m in Sources */,
 				0A13F7E91CDB374A00AF5392 /* SDWebImageDecoder.m in Sources */,
 				378A61641D4636B600F34DD9 /* RegisteredViewController.m in Sources */,
+				37CA1F7D1D7166D200DCF2AB /* MyWalletViewController.m in Sources */,
 				0A608B811CE5BD1300EDB38A /* LViewController.m in Sources */,
 				0A13F80B1CDB3E3100AF5392 /* TabBarController.m in Sources */,
 				0A0B14971CDD9B9F006DD011 /* AFAutoPurgingImageCache.m in Sources */,
@@ -1861,7 +1912,6 @@
 				0A0B14931CDD9B9F006DD011 /* AFSecurityPolicy.m in Sources */,
 				0A0B146D1CDD9B90006DD011 /* HYBNetworking.m in Sources */,
 				37472E9D1D693C5E00F9CD6C /* ClassifyModel.m in Sources */,
-				37BD39FF1D6FDED300BAACF7 /* AddressCell.m in Sources */,
 				0A13F7EB1CDB374A00AF5392 /* SDWebImageDownloaderOperation.m in Sources */,
 				0AD53BAC1CE039540060A92E /* NetworkingRespond.m in Sources */,
 				37B6AF7C1CF325AC00A12DC2 /* CartEntity.m in Sources */,
@@ -1887,6 +1937,7 @@
 				37BFE2FE1CF2F5CA0001081D /* MineOrderCellView.m in Sources */,
 				0A13F7E81CDB374A00AF5392 /* SDWebImageCompat.m in Sources */,
 				37B6AF701CF3244400A12DC2 /* CartCell.m in Sources */,
+				37CA1F731D71633C00DCF2AB /* EditUserInfoViewController.m in Sources */,
 				37886CBA1D62F075005B6368 /* MainProductEntity.m in Sources */,
 				37491E291D6D93E30033C48D /* OverdueCouponsViewController.m in Sources */,
 				37EACEC01D6A955200674EE9 /* ProductListViewController.m in Sources */,

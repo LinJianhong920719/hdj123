@@ -16,6 +16,8 @@
 #import "OverdueCouponsViewController.h"
 #import "AddressViewController.h"
 #import "SetupViewController.h"
+#import "EditUserInfoViewController.h"
+#import "MyWalletViewController.h"
 
 @interface MineViewControllers () <UITableViewDataSource,UITableViewDelegate> {
     NSArray *_data;
@@ -234,11 +236,11 @@
 }
 -(IBAction)editUserInfoImage:(id)sender{
     NSLog(@"该方法尚未实现");
-//    EditUserInfoViewController *registeredView = [[EditUserInfoViewController alloc]init];
-//    registeredView.title = @"修改信息";
-//    registeredView.hidesBottomBarWhenPushed = YES;
-//    registeredView.navigationController.navigationBarHidden = YES;
-//    [self.navigationController pushViewController:registeredView animated:YES];
+    EditUserInfoViewController *registeredView = [[EditUserInfoViewController alloc]init];
+    registeredView.title = @"修改信息";
+    registeredView.hidesBottomBarWhenPushed = YES;
+    registeredView.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:registeredView animated:YES];
 }
 //设置按钮
 //- (IBAction)InformationClick:(id)sender {
@@ -357,16 +359,20 @@
     switch (type) {
         case 1: {
             //我的钱包
-//            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-//                [self isPassWord];
-//                
-//            }else{
-//                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
-//                registeredView.title = @"快捷登陆";
-//                registeredView.hidesBottomBarWhenPushed = YES;
-//                registeredView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:registeredView animated:YES];
-//            }
+            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+                MyWalletViewController *myWalletView = [[MyWalletViewController alloc]init];
+                myWalletView.title = @"我的钱包";
+                myWalletView.hidesBottomBarWhenPushed = YES;
+                myWalletView.navigationController.navigationBarHidden = YES;
+                [self.navigationController pushViewController:myWalletView animated:YES];
+                
+            }else{
+                RegisterViewControllerNew *registeredView = [[RegisterViewControllerNew alloc]init];
+                registeredView.title = @"快捷登陆";
+                registeredView.hidesBottomBarWhenPushed = YES;
+                registeredView.navigationController.navigationBarHidden = YES;
+                [self.navigationController pushViewController:registeredView animated:YES];
+            }
             
         } break;
         case 2: {
