@@ -15,6 +15,7 @@
 #import "UseCouponsViewController.h"
 #import "OverdueCouponsViewController.h"
 #import "AddressViewController.h"
+#import "SetupViewController.h"
 
 @interface MineViewControllers () <UITableViewDataSource,UITableViewDelegate> {
     NSArray *_data;
@@ -524,5 +525,12 @@
 //     ];
 //}
 
-
+//设置按钮
+- (IBAction)InformationClick:(id)sender {
+    SetupViewController *setupView = [[SetupViewController alloc]init];
+    setupView.title = @"设置";
+    setupView.hidesBottomBarWhenPushed = YES;
+    setupView.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:setupView animated:YES];
+}
 @end

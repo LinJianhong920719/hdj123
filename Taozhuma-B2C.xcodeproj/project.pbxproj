@@ -131,6 +131,7 @@
 		370E31BC1D6E8CE60016FD77 /* OverdueCouponsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 370E31BA1D6E8CE60016FD77 /* OverdueCouponsCell.xib */; };
 		370E31BF1D6E8FD90016FD77 /* CouponsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 370E31BD1D6E8FD90016FD77 /* CouponsEntity.m */; };
 		372335CD1D71304100741706 /* AddressDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372335CC1D71304100741706 /* AddressDetailViewController.m */; };
+		372335D11D71388300741706 /* SetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372335D01D71388300741706 /* SetupViewController.m */; };
 		3728E06A1D6BE30900BF638D /* GBTopLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728E0671D6BE30900BF638D /* GBTopLineView.m */; };
 		3728E06B1D6BE30900BF638D /* GBTopLineViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728E0691D6BE30900BF638D /* GBTopLineViewModel.m */; };
 		37472E9D1D693C5E00F9CD6C /* ClassifyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 37472E9C1D693C5E00F9CD6C /* ClassifyModel.m */; };
@@ -474,6 +475,8 @@
 		370E31BE1D6E8FD90016FD77 /* CouponsEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponsEntity.h; sourceTree = "<group>"; };
 		372335CB1D71304100741706 /* AddressDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressDetailViewController.h; sourceTree = "<group>"; };
 		372335CC1D71304100741706 /* AddressDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressDetailViewController.m; sourceTree = "<group>"; };
+		372335CF1D71388300741706 /* SetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupViewController.h; sourceTree = "<group>"; };
+		372335D01D71388300741706 /* SetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupViewController.m; sourceTree = "<group>"; };
 		3728E0661D6BE30900BF638D /* GBTopLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBTopLineView.h; sourceTree = "<group>"; };
 		3728E0671D6BE30900BF638D /* GBTopLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBTopLineView.m; sourceTree = "<group>"; };
 		3728E0681D6BE30900BF638D /* GBTopLineViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBTopLineViewModel.h; sourceTree = "<group>"; };
@@ -901,6 +904,7 @@
 		0A13F7B01CDB322500AF5392 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				372335CE1D71388300741706 /* SetupView */,
 				37BD3A0D1D6FE37500BAACF7 /* AddressView */,
 				37BC6B191D6ED27100B99CC8 /* MyWalletView */,
 				37491E1A1D6D926C0033C48D /* CouponsView */,
@@ -1187,6 +1191,15 @@
 				370E31BA1D6E8CE60016FD77 /* OverdueCouponsCell.xib */,
 			);
 			path = CouponsCell;
+			sourceTree = "<group>";
+		};
+		372335CE1D71388300741706 /* SetupView */ = {
+			isa = PBXGroup;
+			children = (
+				372335CF1D71388300741706 /* SetupViewController.h */,
+				372335D01D71388300741706 /* SetupViewController.m */,
+			);
+			path = SetupView;
 			sourceTree = "<group>";
 		};
 		3728E0651D6BE30900BF638D /* GBTopLineView */ = {
@@ -1796,6 +1809,7 @@
 				0A0B149D1CDD9B9F006DD011 /* UIProgressView+AFNetworking.m in Sources */,
 				37AE2B851CEFF91300DC7007 /* SDRefreshView.m in Sources */,
 				37B6AF741CF3250E00A12DC2 /* TableViewCell.m in Sources */,
+				372335D11D71388300741706 /* SetupViewController.m in Sources */,
 				37FC00641D702A4300EE8D58 /* AddressPickView.m in Sources */,
 				370373341D65A9B90055349A /* CollectionViewCell.m in Sources */,
 				3756FEC21CED997500922D5B /* AdvertisementEntity.m in Sources */,
