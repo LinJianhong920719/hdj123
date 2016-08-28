@@ -352,9 +352,6 @@ forHTTPHeaderField:(NSString *)field
     NSParameterAssert(method);
     NSParameterAssert(URLString);
 
-    //这里处理拼接
-    URLString = [self generateGETAbsoluteURL:URLString params:parameters];
-    URLString = [URLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:URLString];
     
     NSParameterAssert(url);
@@ -371,44 +368,6 @@ forHTTPHeaderField:(NSString *)field
     mutableRequest = [[self requestBySerializingRequest:mutableRequest withParameters:parameters error:error] mutableCopy];
 
 	return mutableRequest;
-}
-
-
-// 仅对一级字典结构起作用
-- (NSString *)generateGETAbsoluteURL:(NSString *)url params:(id)params {
-    if (params == nil || ![params isKindOfClass:[NSDictionary class]] || [params count] == 0) {
-        return url;
-    }
-    
-    NSString *queries = @"";
-    for (NSString *key in params) {
-        id value = [params objectForKey:key];
-        
-        if ([value isKindOfClass:[NSDictionary class]]) {
-            continue;
-        } else if ([value isKindOfClass:[NSArray class]]) {
-            continue;
-        } else if ([value isKindOfClass:[NSSet class]]) {
-            continue;
-        } else {
-            queries = [NSString stringWithFormat:@"%@%@=%@",
-                       (queries.length == 0 ? @"" : queries),
-                       (queries.length == 0 ? key : [NSString stringWithFormat:@"&%@", key]),
-                       value];
-        }
-    }
-    
-    if (([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) && queries.length > 1) {
-        if ([url rangeOfString:@"?"].location != NSNotFound
-            || [url rangeOfString:@"#"].location != NSNotFound) {
-            url = [NSString stringWithFormat:@"%@%@", url, queries];
-        } else {
-            queries = [queries substringFromIndex:1];
-            url = [NSString stringWithFormat:@"%@?%@", url, queries];
-        }
-    }
-    
-    return url.length == 0 ? queries : url;
 }
 
 - (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
@@ -554,7 +513,7 @@ forHTTPHeaderField:(NSString *)field
         }
         [mutableRequest setHTTPBody:[query dataUsingEncoding:self.stringEncoding]];
     }
-    NSLog(@"mutableRequest.URL == %@", mutableRequest.URL);
+
     return mutableRequest;
 }
 
@@ -1300,7 +1259,6 @@ typedef enum {
 
         [mutableRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:self.writingOptions error:error]];
     }
-    NSLog(@"mutableRequest == %@", mutableRequest);
     return mutableRequest;
 }
 
