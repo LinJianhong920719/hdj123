@@ -151,16 +151,16 @@
 - (void)totalLocation {
     
     CGSize countSize = [labelCount.text sizeWithFont:labelCount.font constrainedToSize:CGSizeMake(MAXFLOAT, 45)];
-    [labelCount setFrame:CGRectMake(btnDetermine.frame.origin.x-16-countSize.width, 0, countSize.width, 45)];
+    [labelCount setFrame:CGRectMake(btnDetermine.frame.origin.x-16-countSize.width, 0, countSize.width, 25)];
     
     [iconRMB setFrame:CGRectMake(labelCount.frame.origin.x-11, 18, 7, 9)];
     
-    CGSize subLabelSize = [subtotalLabel.text sizeWithFont:subtotalLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 45)];
-    [subtotalLabel setFrame:CGRectMake(iconRMB.frame.origin.x-subLabelSize.width-6, 0, subLabelSize.width, 45)];
+    CGSize subLabelSize = [subtotalLabel.text sizeWithFont:subtotalLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 25)];
+    [subtotalLabel setFrame:CGRectMake(iconRMB.frame.origin.x-subLabelSize.width-6, 0, subLabelSize.width, 25)];
     
     
-    [labelCount setFrame:CGRectMake(0, 0, btnDetermine.frame.origin.x-16, 45)];
-    
+    [labelCount setFrame:CGRectMake(0, 0, btnDetermine.frame.origin.x-16, 25)];
+
     labelCount.text = @"合计：¥0.0";
     labelPreferential.text = @"为你节省：¥0.0";
     labelPreferential.text = @"不含运费";
@@ -1229,21 +1229,21 @@
 - (void) totalAllPrice {
     float allPrice = 0.0;
     float preferential = 0.0;
-    //    for (int i = 0; i < proData.count; i ++) {
-    //        CartProductEntity *entity = [proData objectAtIndex:i];
-    //        if ([entity.chooseTag integerValue] == 1 && [entity.status integerValue] == 1 && [entity.isActive integerValue] != 2) {
-    //            allPrice += [entity.subtotal floatValue];
-    //        }
-    //    }
+        for (int i = 0; i < proData.count; i ++) {
+            CartProductEntity *entity = [proData objectAtIndex:i];
+            if ([entity.chooseTag integerValue] == 1 && [entity.status integerValue] == 1) {
+                allPrice += [entity.subtotal floatValue];
+            }
+        }
     
-    for (int i = 0; i < stoData.count; i ++) {
-        CartStoreEntity *entity = [stoData objectAtIndex:i];
+//    for (int i = 0; i < stoData.count; i ++) {
+//        CartStoreEntity *entity = [stoData objectAtIndex:i];
 //        allPrice += [entity.discountPrice floatValue];
 //        preferential += entity.preferential;
-    }
+//    }
     
     labelCount.text = [NSString stringWithFormat:@"总计：¥%0.1f",allPrice];
-    labelPreferential.text = [NSString stringWithFormat:@"为你节省：¥%0.1f",preferential];
+//    labelPreferential.text = [NSString stringWithFormat:@"为你节省：¥%0.1f",preferential];
     
 }
 
