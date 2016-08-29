@@ -12,7 +12,7 @@
     NSInteger totalNum;
     NSInteger totalChangeNum;
     UIImage *chooseImage;
-    
+    NSString *modeTag;
 }
 
 @synthesize i;
@@ -37,6 +37,7 @@
 @synthesize priceFloat;
 @synthesize inventory;
 @synthesize promptImages;
+@synthesize productId;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -71,14 +72,14 @@
     if (number.text.length == 0) {
         number.text = @"1";
     }
-     totalNum = [number.text integerValue];
-     totalChangeNum = [num integerValue];
+    totalNum = [number.text integerValue];
+    totalChangeNum = [num integerValue];
     [self performSelector: @selector(editNumClick:) withObject: self afterDelay: 0];
 }
 
 // 限制输入长度
 - (void) textFieldDidChange:(UITextField *) textField{
-
+    
     if(type==2){
         
         if ([textField.text integerValue]>=4) {
@@ -125,100 +126,130 @@
     if (button.tag == 1) {
         if ([number.text integerValue] < [inventory integerValue]) {
             totalNum = totalNum + 1;
-            
-            if(type==2){
-                
-                if (totalNum>=4) {
-                    number.text = @"3";
-                    totalNum = 3 ;
-                    
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"限量购活动只限购3件，不能贪哦" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                    [alert show];
-                    
-                }
-            }
-            
+            modeTag = @"inc";
         }
     } else if (button.tag == 2) {
         
         if ([number.text integerValue] > 1) {
             totalNum = totalNum - 1;
+            modeTag = @"dec";
         }
     }
-    
+    NSLog(@"cid:%@",cid);
+    NSLog(@"good_id:%@",productId);
     [self performSelector: @selector(editNumClick:) withObject: self afterDelay: 0];
     
     
 }
 
 -(IBAction)editNumClick:(id)sender{
-//    NSString *str = [NSString stringWithFormat:@"%@:%ld",cid,(long)totalNum];
-//    //执行修改
-//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         [Tools stringForKey:KEY_USER_ID],           @"uid",
-//                         str,              @"cids",
-//                         nil];
-//    NSString *xpoint = @"toEditCart.do?";
-//    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-//        if (error) {
-//            
-//        } else {
-//            if(respond.result == 1) {
-//                //计算单品总价
-//                //    price.text = [NSString stringWithFormat:@"¥%ld",(long)priceInt];
-//                subtotalInt = priceFloat * totalNum;
-//                subtotal.text = [NSString stringWithFormat:@"¥%0.1f",subtotalInt];
-//                
-//                NSMutableArray *array2 = [[NSMutableArray alloc]init];
-//                [array2 addObject:cid];
-//                
-//                if ([chooseTag integerValue] == 1) {
-//                    [array2 addObject:[NSString stringWithFormat:@"%0.1f",subtotalInt]];
-//                } else {
-//                    [array2 addObject:[NSString stringWithFormat:@"%0.1f",subtotalInt]];
-//                }
-//                
-//                NSMutableArray *array = [[NSMutableArray alloc]init];
-//                [array addObject:cid];
-//                [array addObject:[NSString stringWithFormat:@"%ld",(long)totalNum]];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"changeCartNum" object:array];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"cartSubtotal" object:array2];
-//            }else{
-//                
-//                
-//                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-//                hud.mode = MBProgressHUDModeText;
-//                hud.detailsLabelText = respond.error_msg;
-//                hud.yOffset = 200.f;
-//                hud.removeFromSuperViewOnHide = YES;
-//                [hud hide:YES afterDelay:2];
-//                
-//                
-//                subtotalInt = priceFloat * totalChangeNum;
-//                subtotal.text = [NSString stringWithFormat:@"¥%0.1f",subtotalInt];
-//                
-//                NSMutableArray *array2 = [[NSMutableArray alloc]init];
-//                [array2 addObject:cid];
-//                
-//                if ([chooseTag integerValue] == 1) {
-//                    [array2 addObject:[NSString stringWithFormat:@"%0.1f",subtotalInt]];
-//                } else {
-//                    [array2 addObject:[NSString stringWithFormat:@"%0.1f",subtotalInt]];
-//                }
-//                
-//                NSMutableArray *array = [[NSMutableArray alloc]init];
-//                [array addObject:cid];
-//                [array addObject:[NSString stringWithFormat:@"%ld",(long)totalChangeNum]];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"changeCartNum" object:array];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"cartSubtotal" object:array2];
-//                
-//                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"亲，该宝贝不能购买更多哦" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-//                [alert show];
-//                
-//            }
-//            
-//        }
-//    }];
+    NSString *str = [NSString stringWithFormat:@"%@:%ld",cid,(long)totalNum];
+    //执行修改
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         cid,           @"cartId",
+                         productId,              @"goodId",
+                         modeTag, @"mode",
+                         nil];
+    NSString *xpoint = @"/Api/Cart/editOne?";
+    NSLog(@"dics:%@",dic);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        
+        if ([statusMsg intValue] == 4001) {
+            
+        }else if ([statusMsg intValue] == 201){
+            
+        }else if ([statusMsg intValue] == 4002){
+            
+        }else {
+            //计算单品总价
+            //    price.text = [NSString stringWithFormat:@"¥%ld",(long)priceInt];
+            subtotalInt = priceFloat * totalNum;
+            subtotal.text = [NSString stringWithFormat:@"¥%0.1f",subtotalInt];
+            
+            NSMutableArray *array2 = [[NSMutableArray alloc]init];
+            [array2 addObject:cid];
+            
+            if ([chooseTag integerValue] == 1) {
+                [array2 addObject:[NSString stringWithFormat:@"%0.1f",subtotalInt]];
+            } else {
+                [array2 addObject:[NSString stringWithFormat:@"%0.1f",subtotalInt]];
+            }
+            
+            NSMutableArray *array = [[NSMutableArray alloc]init];
+            [array addObject:cid];
+            [array addObject:[NSString stringWithFormat:@"%ld",(long)totalNum]];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"changeCartNum" object:array];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"cartSubtotal" object:array2];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshCart" object:array2];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    //    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
+    //        if (error) {
+    //
+    //        } else {
+    //            if(respond.result == 1) {
+    //                //计算单品总价
+    //                //    price.text = [NSString stringWithFormat:@"¥%ld",(long)priceInt];
+    //                subtotalInt = priceFloat * totalNum;
+    //                subtotal.text = [NSString stringWithFormat:@"¥%0.1f",subtotalInt];
+    //
+    //                NSMutableArray *array2 = [[NSMutableArray alloc]init];
+    //                [array2 addObject:cid];
+    //
+    //                if ([chooseTag integerValue] == 1) {
+    //                    [array2 addObject:[NSString stringWithFormat:@"%0.1f",subtotalInt]];
+    //                } else {
+    //                    [array2 addObject:[NSString stringWithFormat:@"%0.1f",subtotalInt]];
+    //                }
+    //
+    //                NSMutableArray *array = [[NSMutableArray alloc]init];
+    //                [array addObject:cid];
+    //                [array addObject:[NSString stringWithFormat:@"%ld",(long)totalNum]];
+    //                [[NSNotificationCenter defaultCenter] postNotificationName:@"changeCartNum" object:array];
+    //                [[NSNotificationCenter defaultCenter] postNotificationName:@"cartSubtotal" object:array2];
+    //            }else{
+    //
+    //
+    //                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+    //                hud.mode = MBProgressHUDModeText;
+    //                hud.detailsLabelText = respond.error_msg;
+    //                hud.yOffset = 200.f;
+    //                hud.removeFromSuperViewOnHide = YES;
+    //                [hud hide:YES afterDelay:2];
+    //
+    //
+    //                subtotalInt = priceFloat * totalChangeNum;
+    //                subtotal.text = [NSString stringWithFormat:@"¥%0.1f",subtotalInt];
+    //
+    //                NSMutableArray *array2 = [[NSMutableArray alloc]init];
+    //                [array2 addObject:cid];
+    //
+    //                if ([chooseTag integerValue] == 1) {
+    //                    [array2 addObject:[NSString stringWithFormat:@"%0.1f",subtotalInt]];
+    //                } else {
+    //                    [array2 addObject:[NSString stringWithFormat:@"%0.1f",subtotalInt]];
+    //                }
+    //
+    //                NSMutableArray *array = [[NSMutableArray alloc]init];
+    //                [array addObject:cid];
+    //                [array addObject:[NSString stringWithFormat:@"%ld",(long)totalChangeNum]];
+    //                [[NSNotificationCenter defaultCenter] postNotificationName:@"changeCartNum" object:array];
+    //                [[NSNotificationCenter defaultCenter] postNotificationName:@"cartSubtotal" object:array2];
+    //
+    //                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"亲，该宝贝不能购买更多哦" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    //                [alert show];
+    //
+    //            }
+    //
+    //        }
+    //    }];
     
 }
 //临时修改按钮状态，发送修改数据
@@ -229,13 +260,13 @@
     [array addObject:shopId];
     
     if ([chooseTag integerValue] == 0) {
-        chooseImage = [UIImage imageNamed:@"icon-checked-60.png"];
+        chooseImage = [UIImage imageNamed:@"checkbox_active.png"];
         //修改实际状态
         [array addObject:@"1"];
         //修改缓存状态
         chooseTag = @"1";
     } else {
-        chooseImage = [UIImage imageNamed:@"icon-check-60.png"];
+        chooseImage = [UIImage imageNamed:@"checkbox.png"];
         //修改实际状态
         [array addObject:@"0"];
         //修改缓存状态
@@ -248,11 +279,11 @@
 //根据实际数据，显示按钮状态
 - (void)setChecked:(BOOL)checked {
     if (checked) {
-        chooseImage = [UIImage imageNamed:@"icon-checked-60.png"];
+        chooseImage = [UIImage imageNamed:@"checkbox_active.png"];
         //修改缓存状态
         chooseTag = @"1";
     } else {
-        chooseImage = [UIImage imageNamed:@"icon-check-60.png"];
+        chooseImage = [UIImage imageNamed:@"checkbox.png"];
         //修改缓存状态
         chooseTag = @"0";
     }

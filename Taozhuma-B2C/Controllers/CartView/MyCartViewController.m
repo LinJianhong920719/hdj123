@@ -331,10 +331,10 @@
     [self setNaviBarRightBtn:rightBtn];
     
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarFrameWillChange:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
-    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeCart:) name:@"changeCartNum"object:nil];
-    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chooseCart:) name:@"chooseCartNum"object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeCart:) name:@"changeCartNum"object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chooseCart:) name:@"chooseCartNum"object:nil];
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cartSub:) name:@"cartSubtotal"object:nil];
-    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refCart:) name:@"refreshCart"object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refCart:) name:@"refreshCart"object:nil];
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeGTTabBarIndex:) name:GTTabBarIndex_Change object:nil];
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openActView:) name:OpenActivitiesShowView object:nil];
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openCustomerServiceView:) name:OpenCustomerService object:nil];
@@ -458,7 +458,7 @@
 - (void) refCart:(NSNotification*) notification {
     [stoData removeAllObjects];
     [proData removeAllObjects];
-    //    [self loadData];
+        [self loadData];
     
     [self totalLocation];
 }
@@ -623,6 +623,7 @@
                     section ++;
                     
                 }
+                [_tableView reloadData];
             }else{
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 hud.mode = MBProgressHUDModeText;
@@ -674,6 +675,10 @@
     if ([stoData count] > 0) {
         
         CartProductEntity *entity = [proData objectAtIndex:row];
+        
+        cell.cid = entity.cid;
+        cell.productId = entity.productId;
+        cell.shopId = entity.shopId;
         cell.transparent.hidden = YES;
         cell.num = entity.number;
 

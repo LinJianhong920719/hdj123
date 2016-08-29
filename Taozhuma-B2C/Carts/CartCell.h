@@ -35,6 +35,7 @@
 @property (nonatomic, strong) NSString *num;
 @property (nonatomic, assign) int type;
 @property (nonatomic, strong) NSString *shopId;
+@property (nonatomic, strong) NSString *productId;
 @property (nonatomic, strong) NSString *chooseTag;
 
 @property (nonatomic, assign) float subtotalInt;

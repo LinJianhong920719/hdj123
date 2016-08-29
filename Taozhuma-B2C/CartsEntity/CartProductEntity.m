@@ -33,7 +33,7 @@
         return nil;
     }
     
-    cid = [attributes valueForKey:@"cid"];
+    cid = [attributes valueForKey:@"id"];
     image = [attributes valueForKey:@"good_image"];
     name = [attributes valueForKey:@"good_name"];
     number = [attributes valueForKey:@"nums"];
