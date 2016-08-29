@@ -632,14 +632,14 @@
 //分区数
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [stoData count];
-    //    return 1;
+
 }
 
 //指定每个分区中有多少行
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
         CartStoreEntity *entity = [stoData objectAtIndex:section];
         return [entity.carts count];
-//    return 10;
+
 }
 
 //设置每行调用的cell
@@ -651,6 +651,118 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CartCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    NSArray *rowArray = [sectionArray objectAtIndex:[indexPath section]];
+    NSInteger row = [[rowArray objectAtIndex:[indexPath row]]integerValue];
+    if ([stoData count] > 0) {
+        
+        CartProductEntity *entity = [proData objectAtIndex:row];
+        
+        cell.cid = entity.cid;
+        cell.num = entity.number;
+        cell.type =  [entity.type intValue];
+        cell.shopId = entity.shopId;
+        
+        if ([Tools isBlankString:entity.image]) {
+            cell.imagesView.image = [UIImage imageNamed:@"tzm-125"];
+        } else {
+            [cell.imagesView sd_setImageWithURL:[NSURL URLWithString:entity.image] placeholderImage:[UIImage imageNamed:@"tzm-125"] options:SDWebImageRetryFailed];
+        }
+        
+        cell.imagesView.layer.borderWidth = 0.5;
+        cell.imagesView.layer.borderColor = [UIColorWithRGBA(180, 180, 180, 1)CGColor];
+        
+        cell.number.text = entity.number;
+        cell.number.layer.borderWidth = 0.5;
+        cell.number.layer.borderColor = [UIColorWithRGBA(180, 180, 180, 1)CGColor];
+        
+        cell.title.text = entity.name;
+        [cell.title setNumberOfLines:2];
+        cell.title.font =[UIFont systemFontOfSize:12];
+        CGSize nameSize = [cell.title.text sizeWithFont:cell.title.font constrainedToSize:CGSizeMake(DEVICE_SCREEN_SIZE_WIDTH-viewRight(cell.imagesView)-55,100) lineBreakMode:NSLineBreakByWordWrapping];
+        
+        if((long)nameSize.height>20){
+            cell.title.frame = CGRectMake(viewRight(cell.imagesView)+8, 0, nameSize.width, 50);
+        }else{
+            cell.title.frame = CGRectMake(viewRight(cell.imagesView)+8, 0, nameSize.width, 32);
+        }
+        
+        if ([entity.skuValue isEqualToString:@""]) {
+            cell.attribute.hidden=YES;
+        }else{
+            cell.attribute.hidden=NO;
+            cell.attribute.text = entity.skuValue;
+            cell.attribute.textColor = UIColorWithRGBA(102, 100, 100, 1);
+            [cell.attribute setFrame:CGRectMake( viewRight(cell.imagesView)+PROPORTION414*10, cell.number.frame.origin.y-13, 200, 11)];
+        }
+        
+        
+        
+        cell.price.text = [NSString stringWithFormat:@"¥%@", entity.price];
+        
+        cell.priceFloat = [entity.price floatValue];
+        cell.inventory = @"9999";
+        
+        cell.chooseTag = entity.chooseTag;
+        
+        NSInteger status = [entity.status intValue];
+        NSInteger type = [entity.type intValue];
+        NSInteger isActive = [entity.isActive intValue];
+        if (status == 1) {
+            cell.transparent.hidden = YES;
+            cell.choose.hidden = NO;
+        } else {
+            cell.transparent.hidden = NO;
+            cell.promptImages.image = [UIImage imageNamed:@"已下架-01"];
+            cell.choose.hidden = YES;
+        }
+        if (type !=0) {
+            cell.activityType.hidden=NO;
+            if(type==2){
+                cell.activityType.text=@"限量购";
+            }else if(type==5){
+                cell.activityType.text=@"专场活动";
+            }else if(type==4){
+                cell.activityType.text=@"场景活动";
+            }else if(type==3){
+                cell.activityType.text=@"钱包活动";
+            }
+            cell.activityType.textColor =THEME_COLORS_RED;
+            [cell.activityType setFrame:CGRectMake( DEVICE_SCREEN_SIZE_WIDTH-70, cell.activityType.frame.origin.y, 60, 25)];
+            if(isActive == 2){
+                cell.transparent.hidden = NO;
+                cell.promptImages.image = [UIImage imageNamed:@"已结束-01"];
+                
+                cell.choose.hidden = YES;
+            }else {
+                cell.transparent.hidden = YES;
+                cell.choose.hidden = NO;
+            }
+        }
+        
+        //是否为编辑状态
+        if ([rightBtn.titleLabel.text isEqual:@"编辑"]) {
+            [cell setHidden:YES];
+            
+        } else {
+            [cell setHidden:NO];
+            
+        }
+        
+        cell.delBtn.tag = row;
+        [cell.delBtn addTarget:self action:@selector(delCartClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.delBtn setFrame:CGRectMake( DEVICE_SCREEN_SIZE_WIDTH-40, cell.activityType.frame.origin.y-10, 40, 40)];
+        [cell.delBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+        
+        UIImage *chooseImage;
+        if ([cell.chooseTag integerValue] == 1) {
+            chooseImage = [UIImage imageNamed:@"icon-checked-60.png"];
+            [cell setChecked:YES];
+        } else {
+            chooseImage = [UIImage imageNamed:@"icon-check-60.png"];
+            [cell setChecked:NO];
+        }
+        [cell.choose setImage:chooseImage forState:UIControlStateNormal];
     }
     
     return cell;
@@ -695,24 +807,24 @@
     UILabel *selectAllLabel = [[UILabel alloc] initWithFrame:CGRectMake(43, 0, 250, 32)];
     selectAllLabel.textColor = UIColorWithRGBA(159, 160, 160, 1);
     selectAllLabel.font = [UIFont boldSystemFontOfSize:13];
-    //    selectAllLabel.text = entity.shopName;
+    selectAllLabel.text = entity.shopName;
     selectAllLabel.backgroundColor = [UIColor clearColor];
     [view addSubview:selectAllLabel];
-    selectAllLabel.text = @"123";
     
     CGSize arrowSize = CGSizeMake(7, 11);
-    //    CGSize selectAllSize = [selectAllLabel.text sizeWithFont:selectAllLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 32)];
+//        CGSize selectAllSize = [selectAllLabel.text sizeWithFont:selectAllLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 32)];
     EMAsyncImageView *arrow = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-23, (view.frame.size.height-arrowSize.height)/2, arrowSize.width, arrowSize.height)];
-    [arrow setImage:[UIImage imageNamed:@"icon-goshop.png"]];
+    [arrow setImage:[UIImage imageNamed:@"address_go.png"]];
     [view addSubview:arrow];
     
     
     //定义商家全选按钮
     UIButton *shopSelectButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 43, 32)];
     [shopSelectButton setImageEdgeInsets:UIEdgeInsetsMake(7.0, 12.0, 7.0, 13.0)];
-    //    [shopSelectButton setTag:[entity.shopId integerValue]];
+     [shopSelectButton setTag:[entity.shopId integerValue]];
     [shopSelectButton addTarget:self action:@selector(selectedStore:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:shopSelectButton];
+    [shopSelectButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
     
 //    if ([entity.chooseTag integerValue] == 0) {
 //        [shopSelectButton setImage:[UIImage imageNamed:@"icon-check-60.png"] forState:UIControlStateNormal];
