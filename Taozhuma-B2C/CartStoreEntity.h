@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSArray *carts;
 @property (nonatomic, strong) NSString *shopName;
 @property (nonatomic, strong) NSString *shopId;
+@property (nonatomic, strong) NSString *chooseTag;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 

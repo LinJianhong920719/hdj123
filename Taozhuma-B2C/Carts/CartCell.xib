@@ -83,7 +83,7 @@
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                         <color key="textColor" red="0.90196078430000004" green="0.1137254902" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </label>
-                    <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" image="暂无图片.png" id="7qW-Mx-aRY" customClass="EMAsyncImageView">
+                    <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" id="7qW-Mx-aRY" customClass="EMAsyncImageView">
                         <rect key="frame" x="48" y="14" width="61" height="61"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -123,6 +123,5 @@
         <image name="minus.png" width="40" height="40"/>
         <image name="plus.png" width="40" height="40"/>
         <image name="u-num-ipt.png" width="123" height="75"/>
-        <image name="暂无图片.png" width="640" height="640"/>
     </resources>
 </document>

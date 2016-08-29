@@ -34,12 +34,12 @@
     }
     
     cid = [attributes valueForKey:@"cid"];
-    image = [attributes valueForKey:@"image"];
-    name = [attributes valueForKey:@"name"];
-    number = [attributes valueForKey:@"number"];
-    price = [attributes valueForKey:@"price"];
-    productId = [attributes valueForKey:@"productId"];
-    shopId = [attributes valueForKey:@"shopId"];
+    image = [attributes valueForKey:@"good_image"];
+    name = [attributes valueForKey:@"good_name"];
+    number = [attributes valueForKey:@"nums"];
+    price = [attributes valueForKey:@"good_price"];
+    productId = [attributes valueForKey:@"good_id"];
+    shopId = [attributes valueForKey:@"shop_id"];
     shopName = [attributes valueForKey:@"shopName"];
     status = [attributes valueForKey:@"status"];
     inventory = [attributes valueForKey:@"inventory"];

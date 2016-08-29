@@ -10,7 +10,7 @@
 
 @interface CartProductEntity : NSObject
 
-@property (nonatomic, strong) NSString *cid; //购物车ID
+@property (nonatomic, strong) NSString *cid; //商品数据库id
 @property (nonatomic, strong) NSString *image; //图片
 @property (nonatomic, strong) NSString *name; //名称
 @property (nonatomic, strong) NSString *number; //数量

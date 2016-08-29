@@ -595,15 +595,32 @@
             [self showHUDText:@"获取失败!"];
         }else{
             
+            settlementView.hidden = NO;
+            rightBtn.hidden = NO;
+            emptyView.hidden = YES;
+            
+            NSInteger row = 0;
+            NSInteger section = 0;
+            
+            [stoData removeAllObjects];
+            [proData removeAllObjects];
+            
+            [sectionArray removeAllObjects];
             if([[dic valueForKey:@"data"] count] > 0 && [dic valueForKey:@"data"] != nil){
                 NSLog(@"data:%@",[dic valueForKey:@"data"]);
                 for (NSDictionary *temList in [dic valueForKey:@"data"]){
                     CartStoreEntity *entity = [[CartStoreEntity alloc]initWithAttributes:temList];
                     [stoData addObject:entity];
+                    NSMutableArray *rowArray = [[NSMutableArray alloc]init];
                     for (NSDictionary *proDic in entity.carts) {
                         CartProductEntity *entitys = [[CartProductEntity alloc]initWithAttributes:proDic];
                         [proData addObject:entitys];
+                        [rowArray addObject:[NSString stringWithFormat:@"%ld",(long)row]];
+                        
+                        row ++;
                     }
+                    [sectionArray addObject:rowArray];
+                    section ++;
                     
                 }
             }else{
@@ -657,16 +674,13 @@
     if ([stoData count] > 0) {
         
         CartProductEntity *entity = [proData objectAtIndex:row];
-        
-        cell.cid = entity.cid;
+        cell.transparent.hidden = YES;
         cell.num = entity.number;
-        cell.type =  [entity.type intValue];
-        cell.shopId = entity.shopId;
-        
+
         if ([Tools isBlankString:entity.image]) {
-            cell.imagesView.image = [UIImage imageNamed:@"tzm-125"];
+            cell.imagesView.image = [UIImage imageNamed:@"default"];
         } else {
-            [cell.imagesView sd_setImageWithURL:[NSURL URLWithString:entity.image] placeholderImage:[UIImage imageNamed:@"tzm-125"] options:SDWebImageRetryFailed];
+            [cell.imagesView sd_setImageWithURL:[NSURL URLWithString:entity.image] placeholderImage:[UIImage imageNamed:@"default"] options:SDWebImageRetryFailed];
         }
         
         cell.imagesView.layer.borderWidth = 0.5;
@@ -687,58 +701,15 @@
             cell.title.frame = CGRectMake(viewRight(cell.imagesView)+8, 0, nameSize.width, 32);
         }
         
-        if ([entity.skuValue isEqualToString:@""]) {
-            cell.attribute.hidden=YES;
-        }else{
-            cell.attribute.hidden=NO;
-            cell.attribute.text = entity.skuValue;
-            cell.attribute.textColor = UIColorWithRGBA(102, 100, 100, 1);
-            [cell.attribute setFrame:CGRectMake( viewRight(cell.imagesView)+PROPORTION414*10, cell.number.frame.origin.y-13, 200, 11)];
-        }
         
-        
-        
+//        cell.choose.hidden = NO;
         cell.price.text = [NSString stringWithFormat:@"¥%@", entity.price];
         
         cell.priceFloat = [entity.price floatValue];
         cell.inventory = @"9999";
         
         cell.chooseTag = entity.chooseTag;
-        
-        NSInteger status = [entity.status intValue];
-        NSInteger type = [entity.type intValue];
-        NSInteger isActive = [entity.isActive intValue];
-        if (status == 1) {
-            cell.transparent.hidden = YES;
-            cell.choose.hidden = NO;
-        } else {
-            cell.transparent.hidden = NO;
-            cell.promptImages.image = [UIImage imageNamed:@"已下架-01"];
-            cell.choose.hidden = YES;
-        }
-        if (type !=0) {
-            cell.activityType.hidden=NO;
-            if(type==2){
-                cell.activityType.text=@"限量购";
-            }else if(type==5){
-                cell.activityType.text=@"专场活动";
-            }else if(type==4){
-                cell.activityType.text=@"场景活动";
-            }else if(type==3){
-                cell.activityType.text=@"钱包活动";
-            }
-            cell.activityType.textColor =THEME_COLORS_RED;
-            [cell.activityType setFrame:CGRectMake( DEVICE_SCREEN_SIZE_WIDTH-70, cell.activityType.frame.origin.y, 60, 25)];
-            if(isActive == 2){
-                cell.transparent.hidden = NO;
-                cell.promptImages.image = [UIImage imageNamed:@"已结束-01"];
-                
-                cell.choose.hidden = YES;
-            }else {
-                cell.transparent.hidden = YES;
-                cell.choose.hidden = NO;
-            }
-        }
+
         
         //是否为编辑状态
         if ([rightBtn.titleLabel.text isEqual:@"编辑"]) {
@@ -756,10 +727,10 @@
         
         UIImage *chooseImage;
         if ([cell.chooseTag integerValue] == 1) {
-            chooseImage = [UIImage imageNamed:@"icon-checked-60.png"];
+            chooseImage = [UIImage imageNamed:@"checkbox_active.png"];
             [cell setChecked:YES];
         } else {
-            chooseImage = [UIImage imageNamed:@"icon-check-60.png"];
+            chooseImage = [UIImage imageNamed:@"checkbox.png"];
             [cell setChecked:NO];
         }
         [cell.choose setImage:chooseImage forState:UIControlStateNormal];
@@ -826,11 +797,11 @@
     [view addSubview:shopSelectButton];
     [shopSelectButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
     
-//    if ([entity.chooseTag integerValue] == 0) {
-//        [shopSelectButton setImage:[UIImage imageNamed:@"icon-check-60.png"] forState:UIControlStateNormal];
-//    } else {
-//        [shopSelectButton setImage:[UIImage imageNamed:@"icon-checked-60.png"] forState:UIControlStateNormal];
-//    }
+    if ([entity.chooseTag integerValue] == 0) {
+        [shopSelectButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
+    } else {
+        [shopSelectButton setImage:[UIImage imageNamed:@"checkbox_active.png"] forState:UIControlStateNormal];
+    }
     
     return view;
 }
@@ -1061,9 +1032,9 @@
     for (int i = 0; i < stoData.count; i ++) {
         CartStoreEntity *entity = [stoData objectAtIndex:i];
         if ([entity.shopId integerValue] == shopId) {
-//            entity.chooseTag = choosetag;
+            entity.chooseTag = choosetag;
         }
-//        [array addObject:entity.chooseTag];
+        [array addObject:entity.chooseTag];
     }
     //是否存在没选中的
     if ([array containsObject:@"0"]) {
@@ -1080,62 +1051,65 @@
 /** 点击勾选商家 */
 
 - (IBAction)selectedStore:(id)sender {
-//    UIButton *btn = (UIButton *)sender;
-//    //建立动态数组 保存所有商家的选择状态
-//    NSMutableArray *array = [[NSMutableArray alloc]init];
-//    for (int i = 0; i < stoData.count; i ++) {
-//        CartStoreEntity *entity = [stoData objectAtIndex:i];
-//        if ([entity.shopId integerValue] == btn.tag) {
-//            if ([entity.chooseTag integerValue] == 0) {
-//                entity.chooseTag = @"1";
-//            } else {
-//                entity.chooseTag = @"0";
-//            }
-//            [self selectedProduct:btn.tag setChooseTag:entity.chooseTag];
-//        }
-//        [array addObject:entity.chooseTag];
-//    }
-//    
-//    //是否存在没选中的
-//    if ([array containsObject:@"0"]) {
-//        //是 全部改为不选
-//        [self changeButtonStyle:NO];
-//    } else {
-//        //否 全部改为选中
-//        [self changeButtonStyle:YES];
-//    }
-//    [self totalPriceAndNum];
+    UIButton *btn = (UIButton *)sender;
+    //建立动态数组 保存所有商家的选择状态
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    for (int i = 0; i < stoData.count; i ++) {
+        CartStoreEntity *entity = [stoData objectAtIndex:i];
+        NSLog(@"tag:%ld",(long)btn.tag);
+        NSLog(@"shopId:%@",entity.shopId);
+        if ([entity.shopId integerValue] == btn.tag) {
+            if ([entity.chooseTag integerValue] == 0) {
+                entity.chooseTag = @"1";
+            } else {
+                entity.chooseTag = @"0";
+            }
+            [self selectedProduct:btn.tag setChooseTag:entity.chooseTag];
+        }
+        NSLog(@"entity.chooseTag:%@",entity.chooseTag);
+        [array addObject:entity.chooseTag];
+    }
+    NSLog(@"array:%@",array);
+    //是否存在没选中的
+    if ([array containsObject:@"0"]) {
+        //是 全部改为不选
+        [self changeButtonStyle:NO];
+    } else {
+        //否 全部改为选中
+        [self changeButtonStyle:YES];
+    }
+    [self totalPriceAndNum];
 }
 
 
 /** 点击全选 */
 
 - (void) selectedAll {
-//    //建立动态数组 保存所有商家的选择状态
-//    NSMutableArray *array = [[NSMutableArray alloc]init];
-//    for (int i = 0; i < stoData.count; i ++) {
-//        CartStoreEntity *entity = [stoData objectAtIndex:i];
-//        [array addObject:entity.chooseTag];
-//    }
-//    //是否存在没选中的
-//    if ([array containsObject:@"0"]) {
-//        //是 全部改为选中
-//        for (int i = 0; i < stoData.count; i ++) {
-//            CartStoreEntity *entity = [stoData objectAtIndex:i];
-//            entity.chooseTag = @"1";
-//        }
-//        [self changeButtonStyle:YES];
-//        [self selectedProduct:@"1"];
-//    } else {
-//        //是 全部改为不选
-//        for (int i = 0; i < stoData.count; i ++) {
-//            CartStoreEntity *entity = [stoData objectAtIndex:i];
-//            entity.chooseTag = @"0";
-//        }
-//        [self changeButtonStyle:NO];
-//        [self selectedProduct:@"0"];
-//    }
-//    [self totalPriceAndNum];
+    //建立动态数组 保存所有商家的选择状态
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    for (int i = 0; i < stoData.count; i ++) {
+        CartStoreEntity *entity = [stoData objectAtIndex:i];
+        [array addObject:entity.chooseTag];
+    }
+    //是否存在没选中的
+    if ([array containsObject:@"0"]) {
+        //是 全部改为选中
+        for (int i = 0; i < stoData.count; i ++) {
+            CartStoreEntity *entity = [stoData objectAtIndex:i];
+            entity.chooseTag = @"1";
+        }
+        [self changeButtonStyle:YES];
+        [self selectedProduct:@"1"];
+    } else {
+        //是 全部改为不选
+        for (int i = 0; i < stoData.count; i ++) {
+            CartStoreEntity *entity = [stoData objectAtIndex:i];
+            entity.chooseTag = @"0";
+        }
+        [self changeButtonStyle:NO];
+        [self selectedProduct:@"0"];
+    }
+    [self totalPriceAndNum];
 }
 
 
@@ -1143,9 +1117,9 @@
 
 - (void) changeButtonStyle:(BOOL)change {
     if (change) {
-        [checkAllButton setImage:[UIImage imageNamed:@"icon-checked-60.png"] forState:UIControlStateNormal];
+        [checkAllButton setImage:[UIImage imageNamed:@"checkbox_active.png"] forState:UIControlStateNormal];
     } else {
-        [checkAllButton setImage:[UIImage imageNamed:@"icon-check-60.png"] forState:UIControlStateNormal];
+        [checkAllButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
     }
 }
 

@@ -170,6 +170,7 @@
 		37AE2B861CEFF91300DC7007 /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AE2B7F1CEFF91300DC7007 /* UIView+SDExtension.m */; };
 		37AE2B8C1CEFFDAC00DC7007 /* MainViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37AE2B8A1CEFFDAC00DC7007 /* MainViewCell.xib */; };
 		37AE2B8D1CEFFDAC00DC7007 /* MainViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AE2B8B1CEFFDAC00DC7007 /* MainViewCell.m */; };
+		37B2BB241D7413620046934A /* u-num-ipt.png in Resources */ = {isa = PBXBuildFile; fileRef = 37B2BB231D7413620046934A /* u-num-ipt.png */; };
 		37B6AF6B1CF323F800A12DC2 /* MyCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B6AF6A1CF323F800A12DC2 /* MyCartViewController.m */; };
 		37B6AF701CF3244400A12DC2 /* CartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B6AF6E1CF3244400A12DC2 /* CartCell.m */; };
 		37B6AF711CF3244400A12DC2 /* CartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37B6AF6F1CF3244400A12DC2 /* CartCell.xib */; };
@@ -547,6 +548,7 @@
 		37AE2B891CEFFDAC00DC7007 /* MainViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCell.h; sourceTree = "<group>"; };
 		37AE2B8A1CEFFDAC00DC7007 /* MainViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewCell.xib; sourceTree = "<group>"; };
 		37AE2B8B1CEFFDAC00DC7007 /* MainViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCell.m; sourceTree = "<group>"; };
+		37B2BB231D7413620046934A /* u-num-ipt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "u-num-ipt.png"; sourceTree = "<group>"; };
 		37B6AF691CF323F800A12DC2 /* MyCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCartViewController.h; sourceTree = "<group>"; };
 		37B6AF6A1CF323F800A12DC2 /* MyCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCartViewController.m; sourceTree = "<group>"; };
 		37B6AF6D1CF3244400A12DC2 /* CartCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartCell.h; sourceTree = "<group>"; };
@@ -1441,6 +1443,7 @@
 		37B6AF871CF32C4200A12DC2 /* CartsView */ = {
 			isa = PBXGroup;
 			children = (
+				37B2BB231D7413620046934A /* u-num-ipt.png */,
 				37F431F21D73D9CD00585D6B /* address_go.png */,
 				37B6AF881CF32C4200A12DC2 /* checkbox.png */,
 				37B6AF891CF32C4200A12DC2 /* checkbox_active.png */,
@@ -1811,6 +1814,7 @@
 				37F431F31D73D9CD00585D6B /* address_go.png in Resources */,
 				370E31BC1D6E8CE60016FD77 /* OverdueCouponsCell.xib in Resources */,
 				0A027F041CE18D5600B95294 /* Intro4-667.jpg in Resources */,
+				37B2BB241D7413620046934A /* u-num-ipt.png in Resources */,
 				37FC006A1D702FA300EE8D58 /* LTPickerView.xib in Resources */,
 				37FE5F251D6C2E5400012513 /* deta_share.png in Resources */,
 				0A027F031CE18D5600B95294 /* Intro4-568.jpg in Resources */,

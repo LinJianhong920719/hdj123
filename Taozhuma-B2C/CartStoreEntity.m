@@ -13,6 +13,7 @@
 @synthesize carts;
 @synthesize shopName;
 @synthesize shopId;
+@synthesize chooseTag;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
     self = [super init];
@@ -23,6 +24,7 @@
     carts = [attributes valueForKey:@"goodsList"];
     shopName = [attributes valueForKey:@"sj_shop_name"];
     shopId = [attributes valueForKey:@"shop_id"];
+    chooseTag = @"0";
     return self;
 }
 
