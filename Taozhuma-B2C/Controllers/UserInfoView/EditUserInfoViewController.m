@@ -12,8 +12,13 @@
 #import "CustomViewController.h"
 #import "UIImageView+AFNetworking.h"
 #import "MineViewControllers.h"
+#import "ELCAssetTablePicker.h"
 
-@interface EditUserInfoViewController ()<UIActionSheetDelegate> {
+#import "AFNetworkActivityIndicatorManager.h"
+#import "AFNetworking.h"
+#import "AFHTTPSessionManager.h"
+
+@interface EditUserInfoViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate> {
     UIDatePicker *datePicker;
     UIButton *userInfo;
     UIButton *rightBtn;
@@ -34,13 +39,13 @@
     [super viewDidLoad];
     [self initView];
     [self loadData];
-     [IQKeyBoardManager installKeyboardManager];
+    [IQKeyBoardManager installKeyboardManager];
     //添加手势，点击屏幕其他区域关闭键盘的操作
     UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     gesture.numberOfTapsRequired = 1;//手势敲击的次数
     [self.view addGestureRecognizer:gesture];
     
-   
+    
     
     //导航栏右侧按钮
     rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -117,7 +122,7 @@
     name.placeholder = @"请输入昵称";
     [fieldImageView addSubview:name];
     [name addTarget:self action:@selector(nextOnKeyboard:) forControlEvents:UIControlEventEditingDidEndOnExit];
- 
+    
 }
 
 - (IBAction)showSheet:(id)sender {
@@ -131,7 +136,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
-   if (actionSheet.tag == 255) {
+    if (actionSheet.tag == 255) {
         
         if (buttonIndex == 0) {
             [self touch_photo];
@@ -158,91 +163,130 @@
 
 //打开相机
 - (void)touch_photo {
-//    // for iphone
-//    imagePicker = [[UIImagePickerController alloc] init];
-//    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-//        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-//        imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imagePicker.sourceType];
-//    }
-//    imagePicker.delegate = self;
-//    //自定义照片样式
-//    imagePicker.allowsEditing = NO;
-//    //设置相机支持的类型 拍照kUTTypeImage,录像kUTTypeMovie
-//    imagePicker.mediaTypes = @[(NSString*)kUTTypeImage];
-//    
-//    [self presentViewController:imagePicker animated:YES completion:nil];
+    // for iphone
+    imagePicker = [[UIImagePickerController alloc] init];
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:imagePicker.sourceType];
+    }
+    imagePicker.delegate = self;
+    //自定义照片样式
+    imagePicker.allowsEditing = NO;
+    //设置相机支持的类型 拍照kUTTypeImage,录像kUTTypeMovie
+    //    imagePicker.mediaTypes = @[(NSString*)kUTTypeImage];
+    
+    [self presentViewController:imagePicker animated:YES completion:nil];
+    
 }
 
 - (void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary*)info {
-//    //    //初始化imageNew为从相机中获得的--
-//    UIImage *imageNew = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-//    //设置image的尺寸
-//    CGSize imagesize = imageNew.size;
-//    
-//    imagesize.width = 300;
-//    imagesize.height = 300 / imageNew.size.width * imageNew.size.height;
-//    //对图片大小进行压缩--
-//    imageNew = [self imageWithImage:imageNew scaledToSize:imagesize];
-//    imageData = UIImageJPEGRepresentation(imageNew,0.2);
-//    headImage.image = [UIImage imageWithData:imageData];
-//    
-//    [picker dismissViewControllerAnimated:YES completion:nil];
-//    
-//    return ;
+    NSLog(@"info:%@",[info objectForKey:@"UIImagePickerControllerOriginalImage"]);
+    //初始化imageNew为从相机中获得的--
+    UIImage *imageNew = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    //设置image的尺寸
+    CGSize imagesize = imageNew.size;
+    
+    imagesize.width = 300;
+    imagesize.height = 300 / imageNew.size.width * imageNew.size.height;
+    //对图片大小进行压缩--
+    imageNew = [self imageWithImage:imageNew scaledToSize:imagesize];
+    imageData = UIImageJPEGRepresentation(imageNew,0.2);
+    headImage.image = [UIImage imageWithData:imageData];
+    NSLog(@"[UIImage imageWithData:imageData]:%@",[UIImage imageWithData:imageData]);
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    return ;
 }
 
 //对图片尺寸进行压缩--
 -(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
 {
-//    // Create a graphics image context
-//    UIGraphicsBeginImageContext(newSize);
-//    
-//    // Tell the old image to draw in this new context, with the desired
-//    // new size
-//    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-//    
-//    // Get the new image from the context
-//    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-//    
-//    // End the context
-//    UIGraphicsEndImageContext();
-//    
-//    // Return the new image.
-    return nil;
+    // Create a graphics image context
+    UIGraphicsBeginImageContext(newSize);
+    
+    // Tell the old image to draw in this new context, with the desired
+    // new size
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    
+    // Get the new image from the context
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // End the context
+    UIGraphicsEndImageContext();
+    
+    // Return the new image.
+    return newImage;
 }
 
 - (void)loadData {
-//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         @"info",     @"act",
-//                         @"e3dc653e2d68697346818dfc0b208322",     @"key",
-//                         [Tools stringForKey:KEY_USER_ID],     @"uid",
-//                         nil];
-//    NSLog(@"%@", dic);
-//    NSString *xpoint = USERXPOINT;
-//    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-//        if (error) {
-//            [HUD removeFromSuperview];
-//        } else {
-//            if (respond.result == 1) {
-//                if(respond.respondData > 0){
-//                    name.text = [NSString stringWithFormat:@"%@",[respond.respondData valueForKey:@"nikename"]];
-//                    [Tools saveObject:[respond.respondData valueForKey:@"nikename"] forKey:KEY_NIKE_NAME];
-//                    if ([respond.respondData valueForKey:@"head_icon"]==nil) {
-//                        
-//                        headImage.image = [UIImage imageNamed:@"wm-088"];
-//                    } else {
-//                        
-//                        [Tools saveObject:[respond.respondData valueForKey:@"head_icon"] forKey:KEY_HEAD_ICON];
-//                        [headImage sd_setImageWithURL:[NSURL URLWithString:[respond.respondData valueForKey:@"head_icon"]] placeholderImage:[UIImage imageNamed:@"wm-088"]];
-//                    }
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshInfos" object:nil];
-//                }
-//
-//                [HUD removeFromSuperview];
-//                
-//            }
-//        }
-//    }];
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],     @"uid",
+                         nil];
+    NSLog(@"%@", dic);
+    NSString *xpoint = @"/Api/User/getInfo";
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        NSLog(@"statusMsg:%@",statusMsg);
+        
+        
+        
+        if ([statusMsg intValue] == 201) {
+            //弹框提示获取失败
+            [self showHUDText:@"暂无数据"];
+            
+        }else if ([statusMsg intValue] == 4001) {
+            //弹框提示获取失败
+            [self showHUDText:@"获取失败!"];
+            
+        } else {
+            
+            NSArray *data = [dic valueForKey:@"data"];
+            
+            if ([data count] > 0) {
+                name.text = [NSString stringWithFormat:@"%@",[data valueForKey:@"u_nickname"]];
+                if ([data valueForKey:@"u_image"]==nil) {
+                    headImage.image = [UIImage imageNamed:@"user_default"];
+                } else {
+                 
+                    [headImage sd_setImageWithURL:[NSURL URLWithString:[data valueForKey:@"u_image"]] placeholderImage:[UIImage imageNamed:@"user_default"]];
+                }
+            }
+            
+        
+        
+    }
+     
+     } fail:^(NSError *error) {
+         
+     }];
+    //        [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
+    //            if (error) {
+    //                [HUD removeFromSuperview];
+    //            } else {
+    //                if (respond.result == 1) {
+    //                    if(respond.respondData > 0){
+    //                        name.text = [NSString stringWithFormat:@"%@",[respond.respondData valueForKey:@"nikename"]];
+    //                        [Tools saveObject:[respond.respondData valueForKey:@"nikename"] forKey:KEY_NIKE_NAME];
+    //                        if ([respond.respondData valueForKey:@"head_icon"]==nil) {
+    //
+    //                            headImage.image = [UIImage imageNamed:@"wm-088"];
+    //                        } else {
+    //
+    //                            [Tools saveObject:[respond.respondData valueForKey:@"head_icon"] forKey:KEY_HEAD_ICON];
+    //                            [headImage sd_setImageWithURL:[NSURL URLWithString:[respond.respondData valueForKey:@"head_icon"]] placeholderImage:[UIImage imageNamed:@"wm-088"]];
+    //                        }
+    //                        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshInfos" object:nil];
+    //                    }
+    //
+    //                    [HUD removeFromSuperview];
+    //
+    //                }
+    //            }
+    //        }];
     
 }
 
@@ -255,111 +299,142 @@
 //隐藏键盘方法
 -(void)hideKeyboard{
     [name resignFirstResponder];
-  
+    
 }
 //提交申请
 - (IBAction)butSubmitClick:(id)sender {
-   
-//    if (name.text.length == 0) {
-//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//        hud.mode = MBProgressHUDModeText;
-//        hud.detailsLabelText = @"请填写您的昵称";
-//        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
-//        hud.yOffset = -50.f;
-//        hud.removeFromSuperViewOnHide = YES;
-//        [hud hide:YES afterDelay:2];
-//        return;
-//    }
-//    else if(name.text.length > 10){
-//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//        hud.mode = MBProgressHUDModeText;
-//        hud.detailsLabelText = @"昵称过长";
-//        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
-//        hud.yOffset = -50.f;
-//        hud.removeFromSuperViewOnHide = YES;
-//        [hud hide:YES afterDelay:2];
-//        return;
-//    }
-//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         @"edit",                               @"act",
-//                         @"e3dc653e2d68697346818dfc0b208322",     @"key",
-//                         [Tools stringForKey:KEY_USER_ID],      @"uid",
-//                         name.text,                        @"nikename",
-//                         nil];
-//
-//    NSData *imageToUpload = imageData;
-//    
-//    NSString *url = [SERVICE_URL stringByAppendingString:@"user.php?"];
-//    
-//    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:url]];
-//    [client setParameterEncoding:AFJSONParameterEncoding];
-//    
-//    NSMutableURLRequest *requestURL = [client multipartFormRequestWithMethod:@"POST" path:url parameters:dic constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
-//        if (imageToUpload != nil) {
-//            [formData appendPartWithFileData:imageToUpload name:@"head_icon" fileName:@"credentials_img.jpg"  mimeType:@"image/jpg"];
-//        }
-//        
-//    }];
-//    [requestURL setTimeoutInterval:10];
-//    
-//    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:requestURL];
-//    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSError* error;
-//        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[operation responseData] options:kNilOptions error:&error];
-//        
-//        DLog(@"responseObject:%@", json);
-//        int result = [[json valueForKey:@"success"]integerValue];
-//        
-//        if (result == NO) {
-//            [HUD removeFromSuperview];
-//            
-//            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//            hud.mode = MBProgressHUDModeText;
-//            hud.labelText = @"修改失败";
-//            hud.yOffset = -50.f;
-//            hud.removeFromSuperViewOnHide = YES;
-//            [hud hide:YES afterDelay:2];
-//        } else {
-//            [HUD removeFromSuperview];
-//            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//            hud.mode = MBProgressHUDModeText;
-//            hud.labelText = @"修改成功";
-//            hud.yOffset = -50.f;
-//            hud.removeFromSuperViewOnHide = YES;
-//            [hud hide:YES afterDelay:2];
-//            [self performSelector:@selector(refresh:) withObject:nil afterDelay:0.1];
-//            
-//            UIViewController *target = nil;
-//            //遍历
-//            for (UIViewController * controller in self.navigationController.viewControllers) {
-//                //这里判断是否为你想要跳转的页面
-//                if ([controller isKindOfClass:[MineViewController class]]) {
-//                    target = controller;
-//                }
-//            }
-//            if (target) {
-//                
-//                //跳转
-//                [self.navigationController popToViewController:target animated:YES];
-//                
-//                
-//            }
-//
-//            
-//            
-//        }
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        if (error) {
-//            [HUD removeFromSuperview];
-//            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//            hud.mode = MBProgressHUDModeText;
-//            hud.labelText = @"资料提交失败，请重试";
-//            hud.yOffset = -50.f;
-//            hud.removeFromSuperViewOnHide = YES;
-//            [hud hide:YES afterDelay:2];
-//        }
-//    }];
-//    [client enqueueHTTPRequestOperation:operation];
+    
+    if (name.text.length == 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"请填写您的昵称";
+        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        return;
+    }
+    else if(name.text.length > 10){
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"昵称过长";
+        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        return;
+    }
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],      @"userId",
+                         name.text,                        @"nickname",
+                         nil];
+    NSLog(@"dic:%@",dic);
+    NSData *imageToUpload = imageData;
+    
+    //    NSString *url = [SERVICE_URL stringByAppendingString:@"/Api/User/edit?"];
+    NSString *xpoint = @"/Api/User/edit?";
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    //    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:url]];
+    //    [client setParameterEncoding:AFJSONParameterEncoding];
+    //
+    //    NSMutableURLRequest *requestURL = [client multipartFormRequestWithMethod:@"POST" path:url parameters:dic constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+    //        if (imageToUpload != nil) {
+    //            [formData appendPartWithFileData:imageToUpload name:@"head_icon" fileName:@"credentials_img.jpg"  mimeType:@"image/jpg"];
+    //        }
+    //
+    //    }];
+    //    [requestURL setTimeoutInterval:10];
+    
+    [HYBNetworking uploadWithImage:[UIImage imageWithData:imageToUpload] url:xpoint filename:nil name:@"u_image"
+                          mimeType:@"image/jpg"
+                        parameters:dic
+                          progress:nil
+                           success:^(id response) {
+                               
+                               NSDictionary *dic = response;
+                               NSString *statusMsg = [dic valueForKey:@"status"];
+                               NSLog(@"statusMsg:%@",statusMsg);
+                               
+                               
+                               if ([statusMsg intValue] == 201) {
+                                   //弹框提示获取失败
+                                   [self showHUDText:@"暂无数据"];
+                                   
+                               }else if ([statusMsg intValue] == 4001) {
+                                   //弹框提示获取失败
+                                   [self showHUDText:@"获取失败!"];
+                                   
+                               } else {
+                                   
+                                   [self showHUDText:@"成功!"];
+                                   
+                               }
+                           }
+                              fail:^(NSError *error) {
+                                  
+                                  
+                              }];
+    
+    
+    //    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:requestURL];
+    //    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    //        NSError* error;
+    //        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[operation responseData] options:kNilOptions error:&error];
+    //
+    //        DLog(@"responseObject:%@", json);
+    //        int result = [[json valueForKey:@"success"]integerValue];
+    //
+    //        if (result == NO) {
+    //            [HUD removeFromSuperview];
+    //
+    //            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //            hud.mode = MBProgressHUDModeText;
+    //            hud.labelText = @"修改失败";
+    //            hud.yOffset = -50.f;
+    //            hud.removeFromSuperViewOnHide = YES;
+    //            [hud hide:YES afterDelay:2];
+    //        } else {
+    //            [HUD removeFromSuperview];
+    //            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //            hud.mode = MBProgressHUDModeText;
+    //            hud.labelText = @"修改成功";
+    //            hud.yOffset = -50.f;
+    //            hud.removeFromSuperViewOnHide = YES;
+    //            [hud hide:YES afterDelay:2];
+    //            [self performSelector:@selector(refresh:) withObject:nil afterDelay:0.1];
+    //
+    //            UIViewController *target = nil;
+    //            //遍历
+    //            for (UIViewController * controller in self.navigationController.viewControllers) {
+    //                //这里判断是否为你想要跳转的页面
+    //                if ([controller isKindOfClass:[MineViewController class]]) {
+    //                    target = controller;
+    //                }
+    //            }
+    //            if (target) {
+    //
+    //                //跳转
+    //                [self.navigationController popToViewController:target animated:YES];
+    //
+    //
+    //            }
+    //
+    //
+    //
+    //        }
+    //    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    //        if (error) {
+    //            [HUD removeFromSuperview];
+    //            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //            hud.mode = MBProgressHUDModeText;
+    //            hud.labelText = @"资料提交失败，请重试";
+    //            hud.yOffset = -50.f;
+    //            hud.removeFromSuperViewOnHide = YES;
+    //            [hud hide:YES afterDelay:2];
+    //        }
+    //    }];
+    //    [client enqueueHTTPRequestOperation:operation];
     
 }
 

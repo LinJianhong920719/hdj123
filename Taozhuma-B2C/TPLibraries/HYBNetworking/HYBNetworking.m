@@ -51,7 +51,7 @@ static NSMutableArray *sg_requestTasks;
 static BOOL sg_cacheGet = YES;
 static BOOL sg_cachePost = NO;
 static BOOL sg_shouldCallbackOnCancelRequest = YES;
-static NSTimeInterval sg_timeout = 60.0f;
+static NSTimeInterval sg_timeout = 180.0f;
 static BOOL sg_shoulObtainLocalWhenUnconnected = NO;
 
 @implementation HYBNetworking
@@ -622,7 +622,7 @@ static inline NSString *cachePath() {
       NSString *str = [formatter stringFromDate:[NSDate date]];
       imageFileName = [NSString stringWithFormat:@"%@.jpg", str];
     }
-    
+      NSLog(@"imageData:%@",imageData);
     // 上传图片，以文件流的格式
     [formData appendPartWithFileData:imageData name:name fileName:imageFileName mimeType:mimeType];
   } progress:^(NSProgress * _Nonnull uploadProgress) {
