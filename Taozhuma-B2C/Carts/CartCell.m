@@ -166,7 +166,7 @@
             
         }else {
             //计算单品总价
-            //    price.text = [NSString stringWithFormat:@"¥%ld",(long)priceInt];
+//                price.text = [NSString stringWithFormat:@"¥%ld",(long)priceInt];
             subtotalInt = priceFloat * totalNum;
             subtotal.text = [NSString stringWithFormat:@"¥%0.1f",subtotalInt];
             
@@ -183,7 +183,7 @@
             [array addObject:cid];
             [array addObject:[NSString stringWithFormat:@"%ld",(long)totalNum]];
 //            [[NSNotificationCenter defaultCenter] postNotificationName:@"changeCartNum" object:array];
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"cartSubtotal" object:array2];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"cartSubtotal" object:array2];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshCart" object:array2];
         }
         

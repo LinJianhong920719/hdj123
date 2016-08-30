@@ -209,6 +209,7 @@
 		37BFE2F41CF2E5F50001081D /* user_wallet.png in Resources */ = {isa = PBXBuildFile; fileRef = 37BFE2E31CF2E5F50001081D /* user_wallet.png */; };
 		37BFE2FB1CF2EB710001081D /* MineViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 37BFE2FA1CF2EB710001081D /* MineViewControllers.m */; };
 		37BFE2FE1CF2F5CA0001081D /* MineOrderCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37BFE2FD1CF2F5CA0001081D /* MineOrderCellView.m */; };
+		37C26F2F1D752B92003273D0 /* cart_null.png in Resources */ = {isa = PBXBuildFile; fileRef = 37C26F2E1D752B92003273D0 /* cart_null.png */; };
 		37C3A5971D6972DB00E7E398 /* search_history.png in Resources */ = {isa = PBXBuildFile; fileRef = 37C3A5951D6972DB00E7E398 /* search_history.png */; };
 		37C3A5981D6972DB00E7E398 /* search_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = 37C3A5961D6972DB00E7E398 /* search_hot.png */; };
 		37CA1F731D71633C00DCF2AB /* EditUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37CA1F721D71633C00DCF2AB /* EditUserInfoViewController.m */; };
@@ -598,6 +599,7 @@
 		37BFE2FA1CF2EB710001081D /* MineViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineViewControllers.m; sourceTree = "<group>"; };
 		37BFE2FC1CF2F5CA0001081D /* MineOrderCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineOrderCellView.h; sourceTree = "<group>"; };
 		37BFE2FD1CF2F5CA0001081D /* MineOrderCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineOrderCellView.m; sourceTree = "<group>"; };
+		37C26F2E1D752B92003273D0 /* cart_null.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cart_null.png; sourceTree = "<group>"; };
 		37C3A5951D6972DB00E7E398 /* search_history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_history.png; sourceTree = "<group>"; };
 		37C3A5961D6972DB00E7E398 /* search_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_hot.png; sourceTree = "<group>"; };
 		37CA1F711D71633C00DCF2AB /* EditUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditUserInfoViewController.h; sourceTree = "<group>"; };
@@ -1443,6 +1445,7 @@
 		37B6AF871CF32C4200A12DC2 /* CartsView */ = {
 			isa = PBXGroup;
 			children = (
+				37C26F2E1D752B92003273D0 /* cart_null.png */,
 				37B2BB231D7413620046934A /* u-num-ipt.png */,
 				37F431F21D73D9CD00585D6B /* address_go.png */,
 				37B6AF881CF32C4200A12DC2 /* checkbox.png */,
@@ -1795,6 +1798,7 @@
 				0A027F051CE18D5600B95294 /* Intro4-736.jpg in Resources */,
 				0A027EFB1CE18D5600B95294 /* Intro2-568.jpg in Resources */,
 				37BFE2F41CF2E5F50001081D /* user_wallet.png in Resources */,
+				37C26F2F1D752B92003273D0 /* cart_null.png in Resources */,
 				0AB929731CE3012C00E98D62 /* UMShareEditViewControlleriPad.xib in Resources */,
 				37FE5F271D6C2E5400012513 /* plus_active.png in Resources */,
 				370E31B11D6E89E50016FD77 /* coupon_useless.png in Resources */,
