@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *cat_s_name;
 @property (nonatomic, strong) NSString *cat_s_id;
 @property (nonatomic, strong) NSString *cat_s_pid;
+@property (nonatomic, strong) NSString *cat_s_image;
 
 - (id)initWithDictionary:(NSDictionary*)dictionary;
 

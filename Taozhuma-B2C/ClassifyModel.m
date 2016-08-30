@@ -22,6 +22,7 @@
         self.cat_s_name = [dictionary valueForKey:@"cat_s_name"];
         self.cat_s_id   = [dictionary valueForKey:@"cat_s_id"];
         self.cat_s_pid  = [dictionary valueForKey:@"cat_s_pid"];
+        self.cat_s_image = [dictionary valueForKey:@"image"];
     }
     return self;
 }
