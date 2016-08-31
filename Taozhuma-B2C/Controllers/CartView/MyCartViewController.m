@@ -234,13 +234,13 @@
     }
     
 }
-//结算按钮方法
+#pragma mark 结算按钮方法
 - (IBAction)determineClick:(id)sender {
     
-    ConfirmOrderViewController *searchView= [[ConfirmOrderViewController alloc]init];
-    searchView.hidesBottomBarWhenPushed = YES;
-    searchView.navigationController.navigationBarHidden = YES;
-    [self.navigationController pushViewController:searchView animated:YES];
+//    ConfirmOrderViewController *searchView= [[ConfirmOrderViewController alloc]init];
+//    searchView.hidesBottomBarWhenPushed = YES;
+//    searchView.navigationController.navigationBarHidden = YES;
+//    [self.navigationController pushViewController:searchView animated:YES];
     
     //确定提交购物车
     NSMutableArray *submitArray = [[NSMutableArray alloc]init];
@@ -256,7 +256,7 @@
     for (int i = 0; i < proData.count; i++) {
         
         CartProductEntity *entity = [proData objectAtIndex:i];
-        if ([entity.chooseTag isEqualToString:@"1"] && [entity.status integerValue] == 1&&[entity.isActive integerValue] != 2) {
+        if ([entity.chooseTag isEqualToString:@"1"]) {
             
             NSString *str = [NSString stringWithFormat:@"%@:%@",entity.cid,entity.number];
             [modifyArray addObject:str];
@@ -265,6 +265,13 @@
         modifyStr = [modifyArray componentsJoinedByString:@","];
         submitStr = [submitArray componentsJoinedByString:@","];
     }
+    
+        ConfirmOrderViewController *confirmOrderView= [[ConfirmOrderViewController alloc]init];
+        confirmOrderView.title = @"提交订单";
+        confirmOrderView.submitStr = submitStr;
+        confirmOrderView.hidesBottomBarWhenPushed = YES;
+        confirmOrderView.navigationController.navigationBarHidden = YES;
+        [self.navigationController pushViewController:confirmOrderView animated:YES];
     
     btnDetermine.userInteractionEnabled = NO;
     if (submitStr.length > 0) {

@@ -540,6 +540,7 @@
     setupView.navigationController.navigationBarHidden = YES;
     [self.navigationController pushViewController:setupView animated:YES];
 }
+//分享
 - (IBAction)ShareClick:(id)sender {
     [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:@"http://www.baidu.com/img/bdlogo.gif"];
     [UMSocialData defaultData].extConfig.title = @"分享的title";

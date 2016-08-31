@@ -17,7 +17,7 @@
 //@synthesize allCount;
 //@synthesize espressPrice;
 @synthesize products;
-//@synthesize note;
+@synthesize note;
 //@synthesize skuLinkId;
 //@synthesize skuValue;
 //@synthesize isActive;

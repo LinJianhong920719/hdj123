@@ -16,7 +16,7 @@
 //@property (nonatomic, strong) NSString *allCount;
 //@property (nonatomic, strong) NSString *espressPrice;
 @property (nonatomic, strong) NSArray *products;
-//@property (nonatomic, strong) NSString *note;
+@property (nonatomic, strong) NSString *note;
 //@property (nonatomic, strong) NSString *discountText;
 //@property (nonatomic, strong) NSString *discountType;
 //@property (nonatomic, strong) NSString *skuLinkId; //规格id
