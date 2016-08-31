@@ -18,6 +18,7 @@
 #import "SetupViewController.h"
 #import "EditUserInfoViewController.h"
 #import "MyWalletViewController.h"
+#import "UMSocial.h"
 
 @interface MineViewControllers () <UITableViewDataSource,UITableViewDelegate> {
     NSArray *_data;
@@ -538,5 +539,25 @@
     setupView.hidesBottomBarWhenPushed = YES;
     setupView.navigationController.navigationBarHidden = YES;
     [self.navigationController pushViewController:setupView animated:YES];
+}
+- (IBAction)ShareClick:(id)sender {
+    [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:@"http://www.baidu.com/img/bdlogo.gif"];
+    [UMSocialData defaultData].extConfig.title = @"分享的title";
+    [UMSocialData defaultData].extConfig.qqData.url = @"http://baidu.com";
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:@"507fcab25270157b37000010"
+                                      shareText:@"友盟社会化分享让您快速实现分享等社会化功能，http://umeng.com/social"
+                                     shareImage:[UIImage imageNamed:@"icon"]
+                                shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone]
+                                       delegate:self];
+}
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+    }
 }
 @end

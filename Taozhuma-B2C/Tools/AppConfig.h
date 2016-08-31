@@ -65,7 +65,7 @@
 
 //==============================   友盟   ==================================//
 
-#define UmengAppkey            @"554869b567e58e549900180f"        // 友盟 AppKey
+#define UmengAppkey            @"57c680b467e58eda8e00303c"        // 友盟 AppKey
 
 #define UMENG_CHANNEL_ID       @"App Store"                       // 友盟渠道 其他渠道@"umeng_channel_01"
 

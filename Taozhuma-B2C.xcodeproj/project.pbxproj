@@ -243,6 +243,7 @@
 		37D50BCA1D76AE4A0051C9F5 /* ConfirmSectionFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D50BC61D76AE4A0051C9F5 /* ConfirmSectionFooterView.m */; };
 		37D50BCD1D76AED10051C9F5 /* AddressModuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D50BCB1D76AED10051C9F5 /* AddressModuleView.m */; };
 		37D50BD01D76AF1E0051C9F5 /* PaymentModuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D50BCE1D76AF1E0051C9F5 /* PaymentModuleView.m */; };
+		37D50BD21D76BF050051C9F5 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 37D50BD11D76BF050051C9F5 /* libiconv.tbd */; };
 		37EACEB61D6A923600674EE9 /* ProductEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EACEB41D6A923600674EE9 /* ProductEntity.m */; };
 		37EACEBB1D6A93CA00674EE9 /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37EACEB91D6A93CA00674EE9 /* ProductCell.m */; };
 		37EACEBC1D6A93CA00674EE9 /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37EACEBA1D6A93CA00674EE9 /* ProductCell.xib */; };
@@ -681,6 +682,7 @@
 		37D50BCC1D76AED10051C9F5 /* AddressModuleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressModuleView.h; sourceTree = "<group>"; };
 		37D50BCE1D76AF1E0051C9F5 /* PaymentModuleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentModuleView.m; sourceTree = "<group>"; };
 		37D50BCF1D76AF1E0051C9F5 /* PaymentModuleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentModuleView.h; sourceTree = "<group>"; };
+		37D50BD11D76BF050051C9F5 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		37EACEB41D6A923600674EE9 /* ProductEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductEntity.m; sourceTree = "<group>"; };
 		37EACEB51D6A923600674EE9 /* ProductEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductEntity.h; sourceTree = "<group>"; };
 		37EACEB81D6A93CA00674EE9 /* ProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCell.h; sourceTree = "<group>"; };
@@ -730,6 +732,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37D50BD21D76BF050051C9F5 /* libiconv.tbd in Frameworks */,
 				0A0B14A21CDD9C03006DD011 /* MobileCoreServices.framework in Frameworks */,
 				3756405E1D648DC1005465C8 /* BaiduMapAPI_Base.framework in Frameworks */,
 				3756405F1D648DC1005465C8 /* BaiduMapAPI_Location.framework in Frameworks */,
@@ -821,6 +824,7 @@
 		0A025F9E1CDAEF3600AFE6C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37D50BD11D76BF050051C9F5 /* libiconv.tbd */,
 				3756406D1D6494D0005465C8 /* BaiduMapAPI_Cloud.framework */,
 				3756406E1D6494D0005465C8 /* BaiduMapAPI_Map.framework */,
 				3756406F1D6494D0005465C8 /* BaiduMapAPI_Radar.framework */,
