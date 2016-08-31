@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clearsContextBeforeDrawing="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="101" id="2" customClass="ConfirmOrderCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <tableViewCellContentView key="contentView" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2" id="dCR-LH-TvN">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="89"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" id="prV-cI-o7W" customClass="EMAsyncImageView">
+                        <rect key="frame" x="20" y="10" width="70" height="70"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="*1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wKL-iE-8RB">
+                        <rect key="frame" x="270" y="51" width="40" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="deviceRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的商品" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7Us-i0-4n8">
+                        <rect key="frame" x="98" y="12" width="203" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$30.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yWt-Rp-ufQ">
+                        <rect key="frame" x="98" y="51" width="80" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="1" green="0.31372549019607843" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="imageName" destination="prV-cI-o7W" id="xUs-gM-nAm"/>
+                <outlet property="itemNum" destination="wKL-iE-8RB" id="sMC-Hd-mOU"/>
+                <outlet property="name" destination="7Us-i0-4n8" id="dn0-uU-9r9"/>
+                <outlet property="price" destination="yWt-Rp-ufQ" id="fCP-u6-IHH"/>
+            </connections>
+            <point key="canvasLocation" x="290" y="255"/>
+        </tableViewCell>
+    </objects>
+</document>

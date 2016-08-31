@@ -18,7 +18,7 @@
 //#import "WaitingOrderViewController.h"
 //#import "ActivitiesDetailsViewController.h"
 //#import "RCIM_CustomerServiceViewController.h"
-
+#import "ConfirmOrderViewController.h"
 //#define UmengEventID @"MyCartViewController"
 
 @interface MyCartViewController () {
@@ -236,6 +236,11 @@
 }
 //结算按钮方法
 - (IBAction)determineClick:(id)sender {
+    
+    ConfirmOrderViewController *searchView= [[ConfirmOrderViewController alloc]init];
+    searchView.hidesBottomBarWhenPushed = YES;
+    searchView.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:searchView animated:YES];
     
     //确定提交购物车
     NSMutableArray *submitArray = [[NSMutableArray alloc]init];
