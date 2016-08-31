@@ -8,6 +8,7 @@
 #import "ProductEntity.h"
 
 @implementation ProductEntity
+@synthesize pID;//分类中的商品id
 @synthesize productID;//商品id
 @synthesize productName;//商品名称
 @synthesize productImage;//商品图片
@@ -19,6 +20,7 @@
         return nil;
     }
     
+    pID             = [attributes valueForKey:@"id"];
     productID             = [attributes valueForKey:@"good_id"];
     productName          = [attributes valueForKey:@"good_name"];
     productImage     = [attributes valueForKey:@"good_image"];

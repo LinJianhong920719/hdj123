@@ -33,6 +33,7 @@
 - (void)initMainView {
     //通知 接收
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchHome) name:@"refSelectedIndex"object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(switchHomeByCart) name:@"refSelectedIndexByCart"object:nil];
     
     [Tools saveInteger:1 forKey:KEY_TabBarNum];
 
@@ -105,6 +106,9 @@
 }
 -(void)switchHome{
     self.selectedIndex = 1;
+}
+-(void)switchHomeByCart{
+    self.selectedIndex = 2;
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController willBeginCustomizingViewControllers:(NSArray *)viewControllers {

@@ -14,6 +14,7 @@
 #import "AppConfig.h"
 #import "AppDelegate.h"
 #import "MBProgressHUD.h"
+#import "ClassProductListViewController.h"
 
 @interface ClassifyViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 {
@@ -267,10 +268,17 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"%zi组，%zi行",indexPath.section,indexPath.item);
+//     ClassifyModel *model = [category_arr objectAtIndex:[indexPath row]];
+    ClassifyModel *model = [category_arr objectAtIndex:[indexPath section]];
     
-    //    MyViewController * myview = [[MyViewController alloc]init];
-    //    self.hidesBottomBarWhenPushed = YES;
-    //    [self.navigationController pushViewController:myview animated:YES];
+    NSLog(@"cat_name:%@",[[model.subclass objectAtIndex:indexPath.item]valueForKey:@"cat_name"]);
+    NSLog(@"id:%@",[[model.subclass objectAtIndex:indexPath.item]valueForKey:@"id"]);
+    
+    ClassProductListViewController *detailsView = [[ClassProductListViewController alloc]init];
+    detailsView.catId = [[model.subclass objectAtIndex:indexPath.item]valueForKey:@"id"];
+    detailsView.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:detailsView animated:YES];
+
 }
 
 // tableview cell 选中

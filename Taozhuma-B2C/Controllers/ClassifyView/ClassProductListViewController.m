@@ -1,11 +1,11 @@
 //
-//  SearchProductListViewController.m
+//  ClassProductListViewController.m
 //
 //  Created by yusaiyan on 15/8/11.
 //  Copyright (c) 2015年 lixinfan. All rights reserved.
 //
 
-#import "SearchProductListViewController.h"
+#import "ClassProductListViewController.h"
 #import "ProductCell.h"
 #import "ProductEntity.h"
 #import "ProductDetailViewController.h"
@@ -14,7 +14,7 @@
 #define Reality_viewHeight ScreenHeight-ViewOrignY-40-50
 #define Reality_viewWidth ScreenWidth
 
-@interface SearchProductListViewController () <UITableViewDataSource,UITableViewDelegate>{
+@interface ClassProductListViewController () <UITableViewDataSource,UITableViewDelegate>{
     UIImageView *secondImage;
     UIImageView *thirdImage;
     UIImageView *firstImage;
@@ -33,12 +33,12 @@
 @property (nonatomic, assign) NSInteger sort;
 @end
 
-@implementation SearchProductListViewController
+@implementation ClassProductListViewController
 @synthesize mTableView = _mTableView;
 @synthesize data = _data;
 @synthesize pageno = _pageno;
 @synthesize sort = _sort;
-@synthesize content;
+@synthesize catId;
 
 
 - (void)viewDidLoad {
@@ -66,18 +66,20 @@
     topView.backgroundColor = BACK_DEFAULT;
     //返回
     UIButton *backButton = [[UIButton alloc]initWithFrame:CGRectMake(10, 23, 28, 33)];
-//    [backButton setBackgroundColor:[UIColor blueColor]];
+    //    [backButton setBackgroundColor:[UIColor blueColor]];
     [backButton setImage:[UIImage imageNamed:@"header_back"] forState:UIControlStateNormal];//设置按钮的图片
     [backButton setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10) ];//将按钮的上下左右都缩进8个单位
     [backButton addTarget:self action:@selector(backClick:) forControlEvents:UIControlEventTouchUpInside];//为按钮增加时间侦听
     [topView addSubview:backButton];
+    
+    //搜索
 
     UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(viewRight(backButton)+10, 24, DEVICE_SCREEN_SIZE_WIDTH, 30)];
     UIImageView *searchImageView = [[UIImageView alloc]initWithFrame:CGRectMake(50, 10, 10, 10)];
     [searchImageView setImage:[UIImage imageNamed:@"icon_search"]];
     [searchView addSubview:searchImageView];
     UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(viewRight(searchImageView)+5, 0, 200, 30)];
-
+    
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [searchBtn setTitleColor:FONTS_COLOR102 forState:UIControlStateNormal];
     [searchBtn setTitle:@"请输入商品名称" forState:UIControlStateNormal];
@@ -258,16 +260,15 @@
     }else if (_sort == 4){
         sortStr = @"priceDesc";
     }
-    NSLog(@"content:%@",content);
+    NSLog(@"content:%@",catId);
     NSLog(@"userId:%@",[Tools stringForKey:KEY_USER_ID]);
     NSLog(@"sort:%@",sortStr);
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         content,     @"content",
-                         [Tools stringForKey:KEY_USER_ID],@"userId",
+                         catId,     @"catId",
                          sortStr,@"sort",
                          nil];
     
-    NSString *path = [NSString stringWithFormat:@"/Api/Goods/searchGoods?"];
+    NSString *path = [NSString stringWithFormat:@"/Api/Goods/showGdByCat?"];
     
     [HYBNetworking updateBaseUrl:SERVICE_URL];
     [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
@@ -401,7 +402,7 @@
         }else{
             [cell.productImage sd_setImageWithURL:[NSURL URLWithString:entity.productImage] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
         }
-        cell.addCart.tag = [entity.productID integerValue];
+        cell.addCart.tag = [entity.pID integerValue];
         [cell.addCart addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
         cell.delCollect.hidden = YES;
     }
@@ -411,9 +412,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     ProductEntity *entity = [_data objectAtIndex:[indexPath row]];
-    NSLog(@"productID:%@",entity.productID);
+    NSLog(@"productID:%@",entity.pID);
     ProductDetailViewController *productDetailView= [[ProductDetailViewController alloc]init];
-    productDetailView.goodId = entity.productID.integerValue;
+    productDetailView.goodId = entity.pID.integerValue;
     productDetailView.title = @"商品详情";
     productDetailView.hidesBottomBarWhenPushed = YES;
     productDetailView.navigationController.navigationBarHidden = YES;
@@ -432,7 +433,7 @@
     productDetailView.hidesBottomBarWhenPushed = YES;
     productDetailView.navigationController.navigationBarHidden = YES;
     [self.navigationController pushViewController:productDetailView animated:YES];
-    
+
 }
 - (IBAction)searchBtnClicked:(id)sender {
     SearchViewController *searchView= [[SearchViewController alloc]init];
@@ -441,5 +442,4 @@
     [self.navigationController pushViewController:searchView animated:YES];
     
 }
-
 @end

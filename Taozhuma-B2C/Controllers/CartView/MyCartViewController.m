@@ -502,13 +502,13 @@
     //是否为编辑中：勾选图标显示
     if ([rightBtn.titleLabel.text isEqual:@"编辑"]) {
         [rightBtn setTitle:@"完成" forState:UIControlStateNormal];
-        [rightBtn setTitleColor:THEME_COLORS_RED forState:UIControlStateNormal];
+        [rightBtn setTitleColor:UIColorWithRGBA(255, 80, 0, 1) forState:UIControlStateNormal];
         [self setHiddens:YES];
         
         
     } else {
         [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
-        [rightBtn setTitleColor:FONT_COLOR forState:UIControlStateNormal];
+        [rightBtn setTitleColor:UIColorWithRGBA(255, 80, 0, 1) forState:UIControlStateNormal];
         [self setHiddens:NO];
         
     }
@@ -519,9 +519,14 @@
     if (hidden) {
         delBtn.hidden = NO;
         btnDetermine.hidden = YES;
+        labelCount.hidden = YES;
+        labelPreferential.hidden = YES;
+        
     } else {
         delBtn.hidden = YES;
         btnDetermine.hidden = NO;
+        labelCount.hidden = NO;
+        labelPreferential.hidden = NO;
     }
 }
 

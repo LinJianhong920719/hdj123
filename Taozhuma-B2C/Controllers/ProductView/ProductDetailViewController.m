@@ -204,6 +204,7 @@
     bottomView.backgroundColor = [UIColor whiteColor];
     UIButton *cartBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 5, 40, 40)];
     [cartBtn setBackgroundImage:[UIImage imageNamed:@"deta_cart"] forState:UIControlStateNormal];
+    [cartBtn addTarget:self action:@selector(cartBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:cartBtn];
     
     //购物车数量显示
@@ -432,14 +433,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+- (IBAction)cartBtnClicked:(id)sender {
+    //通知 发出
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refSelectedIndexByCart" object:nil];
+  
+    
+}
 
 @end
