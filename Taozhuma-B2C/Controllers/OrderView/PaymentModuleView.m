@@ -10,9 +10,9 @@
 #import "AppConfig.h"
 
 #define viewIndentation     20      //视图两边缩进
-#define titleHeight         45      //标题部分高度
+#define titleHeight         30      //标题部分高度
 #define vouchersHeight      45      //优惠券部分高度
-#define optionsHeight       45      //支付选项高度
+#define optionsHeight       40      //支付选项高度
 #define additionalTag       99000000
 #define alipayType          @"1"    //支付宝支付状态
 #define wxpayType           @"2"    //微信支付状态
@@ -23,6 +23,9 @@
     NSArray *data;
     UIView *paymentView;
     CGFloat paymentViewHeight;
+    UIView *baseView;
+    UIButton *payBtn;
+    
 }
 
 - (id)initWithFrame:(CGRect)frame delegate:(id)delegate
@@ -35,17 +38,18 @@
         
         _payType = alipayType;
         
-        NSDictionary *alipay = [NSDictionary dictionaryWithObjectsAndKeys:@"支付宝" ,@"title", @"安全快捷，可支持银行卡支付", @"content", @"tzm-299.png", @"imageName", alipayType, @"payType", @"1", @"status",nil];
-        NSDictionary *wxpay = [NSDictionary dictionaryWithObjectsAndKeys:@"微信支付" ,@"title", @"推荐已在微信中绑定银行卡的用户使用", @"content", @"tzm-298.png", @"imageName", wxpayType, @"payType", @"0", @"status",nil];
-        NSDictionary *unionpay = [NSDictionary dictionaryWithObjectsAndKeys:@"网银支付" ,@"title", @"银联在线支付", @"content", @"结算-银联.png", @"imageName", unionType, @"payType", @"0", @"status",nil];
-        NSDictionary *applepay = [NSDictionary dictionaryWithObjectsAndKeys:@"苹果支付" ,@"title", @"applePay快捷支付", @"content", @"apple-pay.png", @"imageName", appleType, @"payType", @"0", @"status",nil];
+        NSDictionary *alipay = [NSDictionary dictionaryWithObjectsAndKeys:@"支付宝" ,@"title", @"安全快捷，可支持银行卡支付", @"content", @"zfb.png", @"imageName", alipayType, @"payType", @"1", @"status",nil];
+        NSDictionary *wxpay = [NSDictionary dictionaryWithObjectsAndKeys:@"微信支付" ,@"title", @"推荐已在微信中绑定银行卡的用户使用", @"content", @"wxzf.png", @"imageName", wxpayType, @"payType", @"0", @"status",nil];
+//        NSDictionary *unionpay = [NSDictionary dictionaryWithObjectsAndKeys:@"网银支付" ,@"title", @"银联在线支付", @"content", @"结算-银联.png", @"imageName", unionType, @"payType", @"0", @"status",nil];
+//        NSDictionary *applepay = [NSDictionary dictionaryWithObjectsAndKeys:@"苹果支付" ,@"title", @"applePay快捷支付", @"content", @"apple-pay.png", @"imageName", appleType, @"payType", @"0", @"status",nil];
         
         data = @[alipay, wxpay];
 //        data = @[alipay, wxpay, unionpay, applepay];
 //        data = @[alipay, wxpay, applepay];
         [self drawRectView:self.frame];
-        [self drawWalletView];
+//        [self drawWalletView];
         [self drawPayView];
+        [self userCountView];
     }
     
     return self;
@@ -60,31 +64,32 @@
     
     UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(viewIndentation, 0, self.frame.size.width, titleHeight)];
     title.text = @"支付方式";
-    title.font = [UIFont fontWithName:FontName_Default_Bold size:14];
+    title.textColor = FONTS_COLOR153;
+    title.font = [UIFont fontWithName:FontName_Default_Bold size:10];
     [self addSubview:title];
     
-    _vouchersButton = [[UIButton alloc]initWithFrame:CGRectMake(0, viewBottom(title), ScreenWidth, vouchersHeight)];
-    [self addSubview:_vouchersButton];
-    
-    UILabel *voucherLabel = [[UILabel alloc]initWithFrame:CGRectMake(viewIndentation, 0, self.frame.size.width, vouchersHeight)];
-    voucherLabel.text = @"使用代金券";
-    voucherLabel.font = [UIFont fontWithName:FontName_Default size:14];
-    [_vouchersButton addSubview:voucherLabel];
-    
-    //代金券 抵消面额
-    _vouchersValue = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width-viewIndentation*2, vouchersHeight)];
-    _vouchersValue.textAlignment = NSTextAlignmentRight;
-    _vouchersValue.textColor = THEME_COLORS_RED;
-    _vouchersValue.font = [UIFont fontWithName:FontName_Default_Bold size:14];
-    [_vouchersButton addSubview:_vouchersValue];
-    
-    UIImageView *arrow = [[UIImageView alloc]initWithFrame:CGRectMake(self.frame.size.width-viewIndentation-arrowImageSize.width, (_vouchersButton.frame.size.height-arrowImageSize.height)/2, arrowImageSize.width, arrowImageSize.height)];
-    [arrow setImage:[UIImage imageNamed:@"icon-more.png"]];
-    [_vouchersButton addSubview:arrow];
-    
-    UIImageView *topLine = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
-    topLine.backgroundColor = LINECOLOR_SYSTEM;
-    [_vouchersButton addSubview:topLine];
+//    _vouchersButton = [[UIButton alloc]initWithFrame:CGRectMake(0, viewBottom(title), ScreenWidth, vouchersHeight)];
+//    [self addSubview:_vouchersButton];
+//    
+//    UILabel *voucherLabel = [[UILabel alloc]initWithFrame:CGRectMake(viewIndentation, 0, self.frame.size.width, vouchersHeight)];
+//    voucherLabel.text = @"使用代金券";
+//    voucherLabel.font = [UIFont fontWithName:FontName_Default size:14];
+//    [_vouchersButton addSubview:voucherLabel];
+//    
+//    //代金券 抵消面额
+//    _vouchersValue = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width-viewIndentation*2, vouchersHeight)];
+//    _vouchersValue.textAlignment = NSTextAlignmentRight;
+//    _vouchersValue.textColor = THEME_COLORS_RED;
+//    _vouchersValue.font = [UIFont fontWithName:FontName_Default_Bold size:14];
+//    [_vouchersButton addSubview:_vouchersValue];
+//    
+//    UIImageView *arrow = [[UIImageView alloc]initWithFrame:CGRectMake(self.frame.size.width-viewIndentation-arrowImageSize.width, (_vouchersButton.frame.size.height-arrowImageSize.height)/2, arrowImageSize.width, arrowImageSize.height)];
+//    [arrow setImage:[UIImage imageNamed:@"icon-more.png"]];
+//    [_vouchersButton addSubview:arrow];
+//    
+//    UIImageView *topLine = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
+//    topLine.backgroundColor = LINECOLOR_SYSTEM;
+//    [_vouchersButton addSubview:topLine];
     
 }
 
@@ -149,36 +154,32 @@
         
         NSDictionary *dic = [data objectAtIndex:i];
 
-        UIImageView *payImage = [[UIImageView alloc]initWithFrame:CGRectMake(45, originY+10, 25, 25)];
+        UIImageView *payImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, originY+40, 25, 25)];
         payImage.image = [UIImage imageNamed:[dic valueForKey:@"imageName"]];
         [paymentView addSubview:payImage];
         
-        UILabel *payTitle = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(payImage)+10, originY, ScreenWidth, 30)];
+        UILabel *payTitle = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(payImage)+10, originY+40, ScreenWidth, 25)];
         payTitle.text = [dic valueForKey:@"title"];
         payTitle.font = [UIFont fontWithName:FontName_Default size:14];
         [paymentView addSubview:payTitle];
+
         
-        UILabel *payContent = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(payImage)+10, originY+18, ScreenWidth, 30)];
-        payContent.text = [dic valueForKey:@"content"];
-        payContent.textColor = FONTS_COLOR;
-        payContent.font = [UIFont systemFontOfSize:12];
-        [paymentView addSubview:payContent];
-        
-        UIImageView *topLine = [[UIImageView alloc]initWithFrame:CGRectMake(viewIndentation/2, originY, ScreenWidth-viewIndentation, 0.5)];
+        UIImageView *topLine = [[UIImageView alloc]initWithFrame:CGRectMake(viewIndentation/2, originY+32, ScreenWidth-viewIndentation, 0.5)];
         topLine.backgroundColor = LINECOLOR_SYSTEM;
         [paymentView addSubview:topLine];
         
         NSString *btnImageName;
         if ([[dic valueForKey:@"status"]boolValue]) {
-            btnImageName = @"结算-圆打勾.png";
+            btnImageName = @"checkbox_active.png";
         } else {
-            btnImageName = @"结算-圆.png";
+            btnImageName = @"checkbox.png";
         }
         
-        UIButton *payBtn = [[UIButton alloc]initWithFrame:CGRectMake(12, originY, ScreenWidth, optionsHeight)];
+        payBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, originY+32, ScreenWidth, optionsHeight)];
         [payBtn setImage:[UIImage imageNamed:btnImageName] forState:UIControlStateNormal];
-        [payBtn setImageEdgeInsets:UIEdgeInsetsMake(14.0, 8.0, 15.0, ScreenWidth-23)];
+        [payBtn setImageEdgeInsets:UIEdgeInsetsMake(10.0, ScreenWidth-38, 10.0, 20.0)];
         [payBtn setTag:additionalTag+i];
+       
         [payBtn addTarget:self action:@selector(payClick:) forControlEvents:UIControlEventTouchUpInside];
         [paymentView addSubview:payBtn];
         
@@ -188,18 +189,86 @@
     [self allowedToUseTheWallet:NO];
     
 }
+- (void)userCountView {
+    
+    UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(payBtn), ScreenWidth, 10)];
+    lineView.backgroundColor = BGCOLOR_DEFAULT;
+    [self addSubview:lineView];
+    baseView = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(lineView), ScreenWidth, 80)];
+//    baseView.backgroundColor = [UIColor greenColor];
+    //优惠券titile
+    UILabel *couponsLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 100, 40)];
+    couponsLabel.text = @"优惠券";
+    couponsLabel.font = [UIFont systemFontOfSize:12.0];
+    couponsLabel.textColor = FONTS_COLOR102;
+//    couponsLabel.backgroundColor = [UIColor greenColor];
+    [baseView addSubview:couponsLabel];
+    
+    //优惠券数量显示
+    UILabel *countCoupon = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth*0.60, 0, 100, 40)];
+    countCoupon.text = @"暂无可用优惠券";
+    countCoupon.font = [UIFont systemFontOfSize:12.0];
+    countCoupon.textColor = FONTS_COLOR153;
+//    countCoupon.backgroundColor = [UIColor redColor];
+    countCoupon.textAlignment = NSTextAlignmentRight;
+    [baseView addSubview:countCoupon];
+    [self addSubview:baseView];
+    
+    //go优惠券
+    UIImageView *goCoupons = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth-25, 15, 7, 10)];
 
+    [goCoupons setImage:[UIImage imageNamed:@"address_go"]];
+    [baseView addSubview:goCoupons];
+    
+    //分割线
+    UIImageView *tLine = [[UIImageView alloc]initWithFrame:CGRectMake(viewIndentation/2, viewBottom(couponsLabel), ScreenWidth-viewIndentation, 0.5)];
+    tLine.backgroundColor = LINECOLOR_SYSTEM;
+    [baseView addSubview:tLine];
+    
+    
+    //余额titile
+    UILabel *moneyLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, viewBottom(tLine), 100, 40)];
+    moneyLabel.text = @"账户余额";
+    moneyLabel.font = [UIFont systemFontOfSize:12.0];
+    moneyLabel.textColor = FONTS_COLOR102;
+    //    couponsLabel.backgroundColor = [UIColor greenColor];
+    [baseView addSubview:moneyLabel];
+    
+    //余额数量显示
+    UILabel *money = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth*0.60, viewBottom(tLine), 100, 40)];
+    money.text = @"使用10元";
+    money.font = [UIFont systemFontOfSize:12.0];
+    money.textColor = FONTS_COLOR153;
+//        money.backgroundColor = [UIColor redColor];
+    money.textAlignment = NSTextAlignmentRight;
+    [baseView addSubview:money];
+    [self addSubview:baseView];
+    
+    //go优惠券
+    UIImageView *goMoney = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth-25, viewBottom(tLine)+15, 7, 10)];
+    
+    [goMoney setImage:[UIImage imageNamed:@"address_go"]];
+    [baseView addSubview:goMoney];
+    
+//    //分割线
+//    UIImageView *tLine = [[UIImageView alloc]initWithFrame:CGRectMake(viewIndentation/2, viewBottom(goCoupons)+5, ScreenWidth-viewIndentation, 0.5)];
+//    tLine.backgroundColor = LINECOLOR_SYSTEM;
+//    [baseView addSubview:tLine];
+    
+    paymentViewHeight = viewBottom(baseView);
+
+}
 - (void)payClick:(id)sender {
     UIButton *btn = (UIButton *)sender;
     
     //所有按钮改变为未点击状态
     for (int i = 0; i < data.count; i ++) {
         UIButton *button = [self viewWithTag:i + additionalTag];
-        [button setImage:[UIImage imageNamed:@"结算-圆.png"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
     }
     
     //当前按钮变为点击状态
-    [btn setImage:[UIImage imageNamed:@"结算-圆打勾.png"] forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:@"checkbox_active.png"] forState:UIControlStateNormal];
     
     NSDictionary *dic = [data objectAtIndex:btn.tag-additionalTag];
     _payType = [dic valueForKey:@"payType"];

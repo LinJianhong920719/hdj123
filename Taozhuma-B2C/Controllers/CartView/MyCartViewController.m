@@ -267,7 +267,7 @@
     }
     
         ConfirmOrderViewController *confirmOrderView= [[ConfirmOrderViewController alloc]init];
-        confirmOrderView.title = @"提交订单";
+        confirmOrderView.title = @"订单确认";
         confirmOrderView.submitStr = submitStr;
         confirmOrderView.hidesBottomBarWhenPushed = YES;
         confirmOrderView.navigationController.navigationBarHidden = YES;

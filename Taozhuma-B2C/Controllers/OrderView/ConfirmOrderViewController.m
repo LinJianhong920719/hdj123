@@ -26,7 +26,7 @@
 #import "ConfirmSectionFooterView.h"
 
 static CGFloat tableViewSectionHeaderHeight = 35;
-static CGFloat tableViewSectionFooterHeight = 85;
+static CGFloat tableViewSectionFooterHeight = 105;
 static CGFloat submitViewHeight = 52;
 
 @interface ConfirmOrderViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
@@ -195,7 +195,7 @@ static CGFloat submitViewHeight = 52;
     [tableHeaderView addSubview:addressView];
     
     //支付模块
-    paymentView = [[PaymentModuleView alloc]initWithFrame:CGRectMake(0, viewBottom(addressView)+10, ScreenWidth, ViewHeight(paymentView)) delegate:self];
+    paymentView = [[PaymentModuleView alloc]initWithFrame:CGRectMake(0, viewBottom(addressView)+10, ScreenWidth, ViewHeight(paymentView)+60) delegate:self];
     [paymentView.vouchersButton addTarget:self action:@selector(couponsClick:) forControlEvents:UIControlEventTouchUpInside];
     [tableHeaderView addSubview:paymentView];
     
@@ -301,7 +301,7 @@ static CGFloat submitViewHeight = 52;
             CGFloat totalPrice = 0;
             CGFloat logisticsCost = 0;
             
-//            BOOL pursePay = [[respond.respondData valueForKey:@"isWallte"]boolValue];
+            //            BOOL pursePay = [[respond.respondData valueForKey:@"isWallte"]boolValue];
             BOOL pursePay = YES;//判断是否使用钱包
             [paymentView allowedToUseTheWallet:pursePay];
             
@@ -313,9 +313,9 @@ static CGFloat submitViewHeight = 52;
                 entity.note = @"";
                 [_data addObject:entity];
                 
-//                totalPrice += [entity.sumPrice floatValue];
+                //                totalPrice += [entity.sumPrice floatValue];
                 totalPrice += 100.00;
-//                logisticsCost += [entity.espressPrice integerValue];
+                //                logisticsCost += [entity.espressPrice integerValue];
             }
             
             submitView.total = totalPrice;          //记录总价
@@ -459,6 +459,39 @@ static CGFloat submitViewHeight = 52;
 // 获取默认地址
 // ----------------------------------------------------------------------------------------
 - (void)loadDefaultAddressData {
+    
+    
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],@"userId",
+                         nil];
+    NSString *path = [NSString stringWithFormat:@"/Api/User/showAddress?"];
+    NSLog(@"dic:%@",dic);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        if([statusMsg intValue] == 4001){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"获取失败!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }else{
+            NSString *addId     = [[[dic valueForKey:@"data"]objectAtIndex:0] valueForKey:@"id"];
+            NSString *name      = [[[dic valueForKey:@"data"]objectAtIndex:0] valueForKey:@"guest_name"];
+            NSString *phone     = [[[dic valueForKey:@"data"]objectAtIndex:0] valueForKey:@"mobile"];
+            NSString *address   = [[[dic valueForKey:@"data"]objectAtIndex:0] valueForKey:@"address"];
+            
+            [self setAddressID:addId nameText:name phoneText:phone addressText:address remoteText:@"1"];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
     
     //    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
     //                         [Tools stringForKey:KEY_USER_ID],          @"uid",
@@ -789,13 +822,13 @@ static CGFloat submitViewHeight = 52;
         
         //单价
         cell.price.text = [NSString stringWithFormat:@"¥ %@",[products valueForKey:@"good_price"]];
-        cell.price.font = [UIFont fontWithName:FontName_Default size:12];
-        [cell.price setFrame:CGRectMake(ScreenWidth-80, ViewY(cell.name), 60, 20)];
+        //        cell.price.font = [UIFont fontWithName:FontName_Default size:12];
+        //        [cell.price setFrame:CGRectMake(ScreenWidth-80, ViewY(cell.name), 60, 20)];
         
         //数量
         cell.itemNum.text = [NSString stringWithFormat:@"%@件",[products valueForKey:@"nums"]];
-        cell.itemNum.font = [UIFont fontWithName:FontName_Default size:11];
-        [cell.itemNum setFrame:CGRectMake(ScreenWidth-80, viewBottom(cell.price), 60, 14)];
+        //        cell.itemNum.font = [UIFont fontWithName:FontName_Default size:11];
+        //        [cell.itemNum setFrame:CGRectMake(ScreenWidth-80, viewBottom(cell.price), 60, 14)];
         
         //sku信息
         //        cell.attribute.text = [products valueForKey:@"skuValue"];
@@ -853,13 +886,13 @@ static CGFloat submitViewHeight = 52;
     ConfirmOrderEntity *entity = [_data objectAtIndex:section];
     
     ConfirmSectionFooterView *sectionFooterView = [[ConfirmSectionFooterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, tableViewSectionFooterHeight)];
-    //    sectionFooterView.price = entity.sumPrice;
-    //    sectionFooterView.number = entity.allCount;
-    //    sectionFooterView.preferential = entity.discountText;
-    //    sectionFooterView.textField.delegate = self;
-    //    sectionFooterView.textField.tag = section;
-    //    sectionFooterView.textField.text = entity.note;
-    //    [sectionFooterView reloadDisplayData];
+        sectionFooterView.price = @"123";
+        sectionFooterView.number = @"124";
+        sectionFooterView.preferential = @"125";
+        sectionFooterView.textField.delegate = self;
+        sectionFooterView.textField.tag = section;
+        sectionFooterView.textField.text = entity.note;
+        [sectionFooterView reloadDisplayData];
     
     return sectionFooterView;
 }

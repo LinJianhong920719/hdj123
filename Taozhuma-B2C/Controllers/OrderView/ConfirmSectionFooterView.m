@@ -36,20 +36,20 @@
  */
 - (void)drawRectView:(CGRect)rect {
     
-    CGFloat labelHeight = 35;
+    CGFloat labelHeight = 35+20;
     
     UIImageView *topLine = [[UIImageView alloc]initWithFrame:CGRectMake(ViewIndentation, 0, ScreenWidth-ViewIndentation*2, 0.5)];
     topLine.backgroundColor = LINECOLOR_SYSTEM;
     [self addSubview:topLine];
     
     priceLabel = [[UILabel alloc]init];
-    [priceLabel setTextColor:THEME_COLORS_RED];
+    [priceLabel setTextColor:THEME_COLORS_Oring];
     [priceLabel setFont:[UIFont fontWithName:FontName_Default size:14]];
     [self addSubview:priceLabel];
 
     preferentialLabel = [[UILabel alloc]init];
     [preferentialLabel setTextColor:COLOR_898989];
-    [preferentialLabel setFont:[UIFont fontWithName:FontName_Default size:12]];
+    [preferentialLabel setFont:[UIFont fontWithName:FontName_Default size:14]];
     [self addSubview:preferentialLabel];
     
     numberLabel = [[UILabel alloc]init];
@@ -57,7 +57,7 @@
     [numberLabel setFont:[UIFont fontWithName:FontName_Default size:12]];
     [self addSubview:numberLabel];
     
-    iconRMB = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon-rmb"]];
+    iconRMB = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon-rmbs"]];
     [self addSubview:iconRMB];
     
     UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(ViewIndentation, labelHeight, ScreenWidth-ViewIndentation*2, 30)];
@@ -86,25 +86,26 @@
     
     CGFloat topOrigin = 3;
     
-    [priceLabel setText:[NSString stringWithFormat:@"%0.1f",[_price floatValue]]];
+    [priceLabel setText:[NSString stringWithFormat:@"合计:￥%0.1f",[_price floatValue]]];
     
     CGSize priceSize = [priceLabel.text sizeWithFont:priceLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, titleHeight)];
-    [priceLabel setFrame:CGRectMake(ViewWidth(self)-ViewIndentation-priceSize.width, topOrigin, priceSize.width, titleHeight)];
+    [priceLabel setFrame:CGRectMake(ViewWidth(self)-ViewIndentation-priceSize.width, topOrigin+20, priceSize.width, titleHeight)];
     
     CGSize iconSize = CGSizeMake(7, 9);
     
-    [iconRMB setFrame:CGRectMake(ViewX(priceLabel)-10, (titleHeight-iconSize.height)/2+topOrigin, iconSize.width, iconSize.height)];
+    [iconRMB setFrame:CGRectMake(ViewX(priceLabel)-10, (titleHeight-iconSize.height)/2+topOrigin+20, iconSize.width, iconSize.height)];
     
-    [numberLabel setText:[NSString stringWithFormat:@"小计(共%@件):",_number]];
+    [numberLabel setText:[NSString stringWithFormat:@"共%@件商品",_number]];
     
     CGSize numberSize = [numberLabel.text sizeWithFont:numberLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, titleHeight)];
-    [numberLabel setFrame:CGRectMake(ViewX(iconRMB)-numberSize.width-4, topOrigin, numberSize.width, titleHeight)];
+    [numberLabel setFrame:CGRectMake(ViewX(iconRMB)-numberSize.width-4, topOrigin+20, numberSize.width, titleHeight)];
     
   
     if (![self isBlankString:_preferential]) {
-          [preferentialLabel setText:[NSString stringWithFormat:@"优惠:-%@",_preferential]];
+          [preferentialLabel setText:[NSString stringWithFormat:@"配送费:￥%0.1f",[_preferential floatValue]]];
         }
-    [preferentialLabel setFrame:CGRectMake(ViewIndentation, topOrigin, 100, titleHeight)];
+//    [preferentialLabel setFrame:CGRectMake(ViewIndentation, topOrigin, 100, titleHeight)];
+    [preferentialLabel setFrame:CGRectMake(ViewWidth(self)-ViewIndentation-priceSize.width-14, topOrigin, priceSize.width+15, titleHeight)];
 }
 - (BOOL) isBlankString:(NSString *)string {
     if (string == nil || string == NULL) {

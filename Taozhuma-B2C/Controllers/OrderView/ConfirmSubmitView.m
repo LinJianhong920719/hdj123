@@ -47,34 +47,34 @@
     
     _submitButton = [[UIButton alloc]initWithFrame:CGRectMake(self.frame.size.width-buttonSize.width, 0, buttonSize.width, 52)];
 //    _submitButton.layer.cornerRadius = 4;
-    [_submitButton setBackgroundColor:THEME_COLORS_RED];
-    [_submitButton setTitle:@"支付订单" forState:UIControlStateNormal];
+    [_submitButton setBackgroundColor:THEME_COLORS_Oring];
+    [_submitButton setTitle:@"确认支付" forState:UIControlStateNormal];
     [_submitButton.titleLabel setFont:[UIFont fontWithName:FontName_Default_Bold size:17]];
     [self addSubview:_submitButton];
     
     CGSize labelSize = CGSizeMake(ViewX(_submitButton)-10, 20);
     
-    subtotalPrice = [[UILabel alloc]initWithFrame:CGRectMake(0, 8, labelSize.width, labelSize.height)];
-    subtotalPrice.textColor = THEME_COLORS_RED;
+    subtotalPrice = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, labelSize.width, labelSize.height)];
+    subtotalPrice.textColor = THEME_COLORS_Oring;
     subtotalPrice.font = [UIFont fontWithName:FontName_Default_Bold size:14];
-    subtotalPrice.textAlignment = NSTextAlignmentRight;
+    subtotalPrice.textAlignment = NSTextAlignmentLeft;
     [self addSubview:subtotalPrice];
     
-    freightLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, viewBottom(subtotalPrice), labelSize.width, labelSize.height)];
-    freightLabel.textColor = COLOR_3E3A39;
-    freightLabel.font = [UIFont fontWithName:FontName_Default_Bold size:13];
-    freightLabel.textAlignment = NSTextAlignmentRight;
-    [self addSubview:freightLabel];
+//    freightLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, viewBottom(subtotalPrice), labelSize.width, labelSize.height)];
+//    freightLabel.textColor = COLOR_3E3A39;
+//    freightLabel.font = [UIFont fontWithName:FontName_Default_Bold size:13];
+//    freightLabel.textAlignment = NSTextAlignmentRight;
+//    [self addSubview:freightLabel];
     
 }
 
 - (void)reloadDisplayData {
     
     if (_isRemote) {
-        subtotalPrice.text = [NSString stringWithFormat:@"总计:￥%0.1f",_total+_freight-_coupons];
+        subtotalPrice.text = [NSString stringWithFormat:@"应付金额:￥%0.1f",_total+_freight-_coupons];
         freightLabel.text = [NSString stringWithFormat:@"(含运费%0.1f)",_freight];
     } else {
-        subtotalPrice.text = [NSString stringWithFormat:@"总计:￥%0.1f",_total-_coupons];
+        subtotalPrice.text = [NSString stringWithFormat:@"应付金额:￥%0.1f",_total-_coupons];
         freightLabel.text = [NSString stringWithFormat:@"(含运费%0.1f)",0.0];
     }
 }

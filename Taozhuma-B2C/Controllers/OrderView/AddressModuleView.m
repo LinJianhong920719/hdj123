@@ -18,6 +18,8 @@
     CGSize envelopeImageSize;
     CGSize addImageSize;
     CGSize arrowImageSize;
+    UIImageView *envelopeImage1;
+
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -44,15 +46,19 @@
     arrowImageSize       = CGSizeMake(7, 10);
     
     envelopeImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, envelopeImageSize.width, envelopeImageSize.height)];
-    envelopeImage.image = [UIImage imageNamed:@"tzm-envelope.PNG"];
+    envelopeImage.image = [UIImage imageNamed:@"envelope"];
     [self addSubview:envelopeImage];
     
+    envelopeImage1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, envelopeImageSize.width, envelopeImageSize.height)];
+    envelopeImage1.image = [UIImage imageNamed:@"envelope"];
+    [self addSubview:envelopeImage1];
+    
     addImage = [[UIImageView alloc]initWithFrame:CGRectMake(viewIndentation, (self.frame.size.height-addImageSize.height)/2, addImageSize.width, addImageSize.height)];
-    addImage.image = [UIImage imageNamed:@"tzm-address.PNG"];
+    addImage.image = [UIImage imageNamed:@"address2"];
     [self addSubview:addImage];
     
     arrowImage = [[UIImageView alloc]initWithFrame:CGRectMake(self.frame.size.width-viewIndentation-arrowImageSize.width, (self.frame.size.height-arrowImageSize.height)/2, arrowImageSize.width, arrowImageSize.height)];
-    arrowImage.image = [UIImage imageNamed:@"icon-more.png"];
+    arrowImage.image = [UIImage imageNamed:@"address_go"];
     [self addSubview:arrowImage];
     
     //视图展示内容
@@ -137,9 +143,10 @@
  
     [envelopeImage setFrame:CGRectMake(0, 0, envelopeImageSize.width, envelopeImageSize.height)];
 
-    [addImage setFrame:CGRectMake(viewIndentation, (self.frame.size.height-addImageSize.height)/2, addImageSize.width, addImageSize.height)];
+    [addImage setFrame:CGRectMake(viewIndentation, (self.frame.size.height-addImageSize.height)/2, 12, 17)];
     
     [arrowImage setFrame:CGRectMake(self.frame.size.width-viewIndentation-arrowImageSize.width, (self.frame.size.height-arrowImageSize.height)/2, arrowImageSize.width, arrowImageSize.height)];
+    [envelopeImage setFrame:CGRectMake(0, self.frame.size.height, envelopeImageSize.width, envelopeImageSize.height)];
     
 }
 

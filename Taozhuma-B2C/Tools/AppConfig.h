@@ -121,6 +121,7 @@
 #define FONTS_COLOR51 UIColorWithRGBA(51, 51, 51, 1)
 #define FONTS_COLOR102 UIColorWithRGBA(102, 102, 102, 1)
 #define FONTS_COLOR153 UIColorWithRGBA(153, 153, 153, 1)
+#define THEME_COLORS_Oring UIColorWithRGBA(255, 80, 0, 1)
 
 
 #define COLOR_717071 UIColorWithRGBA(71, 70, 71, 1)

@@ -38,11 +38,11 @@
     CGSize arrowSize = CGSizeMake(7, 11);
     
     UIImageView *logo = [[UIImageView alloc]initWithFrame:CGRectMake(viewIndentation, (ViewHeight(self)-logoSize.height)/2, logoSize.width, logoSize.height)];
-    logo.image = [UIImage imageNamed:@"tzm-271.png"];
+    logo.image = [UIImage imageNamed:@"store.png"];
     [self addSubview:logo];
     
     UIImageView *arrow = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth-viewIndentation-arrowSize.width, (ViewHeight(self)-arrowSize.height)/2, arrowSize.width, arrowSize.height)];
-    arrow.image = [UIImage imageNamed:@"icon-goshop.png"];
+    arrow.image = [UIImage imageNamed:@"address_go.png"];
     [self addSubview:arrow];
     
     _title = [[UILabel alloc] initWithFrame:CGRectMake(viewRight(logo)+10, 0, ViewX(arrow)-viewRight(logo), ViewHeight(self))];
