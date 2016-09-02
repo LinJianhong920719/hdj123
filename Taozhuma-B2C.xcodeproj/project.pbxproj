@@ -84,6 +84,10 @@
 		0A608B821CE5BD1300EDB38A /* LLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A608B7E1CE5BD1300EDB38A /* LLeftViewController.m */; };
 		0A608B851CE5BD6200EDB38A /* 1.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 0A608B831CE5BD6200EDB38A /* 1.PNG */; };
 		0A608B861CE5BD6200EDB38A /* 2.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 0A608B841CE5BD6200EDB38A /* 2.PNG */; };
+		0A72C1EE1D7966A600DCD72B /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A72C1ED1D7966A600DCD72B /* libresolv.tbd */; };
+		0A72C1F21D7966E000DCD72B /* UTDID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A72C1EF1D7966E000DCD72B /* UTDID.framework */; };
+		0A72C1F31D7966E000DCD72B /* AlicloudUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A72C1F01D7966E000DCD72B /* AlicloudUtils.framework */; };
+		0A72C1F41D7966E000DCD72B /* CloudPushSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A72C1F11D7966E000DCD72B /* CloudPushSDK.framework */; };
 		0A79CDDD1CE4746F0038EF7D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A79CDDC1CE4746F0038EF7D /* MainViewController.m */; };
 		0A79CDE31CE47AB10038EF7D /* libSocialQQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A79CDDF1CE47AB10038EF7D /* libSocialQQ.a */; };
 		0A79CDE41CE47AB10038EF7D /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A79CDE01CE47AB10038EF7D /* TencentOpenAPI.framework */; };
@@ -425,6 +429,10 @@
 		0A608B7E1CE5BD1300EDB38A /* LLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLeftViewController.m; sourceTree = "<group>"; };
 		0A608B831CE5BD6200EDB38A /* 1.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.PNG; sourceTree = "<group>"; };
 		0A608B841CE5BD6200EDB38A /* 2.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.PNG; sourceTree = "<group>"; };
+		0A72C1ED1D7966A600DCD72B /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		0A72C1EF1D7966E000DCD72B /* UTDID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UTDID.framework; sourceTree = "<group>"; };
+		0A72C1F01D7966E000DCD72B /* AlicloudUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlicloudUtils.framework; sourceTree = "<group>"; };
+		0A72C1F11D7966E000DCD72B /* CloudPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CloudPushSDK.framework; sourceTree = "<group>"; };
 		0A79CDDB1CE4746F0038EF7D /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		0A79CDDC1CE4746F0038EF7D /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		0A79CDDF1CE47AB10038EF7D /* libSocialQQ.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialQQ.a; sourceTree = "<group>"; };
@@ -753,6 +761,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A72C1F21D7966E000DCD72B /* UTDID.framework in Frameworks */,
+				0A72C1F31D7966E000DCD72B /* AlicloudUtils.framework in Frameworks */,
+				0A72C1F41D7966E000DCD72B /* CloudPushSDK.framework in Frameworks */,
+				0A72C1EE1D7966A600DCD72B /* libresolv.tbd in Frameworks */,
 				37D50BD21D76BF050051C9F5 /* libiconv.tbd in Frameworks */,
 				0A0B14A21CDD9C03006DD011 /* MobileCoreServices.framework in Frameworks */,
 				3756405E1D648DC1005465C8 /* BaiduMapAPI_Base.framework in Frameworks */,
@@ -845,6 +857,10 @@
 		0A025F9E1CDAEF3600AFE6C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A72C1EF1D7966E000DCD72B /* UTDID.framework */,
+				0A72C1F01D7966E000DCD72B /* AlicloudUtils.framework */,
+				0A72C1F11D7966E000DCD72B /* CloudPushSDK.framework */,
+				0A72C1ED1D7966A600DCD72B /* libresolv.tbd */,
 				37D50BD11D76BF050051C9F5 /* libiconv.tbd */,
 				3756406D1D6494D0005465C8 /* BaiduMapAPI_Cloud.framework */,
 				3756406E1D6494D0005465C8 /* BaiduMapAPI_Map.framework */,
@@ -2291,6 +2307,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Taozhuma-B2C/TPLibraries/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = "Taozhuma-B2C/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -2325,6 +2342,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Taozhuma-B2C/TPLibraries/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = "Taozhuma-B2C/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
