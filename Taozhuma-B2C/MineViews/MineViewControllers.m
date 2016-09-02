@@ -178,7 +178,7 @@
     [setInformationButton addTarget:self action:@selector(InformationClick:) forControlEvents:UIControlEventTouchUpInside];//为按钮增加时间侦听
     [headView addSubview:setInformationButton];
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, viewBottom(headView) + 18, DEVICE_SCREEN_SIZE_WIDTH, DEVICE_SCREEN_SIZE_HEIGHT - viewBottom(headView) - 42) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, viewBottom(headView) + 18, DEVICE_SCREEN_SIZE_WIDTH, DEVICE_SCREEN_SIZE_HEIGHT - viewBottom(headView) - 52) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;

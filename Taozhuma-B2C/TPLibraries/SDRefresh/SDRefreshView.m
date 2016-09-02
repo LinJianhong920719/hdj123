@@ -44,7 +44,7 @@ CGFloat const SDTimeIndicatorMargin = 10.0f;
             [self addSubview:bgView];
             
             UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake((bounds_width-116)/2, 10, 116, 78)];
-            [imageView setImage:[UIImage imageNamed:@"refreshImage.png"]];
+//            [imageView setImage:[UIImage imageNamed:@"refreshImage.png"]];
             [bgView addSubview:imageView];
             
             UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] init];

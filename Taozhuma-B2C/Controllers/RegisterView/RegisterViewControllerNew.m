@@ -175,19 +175,7 @@
         NSDictionary *dic = response;
         NSString *statusMsg = [dic valueForKey:@"status"];
         
-        if([statusMsg intValue] == 4001){
-            [hud removeFromSuperview];
-            //弹框提示登陆失败
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"登陆失败!";
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
-            return;
-            AppDelegate *ade = [[AppDelegate alloc] init];
-            [ade getTokenMessage];
-        }else{
+        if([statusMsg intValue] == 200){
             [hud removeFromSuperview];
             //弹框提示登陆成功
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -211,7 +199,19 @@
             [Tools saveBool:YES forKey:KEY_IS_LOGIN];
             
             [self performSelector:@selector(backClick:) withObject:nil afterDelay:0.5];
-//            [Tools saveObject:token forKey:TokenDatas];
+            //            [Tools saveObject:token forKey:TokenDatas];
+            
+        }else{
+            [hud removeFromSuperview];
+            //弹框提示登陆失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"登陆失败!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+
         }
         
         

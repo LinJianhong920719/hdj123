@@ -11,6 +11,7 @@
 #import "AddressCell.h"
 #import "AddAddressViewController.h"
 #import "AddressDetailViewController.h"
+#import "EditAddressViewController.h"
 
 #define Reality_viewHeight ScreenHeight-ViewOrignY-40-50
 #define Reality_viewWidth ScreenWidth
@@ -34,9 +35,11 @@
     // Do any additional setup after loading the view.
     //隐藏导航栏
 //    [self hideNaviBar:YES];
+    //通知 接收
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refView:) name:@"refAddressList"object:nil];
     [self initUI];
     [self loadData];
-//    [self setupHeader];
+    [self setupHeader];
     
 }
 
@@ -48,7 +51,7 @@
     
     _data = [[NSMutableArray alloc]init];
     
-    _mTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ViewOrignY, Reality_viewWidth, ScreenHeight) style:UITableViewStylePlain];
+    _mTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ViewOrignY-10, Reality_viewWidth, ScreenHeight) style:UITableViewStylePlain];
     _mTableView.delegate = self;
     _mTableView.dataSource = self;
     _mTableView.scrollsToTop = YES;
@@ -106,10 +109,15 @@
     _mTableView.tableHeaderView = topsView;
 }
 
+- (void)refView:(NSNotification*)notification {
+    
+    [self loadData];
+}
 #pragma mark - 加载数据
 
 - (void)loadData {
     
+    NSLog(@"userId:%@",[Tools stringForKey:KEY_USER_ID]);
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          [Tools stringForKey:KEY_USER_ID],@"userId",
                          nil];
@@ -117,8 +125,8 @@
     NSString *path = [NSString stringWithFormat:@"/Api/User/showAddress?"];
     
     [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking postWithUrl:path refreshCache:YES params:dic success:^(id response) {
-        
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        NSLog(@"dic:%@",dic);
         NSDictionary *dic = response;
         NSLog(@"response:%@",response);
         NSString *statusMsg = [dic valueForKey:@"status"];
@@ -243,6 +251,9 @@
         cell.userName.text = entity.guestName;
         cell.userPhone.text = entity.mobile;
         cell.userAddress.text = entity.address;
+        cell.editInfoBtn.tag = entity.addressID.intValue;
+        [cell.editInfoBtn addTarget:self action:@selector(editInfoClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
         
         
     }
@@ -266,7 +277,16 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-
+- (IBAction)editInfoClicked:(id)sender {
+    UIButton *btn = (UIButton *)sender;
+    EditAddressViewController *editAddressView= [[EditAddressViewController alloc]init];
+    editAddressView.addressId = [NSString stringWithFormat:@"%ld",(long)btn.tag];
+    editAddressView.title = @"修改地址";
+    editAddressView.hidesBottomBarWhenPushed = YES;
+    editAddressView.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:editAddressView animated:YES];
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

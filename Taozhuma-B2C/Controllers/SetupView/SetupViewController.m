@@ -36,23 +36,23 @@
 }
 
 - (void)customData {
-
+    
     NSDictionary *dic2 = [NSDictionary dictionaryWithObjectsAndKeys:@"关于我们",@"title",@"wm-064.png",@"imageName",@"2",@"viewType",nil];
     NSDictionary *dic3 = [NSDictionary dictionaryWithObjectsAndKeys:@"清除缓存",@"title",@"wm-056.png",@"imageName",@"3",@"viewType",nil];
-
+    
     
     dic10 = [NSDictionary dictionaryWithObjectsAndKeys:@"退出当前账号",@"title",@"wm-030.png",@"imageName",@"10",@"viewType",nil];
     dic03 = [NSDictionary dictionaryWithObjectsAndKeys:@[dic10],@"section",nil];
     if ([Tools boolForKey:KEY_IS_LOGIN]!= YES) {
-          dic01 = [NSDictionary dictionaryWithObjectsAndKeys:@[dic2],@"section",nil];
+        dic01 = [NSDictionary dictionaryWithObjectsAndKeys:@[dic2],@"section",nil];
     }else{
         dic01 = [NSDictionary dictionaryWithObjectsAndKeys:@[dic2,dic3],@"section",nil];
     }
     
-
     
     
-
+    
+    
     if([Tools stringForKey:KEY_USER_ID]!=nil){
         _data = @[dic01,dic03];
     }else{
@@ -61,7 +61,7 @@
     
     
     
-   
+    
 }
 
 - (void)initUI {
@@ -81,7 +81,7 @@
     UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 16)];
     [tableFooterView setBackgroundColor:[UIColor clearColor]];
     _tableView.tableFooterView = tableFooterView;
-
+    
 }
 
 #pragma mark - UITableView
@@ -151,13 +151,13 @@
         }
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    
-//    UIImageView *arrow = [[UIImageView alloc]initWithFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-23, 15, 7, 14)];
-//    [arrow setImage:[UIImage imageNamed:@"wm-019.png"]];
-//    [cell addSubview:arrow];
-//    
-//    UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(18, 12, 20, 20)];
-//    [cell addSubview:image];
+    //
+    //    UIImageView *arrow = [[UIImageView alloc]initWithFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-23, 15, 7, 14)];
+    //    [arrow setImage:[UIImage imageNamed:@"wm-019.png"]];
+    //    [cell addSubview:arrow];
+    //
+    //    UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(18, 12, 20, 20)];
+    //    [cell addSubview:image];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 200, 44)];
     label.textColor = FONT_COLOR;
@@ -170,11 +170,11 @@
         NSArray *array = [[dic valueForKey:@"section"] objectAtIndex:[indexPath row]];
         
         label.text = [array valueForKey:@"title"];
-//        [image setImage:[UIImage imageNamed:[array valueForKey:@"imageName"]]];
+        //        [image setImage:[UIImage imageNamed:[array valueForKey:@"imageName"]]];
         
         if ([[array valueForKey:@"viewType"]integerValue] == 10) {
-//            arrow.hidden = YES;
-//            image.hidden = YES;
+            //            arrow.hidden = YES;
+            //            image.hidden = YES;
             [label setBackgroundColor:UIColorWithRGBA(255, 80, 0, 1)];
             [label setFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 40)];
             [label setTextAlignment:NSTextAlignmentCenter];
@@ -196,122 +196,129 @@
         case 1: {
             //意见反馈
             if([Tools boolForKey:KEY_IS_LOGIN]== YES){
-//                FeedBackViewController *feedBackView = [[FeedBackViewController alloc]init];
-//                feedBackView.title = @"意见反馈";
-//                feedBackView.hidesBottomBarWhenPushed = YES;
-//                feedBackView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:feedBackView animated:YES];
+                //                FeedBackViewController *feedBackView = [[FeedBackViewController alloc]init];
+                //                feedBackView.title = @"意见反馈";
+                //                feedBackView.hidesBottomBarWhenPushed = YES;
+                //                feedBackView.navigationController.navigationBarHidden = YES;
+                //                [self.navigationController pushViewController:feedBackView animated:YES];
             }else{
-//                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
-//                registeredView.title = @"快捷登陆";
-//                registeredView.hidesBottomBarWhenPushed = YES;
-//                registeredView.navigationController.navigationBarHidden = YES;
-//                [self.navigationController pushViewController:registeredView animated:YES];
+                //                RegisteredViewController *registeredView = [[RegisteredViewController alloc]init];
+                //                registeredView.title = @"快捷登陆";
+                //                registeredView.hidesBottomBarWhenPushed = YES;
+                //                registeredView.navigationController.navigationBarHidden = YES;
+                //                [self.navigationController pushViewController:registeredView animated:YES];
             }
             
             
         } break;
         case 2: {
-            //服务条款
-//            HelpDetailsViewController *HelpDetails = [[HelpDetailsViewController alloc]init];
-//            HelpDetails.title = @"服务条款";
-//            HelpDetails.helpId = @"1";
-//            HelpDetails.hidesBottomBarWhenPushed = YES;
-//            HelpDetails.navigationController.navigationBarHidden = YES;
-//            [self.navigationController pushViewController:HelpDetails animated:YES];
+            
+
         } break;
         case 3: {
-            //修改钱包密码
-//            EditWalletPwdViewController *editWalletPwdView = [[EditWalletPwdViewController alloc]init];
-//            editWalletPwdView.title = @"修改钱包密码";
-//            editWalletPwdView.hidesBottomBarWhenPushed = YES;
-//            editWalletPwdView.navigationController.navigationBarHidden = YES;
-//            [self.navigationController pushViewController:editWalletPwdView animated:YES];
-        } break;
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            hud.labelText = @"清除缓存成功";
+            //通过多线程执行清除 避免执行过程中阻塞主线程 导致界面短时间无响应
+            [NSThread detachNewThreadSelector:@selector(myThreadMainMethod) toTarget:self withObject:nil];        } break;
         case 4: {
             //关于我们
-//            AboutUsViewController *aboutUsView = [[AboutUsViewController alloc]init];
-//            aboutUsView.title = @"关于我们";
-//            aboutUsView.helpId = @"2";
-//            aboutUsView.hidesBottomBarWhenPushed = YES;
-//            aboutUsView.navigationController.navigationBarHidden = YES;
-//            [self.navigationController pushViewController:aboutUsView animated:YES];
+            //            AboutUsViewController *aboutUsView = [[AboutUsViewController alloc]init];
+            //            aboutUsView.title = @"关于我们";
+            //            aboutUsView.helpId = @"2";
+            //            aboutUsView.hidesBottomBarWhenPushed = YES;
+            //            aboutUsView.navigationController.navigationBarHidden = YES;
+            //            [self.navigationController pushViewController:aboutUsView animated:YES];
             
             
-//            HelpDetailsViewController *HelpDetails = [[HelpDetailsViewController alloc]init];
-//            HelpDetails.title = @"关于我们";
-//            HelpDetails.helpId = @"2";
-//            HelpDetails.hidesBottomBarWhenPushed = YES;
-//            HelpDetails.navigationController.navigationBarHidden = YES;
-//            [self.navigationController pushViewController:HelpDetails animated:YES];
+            //            HelpDetailsViewController *HelpDetails = [[HelpDetailsViewController alloc]init];
+            //            HelpDetails.title = @"关于我们";
+            //            HelpDetails.helpId = @"2";
+            //            HelpDetails.hidesBottomBarWhenPushed = YES;
+            //            HelpDetails.navigationController.navigationBarHidden = YES;
+            //            [self.navigationController pushViewController:HelpDetails animated:YES];
         } break;
         case 10: {
             //退出当前账号
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定登出？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-             alert.tag = 101;
+            alert.tag = 101;
             [alert show];
         } break;
     }
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-  
+    
     if (buttonIndex == 1) {
-            [self logout];
+        [self logout];
     }
     
 }
 - (void)logout {
     
-//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         @"drop_out",                         @"act",
-//                         [Tools stringForKey:KEY_USER_PHONE],     @"phone",
-//                         @"e3dc653e2d68697346818dfc0b208322",     @"key",
-//                         nil];
-//    NSLog(@"%@", dic);
-//    NSString *xpoint = USERXPOINT;
-//    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-//        if (error) {
-//            [HUD removeFromSuperview];
-//        } else {
-//            if (respond.result == YES) {
-//                
-//                
-//                
-//                [Tools saveObject:nil forKey:KEY_USER_TYPE];
-//                [Tools saveObject:nil forKey:KEY_USER_ID];
-//                [Tools saveObject:nil forKey:KEY_NIKE_NAME];
-//                [Tools saveObject:nil forKey:KEY_LEVEL];
-//                [Tools saveObject:nil forKey:KEY_HEAD_ICON];
-//                [Tools saveObject:nil forKey:KEY_CARDNUM];
-//                [Tools saveObject:nil forKey:KEY_AMOUNT];
-//                [Tools saveObject:NO forKey:KEY_IS_LOGIN];
-////                MineViewController *mineView = [[MineViewController alloc]init];
-////                [self.navigationController pushViewController:mineView animated:YES];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMineMessage" object:nil];
-//                UIViewController *target = nil;
-//                //遍历
-//                for (UIViewController * controller in self.navigationController.viewControllers) {
-//                    //这里判断是否为你想要跳转的页面
-//                    if ([controller isKindOfClass:[MineViewController class]]) {
-//                        target = controller;
-//                    }
-//                }
-//                if (target) {
-//                    
-//                    //跳转
-//                    [self.navigationController popToViewController:target animated:YES];
-//                    
-//                    
-//                }
-//                
-//                [HUD removeFromSuperview];
-//                
-//            }
-//        }
-//        
-//    }];
+    //    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+    //                         @"drop_out",                         @"act",
+    //                         [Tools stringForKey:KEY_USER_PHONE],     @"phone",
+    //                         @"e3dc653e2d68697346818dfc0b208322",     @"key",
+    //                         nil];
+    //    NSLog(@"%@", dic);
+    //    NSString *xpoint = USERXPOINT;
+    //    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
+    //        if (error) {
+    //            [HUD removeFromSuperview];
+    //        } else {
+    //            if (respond.result == YES) {
+    //
+    //
+    //
+    //                [Tools saveObject:nil forKey:KEY_USER_TYPE];
+    //                [Tools saveObject:nil forKey:KEY_USER_ID];
+    //                [Tools saveObject:nil forKey:KEY_NIKE_NAME];
+    //                [Tools saveObject:nil forKey:KEY_LEVEL];
+    //                [Tools saveObject:nil forKey:KEY_HEAD_ICON];
+    //                [Tools saveObject:nil forKey:KEY_CARDNUM];
+    //                [Tools saveObject:nil forKey:KEY_AMOUNT];
+    //                [Tools saveObject:NO forKey:KEY_IS_LOGIN];
+    ////                MineViewController *mineView = [[MineViewController alloc]init];
+    ////                [self.navigationController pushViewController:mineView animated:YES];
+    //                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMineMessage" object:nil];
+    //                UIViewController *target = nil;
+    //                //遍历
+    //                for (UIViewController * controller in self.navigationController.viewControllers) {
+    //                    //这里判断是否为你想要跳转的页面
+    //                    if ([controller isKindOfClass:[MineViewController class]]) {
+    //                        target = controller;
+    //                    }
+    //                }
+    //                if (target) {
+    //
+    //                    //跳转
+    //                    [self.navigationController popToViewController:target animated:YES];
+    //
+    //                    
+    //                }
+    //                
+    //                [HUD removeFromSuperview];
+    //                
+    //            }
+    //        }
+    //        
+    //    }];
     
- 
+
+    
+}
+#pragma mark -
+
+-(void)myThreadMainMethod {
+    //获取caches路径
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+//    NSString *cachesPath = [[paths objectAtIndex:0] stringByAppendingFormat:@"/Caches"];
+    
+    //调用清除缓存方法
+    [Tools clearCaches];
 
 }
 

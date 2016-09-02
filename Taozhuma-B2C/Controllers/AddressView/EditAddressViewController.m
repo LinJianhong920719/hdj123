@@ -1,16 +1,16 @@
 //
-//  AddAddressViewController.m
+//  EditAddressViewController.m
 //  Taozhuma-B2C
 //
 //  Created by Average on 16/8/26.
 //  Copyright © 2016年 QunYu_TD. All rights reserved.
 //
 
-#import "AddAddressViewController.h"
+#import "EditAddressViewController.h"
 #import "AddressPickView.h"
 #import "IQKeyBoardManager.h"
 #import "LTPickerView.h"
-@interface AddAddressViewController ()<UIActionSheetDelegate,UITextFieldDelegate>{
+@interface EditAddressViewController ()<UIActionSheetDelegate,UITextFieldDelegate>{
     UILabel *userName;
     UITextField *userNameField;
     UILabel *userSex;
@@ -34,7 +34,8 @@
 
 @end
 
-@implementation AddAddressViewController
+@implementation EditAddressViewController
+@synthesize addressId;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,6 +48,7 @@
     comNameArray = [[NSMutableArray alloc]init];
     comIdArray = [[NSMutableArray alloc]init];
     [self loadAddressMsg];
+    [self loadAdrMsg];
 }
 -(void)initUI{
     //导航栏右侧按钮
@@ -358,7 +360,52 @@
     
 }
 
-//添加地址信息
+//获取地址详情信息
+- (void)loadAdrMsg {
+    
+    NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
+                          addressId,  @"id",
+                          nil];
+    
+    NSString *xpoint = @"/Api/User/AddressDetail?";
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dics success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        
+        if([statusMsg intValue] == 4001){
+            //弹框提示获取失败
+            [self showHUDText:@"获取失败!"];
+            
+        }else if([statusMsg intValue] == 201){
+            //弹框提示获取失败
+            [self showHUDText:@"暂无内容!"];
+        }else {
+            
+            NSArray *data = [dic valueForKey:@"data"];
+            userNameField.text = [data valueForKey:@"guest_name"];
+            userSex = [data valueForKey:@"guest"];
+            if ([[data valueForKey:@"guest"] isEqualToString:@"0"]) {
+                userSexField.text = @"男";
+            }else{
+                userSexField.text = @"女";
+            }
+            userPhoneField.text = [data valueForKey:@"mobile"];
+//            myUITextView.text = [data valueForKey:@"address"];
+            
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+
+
+//编辑地址信息
 - (IBAction)addAddressMsg:(id)sender{
     if (userNameField.text.length == 0) {
         alert=[[UIAlertView alloc]initWithTitle:nil message:@"请填写联系人" delegate:self cancelButtonTitle:@"返回" otherButtonTitles:nil, nil];
@@ -395,7 +442,7 @@
     NSString *string1 = [userAreaField.text stringByAppendingString:userComField .text];
     NSString *string2 = [string1 stringByAppendingString:userAddressField.text];
     
-    NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
+    NSDictionary *dica = [[NSDictionary alloc]initWithObjectsAndKeys:
                           [Tools stringForKey:KEY_USER_ID],  @"userId",
                           communityId,   @"comId",
                           string2,@"address",
@@ -403,12 +450,13 @@
                           userPhoneField.text,@"mobile",
                           sexNum,@"gender",
                           @"0",@"level",
+                          addressId,@"id",
                           nil];
     
-    NSString *xpoint = @"/Api/User/addAddress?";
-    
+    NSString *xpointa = @"/Api/User/updAddress?";
+    NSLog(@"dics:%@",dica);
     [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dics success:^(id response) {
+    [HYBNetworking getWithUrl:xpointa refreshCache:YES emphasis:NO params:dica success:^(id response) {
         
         NSDictionary *dic = response;
         NSString *statusMsg = [dic valueForKey:@"status"];
@@ -421,7 +469,7 @@
             //弹框提示获取失败
             [self showHUDText:@"附近暂无合作小区!"];
         }else {
-            [self showHUDText:@"添加成功!"];
+            [self showHUDText:@"修改成功!"];
 
             //通知 发出
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refAddressList" object:nil];

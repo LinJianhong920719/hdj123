@@ -547,17 +547,17 @@ BMKMapManager* _mapManager;
 //处理位置坐标更新
 - (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
 {
-//    if (isStop == false) {
-//        if (userLocation.location != nil) {
+    if (isStop == false) {
+        if (userLocation.location != nil) {
             [Tools saveDouble:userLocation.location.coordinate.latitude forKey:CURRENT_LATITUDE];
             [Tools saveDouble:userLocation.location.coordinate.longitude forKey:CURRENT_LONGITUDE];
             NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
             
             //通知 发出
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refAddress" object:nil];
-//        }
-//        isStop = true;
-//    }
+        }
+        isStop = true;
+    }
     
     
 }

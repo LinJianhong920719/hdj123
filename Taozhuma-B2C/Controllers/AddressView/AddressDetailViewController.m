@@ -29,7 +29,7 @@
     NSString *communityId;//小区id
     NSString *communityName;//小区名称
     UIAlertView *alert;
-
+    UITextView *myUITextView;
 }
 
 @end
@@ -138,19 +138,10 @@
     userAddress.textColor = FONTS_COLOR102;
     [baseView addSubview:userAddress];
     
-    userAddressField = [[UITextField alloc]initWithFrame:CGRectMake(viewRight(userAddress)+10, viewBottom(line3), DEVICE_SCREEN_SIZE_WIDTH-userAddress.frame.size.width-20,40)];
-    userAddressField.placeholder = @"请输入楼号门牌号等详细信息";
-    userAddressField.font = [UIFont systemFontOfSize:14];
-    userAddressField.textColor = FONTS_COLOR153;
-    userAddressField.backgroundColor = UIColorWithRGBA(255, 255, 255, 0.5);
+    myUITextView = [[UITextView alloc]initWithFrame:CGRectMake(viewRight(userAddress)+10, viewBottom(line3), DEVICE_SCREEN_SIZE_WIDTH-userAddress.frame.size.width-20,40)];
+//    myUITextView.text=@"强势求粉，有楼行遍天下，无粉寸步难行，人人粉我，我粉人人，抗议不回复";
+    [baseView addSubview: myUITextView ];
 
-    //设置圆角
-    userAddressField.delegate = self;
-    userAddressField.keyboardType = UIKeyboardTypeDefault;
-    userAddressField.returnKeyType = UIReturnKeyDone;
-    userAddressField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [userAddressField addTarget:self action:@selector(nextOnKeyboard:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    [baseView addSubview:userAddressField];
     
     UIView *delAddress = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(baseView)+20, DEVICE_SCREEN_SIZE_WIDTH, 40)];
     delAddress.backgroundColor = [UIColor whiteColor];
@@ -252,7 +243,7 @@
                 userSexField.text = @"女";
             }
             userPhoneField.text = [data valueForKey:@"mobile"];
-            userAddressField.text = [data valueForKey:@"address"];
+            myUITextView.text = [data valueForKey:@"address"];
             
 
         }
@@ -287,7 +278,8 @@
             [self showHUDText:@"附近暂无合作小区!"];
         }else {
             [self showHUDText:@"删除成功!"];
-            
+            //通知 发出
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refAddressList" object:nil];
             
         }
         

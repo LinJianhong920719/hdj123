@@ -682,9 +682,11 @@
 //            hud.yOffset = -50.f;
 //            hud.removeFromSuperViewOnHide = YES;
 //            [hud hide:YES afterDelay:2];
-            return;
+//            return;
         }if([statusMsg intValue] == 4002){
-            [self showHUDText:@"获取失败!"];
+            settlementView.hidden = YES;
+            rightBtn.hidden = YES;
+            emptyView.hidden = NO;
         }else{
             
             settlementView.hidden = NO;

@@ -148,6 +148,7 @@
 		3728E06A1D6BE30900BF638D /* GBTopLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728E0671D6BE30900BF638D /* GBTopLineView.m */; };
 		3728E06B1D6BE30900BF638D /* GBTopLineViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728E0691D6BE30900BF638D /* GBTopLineViewModel.m */; };
 		37341FCF1D76725800E69A2F /* ClassProductListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37341FCD1D76725800E69A2F /* ClassProductListViewController.m */; };
+		3746A3211D7918F500E87F75 /* EditAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3746A31F1D7918F500E87F75 /* EditAddressViewController.m */; };
 		37472E9D1D693C5E00F9CD6C /* ClassifyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 37472E9C1D693C5E00F9CD6C /* ClassifyModel.m */; };
 		37472EA11D6943B800F9CD6C /* icon_search.png in Resources */ = {isa = PBXBuildFile; fileRef = 37472E9F1D6943B800F9CD6C /* icon_search.png */; };
 		37472EA21D6943B800F9CD6C /* search_del.png in Resources */ = {isa = PBXBuildFile; fileRef = 37472EA01D6943B800F9CD6C /* search_del.png */; };
@@ -547,6 +548,8 @@
 		3728E0691D6BE30900BF638D /* GBTopLineViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBTopLineViewModel.m; sourceTree = "<group>"; };
 		37341FCD1D76725800E69A2F /* ClassProductListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassProductListViewController.m; sourceTree = "<group>"; };
 		37341FCE1D76725800E69A2F /* ClassProductListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassProductListViewController.h; sourceTree = "<group>"; };
+		3746A31F1D7918F500E87F75 /* EditAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAddressViewController.m; sourceTree = "<group>"; };
+		3746A3201D7918F500E87F75 /* EditAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAddressViewController.h; sourceTree = "<group>"; };
 		37472E9B1D693C5E00F9CD6C /* ClassifyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassifyModel.h; sourceTree = "<group>"; };
 		37472E9C1D693C5E00F9CD6C /* ClassifyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassifyModel.m; sourceTree = "<group>"; };
 		37472E9F1D6943B800F9CD6C /* icon_search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_search.png; sourceTree = "<group>"; };
@@ -1624,6 +1627,8 @@
 		37BD3A0D1D6FE37500BAACF7 /* AddressView */ = {
 			isa = PBXGroup;
 			children = (
+				3746A31F1D7918F500E87F75 /* EditAddressViewController.m */,
+				3746A3201D7918F500E87F75 /* EditAddressViewController.h */,
 				372335CB1D71304100741706 /* AddressDetailViewController.h */,
 				372335CC1D71304100741706 /* AddressDetailViewController.m */,
 				37BD3A0E1D6FE37500BAACF7 /* AddressViewController.h */,
@@ -2056,6 +2061,7 @@
 				0A13F7F21CDB374A00AF5392 /* UIImageView+HighlightedWebCache.m in Sources */,
 				37B6AF861CF3291500A12DC2 /* EMAsyncImageView.m in Sources */,
 				0A13F7E61CDB374A00AF5392 /* NSData+ImageContentType.m in Sources */,
+				3746A3211D7918F500E87F75 /* EditAddressViewController.m in Sources */,
 				370C5E4E1D7561D100B93FC4 /* ELCConsole.m in Sources */,
 				37CA1F961D71916500DCF2AB /* CartStoreEntity.m in Sources */,
 				37D50BD01D76AF1E0051C9F5 /* PaymentModuleView.m in Sources */,
