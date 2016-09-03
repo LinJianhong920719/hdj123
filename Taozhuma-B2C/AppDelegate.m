@@ -596,7 +596,7 @@ BMKMapManager* _mapManager;
 #pragma mark - 阿里云SDK初始化
 - (void)initCloudPush {
     // SDK初始化
-    [CloudPushSDK asyncInit:@"23447180" appSecret:@"2fd206d021d58dc24614044a92b9b728" callback:^(CloudPushCallbackResult *res) {
+    [CloudPushSDK asyncInit:@"23447195" appSecret:@"7f29d16b8c2240c6ef65005aa3616011" callback:^(CloudPushCallbackResult *res) {
         if (res.success) {
             NSLog(@"Push SDK init success, deviceId: %@.", [CloudPushSDK getDeviceId]);
         } else {
