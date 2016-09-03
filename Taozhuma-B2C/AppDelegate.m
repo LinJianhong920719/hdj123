@@ -87,6 +87,10 @@ BMKMapManager* _mapManager;
    // [self umeng_Message:launchOptions];
     //阿里云推送
     [CloudPushSDK handleLaunching:launchOptions];
+    [self initCloudPush];
+    
+    [self registerAPNS:application];
+    [self registerMessageReceive];
     // 友盟第三方登录
     //[self umeng_LoginQuick];
     
@@ -150,11 +154,11 @@ BMKMapManager* _mapManager;
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [UMessage registerDeviceToken:deviceToken];
-    
-    NSString *token = [[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""] stringByReplacingOccurrencesOfString: @">" withString: @""] stringByReplacingOccurrencesOfString: @" " withString: @""];
-
-    [Tools saveObject:token forKey:DeviceToken];
+//    [UMessage registerDeviceToken:deviceToken];
+//    
+//    NSString *token = [[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""] stringByReplacingOccurrencesOfString: @">" withString: @""] stringByReplacingOccurrencesOfString: @" " withString: @""];
+//
+//    [Tools saveObject:token forKey:DeviceToken];
     
     //苹果推送注册成功回调，将苹果返回的deviceToken上传到CloudPush服务器
     [CloudPushSDK registerDevice:deviceToken withCallback:^(CloudPushCallbackResult *res) {
@@ -171,7 +175,7 @@ BMKMapManager* _mapManager;
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [UMessage didReceiveRemoteNotification:userInfo];
+//    [UMessage didReceiveRemoteNotification:userInfo];
     NSLog(@"Receive one notification.");
     // 取得APNS通知内容
     NSDictionary *aps = [userInfo valueForKey:@"aps"];
@@ -592,7 +596,7 @@ BMKMapManager* _mapManager;
 #pragma mark - 阿里云SDK初始化
 - (void)initCloudPush {
     // SDK初始化
-    [CloudPushSDK asyncInit:@"SoGDsklvnbn9mxxh" appSecret:@"YIPnyAppQI4eoS8q86CPIzkyJaoz3C" callback:^(CloudPushCallbackResult *res) {
+    [CloudPushSDK asyncInit:@"23447180" appSecret:@"2fd206d021d58dc24614044a92b9b728" callback:^(CloudPushCallbackResult *res) {
         if (res.success) {
             NSLog(@"Push SDK init success, deviceId: %@.", [CloudPushSDK getDeviceId]);
         } else {
