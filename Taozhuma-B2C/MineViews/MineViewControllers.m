@@ -19,6 +19,7 @@
 #import "EditUserInfoViewController.h"
 #import "MyWalletViewController.h"
 #import "UMSocial.h"
+#import "OrderListViewController.h"
 
 @interface MineViewControllers () <UITableViewDataSource,UITableViewDelegate> {
     NSArray *_data;
@@ -531,6 +532,49 @@
 //    }
 //     ];
 //}
+
+#pragma mark - MineOrderCellView
+
+- (void)orderCellView:(MineOrderCellView *)mineOrderCellView clickButton:(UIButton *)button title:(NSString *)title {
+ 
+        switch (button.tag) {
+            case 1: {
+//                OrderListViewController *MyRefund = [[OrderListViewController alloc]init];
+//                MyRefund.title = @"退款维权";
+//                MyRefund.hidesBottomBarWhenPushed = YES;
+//                [self.navigationController pushViewController:MyRefund animated:YES];
+            }   break;
+            case 2: {
+//                OrderListViewController *MyRefund = [[OrderListViewController alloc]init];
+//                MyRefund.title = @"退款维权";
+//                MyRefund.hidesBottomBarWhenPushed = YES;
+//                [self.navigationController pushViewController:MyRefund animated:YES];
+            }break;
+            case 3: {
+//                OrderListViewController *MyRefund = [[OrderListViewController alloc]init];
+//                MyRefund.title = @"退款维权";
+//                MyRefund.hidesBottomBarWhenPushed = YES;
+//                [self.navigationController pushViewController:MyRefund animated:YES];
+            }break;
+            case 4: {
+//                OrderListViewController *MyRefund = [[OrderListViewController alloc]init];
+//                MyRefund.title = @"退款维权";
+//                MyRefund.hidesBottomBarWhenPushed = YES;
+//                [self.navigationController pushViewController:MyRefund animated:YES];
+            }break;
+   
+            default: {
+                OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
+//                allOrderView.ptagid = [NSString stringWithFormat:@"%ld", (long)button.tag];
+                allOrderView.title = title;
+                allOrderView.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:allOrderView animated:YES];
+            }   break;
+                
+        }
+        
+    }
+
 
 //设置按钮
 - (IBAction)InformationClick:(id)sender {

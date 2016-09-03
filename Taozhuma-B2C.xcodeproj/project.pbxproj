@@ -126,6 +126,11 @@
 		370373301D659FA80055349A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3703732F1D659FA80055349A /* MBProgressHUD.m */; };
 		370373341D65A9B90055349A /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 370373321D65A9B90055349A /* CollectionViewCell.m */; };
 		370373351D65A9B90055349A /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 370373331D65A9B90055349A /* CollectionViewCell.xib */; };
+		37038A721D7AA18400DD3486 /* OrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37038A701D7AA18400DD3486 /* OrderListViewController.m */; };
+		37038A751D7AA99600DD3486 /* AllOrdersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37038A731D7AA99600DD3486 /* AllOrdersListViewController.m */; };
+		37038A791D7AAA4500DD3486 /* AllOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 37038A761D7AAA4500DD3486 /* AllOrderCell.m */; };
+		37038A7A1D7AAA4500DD3486 /* AllOrderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37038A771D7AAA4500DD3486 /* AllOrderCell.xib */; };
+		37038A7D1D7AAA6600DD3486 /* AllOrderEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 37038A7C1D7AAA6600DD3486 /* AllOrderEntity.m */; };
 		370C5E4A1D7561D100B93FC4 /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 370C5E341D7561D100B93FC4 /* ELCAlbumPickerController.m */; };
 		370C5E4B1D7561D100B93FC4 /* ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 370C5E361D7561D100B93FC4 /* ELCAsset.m */; };
 		370C5E4C1D7561D100B93FC4 /* ELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 370C5E381D7561D100B93FC4 /* ELCAssetCell.m */; };
@@ -512,6 +517,15 @@
 		370373311D65A9B90055349A /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		370373321D65A9B90055349A /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		370373331D65A9B90055349A /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		37038A701D7AA18400DD3486 /* OrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderListViewController.m; sourceTree = "<group>"; };
+		37038A711D7AA18400DD3486 /* OrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListViewController.h; sourceTree = "<group>"; };
+		37038A731D7AA99600DD3486 /* AllOrdersListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllOrdersListViewController.m; sourceTree = "<group>"; };
+		37038A741D7AA99600DD3486 /* AllOrdersListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllOrdersListViewController.h; sourceTree = "<group>"; };
+		37038A761D7AAA4500DD3486 /* AllOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllOrderCell.m; sourceTree = "<group>"; };
+		37038A771D7AAA4500DD3486 /* AllOrderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllOrderCell.xib; sourceTree = "<group>"; };
+		37038A781D7AAA4500DD3486 /* AllOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllOrderCell.h; sourceTree = "<group>"; };
+		37038A7B1D7AAA6600DD3486 /* AllOrderEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllOrderEntity.h; sourceTree = "<group>"; };
+		37038A7C1D7AAA6600DD3486 /* AllOrderEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllOrderEntity.m; sourceTree = "<group>"; };
 		370C5E331D7561D100B93FC4 /* ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAlbumPickerController.h; sourceTree = "<group>"; };
 		370C5E341D7561D100B93FC4 /* ELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAlbumPickerController.m; sourceTree = "<group>"; };
 		370C5E351D7561D100B93FC4 /* ELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAsset.h; sourceTree = "<group>"; };
@@ -1426,6 +1440,8 @@
 		3756FEBE1CED992100922D5B /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				37038A7B1D7AAA6600DD3486 /* AllOrderEntity.h */,
+				37038A7C1D7AAA6600DD3486 /* AllOrderEntity.m */,
 				37D50BB91D76A95D0051C9F5 /* ConfirmOrderEntity.m */,
 				37D50BBA1D76A95D0051C9F5 /* ConfirmOrderEntity.h */,
 				370E31BD1D6E8FD90016FD77 /* CouponsEntity.m */,
@@ -1751,6 +1767,10 @@
 		37D50BB51D76A9160051C9F5 /* OrderView */ = {
 			isa = PBXGroup;
 			children = (
+				37038A731D7AA99600DD3486 /* AllOrdersListViewController.m */,
+				37038A741D7AA99600DD3486 /* AllOrdersListViewController.h */,
+				37038A701D7AA18400DD3486 /* OrderListViewController.m */,
+				37038A711D7AA18400DD3486 /* OrderListViewController.h */,
 				37D50BCE1D76AF1E0051C9F5 /* PaymentModuleView.m */,
 				37D50BCF1D76AF1E0051C9F5 /* PaymentModuleView.h */,
 				37D50BCB1D76AED10051C9F5 /* AddressModuleView.m */,
@@ -1770,6 +1790,9 @@
 		37D50BBC1D76AB740051C9F5 /* OrderViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				37038A761D7AAA4500DD3486 /* AllOrderCell.m */,
+				37038A771D7AAA4500DD3486 /* AllOrderCell.xib */,
+				37038A781D7AAA4500DD3486 /* AllOrderCell.h */,
 				37D50BBD1D76AB740051C9F5 /* ConfirmOrderCell.h */,
 				37D50BBE1D76AB740051C9F5 /* ConfirmOrderCell.m */,
 				37D50BBF1D76AB740051C9F5 /* ConfirmOrderCell.xib */,
@@ -2000,6 +2023,7 @@
 				37C3A5981D6972DB00E7E398 /* search_hot.png in Resources */,
 				37FE5F241D6C2E5400012513 /* deta_collect_active.png in Resources */,
 				0A027F051CE18D5600B95294 /* Intro4-736.jpg in Resources */,
+				37038A7A1D7AAA4500DD3486 /* AllOrderCell.xib in Resources */,
 				0A027EFB1CE18D5600B95294 /* Intro2-568.jpg in Resources */,
 				375B54351D77FBC600AFCC1A /* zfb.png in Resources */,
 				37BFE2F41CF2E5F50001081D /* user_wallet.png in Resources */,
@@ -2132,6 +2156,7 @@
 				37D50BC01D76AB740051C9F5 /* ConfirmOrderCell.m in Sources */,
 				0A027EE41CE189EF00B95294 /* GuideManager.m in Sources */,
 				0A070CF71CDC6F3300298DAB /* UIColor+RandomColor.m in Sources */,
+				37038A791D7AAA4500DD3486 /* AllOrderCell.m in Sources */,
 				0A13F7E91CDB374A00AF5392 /* SDWebImageDecoder.m in Sources */,
 				378A61641D4636B600F34DD9 /* RegisteredViewController.m in Sources */,
 				37CA1F7D1D7166D200DCF2AB /* MyWalletViewController.m in Sources */,
@@ -2140,6 +2165,7 @@
 				0A0B14971CDD9B9F006DD011 /* AFAutoPurgingImageCache.m in Sources */,
 				37341FCF1D76725800E69A2F /* ClassProductListViewController.m in Sources */,
 				370C5E4C1D7561D100B93FC4 /* ELCAssetCell.m in Sources */,
+				37038A751D7AA99600DD3486 /* AllOrdersListViewController.m in Sources */,
 				0A13F7F01CDB374A00AF5392 /* UIImage+MultiFormat.m in Sources */,
 				370373301D659FA80055349A /* MBProgressHUD.m in Sources */,
 				370E31BF1D6E8FD90016FD77 /* CouponsEntity.m in Sources */,
@@ -2159,6 +2185,7 @@
 				0A13F8031CDB381F00AF5392 /* CustomNavigationController.m in Sources */,
 				37472EA61D69467B00F9CD6C /* SearchViewController.m in Sources */,
 				370C5E4D1D7561D100B93FC4 /* ELCAssetTablePicker.m in Sources */,
+				37038A721D7AA18400DD3486 /* OrderListViewController.m in Sources */,
 				370C5E4A1D7561D100B93FC4 /* ELCAlbumPickerController.m in Sources */,
 				37EACEB61D6A923600674EE9 /* ProductEntity.m in Sources */,
 				0A0B14941CDD9B9F006DD011 /* AFURLRequestSerialization.m in Sources */,
@@ -2185,6 +2212,7 @@
 				37EACEC01D6A955200674EE9 /* ProductListViewController.m in Sources */,
 				0A13F7EF1CDB374A00AF5392 /* UIImage+GIF.m in Sources */,
 				3756FFAC1CEDAB7100922D5B /* WHCircleImageView.m in Sources */,
+				37038A7D1D7AAA6600DD3486 /* AllOrderEntity.m in Sources */,
 				37FE5F181D6C2A8800012513 /* ImageScrollView.m in Sources */,
 				37D50BC81D76AE4A0051C9F5 /* ConfirmSubmitView.m in Sources */,
 				0A608B7F1CE5BD1300EDB38A /* LCnterView.m in Sources */,
