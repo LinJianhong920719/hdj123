@@ -53,10 +53,10 @@
     [super viewDidLoad];
     //接收通知，刷新页面
    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(grabSingle:) name:@"GrabSingle" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshPassword:) name:@"refreshPassword"object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData:) name:@"refreshByOrderDetail"object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(immediatePayment:) name:@"immediatePayment"object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(grabSingle:) name:@"GrabSingle" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshPassword:) name:@"refreshPassword"object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData:) name:@"refreshByOrderDetail"object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(immediatePayment:) name:@"immediatePayment"object:nil];
     
 //    [Tools saveInteger:2 forKey:KEY_WX_CALLBACK];
     
@@ -68,7 +68,7 @@
     [self hideNaviBar:YES];
     //没有订单页面
     [self initDefauleUI];
-    [self initTableView];
+//    [self initTableView];
     
     [self loadData];
     [self setupHeader];
@@ -111,7 +111,7 @@
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 33)];
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 118)];
     
-    _mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, ViewOrignY-viewBottom(headerView), DEVICE_SCREEN_SIZE_WIDTH,DEVICE_SCREEN_SIZE_HEIGHT-ViewOrignY-50+viewBottom(headerView)+viewBottom(footerView)) style:UITableViewStylePlain];
+    _mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, ViewOrignY-viewBottom(headerView)-60, DEVICE_SCREEN_SIZE_WIDTH,DEVICE_SCREEN_SIZE_HEIGHT-ViewOrignY-50+viewBottom(headerView)+viewBottom(footerView)) style:UITableViewStylePlain];
     _mTableView.delegate = self;
     _mTableView.dataSource = self;
     _mTableView.backgroundColor = UIColorWithRGBA(238, 239, 239, 1);
@@ -131,34 +131,26 @@
 - (void)initDefauleUI {
     
     //底层view
-    baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 65, DEVICE_SCREEN_SIZE_WIDTH, DEVICE_SCREEN_SIZE_HEIGHT)];
-    baseView.backgroundColor = BACK_DEFAULT;
+    baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, DEVICE_SCREEN_SIZE_HEIGHT)];
+    baseView.backgroundColor = BGCOLOR_DEFAULT;
     [self.view addSubview:baseView];
 
 //    UIImageView *logo = [[UIImageView alloc]initWithFrame:CGRectMake((DEVICE_SCREEN_SIZE_WIDTH/4+10)*PROPORTION, heightInter, 130, 130)];
     UIImageView *logo = [[UIImageView alloc]initWithFrame:CGRectMake((DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*104)/2, PROPORTION414*150, PROPORTION414*104, PROPORTION414*104)];
-    [logo setImage:[UIImage imageNamed:@"wm-107"]];
+    [logo setImage:[UIImage imageNamed:@"order_null"]];
     [baseView addSubview:logo];
     
     //我的余额
     UILabel *myWallet = [[UILabel alloc]initWithFrame:CGRectMake(0, viewBottom(logo)+16, DEVICE_SCREEN_SIZE_WIDTH, 40)];
     myWallet.textAlignment = NSTextAlignmentCenter;
     myWallet.textColor = [UIColor colorWithRed:181/255.0f green:181/255.0f blue:182/255.0f alpha:1];
-    myWallet.text = [NSString stringWithFormat:@"您现在还没有订单，赶紧点一份"];
+    myWallet.text = [NSString stringWithFormat:@"暂无订单"];
     myWallet.font = [UIFont systemFontOfSize:16*PROPORTION414];
     [baseView addSubview:myWallet];
     
-    //购物button
-    UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    sureButton.frame = CGRectMake( (DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*193)/2, viewBottom(myWallet)+24, PROPORTION414*193, 36);
-    [sureButton.layer setMasksToBounds:YES];
-    [sureButton.layer setCornerRadius:20.0]; //设置矩形四个圆角半径
-    sureButton.backgroundColor = [UIColor colorWithRed:233/255.0f green:0/255.0f blue:154/255.0f alpha:0.8];
-    [sureButton setTitle:@"现在点一份" forState:UIControlStateNormal];
-    sureButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    [sureButton addTarget:self action:@selector(sureClick:) forControlEvents:UIControlEventTouchUpInside];//为按钮增加时间侦听
-    baseView.hidden = YES;
-    [baseView addSubview:sureButton];
+
+//    baseView.hidden = YES;
+
     
 }
 
@@ -545,7 +537,7 @@
     
     //箭头图标
     EMAsyncImageView *arrowLogo = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(viewRight(label)+PROPORTION414*10, 12, 8, 9)];
-    arrowLogo.image = [UIImage imageNamed:@"wm-019"];
+    arrowLogo.image = [UIImage imageNamed:@""];
     [view addSubview:arrowLogo];
     
     //进入店铺详情按钮
@@ -569,10 +561,10 @@
     
     //分割线
     EMAsyncImageView *line1 = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(PROPORTION414*10, 0, DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*30, 1)];
-    [line1 setBackgroundColor:BACK_DEFAULT];
+    [line1 setBackgroundColor:LINECOLOR_DEFAULT];
     [view addSubview:line1];
     EMAsyncImageView *line2 = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(PROPORTION414*10, 58, DEVICE_SCREEN_SIZE_WIDTH-30, 1)];
-    [line2 setBackgroundColor:BACK_DEFAULT];
+    [line2 setBackgroundColor:LINECOLOR_DEFAULT];
     [view addSubview:line2];
     EMAsyncImageView *line3 = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(0, 107, DEVICE_SCREEN_SIZE_WIDTH, 1)];
     [line3 setBackgroundColor:LINECOLOR_DEFAULT];
@@ -606,7 +598,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(price.frame.origin.x-10-PROPORTION414*8, 0, 35, 42)];
     label.font = [UIFont systemFontOfSize:13];
     label.textColor = UIColorWithRGBA(181, 181, 182, 1);
-    label.text =@"运费:";
+    label.text =@"配送费:";
     label.textAlignment = NSTextAlignmentRight;
     [view addSubview:label];
     
@@ -729,7 +721,7 @@
     
     //底部灰色模块
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 108, DEVICE_SCREEN_SIZE_WIDTH, 10)];
-    [bgView setBackgroundColor:BACK_DEFAULT];
+    [bgView setBackgroundColor:BGCOLOR_DEFAULT];
     [view addSubview:bgView];
     
     return view;
