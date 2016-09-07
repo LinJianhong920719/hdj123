@@ -345,7 +345,23 @@
     //
     //    }];
     //    [requestURL setTimeoutInterval:10];
-    
+    /**
+     *
+     *
+     *	图片上传接口，若不指定baseurl，可传完整的url
+     *
+     *	@param image			图片对象
+     *	@param url				上传图片的接口路径，如/path/images/
+     *	@param filename		给图片起一个名字，默认为当前日期时间,格式为"yyyyMMddHHmmss"，后缀为`jpg`
+     *	@param name				与指定的图片相关联的名称，这是由后端写接口的人指定的，如imagefiles
+     *	@param mimeType		默认为image/jpeg
+     *	@param parameters	参数
+     *	@param progress		上传进度
+     *	@param success		上传成功回调
+     *	@param fail				上传失败回调
+     *
+     *	@return
+     */
     [HYBNetworking uploadWithImage:[UIImage imageWithData:imageToUpload] url:xpoint filename:nil name:@"u_image"
                           mimeType:@"image/jpg"
                         parameters:dic
@@ -355,7 +371,7 @@
                                NSDictionary *dic = response;
                                NSString *statusMsg = [dic valueForKey:@"status"];
                                NSLog(@"statusMsg:%@",statusMsg);
-                               
+                               NSLog(@"错误信息:%@",dic);
                                
                                if ([statusMsg intValue] == 201) {
                                    //弹框提示获取失败
@@ -372,7 +388,7 @@
                                }
                            }
                               fail:^(NSError *error) {
-                                  
+                                  NSLog(@"error:%@",error);
                                   
                               }];
     
