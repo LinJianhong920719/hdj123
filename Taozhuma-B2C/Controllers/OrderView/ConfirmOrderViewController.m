@@ -24,6 +24,7 @@
 #import "ConfirmSubmitView.h"
 #import "ConfirmSectionHeaderView.h"
 #import "ConfirmSectionFooterView.h"
+#import <AlipaySDK/AlipaySDK.h>
 
 static CGFloat tableViewSectionHeaderHeight = 35;
 static CGFloat tableViewSectionFooterHeight = 105;

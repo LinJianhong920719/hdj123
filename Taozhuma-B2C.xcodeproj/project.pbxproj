@@ -155,6 +155,12 @@
 		372335CD1D71304100741706 /* AddressDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372335CC1D71304100741706 /* AddressDetailViewController.m */; };
 		372335D11D71388300741706 /* SetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372335D01D71388300741706 /* SetupViewController.m */; };
 		3727D4A41D7D461C00CA148F /* order_null.png in Resources */ = {isa = PBXBuildFile; fileRef = 3727D4A31D7D461C00CA148F /* order_null.png */; };
+		3727D4A71D7D50DF00CA148F /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3727D4A51D7D50DF00CA148F /* AlipaySDK.bundle */; };
+		3727D4A81D7D50DF00CA148F /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3727D4A61D7D50DF00CA148F /* AlipaySDK.framework */; };
+		3727D4A91D7D513800CA148F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB929831CE3288D00E98D62 /* libc++.tbd */; };
+		3727D4AB1D7D516800CA148F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3727D4AA1D7D516800CA148F /* QuartzCore.framework */; };
+		3727D4AD1D7D518200CA148F /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3727D4AC1D7D518200CA148F /* CoreText.framework */; };
+		3727D4AF1D7D51A500CA148F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3727D4AE1D7D51A500CA148F /* CFNetwork.framework */; };
 		3728E06A1D6BE30900BF638D /* GBTopLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728E0671D6BE30900BF638D /* GBTopLineView.m */; };
 		3728E06B1D6BE30900BF638D /* GBTopLineViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3728E0691D6BE30900BF638D /* GBTopLineViewModel.m */; };
 		37341FCF1D76725800E69A2F /* ClassProductListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37341FCD1D76725800E69A2F /* ClassProductListViewController.m */; };
@@ -566,6 +572,11 @@
 		372335CF1D71388300741706 /* SetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupViewController.h; sourceTree = "<group>"; };
 		372335D01D71388300741706 /* SetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupViewController.m; sourceTree = "<group>"; };
 		3727D4A31D7D461C00CA148F /* order_null.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = order_null.png; sourceTree = "<group>"; };
+		3727D4A51D7D50DF00CA148F /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		3727D4A61D7D50DF00CA148F /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		3727D4AA1D7D516800CA148F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3727D4AC1D7D518200CA148F /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		3727D4AE1D7D51A500CA148F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3728E0661D6BE30900BF638D /* GBTopLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBTopLineView.h; sourceTree = "<group>"; };
 		3728E0671D6BE30900BF638D /* GBTopLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBTopLineView.m; sourceTree = "<group>"; };
 		3728E0681D6BE30900BF638D /* GBTopLineViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBTopLineViewModel.h; sourceTree = "<group>"; };
@@ -777,6 +788,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3727D4AF1D7D51A500CA148F /* CFNetwork.framework in Frameworks */,
+				3727D4AD1D7D518200CA148F /* CoreText.framework in Frameworks */,
+				3727D4AB1D7D516800CA148F /* QuartzCore.framework in Frameworks */,
+				3727D4A91D7D513800CA148F /* libc++.tbd in Frameworks */,
 				0A72C1F21D7966E000DCD72B /* UTDID.framework in Frameworks */,
 				0A72C1F31D7966E000DCD72B /* AlicloudUtils.framework in Frameworks */,
 				0A72C1F41D7966E000DCD72B /* CloudPushSDK.framework in Frameworks */,
@@ -794,6 +809,7 @@
 				0AB9292C1CE2D80900E98D62 /* CoreTelephony.framework in Frameworks */,
 				0AB929781CE3012C00E98D62 /* libSocialSinaSSO.a in Frameworks */,
 				0AB9292A1CE2D7FF00E98D62 /* AdSupport.framework in Frameworks */,
+				3727D4A81D7D50DF00CA148F /* AlipaySDK.framework in Frameworks */,
 				0AB929791CE3012C00E98D62 /* libWeiboSDK.a in Frameworks */,
 				0AB929231CE2CE3D00E98D62 /* libMobClickLibrary.a in Frameworks */,
 				0AB9291E1CE2C69B00E98D62 /* libz.tbd in Frameworks */,
@@ -873,6 +889,11 @@
 		0A025F9E1CDAEF3600AFE6C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3727D4AE1D7D51A500CA148F /* CFNetwork.framework */,
+				3727D4AC1D7D518200CA148F /* CoreText.framework */,
+				3727D4AA1D7D516800CA148F /* QuartzCore.framework */,
+				3727D4A51D7D50DF00CA148F /* AlipaySDK.bundle */,
+				3727D4A61D7D50DF00CA148F /* AlipaySDK.framework */,
 				0A72C1EF1D7966E000DCD72B /* UTDID.framework */,
 				0A72C1F01D7966E000DCD72B /* AlicloudUtils.framework */,
 				0A72C1F11D7966E000DCD72B /* CloudPushSDK.framework */,
@@ -2070,6 +2091,7 @@
 				370373351D65A9B90055349A /* CollectionViewCell.xib in Resources */,
 				0A027EFE1CE18D5600B95294 /* Intro3-480.jpg in Resources */,
 				37B6AF711CF3244400A12DC2 /* CartCell.xib in Resources */,
+				3727D4A71D7D50DF00CA148F /* AlipaySDK.bundle in Resources */,
 				370372AA1D6593370055349A /* CellView.xib in Resources */,
 				375B54321D77FBC600AFCC1A /* header_back.png in Resources */,
 				37AC72451CEEBE0600110155 /* notice.png in Resources */,
@@ -2341,6 +2363,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
+				"HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/Taozhuma-B2C";
 				INFOPLIST_FILE = "Taozhuma-B2C/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

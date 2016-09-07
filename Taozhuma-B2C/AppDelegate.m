@@ -19,6 +19,7 @@
 #import <AdSupport/AdSupport.h>
 #import "UMSocialQQHandler.h"
 #import <CloudPushSDK/CloudPushSDK.h>
+#import <AlipaySDK/AlipaySDK.h>
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -263,6 +264,12 @@ BMKMapManager* _mapManager;
     BOOL result = [UMSocialSnsService handleOpenURL:url];
     if (result == FALSE) {
         //调用其他SDK，例如支付宝SDK等
+        if ([url.host isEqualToString:@"safepay"]) {
+            //跳转支付宝钱包进行支付，处理支付结果
+            [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+                NSLog(@"result = %@",resultDic);
+            }];
+        }
     }
     return result;
 }
