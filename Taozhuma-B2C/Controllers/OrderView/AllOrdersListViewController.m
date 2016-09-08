@@ -56,7 +56,7 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(grabSingle:) name:@"GrabSingle" object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshPassword:) name:@"refreshPassword"object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData:) name:@"refreshByOrderDetail"object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(immediatePayment:) name:@"immediatePayment"object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(immediatePayment:) name:@"immediatePayment"object:nil];
     
 //    [Tools saveInteger:2 forKey:KEY_WX_CALLBACK];
     
@@ -68,7 +68,7 @@
     [self hideNaviBar:YES];
     //没有订单页面
     [self initDefauleUI];
-//    [self initTableView];
+    [self initTableView];
     
     [self loadData];
     [self setupHeader];
@@ -149,7 +149,7 @@
     [baseView addSubview:myWallet];
     
 
-//    baseView.hidden = YES;
+    baseView.hidden = YES;
 
     
 }

@@ -197,7 +197,7 @@
             [Tools saveObject:userPhone forKey:KEY_USER_PHONE];
             [Tools saveObject:userImage forKey:KEY_USER_IMAGE];
             [Tools saveBool:YES forKey:KEY_IS_LOGIN];
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMineView" object:nil];  //通知我的页面刷新
             [self performSelector:@selector(backClick:) withObject:nil afterDelay:0.5];
             //            [Tools saveObject:token forKey:TokenDatas];
             

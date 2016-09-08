@@ -8,7 +8,7 @@
 
 #import "SetupViewController.h"
 #import "MineViewControllers.h"
-
+#import "RegisterViewControllerNew.h"
 
 @interface SetupViewController ()<UITableViewDataSource,UITableViewDelegate> {
     NSArray *_data;
@@ -49,11 +49,7 @@
         dic01 = [NSDictionary dictionaryWithObjectsAndKeys:@[dic2,dic3],@"section",nil];
     }
     
-    
-    
-    
-    
-    if([Tools stringForKey:KEY_USER_ID]!=nil){
+    if([Tools boolForKey:KEY_IS_LOGIN]==YES){
         _data = @[dic01,dic03];
     }else{
         _data = @[dic01];
@@ -242,10 +238,12 @@
             //            [self.navigationController pushViewController:HelpDetails animated:YES];
         } break;
         case 10: {
+            if([Tools boolForKey:KEY_IS_LOGIN]== YES){
             //退出当前账号
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"确定登出？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
             alert.tag = 101;
             [alert show];
+            }
         } break;
     }
 }
@@ -257,58 +255,17 @@
     
 }
 - (void)logout {
+    [Tools saveObject:@"" forKey:KEY_USER_ID];
+    [Tools saveObject:@"" forKey:KEY_USER_NAME];
+    [Tools saveObject:@"" forKey:KEY_USER_PHONE];
+    [Tools saveObject:@"" forKey:KEY_USER_IMAGE];
+    [Tools saveBool:NO forKey:KEY_IS_LOGIN];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshNum" object:nil];  //通知购物车数量刷新
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMineView" object:nil];  //通知我的页面刷新
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshCart" object:nil];      //通知购物车刷新
+    [self goToLoginView];
     
-    //    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-    //                         @"drop_out",                         @"act",
-    //                         [Tools stringForKey:KEY_USER_PHONE],     @"phone",
-    //                         @"e3dc653e2d68697346818dfc0b208322",     @"key",
-    //                         nil];
-    //    NSLog(@"%@", dic);
-    //    NSString *xpoint = USERXPOINT;
-    //    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-    //        if (error) {
-    //            [HUD removeFromSuperview];
-    //        } else {
-    //            if (respond.result == YES) {
-    //
-    //
-    //
-    //                [Tools saveObject:nil forKey:KEY_USER_TYPE];
-    //                [Tools saveObject:nil forKey:KEY_USER_ID];
-    //                [Tools saveObject:nil forKey:KEY_NIKE_NAME];
-    //                [Tools saveObject:nil forKey:KEY_LEVEL];
-    //                [Tools saveObject:nil forKey:KEY_HEAD_ICON];
-    //                [Tools saveObject:nil forKey:KEY_CARDNUM];
-    //                [Tools saveObject:nil forKey:KEY_AMOUNT];
-    //                [Tools saveObject:NO forKey:KEY_IS_LOGIN];
-    ////                MineViewController *mineView = [[MineViewController alloc]init];
-    ////                [self.navigationController pushViewController:mineView animated:YES];
-    //                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMineMessage" object:nil];
-    //                UIViewController *target = nil;
-    //                //遍历
-    //                for (UIViewController * controller in self.navigationController.viewControllers) {
-    //                    //这里判断是否为你想要跳转的页面
-    //                    if ([controller isKindOfClass:[MineViewController class]]) {
-    //                        target = controller;
-    //                    }
-    //                }
-    //                if (target) {
-    //
-    //                    //跳转
-    //                    [self.navigationController popToViewController:target animated:YES];
-    //
-    //                    
-    //                }
-    //                
-    //                [HUD removeFromSuperview];
-    //                
-    //            }
-    //        }
-    //        
-    //    }];
-    
-
-    
+  
 }
 #pragma mark -
 
@@ -321,5 +278,10 @@
     [Tools clearCaches];
 
 }
-
+- (void)goToLoginView {
+//    RegisterViewControllerNew *loginView = [[RegisterViewControllerNew alloc]init];
+//    loginView.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:loginView animated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 @end

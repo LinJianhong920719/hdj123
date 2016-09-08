@@ -39,7 +39,7 @@
 - (void)loadView {
     [super loadView];
     self.title = @"我的";
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshMine:) name:@"refreshMine"object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshMine:) name:@"refreshMineView"object:nil];
 }
 
 - (void)viewDidLoad {
