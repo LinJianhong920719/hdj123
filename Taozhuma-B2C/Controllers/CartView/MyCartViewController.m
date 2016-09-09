@@ -49,6 +49,8 @@
 - (void)loadView {
     [super loadView];
     [self loadData];
+
+    
     //取消scrollview内容自动调整
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -342,11 +344,6 @@
     label.font = [UIFont boldSystemFontOfSize:13];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"您还没有购买任何商品~！";
-    //    if([[Tools stringForKey:KEY_USER_TYPE]integerValue] == 6 || [Tools boolForKey:KEY_IS_LOGIN] != YES ){
-    //        label.text = @"购物车空空如也";
-    //    }else{
-    //        label.text = @"您的购物车还是空的，添加点商品吧！";
-    //    }
     [emptyView addSubview:label];
     
     UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake((self.view.frame.size.width - 145)/2, viewBottom(label)+25, 145, 35)];
@@ -586,6 +583,8 @@
     NSMutableArray *obj = [notification object];
     NSMutableArray *array = [[NSMutableArray alloc]init];
     
+    NSLog(@"shopId:%@",[obj objectAtIndex:1]);
+    NSLog(@"chooseTag:%@",[obj objectAtIndex:2]);
     NSString *shopId = [obj objectAtIndex:1];
     NSString *chooseTag = [obj objectAtIndex:2];
     
@@ -675,14 +674,7 @@
             settlementView.hidden = YES;
             rightBtn.hidden = YES;
             emptyView.hidden = NO;
-//            //弹框提示获取失败
-//            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//            hud.mode = MBProgressHUDModeText;
-////            hud.labelText = @"无数据";
-//            hud.yOffset = -50.f;
-//            hud.removeFromSuperViewOnHide = YES;
-//            [hud hide:YES afterDelay:2];
-//            return;
+
         }if([statusMsg intValue] == 4002){
             settlementView.hidden = YES;
             rightBtn.hidden = YES;
@@ -730,7 +722,9 @@
         }
         
     } fail:^(NSError *error) {
-        
+        settlementView.hidden = YES;
+        rightBtn.hidden = YES;
+        emptyView.hidden = NO;
     }];
     
 }
@@ -1067,7 +1061,7 @@
     CGSize subPriceSize = [subtotalPrice.text sizeWithFont:subtotalPrice.font constrainedToSize:CGSizeMake(MAXFLOAT, 27)];
     [subtotalPrice setFrame:CGRectMake(view.frame.size.width-16-subPriceSize.width, 4+discountHeight, subPriceSize.width, 27)];
     
-    UIImageView *iconRMB2 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon-rmb"]];
+    UIImageView *iconRMB2 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icons"]];
     [iconRMB2 setFrame:CGRectMake(subtotalPrice.frame.origin.x-10, 12+discountHeight, 9, 11)];
     [view addSubview:iconRMB2];
     

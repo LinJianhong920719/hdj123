@@ -17,6 +17,7 @@
 #import "AFNetworkActivityIndicatorManager.h"
 #import "AFNetworking.h"
 #import "AFHTTPSessionManager.h"
+#import "MineViewControllers.h"
 
 @interface EditUserInfoViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate> {
     UIDatePicker *datePicker;
@@ -28,6 +29,7 @@
     UIImagePickerController *imagePicker;
     UIImage *m_selectImage;
     NSData *imageData;
+    NSString *niceName;
 }
 @end
 
@@ -51,7 +53,7 @@
     rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [rightBtn setFrame:CGRectMake(0, 0, 44, 44)];
     [rightBtn setTitle:@"保存" forState:UIControlStateNormal];
-    [rightBtn setTitleColor:PRODUCT_COLOR forState:UIControlStateNormal];
+    [rightBtn setTitleColor:THEME_COLORS_Oring forState:UIControlStateNormal];
     rightBtn.titleLabel.font = [UIFont systemFontOfSize: 15];
     [rightBtn addTarget:self action:@selector(butSubmitClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -248,21 +250,22 @@
             
             if ([data count] > 0) {
                 name.text = [NSString stringWithFormat:@"%@",[data valueForKey:@"u_nickname"]];
+                niceName = [NSString stringWithFormat:@"%@",[data valueForKey:@"u_nickname"]];
                 if ([data valueForKey:@"u_image"]==nil) {
                     headImage.image = [UIImage imageNamed:@"user_default"];
                 } else {
-                 
+                    
                     [headImage sd_setImageWithURL:[NSURL URLWithString:[data valueForKey:@"u_image"]] placeholderImage:[UIImage imageNamed:@"user_default"]];
                 }
             }
             
+            
+            
+        }
         
+    } fail:^(NSError *error) {
         
-    }
-     
-     } fail:^(NSError *error) {
-         
-     }];
+    }];
     //        [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
     //            if (error) {
     //                [HUD removeFromSuperview];
@@ -313,8 +316,7 @@
         hud.removeFromSuperViewOnHide = YES;
         [hud hide:YES afterDelay:2];
         return;
-    }
-    else if(name.text.length > 10){
+    }else if(name.text.length > 10){
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.detailsLabelText = @"昵称过长";
@@ -323,134 +325,111 @@
         hud.removeFromSuperViewOnHide = YES;
         [hud hide:YES afterDelay:2];
         return;
+    }else if(imageData.length == 0 && name.text == niceName){
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"信息无变化";
+        hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        return;
     }
-    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         [Tools stringForKey:KEY_USER_ID],      @"userId",
-                         name.text,                        @"nickname",
-                         nil];
-    NSLog(@"dic:%@",dic);
-    NSData *imageToUpload = imageData;
-    
-    //    NSString *url = [SERVICE_URL stringByAppendingString:@"/Api/User/edit?"];
-    NSString *xpoint = @"/Api/User/edit?";
-    
-    [HYBNetworking updateBaseUrl:SERVICE_URL];
-    //    AFHTTPClient *client = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:url]];
-    //    [client setParameterEncoding:AFJSONParameterEncoding];
-    //
-    //    NSMutableURLRequest *requestURL = [client multipartFormRequestWithMethod:@"POST" path:url parameters:dic constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
-    //        if (imageToUpload != nil) {
-    //            [formData appendPartWithFileData:imageToUpload name:@"head_icon" fileName:@"credentials_img.jpg"  mimeType:@"image/jpg"];
-    //        }
-    //
-    //    }];
-    //    [requestURL setTimeoutInterval:10];
-    /**
-     *
-     *
-     *	图片上传接口，若不指定baseurl，可传完整的url
-     *
-     *	@param image			图片对象
-     *	@param url				上传图片的接口路径，如/path/images/
-     *	@param filename		给图片起一个名字，默认为当前日期时间,格式为"yyyyMMddHHmmss"，后缀为`jpg`
-     *	@param name				与指定的图片相关联的名称，这是由后端写接口的人指定的，如imagefiles
-     *	@param mimeType		默认为image/jpeg
-     *	@param parameters	参数
-     *	@param progress		上传进度
-     *	@param success		上传成功回调
-     *	@param fail				上传失败回调
-     *
-     *	@return
-     */
-    [HYBNetworking uploadWithImage:[UIImage imageWithData:imageToUpload] url:xpoint filename:nil name:@"u_image"
-                          mimeType:@"image/jpg"
-                        parameters:dic
-                          progress:nil
-                           success:^(id response) {
-                               
-                               NSDictionary *dic = response;
-                               NSString *statusMsg = [dic valueForKey:@"status"];
-                               NSLog(@"statusMsg:%@",statusMsg);
-                               NSLog(@"错误信息:%@",dic);
-                               
-                               if ([statusMsg intValue] == 201) {
-                                   //弹框提示获取失败
-                                   [self showHUDText:@"暂无数据"];
+   
+    if(imageData.length == 0){
+        //对请求路径的说明
+        //http://120.25.226.186:32812/login
+        //协议头+主机地址+接口名称
+        //协议头(http://)+主机地址(120.25.226.186:32812)+接口名称(login)
+        //POST请求需要修改请求方法为POST，并把参数转换为二进制数据设置为请求体
+        NSString *xpoint = @"/Api/User/edit?";
+        NSString *string = [SERVICE_URL stringByAppendingString:xpoint];
+        //1.创建会话对象
+        NSURLSession *session = [NSURLSession sharedSession];
+        
+        //2.根据会话对象创建task
+        NSURL *url = [NSURL URLWithString:string];
+        
+        //3.创建可变的请求对象
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        
+        //4.修改请求方法为POST
+        request.HTTPMethod = @"POST";
+        
+        //5.设置请求体;
+        request.HTTPBody = [[NSString stringWithFormat:@"userId=%@,&nickname=%@", [Tools stringForKey:KEY_USER_ID], name.text] dataUsingEncoding:NSUTF8StringEncoding];
+        
+        
+        //6.根据会话对象创建一个Task(发送请求）
+        /*
+         第一个参数：请求对象
+         第二个参数：completionHandler回调（请求完成【成功|失败】的回调）
+         data：响应体信息（期望的数据）
+         response：响应头信息，主要是对服务器端的描述
+         error：错误信息，如果请求失败，则error有值
+         */
+        NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            
+            //8.解析数据
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            NSLog(@"333:%@",dict);
+            NSString *statusMsg = [dict valueForKey:@"status"];
+            if ([statusMsg intValue] == 201) {
+                //弹框提示获取失败
+                [self showHUDText:@"暂无数据"];
+                
+            }else if ([statusMsg intValue] == 4001) {
+                //弹框提示获取失败
+                [self showHUDText:@"获取失败!"];
+                
+            } else {
+                [self showHUDText:@"修改成功!"];
+                [self performSelector:@selector(backClick:) withObject:nil afterDelay:0.5];
+            }
+        }];
+        
+        //7.执行任务
+        [dataTask resume];
+    }else{
+        NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                             [Tools stringForKey:KEY_USER_ID],      @"userId",
+                             name.text,                        @"nickname",
+                             nil];
+        NSLog(@"dic:%@",dic);
+        NSString *xpoint = @"/Api/User/edit?";
+        [HYBNetworking updateBaseUrl:SERVICE_URL];
+        NSData *imageToUpload = imageData;
+        [HYBNetworking uploadWithImage:[UIImage imageWithData:imageToUpload] url:xpoint filename:nil name:@"u_image"
+                              mimeType:@"image/jpg"
+                            parameters:dic
+                              progress:nil
+                               success:^(id response) {
                                    
-                               }else if ([statusMsg intValue] == 4001) {
-                                   //弹框提示获取失败
-                                   [self showHUDText:@"获取失败!"];
+                                   NSDictionary *dic = response;
+                                   NSString *statusMsg = [dic valueForKey:@"status"];
+                                   NSLog(@"statusMsg:%@",statusMsg);
+                                   NSLog(@"错误信息:%@",dic);
                                    
-                               } else {
-                                   
-                                   [self showHUDText:@"成功!"];
-                                   
+                                   if ([statusMsg intValue] == 201) {
+                                       //弹框提示获取失败
+                                       [self showHUDText:@"暂无数据"];
+                                       
+                                   }else if ([statusMsg intValue] == 4001) {
+                                       //弹框提示获取失败
+                                       [self showHUDText:@"获取失败!"];
+                                       
+                                   } else {
+                                       
+                                       [self showHUDText:@"修改成功!"];
+                                       [self performSelector:@selector(backClick:) withObject:nil afterDelay:0.5];
+                                   }
                                }
-                           }
-                              fail:^(NSError *error) {
-                                  NSLog(@"error:%@",error);
-                                  
-                              }];
-    
-    
-    //    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:requestURL];
-    //    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-    //        NSError* error;
-    //        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[operation responseData] options:kNilOptions error:&error];
-    //
-    //        DLog(@"responseObject:%@", json);
-    //        int result = [[json valueForKey:@"success"]integerValue];
-    //
-    //        if (result == NO) {
-    //            [HUD removeFromSuperview];
-    //
-    //            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    //            hud.mode = MBProgressHUDModeText;
-    //            hud.labelText = @"修改失败";
-    //            hud.yOffset = -50.f;
-    //            hud.removeFromSuperViewOnHide = YES;
-    //            [hud hide:YES afterDelay:2];
-    //        } else {
-    //            [HUD removeFromSuperview];
-    //            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    //            hud.mode = MBProgressHUDModeText;
-    //            hud.labelText = @"修改成功";
-    //            hud.yOffset = -50.f;
-    //            hud.removeFromSuperViewOnHide = YES;
-    //            [hud hide:YES afterDelay:2];
-    //            [self performSelector:@selector(refresh:) withObject:nil afterDelay:0.1];
-    //
-    //            UIViewController *target = nil;
-    //            //遍历
-    //            for (UIViewController * controller in self.navigationController.viewControllers) {
-    //                //这里判断是否为你想要跳转的页面
-    //                if ([controller isKindOfClass:[MineViewController class]]) {
-    //                    target = controller;
-    //                }
-    //            }
-    //            if (target) {
-    //
-    //                //跳转
-    //                [self.navigationController popToViewController:target animated:YES];
-    //
-    //
-    //            }
-    //
-    //
-    //
-    //        }
-    //    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    //        if (error) {
-    //            [HUD removeFromSuperview];
-    //            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    //            hud.mode = MBProgressHUDModeText;
-    //            hud.labelText = @"资料提交失败，请重试";
-    //            hud.yOffset = -50.f;
-    //            hud.removeFromSuperViewOnHide = YES;
-    //            [hud hide:YES afterDelay:2];
-    //        }
-    //    }];
-    //    [client enqueueHTTPRequestOperation:operation];
+                                  fail:^(NSError *error) {
+                                      NSLog(@"error:%@",error);
+                                      
+                                  }];
+    }
+
     
 }
 
@@ -458,6 +437,9 @@
     
     [self loadData];
 }
-
+- (IBAction)backClick:(id)sender {
+    // 返回上页
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 @end

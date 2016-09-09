@@ -193,6 +193,7 @@
 		378A61671D46393000F34DD9 /* RegisterViewControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 378A61661D46393000F34DD9 /* RegisterViewControllerNew.m */; };
 		378A616B1D463D1C00F34DD9 /* login_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 378A61691D463D1C00F34DD9 /* login_bg.png */; };
 		378A616C1D463D1C00F34DD9 /* login_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 378A616A1D463D1C00F34DD9 /* login_logo.png */; };
+		37A67FCB1D828C2E00E8E753 /* loginMsg.png in Resources */ = {isa = PBXBuildFile; fileRef = 37A67FCA1D828C2E00E8E753 /* loginMsg.png */; };
 		37AC72451CEEBE0600110155 /* notice.png in Resources */ = {isa = PBXBuildFile; fileRef = 37AC72441CEEBE0600110155 /* notice.png */; };
 		37AC72471CEEDDB100110155 /* 暂无图片.png in Resources */ = {isa = PBXBuildFile; fileRef = 37AC72461CEEDDB100110155 /* 暂无图片.png */; };
 		37AC724E1CEEDE3B00110155 /* address.png in Resources */ = {isa = PBXBuildFile; fileRef = 37AC72481CEEDE3B00110155 /* address.png */; };
@@ -631,6 +632,7 @@
 		378A61661D46393000F34DD9 /* RegisterViewControllerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewControllerNew.m; sourceTree = "<group>"; };
 		378A61691D463D1C00F34DD9 /* login_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_bg.png; sourceTree = "<group>"; };
 		378A616A1D463D1C00F34DD9 /* login_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_logo.png; sourceTree = "<group>"; };
+		37A67FCA1D828C2E00E8E753 /* loginMsg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginMsg.png; sourceTree = "<group>"; };
 		37AC72441CEEBE0600110155 /* notice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notice.png; sourceTree = "<group>"; };
 		37AC72461CEEDDB100110155 /* 暂无图片.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "暂无图片.png"; sourceTree = "<group>"; };
 		37AC72481CEEDE3B00110155 /* address.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = address.png; sourceTree = "<group>"; };
@@ -1723,6 +1725,7 @@
 		37BFE2F51CF2E5FE0001081D /* MainView */ = {
 			isa = PBXGroup;
 			children = (
+				37A67FCA1D828C2E00E8E753 /* loginMsg.png */,
 				370C5E561D75756E00B93FC4 /* user_default.png */,
 				37BFE2911CF2CE0D0001081D /* default.png */,
 				37BFE28D1CF2CDBF0001081D /* a.jpg */,
@@ -1998,6 +2001,7 @@
 				0A027EFC1CE18D5600B95294 /* Intro2-667.jpg in Resources */,
 				37BFE2E41CF2E5F50001081D /* head_bg.png in Resources */,
 				375B543B1D781C2C00AFCC1A /* icon-rmb.png in Resources */,
+				37A67FCB1D828C2E00E8E753 /* loginMsg.png in Resources */,
 				0A027EF81CE18D5600B95294 /* Intro1-667.jpg in Resources */,
 				37BFE2E51CF2E5F50001081D /* more2.png in Resources */,
 				37472EA11D6943B800F9CD6C /* icon_search.png in Resources */,

@@ -8,6 +8,7 @@
 
 #import "ProductDetailViewController.h"
 #import "WHCircleImageView.h"
+#import "RegisterViewControllerNew.h"
 
 @interface ProductDetailViewController ()<UIActionSheetDelegate>{
     UIView * topsView;
@@ -30,6 +31,7 @@
     NSString *pMode;
     NSString *count;
     NSString *cartTNum;
+    UIView *baseView;
 }
 
 @end
@@ -210,9 +212,9 @@
     //购物车数量显示
     countLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,0,0,0)];
     [countLabel setNumberOfLines:0];  //必须是这组值
-
+    
     count = [NSString stringWithFormat: @"%@",cartNum];
-
+    
     countLabel.text = count;
     countLabel.font = [UIFont systemFontOfSize:12];
     countLabel.textColor = [UIColor whiteColor];
@@ -256,20 +258,23 @@
 //商品加减操作
 - (IBAction)btnClicked:(id)sender {
     UIButton *btn = (UIButton *)sender;
-    if (btn.tag == 1) {
-        if (noLabel.text.intValue == 0) {
-            [self showHUDText:@"无法再减少了"];
+    if ([Tools boolForKey:KEY_IS_LOGIN] != YES) {
+        [self noLoginView];
+        
+    }else{
+        if (btn.tag == 1) {
+            if (noLabel.text.intValue == 0) {
+                [self showHUDText:@"无法再减少了"];
+            }else{
+                pMode = @"dec";
+                [self doProductNumMethon];
+            }
         }else{
-            pMode = @"dec";
+            pMode = @"inc";
             [self doProductNumMethon];
         }
-    }else{
-        pMode = @"inc";
-        [self doProductNumMethon];
     }
-    
-    
-    
+   
 }
 //收藏与取消收藏方法
 - (IBAction)collectBtn:(id)sender {
@@ -385,44 +390,49 @@
 
 //收藏与取消收藏操作
 - (void)doCollectMethod {
-    
-    NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
-                          [NSString stringWithFormat: @"%ld", (long)goodId],   @"goodId",
-                          [Tools stringForKey:KEY_USER_ID],  @"userId",
-                          mode,@"mode",
-                          nil];
-    
-    NSString *xpoint = [NSString stringWithFormat:@"/Api/User/collectGoods?"];
-    NSLog(@"dics:%@",dics);
-    [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dics success:^(id response) {
+    if ([Tools boolForKey:KEY_IS_LOGIN] != YES) {
+        [self noLoginView];
         
-        NSDictionary *dic = response;
-        NSString *statusMsg = [dic valueForKey:@"status"];
+    }else{
+        NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
+                              [NSString stringWithFormat: @"%ld", (long)goodId],   @"goodId",
+                              [Tools stringForKey:KEY_USER_ID],  @"userId",
+                              mode,@"mode",
+                              nil];
         
-        pictureUrlArray = [[NSMutableArray alloc]init];
-        if ([statusMsg intValue] == 4001) {
-            //弹框提示获取失败
-            [self showHUDText:@"操作失败!"];
+        NSString *xpoint = [NSString stringWithFormat:@"/Api/User/collectGoods?"];
+        NSLog(@"dics:%@",dics);
+        [HYBNetworking updateBaseUrl:SERVICE_URL];
+        [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dics success:^(id response) {
             
-        }else if ([statusMsg intValue] == 201){
-            [self showHUDText:@"暂无数据"];
-        }else if ([statusMsg intValue] == 4002){
-            [self showHUDText:@"暂无数据"];
-        }else {
-            [self showHUDText:@"操作成功"];
-            BOOL isequal = [mode isEqualToString:@"add"];
-            if (isequal) {
-                [collectBtn setBackgroundImage:[UIImage imageNamed:@"deta_collect_active"] forState:UIControlStateNormal];
-            }else{
-                [collectBtn setBackgroundImage:[UIImage imageNamed:@"deta_collect"] forState:UIControlStateNormal];
+            NSDictionary *dic = response;
+            NSString *statusMsg = [dic valueForKey:@"status"];
+            
+            pictureUrlArray = [[NSMutableArray alloc]init];
+            if ([statusMsg intValue] == 4001) {
+                //弹框提示获取失败
+                [self showHUDText:@"操作失败!"];
+                
+            }else if ([statusMsg intValue] == 201){
+                [self showHUDText:@"暂无数据"];
+            }else if ([statusMsg intValue] == 4002){
+                [self showHUDText:@"暂无数据"];
+            }else {
+                [self showHUDText:@"操作成功"];
+                BOOL isequal = [mode isEqualToString:@"add"];
+                if (isequal) {
+                    [collectBtn setBackgroundImage:[UIImage imageNamed:@"deta_collect_active"] forState:UIControlStateNormal];
+                }else{
+                    [collectBtn setBackgroundImage:[UIImage imageNamed:@"deta_collect"] forState:UIControlStateNormal];
+                }
+                
             }
             
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
+        } fail:^(NSError *error) {
+            
+        }];
+    }
+    
 }
 
 
@@ -436,8 +446,46 @@
 - (IBAction)cartBtnClicked:(id)sender {
     //通知 发出
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refSelectedIndexByCart" object:nil];
-  
+    
     
 }
-
+-(void)noLoginView{
+    baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    baseView.backgroundColor = [UIColor colorWithRed:191/255.0f green:193/255.0f blue:194/255.0f alpha:0.7];
+    
+    [self.view addSubview:baseView];
+    
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(30*PROPORTION, 186*PROPORTION, 260*PROPORTION, 204*PROPORTION)];
+    [imageView setImage:[UIImage imageNamed:@"loginMsg"]];
+    imageView.userInteractionEnabled = YES;
+    [baseView addSubview: imageView];
+    
+    UIButton *goBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 204*PROPORTION-41*PROPORTION, 130*PROPORTION, 40)];
+    goBtn.backgroundColor = [UIColor clearColor];
+    goBtn.tag = 10001;
+    [goBtn addTarget:self action:@selector(noLoginClick:) forControlEvents:UIControlEventTouchUpInside];
+    [imageView addSubview:goBtn];
+    
+    UIButton *loginBtn = [[UIButton alloc]initWithFrame:CGRectMake(viewRight(goBtn), 204*PROPORTION-41*PROPORTION, 130*PROPORTION, 40)];
+    loginBtn.backgroundColor = [UIColor clearColor];
+    loginBtn.tag = 10002;
+    [loginBtn addTarget:self action:@selector(noLoginClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [imageView addSubview:loginBtn];
+}
+- (IBAction)noLoginClick:(id)sender {
+    UIButton *btn = (UIButton *)sender;
+    if (btn.tag == 10001) {
+        baseView.hidden = YES;
+    }else if (btn.tag == 10002){
+        baseView.hidden = YES;
+        RegisterViewControllerNew *registeredView = [[RegisterViewControllerNew alloc]init];
+        registeredView.title = @"快捷登陆";
+        registeredView.hidesBottomBarWhenPushed = YES;
+        registeredView.navigationController.navigationBarHidden = YES;
+        [self.navigationController pushViewController:registeredView animated:YES];
+    }
+    
+}
 @end

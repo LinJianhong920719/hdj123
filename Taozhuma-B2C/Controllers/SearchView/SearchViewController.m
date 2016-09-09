@@ -8,6 +8,7 @@
 
 
 #import "SearchViewController.h"
+#import "RegisterViewControllerNew.h"
 
 #define RecordCount 8      //最多存储5条，自定义
 #define SEARCH_HISTORY [[NSUserDefaults standardUserDefaults] arrayForKey:@"SearchHistory"]
@@ -18,6 +19,7 @@
     UIButton *but;
     UITextField *searchLabel;
     NSArray *historyArray;
+    UIView *baseView;
 }
 
 
@@ -41,7 +43,7 @@
 
     
     [self getHotSearchList];
-
+    
 }
 //初始化头部导航栏
 -(void)initTopNav{
@@ -202,7 +204,46 @@
     [backView addSubview:hotSearchView];
     
 }
+-(void)noLoginView{
+    baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    baseView.backgroundColor = [UIColor colorWithRed:102/255.0f green:102/255.0f blue:102/255.0f alpha:0.3];
 
+    [self.view addSubview:baseView];
+    
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(30*PROPORTION, 186*PROPORTION, 260*PROPORTION, 204*PROPORTION)];
+    [imageView setImage:[UIImage imageNamed:@"loginMsg"]];
+    imageView.userInteractionEnabled = YES;
+    [baseView addSubview: imageView];
+    
+    UIButton *goBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 204*PROPORTION-41*PROPORTION, 130*PROPORTION, 40)];
+    goBtn.backgroundColor = [UIColor clearColor];
+    goBtn.tag = 10001;
+    [goBtn addTarget:self action:@selector(noLoginClick:) forControlEvents:UIControlEventTouchUpInside];
+    [imageView addSubview:goBtn];
+    
+    UIButton *loginBtn = [[UIButton alloc]initWithFrame:CGRectMake(viewRight(goBtn), 204*PROPORTION-41*PROPORTION, 130*PROPORTION, 40)];
+    loginBtn.backgroundColor = [UIColor clearColor];
+    loginBtn.tag = 10002;
+    [loginBtn addTarget:self action:@selector(noLoginClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [imageView addSubview:loginBtn];
+}
+
+- (IBAction)noLoginClick:(id)sender {
+    UIButton *btn = (UIButton *)sender;
+    if (btn.tag == 10001) {
+        baseView.hidden = YES;
+    }else if (btn.tag == 10002){
+        baseView.hidden = YES;
+        RegisterViewControllerNew *registeredView = [[RegisterViewControllerNew alloc]init];
+        registeredView.title = @"快捷登陆";
+        registeredView.hidesBottomBarWhenPushed = YES;
+        registeredView.navigationController.navigationBarHidden = YES;
+        [self.navigationController pushViewController:registeredView animated:YES];
+    }
+    
+}
 
 - (IBAction)backClick:(id)sender {
     // 返回上页
@@ -217,7 +258,12 @@
 }
 - (IBAction)butClick:(id)sender {
     UIButton *btn = (UIButton *)sender;
-    [self toSearchProductList:btn.titleLabel.text];
+    if ([Tools boolForKey:KEY_IS_LOGIN]== YES) {
+        [self toSearchProductList:btn.titleLabel.text];
+    }else{
+        [self noLoginView];
+    }
+    
     
 }
 
@@ -285,7 +331,13 @@
         }
         [searchArray insertObject:searchLabel.text atIndex:0];
         [[NSUserDefaults standardUserDefaults] setObject:searchArray forKey:@"SearchHistory"];
-        [self toSearchProductList:searchLabel.text];
+        if ([Tools boolForKey:KEY_IS_LOGIN]== YES) {
+            
+            [self toSearchProductList:searchLabel.text];
+        }else{
+            [self noLoginView];
+        }
+        
     }
 }
 //隐藏键盘方法

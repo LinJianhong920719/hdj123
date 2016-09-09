@@ -256,8 +256,8 @@
 - (IBAction) chooseClick:(id)sender {
     
     NSMutableArray *array = [[NSMutableArray alloc]init];
-//    [array addObject:cid];
-//    [array addObject:shopId];
+    [array addObject:cid];
+    [array addObject:shopId];
     
     if ([chooseTag integerValue] == 0) {
         chooseImage = [UIImage imageNamed:@"checkbox_active.png"];
