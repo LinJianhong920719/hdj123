@@ -670,16 +670,16 @@
             hud.removeFromSuperViewOnHide = YES;
             [hud hide:YES afterDelay:2];
             return;
-        }if([statusMsg intValue] == 201){
+        }else if([statusMsg intValue] == 201){
             settlementView.hidden = YES;
             rightBtn.hidden = YES;
             emptyView.hidden = NO;
 
-        }if([statusMsg intValue] == 4002){
+        }else if([statusMsg intValue] == 4002){
             settlementView.hidden = YES;
             rightBtn.hidden = YES;
             emptyView.hidden = NO;
-        }else{
+        }else if([statusMsg intValue] == 200){
             
             settlementView.hidden = NO;
             rightBtn.hidden = NO;

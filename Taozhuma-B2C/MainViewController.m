@@ -154,7 +154,7 @@
     _tableView.sectionFooterHeight = 10;
     
     //    _data = [[NSMutableArray alloc]init];
-    //    [self setupHeader];
+        [self setupHeader];
     //    [self loadTableViewData];
     
 }
@@ -186,7 +186,7 @@
     refreshHeader.beginRefreshingOperation = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             //            _pageno = 1;
-            //            [self loadData];
+                        [self loadIndexData];
             [weakRefreshHeader endRefreshing];
         });
     };
@@ -248,7 +248,7 @@
         if ([self isBlankString:entity.firstProductPirce]) {
             cell.firstProductPirce.text = @"￥0.00";
         }else{
-            cell.firstProductPirce.text = entity.firstProductPirce;
+            cell.firstProductPirce.text = [NSString stringWithFormat:@"￥%@",entity.firstProductPirce];
         }
         
         
@@ -267,7 +267,7 @@
         if ([self isBlankString:entity.secondProductPrice]) {
             cell.secondProductPrice.text = @"￥0.00";
         }else{
-            cell.secondProductPrice.text = entity.secondProductPrice;
+            cell.secondProductPrice.text = [NSString stringWithFormat:@"￥%@",entity.secondProductPrice];
         }
         
         
@@ -354,7 +354,7 @@
                 [pictureUrlArray addObject:[advImg valueForKey:@"image"]];
                 [noticeArray addObject:[advImg valueForKey:@"intro"]];
                 
-                NSLog(@"Array:%@",[advImg valueForKey:@"pictureUrlArray"]);
+                NSLog(@"Array123:%@",[advImg valueForKey:@"pictureUrlArray"]);
             }
             
             [self initTableHeaderView];
@@ -370,7 +370,7 @@
 - (void)loadIndexData {
     [_data removeAllObjects];
     NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
-                          @"68",   @"comId",
+                          @"200",   @"comId",
                           nil];
     
     NSString *xpoint = @"/Api/Goods/showIndex?";
@@ -392,7 +392,7 @@
             //弹框提示获取失败
             [self showHUDText:@"获取失败!"];
             
-        } else {
+        } else if([statusMsg intValue] == 200){
             
             NSArray *data = [dic valueForKey:@"data"];
             
@@ -479,11 +479,14 @@
 #pragma mark-获取数据
 - (void)getData
 {
-    NSArray *arr1 = @[@"最新",@"最热",@"推荐",@"关注",@"反馈"];
-//    NSArray *arr2 = @[@"66万硬币买车",@"泰坦尼克号重建",@"小德法网首胜纳达尔",@"欢迎大家来关注我的github主页",@"开发群qq：433060483"];
+    NSMutableArray *arr3 = [[NSMutableArray alloc]init];
+    for (int j = 0; j<noticeArray.count; j++) {
+        [arr3 addObject:@""];
+    }
+
     for (int i=0; i<noticeArray.count; i++) {
         GBTopLineViewModel *model = [[GBTopLineViewModel alloc]init];
-        model.type = arr1[i];
+        model.type = arr3[i];
         model.title = noticeArray[i];
         [_dataArr addObject:model];
     }

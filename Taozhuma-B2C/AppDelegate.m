@@ -55,7 +55,7 @@ BMKMapManager* _mapManager;
     //百度定位
     [self initBDLocationManager];
     //友盟分享
-    [self umeng_share];
+//    [self umeng_share];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[JTBaseNavigationController alloc] initWithRootViewController:[[TabBarController alloc] init]];
@@ -161,6 +161,9 @@ BMKMapManager* _mapManager;
 //
 //    [Tools saveObject:token forKey:DeviceToken];
     
+    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                  stringByReplacingOccurrencesOfString: @">" withString: @""]
+                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
     //苹果推送注册成功回调，将苹果返回的deviceToken上传到CloudPush服务器
     [CloudPushSDK registerDevice:deviceToken withCallback:^(CloudPushCallbackResult *res) {
         if (res.success) {

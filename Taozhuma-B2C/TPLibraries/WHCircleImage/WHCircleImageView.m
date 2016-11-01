@@ -11,7 +11,7 @@
 #import "UIImageView+WebCache.h"
 
 //多少秒翻动一次图片
-#define changeImageTime 3
+#define changeImageTime 5
 //pageControl的中心点位置
 #define pageControlPosition CGPointMake(CGRectGetMaxX(frame)/2, CGRectGetMaxY(frame)-20)
 

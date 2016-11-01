@@ -21,7 +21,7 @@
 #define WEB_URL     @"http://b2c.taozhuma.com/"
 #else
 //#define SERVICE_URL @"http://testb2c.taozhuma.com/v"VERSION"/"
-#define SERVICE_URL @"http://120.25.77.182/"
+#define SERVICE_URL @"http://www.ihaodangjia.com/"
 #define WEB_URL     @"http://testb2c.taozhuma.com/"
 
 //============================ token信息 ==========================//

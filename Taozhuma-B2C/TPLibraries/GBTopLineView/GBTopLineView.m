@@ -85,7 +85,7 @@
 
 - (void)createTimer
 {
-    _timer=[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(dealTimer) userInfo:nil repeats:YES];
+    _timer=[NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(dealTimer) userInfo:nil repeats:YES];
 }
 
 #pragma mark - 跑马灯操作

@@ -267,7 +267,6 @@
     //接口调用
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          phone,     @"phone",
-                         [Tools stringForKey:TokenDatas],     @"token",
                          nil];
     NSLog(@"%@",dic);
     NSString *xpoint = @"/Api/User/getCode?";
