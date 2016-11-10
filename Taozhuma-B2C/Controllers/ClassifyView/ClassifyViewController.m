@@ -15,15 +15,18 @@
 #import "AppDelegate.h"
 #import "MBProgressHUD.h"
 #import "ClassProductListViewController.h"
+#import "ClassGoodsEntity.h"
 
 @interface ClassifyViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 {
     NSMutableArray *category_arr;
     NSMutableArray *commodity_arr;
+    NSMutableArray *cartGooods_arr;
     UICollectionView *_collectionView;
     UITableView *_tableView;
     BOOL _isRelate;
     NSString *token;
+    NSString *catId;
 }
 
 @end
@@ -32,7 +35,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    catId = @"1";
     [self hideNaviBarLeftBtn:YES];
     [self setNaviBarTitle:@"商品分类"];
     
@@ -46,11 +49,53 @@
     
     category_arr = [[NSMutableArray alloc]init];
     commodity_arr = [[NSMutableArray alloc]init];
+    cartGooods_arr = [[NSMutableArray alloc]init];
     
     [self TableView];
     [self CollectionView];
-    
+    [self getCarGoods];
     [self getClassMessage];
+    
+}
+
+//获取大分类信息
+- (void)getCarGoods {
+    
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         @"0",      @"catId",
+                         nil];
+    
+    NSString *path = [NSString stringWithFormat:@"/Api/Goods/getCat?"];
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSString *status = [response valueForKey:@"status"];
+        NSString *message = [response valueForKey:@"message"];
+        NSArray *data = [response valueForKey:@"data"];
+        NSLog(@"datas:%@",data);
+        if([status intValue] == 4001){
+            
+            //弹框提示获取失败
+            [self showHUDText:message];
+            
+            //重获数据
+            [self getCarGoods];
+            
+        } else {
+            
+//            [cartGooods_arr removeAllObjects];
+            
+            for (NSDictionary *dic in data) {
+                ClassGoodsEntity *classGoodsEntity = [[ClassGoodsEntity alloc]initWithAttributes:dic];
+                [cartGooods_arr addObject:classGoodsEntity];
+
+            }
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
     
 }
 
@@ -58,7 +103,7 @@
 - (void)getClassMessage {
     
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         @"1",      @"catId",
+                         catId,      @"catId",
                          token,     @"token",
                          nil];
     
@@ -94,6 +139,7 @@
                     [array addObject:modelSub];
                 }
                 [commodity_arr addObject:array];
+                [_collectionView reloadData];
             }
             
         }
@@ -108,12 +154,12 @@
 - (UITableView *)TableView {
     if (_tableView == nil) {
         
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, [UIScreen mainScreen].bounds.size.width/4-10, [UIScreen mainScreen].bounds.size.height) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, [UIScreen mainScreen].bounds.size.width/4-10, [UIScreen mainScreen].bounds.size.height-110) style:UITableViewStylePlain];
         //_tableView.backgroundColor = [UIColor redColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = 40;
-        _tableView.scrollEnabled = NO;//不能滑动
+        _tableView.scrollEnabled = YES;//能滑动
         [self.view addSubview:_tableView];
         
         //去除tableView底部多余分割线
@@ -236,7 +282,7 @@
 
 // 行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return category_arr.count;
+    return cartGooods_arr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -247,13 +293,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
     
-    ClassifyModel *model = [category_arr objectAtIndex:[indexPath row]];
-    
+    ClassGoodsEntity *entity = [cartGooods_arr objectAtIndex:[indexPath row]];
+    NSLog(@"TENAME:%@",entity.catName);
     cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.font = [UIFont systemFontOfSize:10];
     cell.textLabel.textColor = [UIColor colorWithRed:102/255.0f green:102/255.0f  blue:102/255.0f  alpha:1];
     cell.textLabel.highlightedTextColor = [UIColor colorWithRed:255/255.0f green:214/255.0f  blue:0/255.0f  alpha:1];
-    cell.textLabel.text = model.cat_s_name;
+    cell.textLabel.text = entity.catName;
     
     UIView *selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
     selectedBackgroundView.backgroundColor = [UIColor colorWithRed:239/255.0f green:239/255.0f blue:239/255.0f alpha:1];
@@ -283,40 +329,44 @@
 
 // tableview cell 选中
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (tableView == _tableView) {
-        _isRelate = NO;
-        [self.TableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
-        //将CollectionView的滑动范围调整到tableView相对应的cell的内容
-        _tableView.sectionIndexColor = [UIColor redColor];
-        [self.CollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:indexPath.row] atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
-        [self.CollectionView setContentOffset:CGPointMake(self.CollectionView.contentOffset.x, self.CollectionView.contentOffset.y-42)];
-        
-    }
+    ClassGoodsEntity *entity = [cartGooods_arr objectAtIndex:[indexPath row]];
+    catId = entity.catId;
+    NSLog(@"productID:%@",entity.catId);
+
+    [self getClassMessage];
+//    if (tableView == _tableView) {
+//        _isRelate = NO;
+//        [self.TableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+//        //将CollectionView的滑动范围调整到tableView相对应的cell的内容
+//        _tableView.sectionIndexColor = [UIColor redColor];
+//        [self.CollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:indexPath.row] atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
+//        [self.CollectionView setContentOffset:CGPointMake(self.CollectionView.contentOffset.x, self.CollectionView.contentOffset.y-42)];
+//        
+//    }
 }
 //将显示视图
--(void)collectionView:(UICollectionView *)collectionView willDisplaySupplementaryView:(UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath{
-    if (_isRelate) {
-        
-        NSInteger topcellsection = [[[collectionView indexPathsForVisibleItems]firstObject]section];
-        if (collectionView == _collectionView) {
-            [self.TableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:topcellsection inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-            
-        }
-    }
-}
+//-(void)collectionView:(UICollectionView *)collectionView willDisplaySupplementaryView:(UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath{
+//    if (_isRelate) {
+//        
+//        NSInteger topcellsection = [[[collectionView indexPathsForVisibleItems]firstObject]section];
+//        if (collectionView == _collectionView) {
+//            [self.TableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:topcellsection inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+//            
+//        }
+//    }
+//}
 //将结束显示视图
--(void)collectionView:(UICollectionView *)collectionView didEndDisplayingSupplementaryView:(UICollectionReusableView *)view forElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath{
-    if (_isRelate) {
-        NSInteger itemsection = [[[collectionView indexPathsForVisibleItems]firstObject]section];
-        if (collectionView == _collectionView) {
-            
-            //当collectionView滑动时，tableView的cell自动选中相应的分类
-            [self.TableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:itemsection inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-        }
-        
-    }
-}
+//-(void)collectionView:(UICollectionView *)collectionView didEndDisplayingSupplementaryView:(UICollectionReusableView *)view forElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath{
+//    if (_isRelate) {
+//        NSInteger itemsection = [[[collectionView indexPathsForVisibleItems]firstObject]section];
+//        if (collectionView == _collectionView) {
+//            
+//            //当collectionView滑动时，tableView的cell自动选中相应的分类
+//            [self.TableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:itemsection inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+//        }
+//        
+//    }
+//}
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     _isRelate = YES;
 }
