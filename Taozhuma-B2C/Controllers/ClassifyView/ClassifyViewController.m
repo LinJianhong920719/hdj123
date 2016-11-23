@@ -160,6 +160,7 @@
         _tableView.dataSource = self;
         _tableView.rowHeight = 40;
         _tableView.scrollEnabled = YES;//能滑动
+        _tableView.showsVerticalScrollIndicator = NO;//隐藏滚动条
         [self.view addSubview:_tableView];
         
         //去除tableView底部多余分割线
@@ -178,7 +179,7 @@
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        
+        _collectionView.showsVerticalScrollIndicator = NO;//隐藏滚动条
         //
         //        [_collectionView registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"CollectionViewCell"];//注册UICollectionViewCell，这是固定格式，也是必须要实现的
         UINib *cellNib = [UINib nibWithNibName:NSStringFromClass([CollectionViewCell class]) bundle:[NSBundle mainBundle]];
