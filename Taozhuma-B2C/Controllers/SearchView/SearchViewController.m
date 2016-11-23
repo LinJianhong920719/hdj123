@@ -356,6 +356,7 @@
     switch (buttonIndex) {
         case 0: //YES应该做的事
             [[NSUserDefaults standardUserDefaults] setObject:[[NSMutableArray alloc]init] forKey:@"SearchHistory"];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
             break;
         case 1://NO应该做的事
             break;
