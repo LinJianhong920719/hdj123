@@ -58,7 +58,7 @@
     [self hideNaviBar:YES];
     
     _data = [[NSMutableArray alloc]init];
-    
+    [self loadIndexAddressMsg];
     [self loadBanner];
     
     [self initTableView];
@@ -417,6 +417,18 @@
 
 //获取首页地址信息
 - (void)loadIndexAddressMsg {
+    NSString *longitude;
+    NSString *latitude;
+    if([Tools stringForKey:CURRENT_LONGITUDE] == NULL){
+        longitude = @"116.7634506225586";
+    }else{
+        longitude = [Tools stringForKey:CURRENT_LONGITUDE];
+    }
+    if ([Tools stringForKey:CURRENT_LATITUDE] == NULL) {
+        latitude = @"116.7634506225586";
+    }else{
+        latitude = [Tools stringForKey:CURRENT_LATITUDE];
+    }
     
     NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
                           [Tools stringForKey:CURRENT_LONGITUDE],  @"longitude",

@@ -438,7 +438,7 @@
     SearchViewController *searchView= [[SearchViewController alloc]init];
     searchView.hidesBottomBarWhenPushed = YES;
     searchView.navigationController.navigationBarHidden = YES;
-    [self.navigationController pushViewController:searchView animated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
     
 }
 

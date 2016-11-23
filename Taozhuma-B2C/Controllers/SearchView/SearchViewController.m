@@ -72,7 +72,8 @@
     [searchLabel addTarget:self action:@selector(nextOnKeyboard:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [searchView addSubview:searchLabel];
     //取消按钮
-    UIButton *backBut = [[UIButton alloc]initWithFrame:CGRectMake(viewRight(searchLabel)+15, 37, 24, 11)];
+    UIButton *backBut = [[UIButton alloc]initWithFrame:CGRectMake(viewRight(searchLabel)+10, 25, 40, 35)];
+    [backBut setImageEdgeInsets:UIEdgeInsetsMake(3, 0, 3, 0) ];//将按钮的上左下右都缩进
     [backBut setTitle:@"取消" forState:UIControlStateNormal];
     backBut.titleLabel.font = [UIFont systemFontOfSize: 12.0];
     backBut.backgroundColor = [UIColor clearColor];
@@ -96,14 +97,14 @@
     
     //搜索历史
     UIView *historySearchView = [[UIView alloc]init];
-    if([historyArray count] == 0){
-        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 60)];
-    }else if([historyArray count] >0 && [historyArray count] <5){
-        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 80)];
-    }
-    else{
-      [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 109)];
-    }
+//    if([historyArray count] == 0){
+//        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 60)];
+//    }else if([historyArray count] >0 && [historyArray count] <5){
+//        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 80)];
+//    }
+//    else{
+//      [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 109)];
+//    }
 //    historySearchView.backgroundColor = [UIColor greenColor];
     UIImageView *sImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 20, 12, 12)];
     [sImage setImage:[UIImage imageNamed:@"search_history"]];
@@ -119,33 +120,75 @@
     [delBut setBackgroundImage:[UIImage imageNamed:@"search_del"] forState:UIControlStateNormal];
     [delBut addTarget:self action:@selector(delButClick:) forControlEvents:UIControlEventTouchUpInside];
     [historySearchView addSubview:delBut];
-    int i = 0;
-    int j;
-    for (NSString *serMsg in historyArray) {
-        if(i >= 4){
-            j=i-4;
-            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*j, viewBottom(sLabel)+40, 60, 25)];
-        }else{
-            
-            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*i, viewBottom(sLabel)+10, 60, 25)];
- 
-        }
+//    int i = 0;
+//    int j;
+//    for (NSString *serMsg in historyArray) {
+//        if(i >= 4){
+//            j=i-4;
+//            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*j, viewBottom(sLabel)+40, 60, 25)];
+//        }else{
+//            
+//            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*i, viewBottom(sLabel)+10, 60, 25)];
+// 
+//        }
+//
+//        [but setTitle:serMsg forState:UIControlStateNormal];
+//        but.titleLabel.font = [UIFont systemFontOfSize: 10.0];
+//        [but setBackgroundColor:[UIColor whiteColor]];
+//        [but setTitleColor:FONTS_COLOR153 forState:UIControlStateNormal];
+//        [but.layer setMasksToBounds:YES];
+//        [but.layer setCornerRadius:5.0]; //设置矩形四个圆角半径
+//        [but.layer setBorderWidth:0.8]; //边框宽度
+//        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+//        CGColorRef colorref = CGColorCreate(colorSpace,(CGFloat[]){ 153, 153, 153, 1 });
+//        
+//        [but.layer setBorderColor:colorref];//边框颜色
+//        
+//        [but addTarget:self action:@selector(butClick:) forControlEvents:UIControlEventTouchUpInside];
+//        [historySearchView addSubview:but];
+//        i++;
+    int width1 = 0;
+    int height1 = 0;
+    int number1 = 0;
+    int han1 = 0;
+    
 
-        [but setTitle:serMsg forState:UIControlStateNormal];
-        but.titleLabel.font = [UIFont systemFontOfSize: 10.0];
-        [but setBackgroundColor:[UIColor whiteColor]];
-        [but setTitleColor:FONTS_COLOR153 forState:UIControlStateNormal];
-        [but.layer setMasksToBounds:YES];
-        [but.layer setCornerRadius:5.0]; //设置矩形四个圆角半径
-        [but.layer setBorderWidth:0.8]; //边框宽度
+    //创建button
+    for (int i = 0; i < historyArray.count; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.tag = 300 + i;
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        
+        CGSize titleSize = [self getSizeByString:historyArray[i] AndFontSize:10.0];
+        han1 = han1 +titleSize.width+10;
+        if (han1 > ScreenWidth) {
+            han1 = 0;
+            han1 = han1 + titleSize.width;
+            height1++;
+            width1 = 0;
+            width1 = width1+titleSize.width;
+            number1 = 0;
+            button.frame = CGRectMake(10, 35*height1+viewBottom(sLabel)+10, titleSize.width, 25);
+        }else{
+            button.frame = CGRectMake(width1+10+(number1*10), 35*height1+viewBottom(sLabel)+10, titleSize.width, 25);
+            width1 = width1+titleSize.width;
+        }
+        number1++;
+        button.layer.masksToBounds = YES;
+        button.layer.cornerRadius = 5;
+        button.backgroundColor = [UIColor whiteColor];
+        button.titleLabel.font = [UIFont systemFontOfSize:10];
+        [button setTitleColor:FONTS_COLOR153 forState:UIControlStateNormal];
+        [button setTitle:historyArray[i] forState:UIControlStateNormal];
+        [button.layer setBorderWidth:0.5]; //边框宽度
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGColorRef colorref = CGColorCreate(colorSpace,(CGFloat[]){ 153, 153, 153, 1 });
         
-        [but.layer setBorderColor:colorref];//边框颜色
-        
-        [but addTarget:self action:@selector(butClick:) forControlEvents:UIControlEventTouchUpInside];
-        [historySearchView addSubview:but];
-        i++;
+        [button.layer setBorderColor:colorref];//边框颜色
+        [button addTarget:self action:@selector(butClick:) forControlEvents:UIControlEventTouchUpInside];
+        [historySearchView addSubview:button];
+        NSLog(@"dd:%f",button.frame.origin.y+10);
+        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, button.frame.origin.y+35)];
     }
     
     
@@ -170,34 +213,74 @@
     [hotSearchView addSubview:hLabel];
     
     
-    int i2 = 0;
-    int j2;
-    for (NSString *serMsg2 in hotArray) {
-        if(i2 >= 4 && i2<8){
-            j2=i2-4;
-            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*j2, viewBottom(hLabel)+40, 60, 25)];
-        }else if (i2>=8){
-            j2=i2-8;
-            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*j2, viewBottom(hLabel)+70, 60, 25)];
-        }else{
-            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*i2, viewBottom(hLabel)+10, 60, 25)];
-        }
+//    int i2 = 0;
+//    int j2;
+//    for (NSString *serMsg2 in hotArray) {
+//        if(i2 >= 4 && i2<8){
+//            j2=i2-4;
+//            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*j2, viewBottom(hLabel)+40, 60, 25)];
+//        }else if (i2>=8){
+//            j2=i2-8;
+//            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*j2, viewBottom(hLabel)+70, 60, 25)];
+//        }else{
+//            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*i2, viewBottom(hLabel)+10, 60, 25)];
+//        }
+//        
+//
+//        [but setTitle:serMsg2 forState:UIControlStateNormal];
+//        but.titleLabel.font = [UIFont systemFontOfSize: 10.0];
+//        [but setBackgroundColor:[UIColor whiteColor]];
+//        [but setTitleColor:FONTS_COLOR153 forState:UIControlStateNormal];
+//        [but.layer setMasksToBounds:YES];
+//        [but.layer setCornerRadius:5.0]; //设置矩形四个圆角半径
+//        [but.layer setBorderWidth:0.5]; //边框宽度
+//        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+//        CGColorRef colorref = CGColorCreate(colorSpace,(CGFloat[]){ 153, 153, 153, 1 });
+//        
+//        [but.layer setBorderColor:colorref];//边框颜色
+//        [but addTarget:self action:@selector(butClick:) forControlEvents:UIControlEventTouchUpInside];
+//        [hotSearchView addSubview:but];
+//        i2++;
+    int width = 0;
+    int height = 0;
+    int number = 0;
+    int han = 0;
+    
+    NSArray *titleArr = hotArray;
+    //创建button
+    for (int i = 0; i < titleArr.count; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.tag = 300 + i;
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         
-
-        [but setTitle:serMsg2 forState:UIControlStateNormal];
-        but.titleLabel.font = [UIFont systemFontOfSize: 10.0];
-        [but setBackgroundColor:[UIColor whiteColor]];
-        [but setTitleColor:FONTS_COLOR153 forState:UIControlStateNormal];
-        [but.layer setMasksToBounds:YES];
-        [but.layer setCornerRadius:5.0]; //设置矩形四个圆角半径
-        [but.layer setBorderWidth:0.5]; //边框宽度
+        CGSize titleSize = [self getSizeByString:titleArr[i] AndFontSize:10.0];
+        han = han +titleSize.width+10;
+        if (han > ScreenWidth) {
+            han = 0;
+            han = han + titleSize.width;
+            height++;
+            width = 0;
+            width = width+titleSize.width;
+            number = 0;
+            button.frame = CGRectMake(10, 35*height+viewBottom(hLabel)+10, titleSize.width, 25);
+        }else{
+            button.frame = CGRectMake(width+10+(number*10), 35*height+viewBottom(hLabel)+10, titleSize.width, 25);
+            width = width+titleSize.width;
+        }
+        number++;
+        button.layer.masksToBounds = YES;
+        button.layer.cornerRadius = 5;
+        button.backgroundColor = [UIColor whiteColor];
+        button.titleLabel.font = [UIFont systemFontOfSize:10];
+        [button setTitleColor:FONTS_COLOR153 forState:UIControlStateNormal];
+        [button setTitle:titleArr[i] forState:UIControlStateNormal];
+        [button.layer setBorderWidth:0.5]; //边框宽度
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGColorRef colorref = CGColorCreate(colorSpace,(CGFloat[]){ 153, 153, 153, 1 });
         
-        [but.layer setBorderColor:colorref];//边框颜色
-        [but addTarget:self action:@selector(butClick:) forControlEvents:UIControlEventTouchUpInside];
-        [hotSearchView addSubview:but];
-        i2++;
+        [button.layer setBorderColor:colorref];//边框颜色
+        [button addTarget:self action:@selector(butClick:) forControlEvents:UIControlEventTouchUpInside];
+        [hotSearchView addSubview:button];
     }
     
     
@@ -352,6 +435,12 @@
         detailsView.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:detailsView animated:YES];
 }
-
+//计算文字所占大小
+- (CGSize)getSizeByString:(NSString*)string AndFontSize:(CGFloat)font
+{
+    CGSize size = [string boundingRectWithSize:CGSizeMake(999, 25) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font]} context:nil].size;
+    size.width += 5;
+    return size;
+}
 
 @end
