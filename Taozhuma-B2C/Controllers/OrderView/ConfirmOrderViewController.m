@@ -313,9 +313,13 @@ static CGFloat submitViewHeight = 52;
                 ConfirmOrderEntity *entity = [[ConfirmOrderEntity alloc]initWithAttributes:temList];
                 entity.note = @"";
                 [_data addObject:entity];
-                
-                //                totalPrice += [entity.sumPrice floatValue];
-                totalPrice += 100.00;
+//                for(int j=0;j<[[entity.products valueForKey:@"good_price"] count];j++){
+//                    NSString *goodPrice = [entity.products valueForKey:@"good_price"] indexOfObject:j];
+//                    NSString *nums = [entity.products valueForKey:@"nums"] indexOfObject:j];
+//                   totalPrice += [goodPrice floatValue]*[nums floatValue];
+//                }
+            
+            totalPrice += 100;
                 //                logisticsCost += [entity.espressPrice integerValue];
             }
             

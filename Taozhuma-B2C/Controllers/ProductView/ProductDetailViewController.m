@@ -187,7 +187,7 @@
     
     UILabel *productMsgDet = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(shopName)+20, viewBottom(productDateDet), DEVICE_SCREEN_SIZE_WIDTH-70, 36)];
     if ([self isBlankString:goodsMsgStr]) {
-        productMsgDet.text = @"好当家";productMsgDet.text = @"好当家";
+        productMsgDet.text = @"好当家";
     }else{
         productMsgDet.text = goodsMsgStr;
     }
