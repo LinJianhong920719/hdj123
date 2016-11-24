@@ -112,6 +112,17 @@
     
     return cell;
 }
+// 点击图片的方法
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    int *counts = ((indexPath.item + 1)%self.imageViewArray.count);
+    if(counts == 0){
+        NSLog(@"我点击了第%ld图片！！！",self.imageViewArray.count);
+    }else{
+        NSLog(@"我点击了第%ld图片！！！",counts);
+    }
+    
+    
+}
 //当手指拖动图片时
 -(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
 {

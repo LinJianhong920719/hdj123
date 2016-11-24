@@ -398,6 +398,7 @@
             
 //            if (![Tools isBlankString:(NSString *)data]) {
             if ([data count] > 0) {
+                [_data removeAllObjects];
                 for (NSDictionary *productMsgList in data) {
                     MainProductEntity *entity = [[MainProductEntity alloc]initWithAttributes:productMsgList];
                     [_data addObject:entity];
