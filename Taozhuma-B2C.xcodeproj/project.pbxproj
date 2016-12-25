@@ -1964,6 +1964,7 @@
 				TargetAttributes = {
 					0A025F7F1CDAEE1F00AFE6C7 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 5FD846SK2L;
 					};
 				};
 			};
@@ -2375,7 +2376,7 @@
 				);
 				"HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/Taozhuma-B2C";
 				INFOPLIST_FILE = "Taozhuma-B2C/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2392,6 +2393,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hdj.hdj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4a754138-fe80-48ee-af64-011ae46568bd";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -2410,7 +2412,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = "Taozhuma-B2C/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2427,6 +2429,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hdj.hdj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4a754138-fe80-48ee-af64-011ae46568bd";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

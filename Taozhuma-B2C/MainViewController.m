@@ -36,6 +36,7 @@
     MBProgressHUD *hud;
     WHCircleImageView *circleImageView;
     UIView * topsView;
+    UIView * footsView;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -133,8 +134,27 @@
 - (void)initTableView {
     NSLog(@"ss:%lu",(unsigned long)[_data count]);
     
-    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 300)];
+    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 500)];
     tableFooterView.backgroundColor = [UIColor clearColor];
+    UIImageView *hotProImg = [[UIImageView alloc]initWithFrame:CGRectMake(10,10,ScreenWidth-20, 10)];
+    hotProImg.image = [UIImage imageNamed:@"pro-hot"];
+    [tableFooterView addSubview:hotProImg];
+    
+//    UIStackView *containerView = [[UIStackView alloc] initWithFrame:CGRectMake(10, viewBottom(hotProImg)+10, ScreenWidth-20, 208)];
+    NSArray *array = [NSArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
+    UIStackView *containerView = [[UIStackView alloc]initWithArrangedSubviews:array];
+    containerView.frame = CGRectMake(10, viewBottom(hotProImg)+10, ScreenWidth-20, 208);
+    containerView.axis = UILayoutConstraintAxisHorizontal;
+    containerView.distribution = UIStackViewDistributionFillEqually;
+    containerView.spacing = 10;
+    containerView.alignment = UIStackViewAlignmentFill;
+    for (NSInteger i = 0; i < 2; i++) {
+        UIView *view = [[UIView alloc] init];
+        view.backgroundColor = [UIColor colorWithRed:random()%256/255.0 green:random()%256/255.0 blue:random()%256/255.0 alpha:1];
+        
+        [containerView addArrangedSubview:view];
+    }
+    [tableFooterView addSubview:containerView];
     
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ViewOrignY, DEVICE_SCREEN_SIZE_WIDTH, DEVICE_SCREEN_SIZE_HEIGHT) style:UITableViewStylePlain];
     _tableView.delegate = self;
@@ -173,6 +193,8 @@
 
     _tableView.tableHeaderView = topsView;
 }
+
+
 #pragma mark - SDRefresh
 
 - (void)setupHeader {
