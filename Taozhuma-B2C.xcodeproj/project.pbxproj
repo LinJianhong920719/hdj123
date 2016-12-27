@@ -152,6 +152,7 @@
 		370E31BB1D6E8CE60016FD77 /* OverdueCouponsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 370E31B91D6E8CE60016FD77 /* OverdueCouponsCell.m */; };
 		370E31BC1D6E8CE60016FD77 /* OverdueCouponsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 370E31BA1D6E8CE60016FD77 /* OverdueCouponsCell.xib */; };
 		370E31BF1D6E8FD90016FD77 /* CouponsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 370E31BD1D6E8FD90016FD77 /* CouponsEntity.m */; };
+		371AE8F81E129F3600B00A8B /* HotProductEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 371AE8F71E129F3600B00A8B /* HotProductEntity.m */; };
 		372335CD1D71304100741706 /* AddressDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372335CC1D71304100741706 /* AddressDetailViewController.m */; };
 		372335D11D71388300741706 /* SetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 372335D01D71388300741706 /* SetupViewController.m */; };
 		3727D4A41D7D461C00CA148F /* order_null.png in Resources */ = {isa = PBXBuildFile; fileRef = 3727D4A31D7D461C00CA148F /* order_null.png */; };
@@ -569,6 +570,8 @@
 		370E31BA1D6E8CE60016FD77 /* OverdueCouponsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverdueCouponsCell.xib; sourceTree = "<group>"; };
 		370E31BD1D6E8FD90016FD77 /* CouponsEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponsEntity.m; sourceTree = "<group>"; };
 		370E31BE1D6E8FD90016FD77 /* CouponsEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponsEntity.h; sourceTree = "<group>"; };
+		371AE8F61E129F3600B00A8B /* HotProductEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotProductEntity.h; sourceTree = "<group>"; };
+		371AE8F71E129F3600B00A8B /* HotProductEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotProductEntity.m; sourceTree = "<group>"; };
 		372335CB1D71304100741706 /* AddressDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressDetailViewController.h; sourceTree = "<group>"; };
 		372335CC1D71304100741706 /* AddressDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressDetailViewController.m; sourceTree = "<group>"; };
 		372335CF1D71388300741706 /* SetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupViewController.h; sourceTree = "<group>"; };
@@ -1493,6 +1496,8 @@
 				37CA1F8B1D716C5B00DCF2AB /* MyWalletEntity.m */,
 				37CA1F941D71916500DCF2AB /* CartStoreEntity.h */,
 				37CA1F951D71916500DCF2AB /* CartStoreEntity.m */,
+				371AE8F61E129F3600B00A8B /* HotProductEntity.h */,
+				371AE8F71E129F3600B00A8B /* HotProductEntity.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -2253,6 +2258,7 @@
 				37FE5F181D6C2A8800012513 /* ImageScrollView.m in Sources */,
 				37D50BC81D76AE4A0051C9F5 /* ConfirmSubmitView.m in Sources */,
 				0A608B7F1CE5BD1300EDB38A /* LCnterView.m in Sources */,
+				371AE8F81E129F3600B00A8B /* HotProductEntity.m in Sources */,
 				0A608B821CE5BD1300EDB38A /* LLeftViewController.m in Sources */,
 				372335CD1D71304100741706 /* AddressDetailViewController.m in Sources */,
 				37AE2B8D1CEFFDAC00DC7007 /* MainViewCell.m in Sources */,

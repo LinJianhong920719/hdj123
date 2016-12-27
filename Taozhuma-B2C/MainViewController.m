@@ -18,6 +18,8 @@
 #import "GBTopLineViewModel.h"
 #import "GBTopLineView.h"
 #import "ProductDetailViewController.h"
+#import "HotProductEntity.h"
+
 
 #define kMidViewWidth   250
 #define kMidViewHeight  50
@@ -37,6 +39,7 @@
     WHCircleImageView *circleImageView;
     UIView * topsView;
     UIView * footsView;
+    NSMutableArray *hotProArray;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -63,7 +66,7 @@
     [self loadBanner];
     
     [self initTableView];
-    
+    [self loadhotPro];
     _dataArr=[[NSMutableArray alloc]init];
     
 }
@@ -134,16 +137,17 @@
 - (void)initTableView {
     NSLog(@"ss:%lu",(unsigned long)[_data count]);
     
-    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 500)];
+    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 606*PROPORTION414)];
     tableFooterView.backgroundColor = [UIColor clearColor];
-    UIImageView *hotProImg = [[UIImageView alloc]initWithFrame:CGRectMake(10,10,ScreenWidth-20, 10)];
+    UIImageView *hotProImg = [[UIImageView alloc]initWithFrame:CGRectMake(10,10,ScreenWidth-20, 13*PROPORTION414)];
     hotProImg.image = [UIImage imageNamed:@"pro-hot"];
     [tableFooterView addSubview:hotProImg];
     
-//    UIStackView *containerView = [[UIStackView alloc] initWithFrame:CGRectMake(10, viewBottom(hotProImg)+10, ScreenWidth-20, 208)];
+
     NSArray *array = [NSArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
-    UIStackView *containerView = [[UIStackView alloc]initWithArrangedSubviews:array];
-    containerView.frame = CGRectMake(10, viewBottom(hotProImg)+10, ScreenWidth-20, 208);
+    UIView *hotProView = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(hotProImg)+10, ScreenWidth, 426*PROPORTION414)];
+    UIStackView *containerView = [[UIStackView alloc]init];
+    containerView.frame = CGRectMake(10, 0, ScreenWidth-20, 208*PROPORTION414);
     containerView.axis = UILayoutConstraintAxisHorizontal;
     containerView.distribution = UIStackViewDistributionFillEqually;
     containerView.spacing = 10;
@@ -154,7 +158,22 @@
         
         [containerView addArrangedSubview:view];
     }
-    [tableFooterView addSubview:containerView];
+    [hotProView addSubview: containerView];
+    
+    UIStackView *containerView2 = [[UIStackView alloc]init];
+    containerView2.frame = CGRectMake(10, viewBottom(containerView)+10, ScreenWidth-20, 208*PROPORTION414);
+    containerView2.axis = UILayoutConstraintAxisHorizontal;
+    containerView2.distribution = UIStackViewDistributionFillEqually;
+    containerView2.spacing = 10;
+    containerView2.alignment = UIStackViewAlignmentFill;
+    for (NSInteger i = 0; i < 2; i++) {
+        UIView *view = [[UIView alloc] init];
+        view.backgroundColor = [UIColor colorWithRed:random()%256/255.0 green:random()%256/255.0 blue:random()%256/255.0 alpha:1];
+        
+        [containerView2 addArrangedSubview:view];
+    }
+    [hotProView addSubview: containerView2];
+    [tableFooterView addSubview:hotProView];
     
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ViewOrignY, DEVICE_SCREEN_SIZE_WIDTH, DEVICE_SCREEN_SIZE_HEIGHT) style:UITableViewStylePlain];
     _tableView.delegate = self;
@@ -165,9 +184,7 @@
     _tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_tableView];
     
-    //    [_tableView registerClass:[ListShowCell class] forCellReuseIdentifier:LISTSHOW_CELL];
-    //    [self loadBanner];
-    // [self initTableHeaderView];
+
     
     _tableView.tableFooterView = tableFooterView;
     _tableView.sectionHeaderHeight = 42;
@@ -380,6 +397,32 @@
             }
             
             [self initTableHeaderView];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+}
+
+//获取热卖商品图片
+- (void)loadhotPro {
+    
+    NSString *xpoint = [NSString stringWithFormat:@"/Api/Goods/HotSell?"];
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:nil success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        
+        hotProArray = [[NSMutableArray alloc]init];
+        if ([statusMsg intValue] == 4001) {
+            //弹框提示获取失败
+            [self showHUDText:@"获取失败!"];
+            
+        } if([statusMsg intValue] == 200) {
+                NSLog(@"hotProMsg:%@",[dic valueForKey:@"data"]);
+                hotProArray = [dic valueForKey:@"data"];
         }
         
     } fail:^(NSError *error) {
