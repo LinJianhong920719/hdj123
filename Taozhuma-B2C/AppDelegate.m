@@ -42,8 +42,7 @@ BMKMapManager* _mapManager;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    //获取token信息
-    [self getTokenMessage];
+
     isStop = false;
     
     // 要使用百度地图，请先启动BaiduMapManager
@@ -551,14 +550,39 @@ BMKMapManager* _mapManager;
     _locService = [[BMKLocationService alloc]init];
     _locService.delegate = self;
     //设置距离过滤器(默认距离是米)
-    _locService.distanceFilter = 300;
+    _locService.distanceFilter = 300.0f;
     //设置定位精度
-    _locService.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+//    _locService.desiredAccuracy = kCLLocationAccuracyHundredMeters;
     
     //启动LocationService
     [_locService startUserLocationService];
     
 }
+//实现相关delegate 处理位置信息更新
+//处理方向变更信息
+- (void)didUpdateUserHeading:(BMKUserLocation *)userLocation
+{
+    NSLog(@"方向: %@",userLocation.heading);
+}
+//处理位置坐标更新
+- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
+{
+//    if (isStop == false) {
+        if (userLocation.location != nil) {
+            [Tools saveDouble:userLocation.location.coordinate.latitude forKey:CURRENT_LATITUDE];
+            [Tools saveDouble:userLocation.location.coordinate.longitude forKey:CURRENT_LONGITUDE];
+            NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+            [_locService stopUserLocationService];
+//            //通知 发出
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refAddress" object:nil];
+//        }
+//        isStop = true;
+    }
+    
+    
+}
+
+#pragma mark 联网相关方法
 - (void)onGetNetworkState:(int)iError
 {
     if (0 == iError) {
@@ -579,29 +603,7 @@ BMKMapManager* _mapManager;
         NSLog(@"onGetPermissionState %d",iError);
     }
 }
-//实现相关delegate 处理位置信息更新
-//处理方向变更信息
-- (void)didUpdateUserHeading:(BMKUserLocation *)userLocation
-{
-    NSLog(@"heading is %@",userLocation.heading);
-}
-//处理位置坐标更新
-- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
-{
-    if (isStop == false) {
-        if (userLocation.location != nil) {
-            [Tools saveDouble:userLocation.location.coordinate.latitude forKey:CURRENT_LATITUDE];
-            [Tools saveDouble:userLocation.location.coordinate.longitude forKey:CURRENT_LONGITUDE];
-            NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
-            
-            //通知 发出
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refAddress" object:nil];
-        }
-        isStop = true;
-    }
-    
-    
-}
+
 
 #pragma mark - 阿里云SDK初始化
 - (void)initCloudPush {
