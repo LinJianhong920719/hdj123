@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00B6E0B41E139C1F00CE4C7F /* HotProCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B6E0B21E139C1F00CE4C7F /* HotProCollectionViewCell.m */; };
+		00B6E0B51E139C1F00CE4C7F /* HotProCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B6E0B31E139C1F00CE4C7F /* HotProCollectionViewCell.xib */; };
 		0A025F851CDAEE1F00AFE6C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A025F841CDAEE1F00AFE6C7 /* main.m */; };
 		0A025F881CDAEE1F00AFE6C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A025F871CDAEE1F00AFE6C7 /* AppDelegate.m */; };
 		0A025F901CDAEE1F00AFE6C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A025F8F1CDAEE1F00AFE6C7 /* Assets.xcassets */; };
@@ -305,6 +307,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00B6E0B11E139C1F00CE4C7F /* HotProCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotProCollectionViewCell.h; sourceTree = "<group>"; };
+		00B6E0B21E139C1F00CE4C7F /* HotProCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotProCollectionViewCell.m; sourceTree = "<group>"; };
+		00B6E0B31E139C1F00CE4C7F /* HotProCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HotProCollectionViewCell.xib; sourceTree = "<group>"; };
 		0A025F801CDAEE1F00AFE6C7 /* Taozhuma-B2C.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Taozhuma-B2C.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A025F841CDAEE1F00AFE6C7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0A025F861CDAEE1F00AFE6C7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1515,6 +1520,9 @@
 				37AE2B891CEFFDAC00DC7007 /* MainViewCell.h */,
 				37AE2B8A1CEFFDAC00DC7007 /* MainViewCell.xib */,
 				37AE2B8B1CEFFDAC00DC7007 /* MainViewCell.m */,
+				00B6E0B11E139C1F00CE4C7F /* HotProCollectionViewCell.h */,
+				00B6E0B21E139C1F00CE4C7F /* HotProCollectionViewCell.m */,
+				00B6E0B31E139C1F00CE4C7F /* HotProCollectionViewCell.xib */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -2026,6 +2034,7 @@
 				0A027EF91CE18D5600B95294 /* Intro1-736.jpg in Resources */,
 				37B6AF8E1CF32C4200A12DC2 /* checkbox_active.png in Resources */,
 				37BFE2EE1CF2E5F50001081D /* user_bg.png in Resources */,
+				00B6E0B51E139C1F00CE4C7F /* HotProCollectionViewCell.xib in Resources */,
 				370C5E541D7561D100B93FC4 /* Overlay.png in Resources */,
 				0AB929741CE3012C00E98D62 /* UMSLoginViewController.xib in Resources */,
 				37FE5F221D6C2E5400012513 /* deta_cart.png in Resources */,
@@ -2155,6 +2164,7 @@
 				37B6AF741CF3250E00A12DC2 /* TableViewCell.m in Sources */,
 				372335D11D71388300741706 /* SetupViewController.m in Sources */,
 				37FC00641D702A4300EE8D58 /* AddressPickView.m in Sources */,
+				00B6E0B41E139C1F00CE4C7F /* HotProCollectionViewCell.m in Sources */,
 				370373341D65A9B90055349A /* CollectionViewCell.m in Sources */,
 				3756FEC21CED997500922D5B /* AdvertisementEntity.m in Sources */,
 				37B6AF6B1CF323F800A12DC2 /* MyCartViewController.m in Sources */,

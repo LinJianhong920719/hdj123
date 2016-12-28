@@ -19,13 +19,14 @@
 #import "GBTopLineView.h"
 #import "ProductDetailViewController.h"
 #import "HotProductEntity.h"
+#import "HotProCollectionViewCell.h"
 
 
 #define kMidViewWidth   250
 #define kMidViewHeight  50
 #define tableViewFrame2     CGRectMake(0, ViewOrignY, ScreenWidth, ScreenHeight-ViewOrignY-50)
 
-@interface MainViewController ()<UITableViewDataSource,UITableViewDelegate>{
+@interface MainViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>{
     UIImageView *_loactionImageView;
     UILabel *_loactionLabel;
     UIScrollView * adverView;
@@ -49,6 +50,7 @@
 @property (nonatomic,strong) NSMutableArray * adverData;
 @property (nonatomic, strong) NSMutableArray *data;
 @property(nonatomic,strong)NSMutableArray*dataArr;
+@property (nonatomic, strong) NSMutableArray *hotPro_data;
 @property (nonatomic,strong) GBTopLineView *TopLineView;
 @end
 
@@ -58,6 +60,7 @@
     [super viewDidLoad];
     
     _data = [[NSMutableArray alloc]init];
+    _hotPro_data = [[NSMutableArray alloc]init];
     _dataArr=[[NSMutableArray alloc]init];
 
     
@@ -136,10 +139,7 @@
 }
 
 - (void)initTableView {
-    
-//    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 606*PROPORTION414)];
-//    tableFooterView.backgroundColor = [UIColor clearColor];
-    
+
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ViewOrignY, DEVICE_SCREEN_SIZE_WIDTH, DEVICE_SCREEN_SIZE_HEIGHT) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -149,15 +149,10 @@
     _tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_tableView];
     
-
-    
-//    _tableView.tableFooterView = tableFooterView;
     _tableView.sectionHeaderHeight = 42;
     _tableView.sectionFooterHeight = 100;
     
-    //    _data = [[NSMutableArray alloc]init];
-        [self setupHeader];
-    //    [self loadTableViewData];
+    [self setupHeader]; //下拉刷新
     
 }
 -(void)createTopLineView{
@@ -192,9 +187,22 @@
 }
 
 -(void)initTableFooterView{
-    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 200)];
-    footerView.backgroundColor = [UIColor greenColor];
-    _tableView.tableFooterView = footerView;
+    UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
+    [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+
+    UICollectionView *_collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 1150) collectionViewLayout:flowLayout];//初始化，并设置布局方式
+    _collectionView.backgroundColor = BGCOLOR_DEFAULT;
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
+    _collectionView.showsVerticalScrollIndicator = NO;//隐藏滚动条
+    
+    [_collectionView registerNib:[UINib nibWithNibName:@"HotProCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"HotProCollectionViewCell"];
+    
+    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerView"];//注册头/尾视图
+    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footView"];
+    
+    
+    _tableView.tableFooterView = _collectionView;
 }
 
 
@@ -217,7 +225,7 @@
     };
     
     // 进入页面自动加载一次数据
-    //    [refreshHeader beginRefreshing];
+        [refreshHeader beginRefreshing];
 }
 
 #pragma mark-TableView委托事件
@@ -335,7 +343,119 @@
     return cell;
 }
 
+#pragma mark -- CollectView事件委托
+//定义展示的UICollectionViewCell的个数
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return 8;
+}
 
+//定义展示的Section的个数
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+//每个UICollectionView展示的内容
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString * CellIdentifier = @"HotProCollectionViewCell";
+//    HotProCollectionViewCell *cell = (HotProCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    HotProCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor whiteColor];
+    NSLog(@"goodImage:%@",[_hotPro_data objectAtIndex:[indexPath row]]);
+    HotProductEntity *hotProductEntity = [_hotPro_data objectAtIndex:[indexPath row]];
+    if ([self isBlankString:hotProductEntity.goodImage]) {
+        cell.hotProImage.image = [UIImage imageNamed:@"暂无图片"];
+    }else{
+        [cell.hotProImage sd_setImageWithURL:[NSURL URLWithString:hotProductEntity.goodImage] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
+    }
+    if ([self isBlankString:hotProductEntity.goodName]) {
+        cell.hotProName.text = @"敬请期待";
+    }else{
+        cell.hotProName.text = hotProductEntity.goodName;
+    }
+    
+    if ([self isBlankString:hotProductEntity.goodPrice]) {
+        cell.hotProPrice.text = @"￥0.00";
+    }else{
+        cell.hotProPrice.text = [NSString stringWithFormat:@"￥%@",hotProductEntity.goodPrice];
+    }
+
+    return cell;
+}
+
+
+
+//定义每个Item 的大小
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(145*PROPORTION, 178*PROPORTION);
+}
+
+//定义每个UICollectionView 的 margin
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(5, 10, 5, 10);
+}
+
+
+
+//UICollectionView被选中时调用的方法
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"%zi组，%zi行",indexPath.section,indexPath.item);
+
+    HotProductEntity *hotProductEntity = [_hotPro_data objectAtIndex:indexPath.item];
+ 
+    ProductDetailViewController *productDetailView= [[ProductDetailViewController alloc]init];
+    productDetailView.goodId = [hotProductEntity.hid intValue];
+    productDetailView.title = @"商品详情";
+    productDetailView.hidesBottomBarWhenPushed = YES;
+    productDetailView.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:productDetailView animated:YES];
+
+}
+
+//返回这个UICollectionView是否可以被选择
+-(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+//返回头headerView的大小
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+    CGSize size={DEVICE_SCREEN_SIZE_WIDTH,26};
+    return size;
+}
+//返回头footerView的大小
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+{
+    CGSize size={DEVICE_SCREEN_SIZE_WIDTH,20};
+    return size;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    if (kind==UICollectionElementKindSectionHeader) {
+        //根据类型以及标识获取注册过的头视图,
+        UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerView" forIndexPath:indexPath];
+        for (UIView *view in headerView.subviews) {
+            [view removeFromSuperview];
+        }
+        UIImageView *hotProImg = [[UIImageView alloc]initWithFrame:CGRectMake(10,10,ScreenWidth-20, 13)];
+        hotProImg.image = [UIImage imageNamed:@"pro-hot"];
+        [headerView addSubview:hotProImg];
+        return headerView;
+    }else{
+        UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footView" forIndexPath:indexPath];
+        UIButton *moreHotPro = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 20)];
+        [moreHotPro setTitle:@"点击查看全部商品>" forState:UIControlStateNormal];
+        [moreHotPro setTitleColor:FONTS_COLOR153 forState:UIControlStateNormal];
+        moreHotPro.titleLabel.font =[UIFont systemFontOfSize:12.0f];
+        [footerView addSubview:moreHotPro];
+        return footerView;
+    }
+}
 
 #pragma mark -点击事件
 //点击更多跳转的页面
@@ -419,8 +539,12 @@
             [self showHUDText:@"获取失败!"];
             
         } if([statusMsg intValue] == 200) {
-                NSLog(@"hotProMsg:%@",[dic valueForKey:@"data"]);
-                hotProArray = [dic valueForKey:@"data"];
+            for (NSDictionary *hotProMsgList in [dic valueForKey:@"data"]) {
+               HotProductEntity *hotProductEntity = [[HotProductEntity alloc]initWithAttributes:hotProMsgList];
+                [_hotPro_data addObject:hotProductEntity];
+            }
+            
+            
         }
         
     } fail:^(NSError *error) {
