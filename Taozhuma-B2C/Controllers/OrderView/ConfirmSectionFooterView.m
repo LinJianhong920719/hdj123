@@ -86,7 +86,7 @@
     
     CGFloat topOrigin = 3;
     
-    [priceLabel setText:[NSString stringWithFormat:@"合计:￥%0.1f",[_price floatValue]]];
+    [priceLabel setText:[NSString stringWithFormat:@"合计:￥%0.2f",[_price floatValue]]];
     
     CGSize priceSize = [priceLabel.text sizeWithFont:priceLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, titleHeight)];
     [priceLabel setFrame:CGRectMake(ViewWidth(self)-ViewIndentation-priceSize.width, topOrigin+20, priceSize.width, titleHeight)];
@@ -102,7 +102,7 @@
     
   
     if (![self isBlankString:_preferential]) {
-          [preferentialLabel setText:[NSString stringWithFormat:@"配送费:￥%0.1f",[_preferential floatValue]]];
+          [preferentialLabel setText:[NSString stringWithFormat:@"配送费:￥%0.2f",[_preferential floatValue]]];
         }
 //    [preferentialLabel setFrame:CGRectMake(ViewIndentation, topOrigin, 100, titleHeight)];
     [preferentialLabel setFrame:CGRectMake(ViewWidth(self)-ViewIndentation-priceSize.width-14, topOrigin, priceSize.width+15, titleHeight)];

@@ -13,9 +13,9 @@
 //@synthesize shopLogo;
 @synthesize shopId;
 @synthesize shopName;
-//@synthesize sumPrice;
-//@synthesize allCount;
-//@synthesize espressPrice;
+@synthesize sumPrice;
+@synthesize allCount;
+@synthesize espressPrice;
 @synthesize products;
 @synthesize note;
 //@synthesize skuLinkId;
@@ -34,10 +34,10 @@
 //    shopLogo = [attributes valueForKey:@"shopLogo"];
     shopId = [attributes valueForKey:@"shop_id"];
     shopName = [attributes valueForKey:@"shop_name"];
-//    allCount = [attributes valueForKey:@"allCount"];
-//    espressPrice= [attributes valueForKey:@"espressPrice"];
+    allCount = [attributes valueForKey:@"all_count"];
+    espressPrice= [attributes valueForKey:@"freight_amount"];
     products = [attributes valueForKey:@"goodList"];
-//    sumPrice = [attributes valueForKey:@"sumPrice"];
+    sumPrice = [attributes valueForKey:@"count_price"];
 //    skuLinkId = [attributes valueForKey:@"skuLinkId"];
 //    skuValue = [attributes valueForKey:@"skuValue"];
 //    isActive = [attributes valueForKey:@"isActive"];

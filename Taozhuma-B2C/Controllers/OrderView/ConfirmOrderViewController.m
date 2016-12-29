@@ -319,7 +319,7 @@ static CGFloat submitViewHeight = 52;
 //                   totalPrice += [goodPrice floatValue]*[nums floatValue];
 //                }
             
-            totalPrice += 100;
+            totalPrice += [entity.sumPrice floatValue];
                 //                logisticsCost += [entity.espressPrice integerValue];
             }
             
@@ -891,9 +891,10 @@ static CGFloat submitViewHeight = 52;
     ConfirmOrderEntity *entity = [_data objectAtIndex:section];
     
     ConfirmSectionFooterView *sectionFooterView = [[ConfirmSectionFooterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, tableViewSectionFooterHeight)];
-        sectionFooterView.price = @"123";
-        sectionFooterView.number = @"124";
-        sectionFooterView.preferential = @"125";
+        sectionFooterView.price = entity.sumPrice;
+
+        sectionFooterView.number = entity.allCount;
+        sectionFooterView.preferential = entity.espressPrice;
         sectionFooterView.textField.delegate = self;
         sectionFooterView.textField.tag = section;
         sectionFooterView.textField.text = entity.note;

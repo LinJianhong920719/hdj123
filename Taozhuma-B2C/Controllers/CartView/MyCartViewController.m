@@ -1330,7 +1330,7 @@
     //        preferential += entity.preferential;
     //    }
     NSLog(@"allPrice:%f",allPrice);
-    labelCount.text = [NSString stringWithFormat:@"总计：¥%0.1f",allPrice];
+    labelCount.text = [NSString stringWithFormat:@"总计：¥%0.2f",allPrice];
     //    labelPreferential.text = [NSString stringWithFormat:@"为你节省：¥%0.1f",preferential];
     
 }
