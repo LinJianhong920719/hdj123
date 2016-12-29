@@ -220,6 +220,7 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             //            _pageno = 1;
                         [self loadIndexData];
+            [self loadhotPro];
             [weakRefreshHeader endRefreshing];
         });
     };
@@ -510,7 +511,7 @@
                 [pictureUrlArray addObject:[advImg valueForKey:@"image"]];
                 [noticeArray addObject:[advImg valueForKey:@"intro"]];
                 
-                NSLog(@"Array123:%@",[advImg valueForKey:@"pictureUrlArray"]);
+//                NSLog(@"Array123:%@",[advImg valueForKey:@"pictureUrlArray"]);
             }
             
             [self initTableHeaderView];

@@ -14,12 +14,15 @@
 #define SEARCH_HISTORY [[NSUserDefaults standardUserDefaults] arrayForKey:@"SearchHistory"]
 @interface SearchViewController ()  {
     NSArray *_data;
-    UIView *topView;
+    NSArray *historyArray;
     NSMutableArray *hotArray;
+    
+    UIView *topView;
     UIButton *but;
     UITextField *searchLabel;
-    NSArray *historyArray;
     UIView *baseView;
+    UIView *backView;
+    UIImageView *line;
 }
 
 
@@ -35,14 +38,20 @@
     
     //隐藏导航栏
     [self hideNaviBar:YES];
-
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    historyArray = [userDefaultes arrayForKey:@"SearchHistory"];
+    
+    
     
     hotArray = [[NSMutableArray alloc]init];
 
+    //初始化UI视图
+    [self initTopNav];
     
+    //获取热门搜索信息
     [self getHotSearchList];
+    
+    [self historySearchView];
+    
+    
     
 }
 //初始化头部导航栏
@@ -91,21 +100,28 @@
     [self.view bringSubviewToFront:topView];
     
     //搜索界面下部分view
-    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(topView), ScreenWidth, ScreenHeight-topView.frame.size.height)];
+    backView = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(topView), ScreenWidth, ScreenHeight-topView.frame.size.height)];
     backView.backgroundColor = BGCOLOR_DEFAULT;
     [self.view addSubview:backView];
     
+}
+#pragma mark -- 搜索历史View
+-(void)historySearchView{
     //搜索历史
     UIView *historySearchView = [[UIView alloc]init];
-//    if([historyArray count] == 0){
-//        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 60)];
-//    }else if([historyArray count] >0 && [historyArray count] <5){
-//        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 80)];
-//    }
-//    else{
-//      [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 109)];
-//    }
-//    historySearchView.backgroundColor = [UIColor greenColor];
+    //设置搜索历史
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    historyArray = [userDefaultes arrayForKey:@"SearchHistory"];
+    
+    if([historyArray count] == 0){
+        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 60)];
+    }else if([historyArray count] >0 && [historyArray count] <5){
+        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 80)];
+    }
+    else{
+        [historySearchView setFrame:CGRectMake(0, 0, ScreenWidth, 109)];
+    }
+    
     UIImageView *sImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 20, 12, 12)];
     [sImage setImage:[UIImage imageNamed:@"search_history"]];
     [historySearchView addSubview:sImage];
@@ -120,39 +136,13 @@
     [delBut setBackgroundImage:[UIImage imageNamed:@"search_del"] forState:UIControlStateNormal];
     [delBut addTarget:self action:@selector(delButClick:) forControlEvents:UIControlEventTouchUpInside];
     [historySearchView addSubview:delBut];
-//    int i = 0;
-//    int j;
-//    for (NSString *serMsg in historyArray) {
-//        if(i >= 4){
-//            j=i-4;
-//            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*j, viewBottom(sLabel)+40, 60, 25)];
-//        }else{
-//            
-//            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*i, viewBottom(sLabel)+10, 60, 25)];
-// 
-//        }
-//
-//        [but setTitle:serMsg forState:UIControlStateNormal];
-//        but.titleLabel.font = [UIFont systemFontOfSize: 10.0];
-//        [but setBackgroundColor:[UIColor whiteColor]];
-//        [but setTitleColor:FONTS_COLOR153 forState:UIControlStateNormal];
-//        [but.layer setMasksToBounds:YES];
-//        [but.layer setCornerRadius:5.0]; //设置矩形四个圆角半径
-//        [but.layer setBorderWidth:0.8]; //边框宽度
-//        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-//        CGColorRef colorref = CGColorCreate(colorSpace,(CGFloat[]){ 153, 153, 153, 1 });
-//        
-//        [but.layer setBorderColor:colorref];//边框颜色
-//        
-//        [but addTarget:self action:@selector(butClick:) forControlEvents:UIControlEventTouchUpInside];
-//        [historySearchView addSubview:but];
-//        i++;
+    
     int width1 = 0;
     int height1 = 0;
     int number1 = 0;
     int han1 = 0;
     
-
+    
     //创建button
     for (int i = 0; i < historyArray.count; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -194,14 +184,16 @@
     
     [backView addSubview:historySearchView];
     
-    UIImageView *line = [[UIImageView alloc]initWithFrame:CGRectMake(20, viewBottom(historySearchView)+5, ScreenWidth-40, 1)];
+    line = [[UIImageView alloc]initWithFrame:CGRectMake(20, viewBottom(historySearchView)+5, ScreenWidth-40, 1)];
     line.backgroundColor = LINECOLOR_DEFAULT;
     [backView addSubview:line];
-    
-    
+}
+
+#pragma mark -- 热门搜索View
+-(void)hotSearchView{
     //热门搜索
     UIView *hotSearchView = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(line), ScreenWidth, 129)];
-//        hotSearchView.backgroundColor = [UIColor greenColor];
+    
     UIImageView *hImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 20, 12, 12)];
     [hImage setImage:[UIImage imageNamed:@"search_hot"]];
     [hotSearchView addSubview:hImage];
@@ -212,35 +204,6 @@
     hLabel.text = @"热门搜索";
     [hotSearchView addSubview:hLabel];
     
-    
-//    int i2 = 0;
-//    int j2;
-//    for (NSString *serMsg2 in hotArray) {
-//        if(i2 >= 4 && i2<8){
-//            j2=i2-4;
-//            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*j2, viewBottom(hLabel)+40, 60, 25)];
-//        }else if (i2>=8){
-//            j2=i2-8;
-//            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*j2, viewBottom(hLabel)+70, 60, 25)];
-//        }else{
-//            but = [[UIButton alloc]initWithFrame:CGRectMake(20+70*i2, viewBottom(hLabel)+10, 60, 25)];
-//        }
-//        
-//
-//        [but setTitle:serMsg2 forState:UIControlStateNormal];
-//        but.titleLabel.font = [UIFont systemFontOfSize: 10.0];
-//        [but setBackgroundColor:[UIColor whiteColor]];
-//        [but setTitleColor:FONTS_COLOR153 forState:UIControlStateNormal];
-//        [but.layer setMasksToBounds:YES];
-//        [but.layer setCornerRadius:5.0]; //设置矩形四个圆角半径
-//        [but.layer setBorderWidth:0.5]; //边框宽度
-//        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-//        CGColorRef colorref = CGColorCreate(colorSpace,(CGFloat[]){ 153, 153, 153, 1 });
-//        
-//        [but.layer setBorderColor:colorref];//边框颜色
-//        [but addTarget:self action:@selector(butClick:) forControlEvents:UIControlEventTouchUpInside];
-//        [hotSearchView addSubview:but];
-//        i2++;
     int width = 0;
     int height = 0;
     int number = 0;
@@ -285,8 +248,9 @@
     
     
     [backView addSubview:hotSearchView];
-    
 }
+
+#pragma mark -- 尚未登录View
 -(void)noLoginView{
     baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     baseView.backgroundColor = [UIColor colorWithRed:102/255.0f green:102/255.0f blue:102/255.0f alpha:0.3];
@@ -354,11 +318,12 @@
 
 {
     switch (buttonIndex) {
-        case 0: //YES应该做的事
-            [[NSUserDefaults standardUserDefaults] setObject:[[NSMutableArray alloc]init] forKey:@"SearchHistory"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
+        case 0: //"取消"按钮触发事件
             break;
-        case 1://NO应该做的事
+        case 1://“清除”按钮触发事件
+            //清除SearchHistory中的数据
+            [[NSUserDefaults standardUserDefaults] setObject:[[NSMutableArray alloc]init] forKey:@"SearchHistory"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
             break;
         default:
             break;
@@ -386,13 +351,14 @@
             [hud hide:YES afterDelay:2];
             return;
         }else{
+            [hotArray removeAllObjects];
             for(NSDictionary *hotSearch in [dic valueForKey:@"data"]){
                 NSLog(@"keyword:%@",[hotSearch valueForKey:@"keyword"]);
                 
                 [hotArray addObject:[hotSearch valueForKey:@"keyword"]];
+                [self hotSearchView];
             }
-            //初始化UI视图
-            [self initTopNav];
+            
         }
                 
     } fail:^(NSError *error) {
