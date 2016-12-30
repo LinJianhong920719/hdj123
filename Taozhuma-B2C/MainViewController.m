@@ -43,6 +43,7 @@
     UIView * topsView;
     UIView * footsView;
     NSMutableArray *hotProArray;
+    HotProductEntity *hotProductEntity;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -190,7 +191,7 @@
     UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
 
-    UICollectionView *_collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 1150) collectionViewLayout:flowLayout];//初始化，并设置布局方式
+    UICollectionView *_collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, DEVICE_SCREEN_SIZE_HEIGHT+400) collectionViewLayout:flowLayout];//初始化，并设置布局方式
     _collectionView.backgroundColor = BGCOLOR_DEFAULT;
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
@@ -348,7 +349,7 @@
 //定义展示的UICollectionViewCell的个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 8;
+    return _hotPro_data.count;
 }
 
 //定义展示的Section的个数
@@ -360,12 +361,16 @@
 //每个UICollectionView展示的内容
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString * CellIdentifier = @"HotProCollectionViewCell";
+    static NSString * CellIdentifiers = @"HotProCollectionViewCell";
 //    HotProCollectionViewCell *cell = (HotProCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-    HotProCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    HotProCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifiers forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
-    NSLog(@"goodImage:%@",[_hotPro_data objectAtIndex:[indexPath row]]);
-    HotProductEntity *hotProductEntity = [_hotPro_data objectAtIndex:[indexPath row]];
+    if(indexPath.row< _hotPro_data.count) {
+        
+        hotProductEntity= _hotPro_data[indexPath.row];
+        
+    }
+//    HotProductEntity *hotProductEntity = [_hotPro_data objectAtIndex:[indexPath row]];
     if ([self isBlankString:hotProductEntity.goodImage]) {
         cell.hotProImage.image = [UIImage imageNamed:@"暂无图片"];
     }else{
@@ -515,7 +520,7 @@
             }
             
             [self initTableHeaderView];
-            [self initTableFooterView];
+            
         }
         
     } fail:^(NSError *error) {
@@ -543,6 +548,7 @@
             for (NSDictionary *hotProMsgList in [dic valueForKey:@"data"]) {
                HotProductEntity *hotProductEntity = [[HotProductEntity alloc]initWithAttributes:hotProMsgList];
                 [_hotPro_data addObject:hotProductEntity];
+                [self initTableFooterView];
             }
             
             
