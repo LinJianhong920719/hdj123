@@ -9,7 +9,7 @@
 #import "ConfirmOrderViewController.h"
 #import "ConfirmOrderEntity.h"
 #import "ConfirmOrderCell.h"
-//#import "AddressDriveViewController.h"
+#import "AddressViewController.h"
 //#import "AddressEntity.h"
 //#import "KimsVolumeViewController.h"
 //#import "KimsVolumeEntity.h"
@@ -227,11 +227,11 @@ static CGFloat submitViewHeight = 52;
 
 - (void)addressClick:(id)sender {
     
-    //    AddressDriveViewController *addressDrive = [[AddressDriveViewController alloc]init];
-    //    addressDrive.title = @"地址管理";
-    //    addressDrive.identify = @"1";
-    //    addressDrive.hidesBottomBarWhenPushed = YES;
-    //    [self.navigationController pushViewController:addressDrive animated:YES];
+        AddressViewController *addressDrive = [[AddressViewController alloc]init];
+        addressDrive.title = @"地址管理";
+        addressDrive.chooseTag = @"1";
+        addressDrive.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:addressDrive animated:YES];
     
 }
 

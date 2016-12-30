@@ -278,50 +278,37 @@
 // ----------------------------------------------------------------------------------------
 - (void)loadData {
     
-//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         [NSNumber numberWithInteger:_pageno],        @"page",
-//                         @"e3dc653e2d68697346818dfc0b208322",     @"key",
-//                         [Tools stringForKey:KEY_USER_ID],        @"uid",
-//                         @"get_list",                           @"act",
-//                         @"0",                           @"status",
-//                         nil];
-//    NSString *xpoint = ORDERXPOINT;
-//    
-//    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-//        if (error) {
-//            
-//        } else {
-//            
-//            
-//            if (_pageno == 1) {
-//                [_data removeAllObjects];
-//            }
-//            
-//            if ([respond.respondArray count] > 0) {
-//                _pageType = YES;
-//                
-//                baseView.hidden = YES;
-//                _mTableView.hidden = NO;
-//                
-//                for (NSDictionary *temList in respond.respondArray) {
-//                    AllOrderEntity *entity = [[AllOrderEntity alloc]initWithAttributes:temList];
-//                    [_data addObject:entity];
-//                }
-//                
-//                
-//            } else {
-//                _pageType = NO;
-//                
-//                if (_data.count == 0) {
-//                    _mTableView.hidden = YES;
-//                    baseView.hidden = NO;
-//                }
-//            }
-//            [_mTableView reloadData];
-// 
-//        }
-//        
-//    }];
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],@"userId",
+                         @"0",@"type",
+                         nil];
+    NSString *path = [NSString stringWithFormat:@"/Api/Order/showList?"];
+    NSLog(@"dic:%@",dic);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        if([statusMsg intValue] == 4001){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"获取失败!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }else if ([statusMsg intValue] == 201){
+            //获取成功，无数据情况
+            
+        }else{
+            NSString *addId     = [dic valueForKey:@"data"];
+            NSLog(@"data:%@",addId);
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
 }
 -(void)triggerAlertView{
     

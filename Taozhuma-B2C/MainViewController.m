@@ -64,7 +64,7 @@
     _hotPro_data = [[NSMutableArray alloc]init];
     _dataArr=[[NSMutableArray alloc]init];
 
-    
+
     //隐藏导航栏
     [self hideNaviBar:YES];
     

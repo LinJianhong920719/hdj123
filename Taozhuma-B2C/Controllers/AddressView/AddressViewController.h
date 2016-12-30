@@ -11,5 +11,6 @@
 @interface AddressViewController : BaseViewController
 
 @property (nonatomic, strong) UITableView* mTableView;
+@property (nonatomic, strong) NSString *chooseTag;
 
 @end

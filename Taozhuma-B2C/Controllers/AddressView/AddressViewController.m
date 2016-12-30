@@ -29,6 +29,7 @@
 @implementation AddressViewController
 @synthesize mTableView = _mTableView;
 @synthesize data = _data;
+@synthesize chooseTag = _chooseTag;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -262,15 +263,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    if([_chooseTag isEqualToString:@"1"]){
+        NSLog(@"123");
+    }else{
         AddressEntity *entity = [_data objectAtIndex:[indexPath row]];
-    
+        
         AddressDetailViewController *addressDetail = [[AddressDetailViewController alloc]init];
         addressDetail.addressId = entity.addressID;
         addressDetail.title = @"订单详情";
         addressDetail.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:addressDetail animated:YES];
-    
+        
         [_mTableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
 }
 - (IBAction)backClick:(id)sender {
     // 返回上页
