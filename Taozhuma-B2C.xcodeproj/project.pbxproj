@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		002701B71E19F99A00E6B0E0 /* ChooseAdressListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 002701B51E19F99A00E6B0E0 /* ChooseAdressListViewController.m */; };
+		002701BC1E19FA2B00E6B0E0 /* ChooseAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 002701BA1E19FA2B00E6B0E0 /* ChooseAddressCell.m */; };
+		002701BD1E19FA2B00E6B0E0 /* ChooseAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 002701BB1E19FA2B00E6B0E0 /* ChooseAddressCell.xib */; };
+		002701C01E19FD2E00E6B0E0 /* ChooseAddressEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 002701BF1E19FD2E00E6B0E0 /* ChooseAddressEntity.m */; };
 		00B6E0B41E139C1F00CE4C7F /* HotProCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B6E0B21E139C1F00CE4C7F /* HotProCollectionViewCell.m */; };
 		00B6E0B51E139C1F00CE4C7F /* HotProCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B6E0B31E139C1F00CE4C7F /* HotProCollectionViewCell.xib */; };
 		0A025F851CDAEE1F00AFE6C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A025F841CDAEE1F00AFE6C7 /* main.m */; };
@@ -307,6 +311,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		002701B51E19F99A00E6B0E0 /* ChooseAdressListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAdressListViewController.m; sourceTree = "<group>"; };
+		002701B61E19F99A00E6B0E0 /* ChooseAdressListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAdressListViewController.h; sourceTree = "<group>"; };
+		002701B91E19FA2B00E6B0E0 /* ChooseAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAddressCell.h; sourceTree = "<group>"; };
+		002701BA1E19FA2B00E6B0E0 /* ChooseAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAddressCell.m; sourceTree = "<group>"; };
+		002701BB1E19FA2B00E6B0E0 /* ChooseAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseAddressCell.xib; sourceTree = "<group>"; };
+		002701BE1E19FD2E00E6B0E0 /* ChooseAddressEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAddressEntity.h; sourceTree = "<group>"; };
+		002701BF1E19FD2E00E6B0E0 /* ChooseAddressEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAddressEntity.m; sourceTree = "<group>"; };
 		00B6E0B11E139C1F00CE4C7F /* HotProCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotProCollectionViewCell.h; sourceTree = "<group>"; };
 		00B6E0B21E139C1F00CE4C7F /* HotProCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotProCollectionViewCell.m; sourceTree = "<group>"; };
 		00B6E0B31E139C1F00CE4C7F /* HotProCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HotProCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -843,6 +854,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		002701B41E19F97E00E6B0E0 /* ChooseAddressView */ = {
+			isa = PBXGroup;
+			children = (
+				002701B51E19F99A00E6B0E0 /* ChooseAdressListViewController.m */,
+				002701B61E19F99A00E6B0E0 /* ChooseAdressListViewController.h */,
+			);
+			name = ChooseAddressView;
+			sourceTree = "<group>";
+		};
+		002701B81E19F9D300E6B0E0 /* ChooseAddressCell */ = {
+			isa = PBXGroup;
+			children = (
+				002701B91E19FA2B00E6B0E0 /* ChooseAddressCell.h */,
+				002701BA1E19FA2B00E6B0E0 /* ChooseAddressCell.m */,
+				002701BB1E19FA2B00E6B0E0 /* ChooseAddressCell.xib */,
+			);
+			name = ChooseAddressCell;
+			sourceTree = "<group>";
+		};
 		0A025F771CDAEE1F00AFE6C7 = {
 			isa = PBXGroup;
 			children = (
@@ -1081,6 +1111,7 @@
 		0A13F7B01CDB322500AF5392 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				002701B41E19F97E00E6B0E0 /* ChooseAddressView */,
 				37D50BB51D76A9160051C9F5 /* OrderView */,
 				37CA1F741D71659500DCF2AB /* MyWalletView */,
 				37CA1F701D71633C00DCF2AB /* UserInfoView */,
@@ -1503,6 +1534,8 @@
 				37CA1F951D71916500DCF2AB /* CartStoreEntity.m */,
 				371AE8F61E129F3600B00A8B /* HotProductEntity.h */,
 				371AE8F71E129F3600B00A8B /* HotProductEntity.m */,
+				002701BE1E19FD2E00E6B0E0 /* ChooseAddressEntity.h */,
+				002701BF1E19FD2E00E6B0E0 /* ChooseAddressEntity.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -1510,6 +1543,7 @@
 		3756FEBF1CED992C00922D5B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				002701B81E19F9D300E6B0E0 /* ChooseAddressCell */,
 				37D50BBC1D76AB740051C9F5 /* OrderViewCell */,
 				37CA1F841D71678C00DCF2AB /* MyWalletView */,
 				37CA1F7E1D71676D00DCF2AB /* AddressCell */,
@@ -2057,6 +2091,7 @@
 				37BFE2F31CF2E5F50001081D /* user_service.png in Resources */,
 				37AE2B801CEFF91300DC7007 /* arrowNew.png in Resources */,
 				37B6AF911CF32C4200A12DC2 /* store.png in Resources */,
+				002701BD1E19FA2B00E6B0E0 /* ChooseAddressCell.xib in Resources */,
 				37BFE2F11CF2E5F50001081D /* user_help.png in Resources */,
 				37EACECF1D6AB8C400674EE9 /* sort.png in Resources */,
 				378A616C1D463D1C00F34DD9 /* login_logo.png in Resources */,
@@ -2169,6 +2204,7 @@
 				370373341D65A9B90055349A /* CollectionViewCell.m in Sources */,
 				3756FEC21CED997500922D5B /* AdvertisementEntity.m in Sources */,
 				37B6AF6B1CF323F800A12DC2 /* MyCartViewController.m in Sources */,
+				002701C01E19FD2E00E6B0E0 /* ChooseAddressEntity.m in Sources */,
 				37EACEBB1D6A93CA00674EE9 /* ProductCell.m in Sources */,
 				37CA1F821D71676D00DCF2AB /* AddressCell.m in Sources */,
 				0A79CDDD1CE4746F0038EF7D /* MainViewController.m in Sources */,
@@ -2221,6 +2257,7 @@
 				37038A751D7AA99600DD3486 /* AllOrdersListViewController.m in Sources */,
 				0A13F7F01CDB374A00AF5392 /* UIImage+MultiFormat.m in Sources */,
 				370373301D659FA80055349A /* MBProgressHUD.m in Sources */,
+				002701B71E19F99A00E6B0E0 /* ChooseAdressListViewController.m in Sources */,
 				370E31BF1D6E8FD90016FD77 /* CouponsEntity.m in Sources */,
 				370E31BB1D6E8CE60016FD77 /* OverdueCouponsCell.m in Sources */,
 				37491E1D1D6D926C0033C48D /* CouponsViewController.m in Sources */,
@@ -2245,6 +2282,7 @@
 				0A0B14961CDD9B9F006DD011 /* AFURLSessionManager.m in Sources */,
 				37FC00411D70126700EE8D58 /* AddAddressViewController.m in Sources */,
 				37B6AF781CF3255400A12DC2 /* IQKeyBoardManager.m in Sources */,
+				002701BC1E19FA2B00E6B0E0 /* ChooseAddressCell.m in Sources */,
 				37B6AF7F1CF325F300A12DC2 /* CartProductEntity.m in Sources */,
 				3756FFAD1CEDAB7100922D5B /* WHCirCleImageViewCell.m in Sources */,
 				0A13F7ED1CDB374A00AF5392 /* SDWebImagePrefetcher.m in Sources */,

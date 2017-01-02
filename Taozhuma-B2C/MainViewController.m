@@ -20,6 +20,7 @@
 #import "ProductDetailViewController.h"
 #import "HotProductEntity.h"
 #import "HotProCollectionViewCell.h"
+#import "ChooseAdressListViewController.h"
 
 
 #define kMidViewWidth   250
@@ -53,12 +54,24 @@
 @property(nonatomic,strong)NSMutableArray*dataArr;
 @property (nonatomic, strong) NSMutableArray *hotPro_data;
 @property (nonatomic,strong) GBTopLineView *TopLineView;
+@property (nonatomic, strong) UICollectionView *collectionView;
 @end
 
 @implementation MainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //获取首页地址
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(indexAddressMsg)
+                                                   name:@"refAddress"
+                                                 object:nil];
+    //选择小区后的回调刷新
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refCommunity:)
+                                                 name:@"refCommunity"
+                                               object:nil];
     
     _data = [[NSMutableArray alloc]init];
     _hotPro_data = [[NSMutableArray alloc]init];
@@ -75,7 +88,7 @@
     [self initTableView];
     
     /*======= 接口数据获取 ========*/
-    [self loadIndexAddressMsg]; //  导航栏数据
+    [self indexAddressMsg]; //  导航栏数据
     [self loadBanner];  //首页轮播图数据
     [self loadIndexData]; //首页tableView视图数据
     [self loadhotPro];  //首页热卖商品数据
@@ -84,7 +97,11 @@
     
 }
 
-
+- (void)dealloc
+{
+    [[NSNotificationCenter  defaultCenter] removeObserver:self  name:@"refAddress" object:nil];
+    [[NSNotificationCenter  defaultCenter] removeObserver:self  name:@"refCommunity" object:nil];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -124,6 +141,12 @@
     [_loactionImageView1 setFrame:CGRectMake(viewRight(_loactionLabel)+5, 36, 8, 4)];
     [_loactionImageView1 setImage:[UIImage imageNamed:@"drop-down"]];
     [addressView addSubview:_loactionImageView1];
+    
+    //定位按钮
+    UIButton *addressBut = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH/3, 40)];
+    addressBut.backgroundColor = [UIColor clearColor];
+    [topView addSubview:addressBut];
+    [addressBut addTarget:self action:@selector(chooseAdr) forControlEvents:UIControlEventTouchUpInside];
     
     //搜索
     UIImageView *_serachImage = [[UIImageView alloc]init];
@@ -191,7 +214,7 @@
     UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
 
-    UICollectionView *_collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, DEVICE_SCREEN_SIZE_HEIGHT+400) collectionViewLayout:flowLayout];//初始化，并设置布局方式
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, DEVICE_SCREEN_SIZE_HEIGHT+400) collectionViewLayout:flowLayout];//初始化，并设置布局方式
     _collectionView.backgroundColor = BGCOLOR_DEFAULT;
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
@@ -387,7 +410,8 @@
     }else{
         cell.hotProPrice.text = [NSString stringWithFormat:@"￥%@",hotProductEntity.goodPrice];
     }
-
+//DEVICE_SCREEN_SIZE_WIDTH, [_hotPro_data count]*178*PROPORTION
+//    [_collectionView setFrame:CGRectMake(_collectionView.frame.origin.x, _collectionView.frame.origin.y, DEVICE_SCREEN_SIZE_WIDTH, [_hotPro_data count]/2*220*PROPORTION)];
     return cell;
 }
 
@@ -396,7 +420,7 @@
 //定义每个Item 的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(145*PROPORTION, 178*PROPORTION);
+    return CGSizeMake(145*PROPORTION, 220);
 }
 
 //定义每个UICollectionView 的 margin
@@ -480,6 +504,14 @@
     [self.navigationController pushViewController:productDetailView animated:YES];
     
 }
+//
+-(void)chooseAdr{
+    NSLog(@"选择地址");
+    ChooseAdressListViewController *chooseAdressListView= [[ChooseAdressListViewController alloc]init];
+    chooseAdressListView.hidesBottomBarWhenPushed = YES;
+    chooseAdressListView.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:chooseAdressListView animated:YES];
+}
 -(void)onClickImage{
     
     NSLog(@"图片被点击!");
@@ -530,11 +562,14 @@
 
 //获取热卖商品图片
 - (void)loadhotPro {
-    
+    [_hotPro_data removeAllObjects];
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                          @"185",   @"comId",
+                          nil];
     NSString *xpoint = [NSString stringWithFormat:@"/Api/Goods/HotSell?"];
     
     [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:nil success:^(id response) {
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dic success:^(id response) {
         
         NSDictionary *dic = response;
         NSString *statusMsg = [dic valueForKey:@"status"];
@@ -564,7 +599,7 @@
 - (void)loadIndexData {
     [_data removeAllObjects];
     NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
-                          @"200",   @"comId",
+                          @"185",   @"comId",
                           nil];
     
     NSString *xpoint = @"/Api/Goods/showIndex?";
@@ -611,53 +646,21 @@
 }
 
 //获取首页地址信息
-- (void)loadIndexAddressMsg {
-    NSString *longitude;
-    NSString *latitude;
-    if([Tools stringForKey:CURRENT_LONGITUDE] == NULL){
-        longitude = @"116.7634506225586";
-    }else{
-        longitude = [Tools stringForKey:CURRENT_LONGITUDE];
-    }
-    if ([Tools stringForKey:CURRENT_LATITUDE] == NULL) {
-        latitude = @"116.7634506225586";
-    }else{
-        latitude = [Tools stringForKey:CURRENT_LATITUDE];
-    }
-    
-    NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
-                          [Tools stringForKey:CURRENT_LONGITUDE],  @"longitude",
-                          [Tools stringForKey:CURRENT_LATITUDE],   @"latitude",
-                          nil];
-    
-    NSString *xpoint = @"/Api/Community/show?";
-    
-    [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dics success:^(id response) {
-        
-        NSDictionary *dic = response;
-        NSString *statusMsg = [dic valueForKey:@"status"];
-        
-        if([statusMsg intValue] == 4001){
-            //弹框提示获取失败
-            [self showHUDText:@"获取失败!"];
-            
-        } else {
-            
-            NSArray *data = [dic valueForKey:@"data"];
-            communityName = [data[0] valueForKey:@"com_name"];
-            communityId = [data[0] valueForKey:@"id"];
-            _loactionLabel.text = communityName;
-        
-//            [self initTopNav];
-//            [self loadIndexData];
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
+- (void)indexAddressMsg {
+  _loactionLabel.text = [Tools objectForKey:COMMUNITYNAME];
+ 
+}
+
+
+//选择小区后回调刷新
+- (void) refCommunity:(NSNotification*) notification{
+    communityId = [notification object];//获取到传递的小区id
+    [self indexAddressMsg]; //  导航栏数据
+    [self loadIndexData]; //首页tableView视图数据
+    [self loadhotPro];  //首页热卖商品数据
     
 }
+
 
 //获取轮播信息
 - (void)getData

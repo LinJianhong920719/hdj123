@@ -51,6 +51,10 @@
 #define CURRENT_DISTRICT_NAME @"current_district"
 //当前街道
 #define CURRENT_STREET_NAME @"current_street"
+//小区ID
+#define COMMUNITYID @"communityid"
+//小区名称
+#define COMMUNITYNAME @"communityName"
 
 //手动定位纬度
 #define CUSTOM_LATITUDE @"custom_latitude"

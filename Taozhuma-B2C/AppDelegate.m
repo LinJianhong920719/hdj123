@@ -99,7 +99,7 @@ BMKMapManager* _mapManager;
     //网络状态监控
     [self networkChanged];
     
-    
+    [self loadIndexAddressMsg];
 
 
     
@@ -420,53 +420,48 @@ BMKMapManager* _mapManager;
 
 #pragma mark - 获取分类数据
 
-//- (void)loadClassificationData {
-//    
-//    NSMutableArray *allLevel = [[NSMutableArray alloc]init];
-//    [allLevel removeAllObjects];
-//    
-//    NSString *path = [NSString stringWithFormat:@"productType.do?"];
-//    
-//    [HYBNetworking updateBaseUrl:SERVICE_URL];
-//    [HYBNetworking postWithUrl:path refreshCache:YES emphasis:NO params:nil success:^(id response) {
-//        [HYBNetworking response:response success:^(id result, NSString *success_msg) {
-//            
-//            for (NSDictionary *temDic in result) {
-//                
-//                NSMutableArray *subArray = [[NSMutableArray alloc]init];
-//                [subArray removeAllObjects];
-//                
-//                for (NSDictionary *dic in [temDic valueForKey:@"type"]) {
-//                    
-//                    NSString *images = [dic valueForKey:@"image"];
-//                    if (!images) {
-//                        images = @"";
-//                    }
-//                    NSDictionary *subClass = [NSDictionary dictionaryWithObjectsAndKeys:[dic valueForKey:@"id"], @"id", images, @"image", [dic valueForKey:@"name"], @"name", nil];
-//                    
-//                    [subArray addObject:subClass];
-//                }
-//                
-//                NSString *image = [temDic valueForKey:@"image"];
-//                if (!image) {
-//                    image = @"";
-//                }
-//                
-//                NSDictionary *dicLevel1 = [NSDictionary dictionaryWithObjectsAndKeys:image, @"image", [temDic valueForKey:@"name"], @"name", subArray, @"type", nil];
-//                
-//                [allLevel addObject:dicLevel1];
-//            }
-//            
-//            [Tools saveObject:allLevel forKey:SaveData_Classification];
-//            
-//        } fail:^(NSString *error_msg) {
-//            
-//        }];
-//    } fail:^(NSError *error) {
-//        
-//    }];
-//    
-//}
+//获取首页地址信息
+- (void)loadIndexAddressMsg {
+    NSString *longitude;
+    NSString *latitude;
+    if([Tools stringForKey:CURRENT_LONGITUDE] == NULL){
+        longitude = @"116.7634506225586";
+    }else{
+        longitude = [Tools stringForKey:CURRENT_LONGITUDE];
+    }
+    if ([Tools stringForKey:CURRENT_LATITUDE] == NULL) {
+        latitude = @"116.7634506225586";
+    }else{
+        latitude = [Tools stringForKey:CURRENT_LATITUDE];
+    }
+    
+    NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
+                          [Tools stringForKey:CURRENT_LONGITUDE],  @"longitude",
+                          [Tools stringForKey:CURRENT_LATITUDE],   @"latitude",
+                          nil];
+    
+    NSString *xpoint = @"/Api/Community/show?";
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dics success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        
+        if([statusMsg intValue] == 200){
+            
+            
+            NSArray *data = [dic valueForKey:@"data"];
+            [Tools saveObject:[data[0] valueForKey:@"com_name"] forKey:COMMUNITYNAME];
+            [Tools saveObject:[data[0] valueForKey:@"id"] forKey:COMMUNITYID];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refAddress" object:nil];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
 
 #pragma mark - 获取物流公司数据
 
