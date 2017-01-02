@@ -21,18 +21,14 @@
 
 }
 
-@property (nonatomic, weak) SDRefreshHeaderView *refreshHeader;
-@property (nonatomic, weak) SDRefreshFooterView *refreshFooter;
+
 @property (nonatomic, strong) NSMutableArray* data;
-@property (nonatomic, assign) NSInteger pageno;
-@property (nonatomic, assign) NSInteger sort;
+
 @end
 
 @implementation ChooseAdressListViewController
 @synthesize mTableView = _mTableView;
 @synthesize data = _data;
-@synthesize pageno = _pageno;
-@synthesize sort = _sort;
 @synthesize content;
 
 
@@ -155,13 +151,7 @@
     }];
 }
 
-#pragma mark - SDRefresh
 
-- (void)dealloc
-{
-    [self.refreshHeader removeFromSuperview];
-    [self.refreshFooter removeFromSuperview];
-}
 
 #pragma mark - UITableView
 
