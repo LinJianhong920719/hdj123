@@ -17,6 +17,7 @@
     UITextField *cardNumberField;
     UIButton *cardBtn;
     NSString *type;
+    UILabel *money;
 }
 @property (nonatomic, weak) SDRefreshHeaderView *refreshHeader;
 @property (nonatomic, weak) SDRefreshFooterView *refreshFooter;
@@ -33,7 +34,7 @@
 
     [self initUI];
     [self loadData];
-    [self setupHeader];
+//    [self setupHeader];
     
 }
 
@@ -77,9 +78,9 @@
     title.textColor = FONTS_COLOR102;
     [topsView addSubview: title];
     
-    UILabel *money = [[UILabel alloc]initWithFrame:CGRectMake(0, viewBottom(title), DEVICE_SCREEN_SIZE_WIDTH, 40)];
+    money = [[UILabel alloc]initWithFrame:CGRectMake(0, viewBottom(title), DEVICE_SCREEN_SIZE_WIDTH, 40)];
     money.font = [UIFont systemFontOfSize:28];
-    money.text = @"999.00";
+    money.text = @"0.00";
     money.textAlignment = NSTextAlignmentCenter;
     money.textColor = UIColorWithRGBA(255,80,0,1);
     [topsView addSubview:money];
@@ -89,7 +90,7 @@
     
     UIButton *rechargeBtn = [[UIButton alloc]initWithFrame:CGRectMake(10,5, DEVICE_SCREEN_SIZE_WIDTH/2-10, 30)];
     [rechargeBtn setTitle:@"充值" forState:UIControlStateNormal];
-    rechargeBtn.backgroundColor = [UIColor greenColor];
+    rechargeBtn.backgroundColor = RGB(72, 191, 98);
     rechargeBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     rechargeBtn.titleLabel.textColor = [UIColor whiteColor];
     [rechargeBtn.layer setMasksToBounds:YES];
@@ -98,7 +99,7 @@
     
     UIButton *withdrawalBtn = [[UIButton alloc]initWithFrame:CGRectMake(viewRight(rechargeBtn)+10,5, DEVICE_SCREEN_SIZE_WIDTH/2-20, 30)];
     [withdrawalBtn setTitle:@"提现" forState:UIControlStateNormal];
-    withdrawalBtn.backgroundColor = [UIColor redColor];
+    withdrawalBtn.backgroundColor = RGB(255, 55, 0);
     withdrawalBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     withdrawalBtn.titleLabel.textColor = [UIColor whiteColor];
     [withdrawalBtn.layer setMasksToBounds:YES];
@@ -129,63 +130,36 @@
 
 - (void)loadData {
     
-//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         @"1",     @"status",
-//                         [Tools stringForKey:KEY_USER_ID],@"userId",
-//                         nil];
-//    
-//    NSString *path = [NSString stringWithFormat:@"/Api/Coupon/show?"];
-//    
-//    [HYBNetworking updateBaseUrl:SERVICE_URL];
-//    [HYBNetworking postWithUrl:path refreshCache:YES params:dic success:^(id response) {
-//        
-//        NSDictionary *dic = response;
-//        NSLog(@"response:%@",response);
-//        NSString *statusMsg = [dic valueForKey:@"status"];
-//        if([statusMsg intValue] == 4001){
-//            //弹框提示获取失败
-//            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//            hud.mode = MBProgressHUDModeText;
-//            hud.labelText = @"获取失败!";
-//            hud.yOffset = -50.f;
-//            hud.removeFromSuperViewOnHide = YES;
-//            [hud hide:YES afterDelay:2];
-//            return;
-//        }if([statusMsg intValue] == 201){
-//            //弹框提示获取失败
-//            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//            hud.mode = MBProgressHUDModeText;
-//            hud.labelText = @"无数据";
-//            hud.yOffset = -50.f;
-//            hud.removeFromSuperViewOnHide = YES;
-//            [hud hide:YES afterDelay:2];
-//            return;
-//        }if([statusMsg intValue] == 4002){
-//            [self showHUDText:@"获取失败!"];
-//        }else{
-//            [_data removeAllObjects];
-//            if([[dic valueForKey:@"data"] count] > 0 && [dic valueForKey:@"data"] != nil){
-//                for(NSDictionary *proDiction in [dic valueForKey:@"data"]){
-//                    
-//                    CouponsEntity *entity = [[CouponsEntity alloc]initWithAttributes:proDiction];
-//                    [_data addObject:entity];
-//                    
-//                }
-//                [_mTableView reloadData];
-//            }else{
-//                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//                hud.mode = MBProgressHUDModeText;
-//                hud.labelText = @"无数据";
-//                hud.yOffset = -50.f;
-//                hud.removeFromSuperViewOnHide = YES;
-//                [hud hide:YES afterDelay:2];
-//            }
-//            
-//        }
-//        
-//    } fail:^(NSError *error) {
-//        
-//    }];
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],@"userId",
+                         nil];
+    NSString *path = [NSString stringWithFormat:@"/Api/Wallet/show?"];
+    NSLog(@"dic:%@",dic);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        if([statusMsg intValue] == 4001){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"获取失败!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }else if([statusMsg intValue] == 200){
+            
+            NSString *amount = [[dic valueForKey:@"data"]valueForKey:@"amount"];
+            money.text = [NSString stringWithFormat:@"¥ %@",amount];
+            
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 #pragma mark - SDRefresh

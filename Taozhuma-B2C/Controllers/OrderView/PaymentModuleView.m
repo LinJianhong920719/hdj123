@@ -9,6 +9,7 @@
 #import "PaymentModuleView.h"
 #import "AppConfig.h"
 
+
 #define viewIndentation     20      //视图两边缩进
 #define titleHeight         30      //标题部分高度
 #define vouchersHeight      45      //优惠券部分高度
@@ -205,16 +206,21 @@
     [baseView addSubview:couponsLabel];
     
     //优惠券数量显示
-    UILabel *countCoupon = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth*0.60, 0, 100, 40)];
-    countCoupon.text = @"暂无可用优惠券";
-    countCoupon.font = [UIFont systemFontOfSize:12.0];
-    countCoupon.textColor = FONTS_COLOR153;
+    _countCoupon = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth*0.60, 0, 100, 40)];
+    _countCoupon.text = @"暂无可用优惠券";
+    _countCoupon.font = [UIFont systemFontOfSize:12.0];
+    _countCoupon.textColor = FONTS_COLOR153;
 //    countCoupon.backgroundColor = [UIColor redColor];
-    countCoupon.textAlignment = NSTextAlignmentRight;
-    [baseView addSubview:countCoupon];
+    _countCoupon.textAlignment = NSTextAlignmentRight;
+    [baseView addSubview:_countCoupon];
     [self addSubview:baseView];
     
-    //go优惠券
+    _couponBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 40)];
+//    [couponBtn addTarget:self action:@selector(chooseCoupon) forControlEvents:UIControlEventTouchUpInside];
+    [baseView addSubview:_couponBtn];
+    
+    
+    //优惠券图片>
     UIImageView *goCoupons = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth-25, 15, 7, 10)];
 
     [goCoupons setImage:[UIImage imageNamed:@"address_go"]];
@@ -235,13 +241,13 @@
     [baseView addSubview:moneyLabel];
     
     //余额数量显示
-    UILabel *money = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth*0.60, viewBottom(tLine), 100, 40)];
-    money.text = @"使用10元";
-    money.font = [UIFont systemFontOfSize:12.0];
-    money.textColor = FONTS_COLOR153;
+    _money = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth*0.60, viewBottom(tLine), 100, 40)];
+    _money.text = @"***";
+    _money.font = [UIFont systemFontOfSize:12.0];
+    _money.textColor = FONTS_COLOR153;
 //        money.backgroundColor = [UIColor redColor];
-    money.textAlignment = NSTextAlignmentRight;
-    [baseView addSubview:money];
+    _money.textAlignment = NSTextAlignmentRight;
+    [baseView addSubview:_money];
     [self addSubview:baseView];
     
     //go优惠券
@@ -299,5 +305,6 @@
     }
     
 }
+
 
 @end

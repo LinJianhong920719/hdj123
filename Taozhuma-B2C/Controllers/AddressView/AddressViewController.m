@@ -40,7 +40,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refView:) name:@"refAddressList"object:nil];
     [self initUI];
     [self loadData];
-    [self setupHeader];
+//    [self setupHeader];
     
 }
 
@@ -262,12 +262,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    AddressEntity *entity = [_data objectAtIndex:[indexPath row]];
     if([_chooseTag isEqualToString:@"1"]){
-        NSLog(@"123");
+        //
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"myaddress" object:entity];
+        //返回上一层
+        [self.navigationController popViewControllerAnimated:YES];
     }else{
-        AddressEntity *entity = [_data objectAtIndex:[indexPath row]];
-        
         AddressDetailViewController *addressDetail = [[AddressDetailViewController alloc]init];
         addressDetail.addressId = entity.addressID;
         addressDetail.title = @"订单详情";

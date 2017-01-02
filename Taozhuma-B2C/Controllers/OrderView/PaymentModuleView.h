@@ -22,6 +22,10 @@
 @property (nonatomic, strong) NSString *walletType;          //是否使用钱包
 @property (nonatomic, strong) UIButton *walletButton;
 @property (nonatomic, strong) UILabel *walletBalance;        //钱包余额
+@property (nonatomic, strong) UIButton *couponBtn;             //优惠券按钮
+@property (nonatomic, strong) UILabel *countCoupon;             //优惠券text
+
+@property (nonatomic, strong) UILabel *money;              //用户余额
 
 @property (nonatomic, unsafe_unretained) id delegate;
 

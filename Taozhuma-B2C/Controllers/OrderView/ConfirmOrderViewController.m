@@ -10,9 +10,9 @@
 #import "ConfirmOrderEntity.h"
 #import "ConfirmOrderCell.h"
 #import "AddressViewController.h"
-//#import "AddressEntity.h"
+#import "AddressEntity.h"
 //#import "KimsVolumeViewController.h"
-//#import "KimsVolumeEntity.h"
+#import "CouponsEntity.h"
 #import "MyCartViewController.h"
 //#import "ProductDetailsViewController.h"
 //#import "PaySuccessViewController.h"
@@ -24,6 +24,7 @@
 #import "ConfirmSubmitView.h"
 #import "ConfirmSectionHeaderView.h"
 #import "ConfirmSectionFooterView.h"
+#import "CouponsViewController.h"
 #import <AlipaySDK/AlipaySDK.h>
 
 static CGFloat tableViewSectionHeaderHeight = 35;
@@ -143,14 +144,13 @@ static CGFloat submitViewHeight = 52;
 // ----------------------------------------------------------------------------------------
 - (void)coupon:(NSNotification*)notification {
     
-    //    KimsVolumeEntity *entity = [notification object];
-    //
-    //    paymentView.vouchersValue.text = [NSString stringWithFormat:@"减免 %@ 元",entity.m];
-    //    paymentView.vouchersNO = entity.couponNo;
-    //
-    //    //记录优惠金额
-    //    submitView.coupons = [entity.m floatValue];
-    //    [submitView reloadDisplayData];
+        CouponsEntity *entity = [notification object];
+    
+        paymentView.countCoupon.text = [NSString stringWithFormat:@"减免 %@ 元",entity.expValue];
+    
+        //记录优惠金额
+        submitView.coupons = [entity.expValue floatValue];
+        [submitView reloadDisplayData];
 }
 
 // ----------------------------------------------------------------------------------------
@@ -158,15 +158,14 @@ static CGFloat submitViewHeight = 52;
 // ----------------------------------------------------------------------------------------
 - (void)myAddress:(NSNotification*)notification {
     
-    //    AddressEntity *entity = [notification object];//获取到传递的对象
-    //
-    //    NSString *addId     = entity.addId;
-    //    NSString *name      = entity.name;
-    //    NSString *phone     = entity.phone;
-    //    NSString *address   = entity.address;
-    //    NSString *isRemote  = entity.isRemote;
-    //
-    //    [self setAddressID:addId nameText:name phoneText:phone addressText:address remoteText:isRemote];
+        AddressEntity *entity = [notification object];//获取到传递的对象
+    
+        NSString *addId     = entity.addressID;
+        NSString *name      = entity.guestName;
+        NSString *phone     = entity.mobile;
+        NSString *address   = entity.address;
+    
+        [self setAddressID:addId nameText:name phoneText:phone addressText:address remoteText:@"1"];
 }
 
 #pragma mark - 绘制UI
@@ -199,16 +198,16 @@ static CGFloat submitViewHeight = 52;
     paymentView = [[PaymentModuleView alloc]initWithFrame:CGRectMake(0, viewBottom(addressView)+10, ScreenWidth, ViewHeight(paymentView)+60) delegate:self];
     [paymentView.vouchersButton addTarget:self action:@selector(couponsClick:) forControlEvents:UIControlEventTouchUpInside];
     [tableHeaderView addSubview:paymentView];
-    
+    [paymentView.couponBtn addTarget:self action:@selector(chooseCoupon) forControlEvents:UIControlEventTouchUpInside];
     //显示钱包余额
     //    NSString *userWalletBalance = [Tools stringForKey:User_WalletBalance];
-    NSString *userWalletBalance = @"123";
-    if (userWalletBalance) {
-        userWalletBalance = [NSString stringWithFormat:@"¥ %@",userWalletBalance];
-    } else {
-        userWalletBalance = @"¥ 0.0";
-    }
-    paymentView.walletBalance.text = userWalletBalance;
+//    NSString *userWalletBalance = @"123";
+//    if (userWalletBalance) {
+//        userWalletBalance = [NSString stringWithFormat:@"¥ %@",userWalletBalance];
+//    } else {
+//        userWalletBalance = @"¥ 0.0";
+//    }
+//    paymentView.walletBalance.text = userWalletBalance;
     
     [self loadDefaultAddressData];
     [self loadWelletBalanceData];
@@ -252,24 +251,37 @@ static CGFloat submitViewHeight = 52;
 // loadWelletBalanceData   :   获取钱包余额
 // ----------------------------------------------------------------------------------------
 - (void)loadWelletBalanceData {
-    //
-    //    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-    //                         [Tools stringForKey:KEY_USER_ID],              @"uid",
-    //                         @"10000000",                                   @"pageNo",
-    //                         nil];
-    //    NSString *xpoint = @"userWelletDetail.do?";
-    //    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-    //        if (error) {
-    //        } else {
-    //
-    //            CGFloat balanceFloat = [[respond.respondData valueForKey:@"balance"]floatValue];
-    //            NSString *balanceStr = [NSString stringWithFormat:@"%0.1f",balanceFloat];
-    //            [Tools saveObject:balanceStr forKey:User_WalletBalance];
-    //
-    //            NSString *userWalletBalance = [Tools stringForKey:User_WalletBalance];
-    //            paymentView.walletBalance.text = [NSString stringWithFormat:@"¥ %@",userWalletBalance];
-    //        }
-    //    }];
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],@"userId",
+                         nil];
+    NSString *path = [NSString stringWithFormat:@"/Api/Wallet/show?"];
+    NSLog(@"dic:%@",dic);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        if([statusMsg intValue] == 4001){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"获取失败!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }else{
+
+            NSString *amount = [[dic valueForKey:@"data"]valueForKey:@"amount"];
+            paymentView.money.text = [NSString stringWithFormat:@"¥ %@",amount];
+
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
 }
 
 // ----------------------------------------------------------------------------------------
@@ -936,6 +948,14 @@ static CGFloat submitViewHeight = 52;
 - (void)paymentModuleView:(PaymentModuleView *)paymentModuleView heightForView:(CGFloat)height {
     [tableHeaderView setFrame:CGRectMake(0, 0, ScreenWidth, viewBottom(paymentView)+10)];
     [self.tableView setTableHeaderView:tableHeaderView];
+}
+-(void)chooseCoupon{
+    NSLog(@"选择优惠券");
+        CouponsViewController *addressDrive = [[CouponsViewController alloc]init];
+        addressDrive.title = @"优惠券";
+//        addressDrive.chooseTag = @"1";
+        addressDrive.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:addressDrive animated:YES];
 }
 
 @end
