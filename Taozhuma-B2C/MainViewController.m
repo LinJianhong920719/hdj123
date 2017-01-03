@@ -22,6 +22,7 @@
 #import "HotProCollectionViewCell.h"
 #import "ChooseAdressListViewController.h"
 #import "PaySuccessViewController.h"
+#import "PayFailViewController.h"
 
 #define kMidViewWidth   250
 #define kMidViewHeight  50
@@ -515,8 +516,8 @@
 -(void)onClickImage{
     
     NSLog(@"图片被点击!");
-    PaySuccessViewController *sc1= [[PaySuccessViewController alloc]initWithNibName:@"PaySuccessViewController" bundle:[NSBundle mainBundle]];
-    sc1.title = @"支付成功";
+    PayFailViewController *sc1= [[PayFailViewController alloc]initWithNibName:@"PayFailViewController" bundle:[NSBundle mainBundle]];
+    sc1.title = @"支付失败";
     [self.navigationController pushViewController:sc1 animated:YES];
 //    SearchViewController *searchView= [[SearchViewController alloc]init];
 //    searchView.hidesBottomBarWhenPushed = YES;
