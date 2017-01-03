@@ -38,6 +38,7 @@ static CGFloat submitViewHeight = 52;
     PaymentModuleView   *paymentView;
     ConfirmSubmitView   *submitView;
     NSString *outTradeNo;
+    NSArray *array;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -318,7 +319,7 @@ static CGFloat submitViewHeight = 52;
             BOOL pursePay = YES;//判断是否使用钱包
             [paymentView allowedToUseTheWallet:pursePay];
             
-            NSArray *array = [[dic valueForKey:@"data"]valueForKey:@"cart_info"];
+            array = [[dic valueForKey:@"data"]valueForKey:@"cart_info"];
             
             for (NSDictionary *temList in array) {
                 NSLog(@"temList:%@",temList);
@@ -560,14 +561,14 @@ static CGFloat submitViewHeight = 52;
 // ----------------------------------------------------------------------------------------
 - (void)confirmClick:(id)sender {
     
-    //    if ([paymentView.payType isEqualToString:@"2"]) {
-    //        /* 检测是否已安装微信 */
-    //        if (![WXApi isWXAppInstalled]) {
-    //            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:@"请先安装微信" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-    //            [alter show];
-    //            return;
-    //        }
-    //    }
+//        if ([paymentView.payType isEqualToString:@"2"]) {
+//            /* 检测是否已安装微信 */
+//            if (![WXApi isWXAppInstalled]) {
+//                UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:@"请先安装微信" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+//                [alter show];
+//                return;
+//            }
+//        }
     
     //检查有无收货地址
     if (addressView.addressID == nil) {
@@ -579,42 +580,42 @@ static CGFloat submitViewHeight = 52;
         [hud hide:YES afterDelay:2];
         return;
     }
-    
-    NSMutableArray *noteArray = [[NSMutableArray alloc]init];
+
+    NSString *result;
+    NSData *jsonData;
+    NSMutableDictionary *mtableDictionart = [[NSMutableDictionary alloc]init];
     //商家id:留言 保存成字符串
     for (int i = 0; i < _data.count; i ++) {
         ConfirmOrderEntity *entity = [_data objectAtIndex:i];
-        
-        NSString *noteStr;
-        NSString *activityStr;
-        //        if (entity.note.length == 0) {
-        //            noteStr = @" ";
-        //        } else {
-        //            noteStr = entity.note;
-        //        }
-        noteStr = @" ";
-        activityStr =[NSString stringWithFormat:@"%@-%@",entity.shopId,entity.shopName];
-        NSString *stoNoteStr = [NSString stringWithFormat:@"%@:%@",activityStr,noteStr];
-        [noteArray addObject:stoNoteStr];
+        //获取购物车id
+        NSString *string = [[entity.products valueForKey:@"cart_id"] componentsJoinedByString:@","];
+        //将购物车id跟留言信息拼接起来
+        NSDictionary *dic2=[NSDictionary dictionaryWithObjectsAndKeys:string,@"cart_ids",entity.note,@"msg", nil];
+        //将店铺id拼接到字典中去
+        [mtableDictionart setObject:dic2 forKey:entity.shopId];
+        jsonData = [NSJSONSerialization dataWithJSONObject:mtableDictionart  options:0 error:nil];
     }
-    NSString *noteStr = [noteArray componentsJoinedByString:@","];
+    result = [[NSString alloc] initWithData:jsonData  encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"result:%@",result);
+//    NSString *noteStr = [result componentsJoinedByString:@","];
     
     //锁定提交按钮 避免连续点击
     submitView.submitButton.userInteractionEnabled = NO;
-    
-    switch (_from) {
-        case 1: {
-            [self submitProData:noteStr];
-        }   break;
-        case 2: {
-            [self submitCartData:noteStr];
-        }   break;
-        case 3: {
-            [self submitComboData:noteStr];
-        }   break;
-        default:
-            break;
-    }
+    [self submitProData:result];
+//    switch (_from) {
+//        case 1: {
+//            [self submitProData:noteStr];
+//        }   break;
+//        case 2: {
+//            [self submitCartData:noteStr];
+//        }   break;
+//        case 3: {
+//            [self submitComboData:noteStr];
+//        }   break;
+//        default:
+//            break;
+//    }
     
 }
 
@@ -638,6 +639,24 @@ static CGFloat submitViewHeight = 52;
     //    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
     //        [self interfaceData:respond setResult:error];
     //    }];
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],@"userId",
+                         noteStr,@"info",
+                         paymentView.payType ,@"pay_type",
+                         @"1",@"coupon_id",
+                         @"1",@"address_id",
+                         nil];
+    NSString *path = [NSString stringWithFormat:@"/Api/Order/Commit?"];
+    NSLog(@"dic:%@",dic);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        [self interfaceData:response setResult:statusMsg];
+        
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 // ----------------------------------------------------------------------------------------
@@ -683,73 +702,81 @@ static CGFloat submitViewHeight = 52;
 }
 
 //确认订单接口 响应数据
-//- (void)interfaceData:(MailWorldRequest *)respond setResult:(NSError *)error {
-
-//    if (error) {
-//        submitView.submitButton.userInteractionEnabled = YES;
-//    } else {
-//
-//        if (respond.result == 1) {
-//
+- (void)interfaceData:(NSDictionary *)response setResult:(NSString *)status {
+    NSDictionary *dic = response;
+    NSString *statusMsg = [dic valueForKey:@"status"];
+    if ([statusMsg intValue] == 200) {
+        
+        NSString *payInfo = [[dic valueForKey:@"data"] valueForKey:@"Payinfo"];
+        if (payInfo != nil) {
+            //应用注册scheme,在AliSDKDemo-Info.plist定义URL types
+            NSString *appScheme = @"hdj";
+        
+            // NOTE: 调用支付结果开始支付
+            [[AlipaySDK defaultService] payOrder:payInfo fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+                NSLog(@"reslut = %@",resultDic);
+            }];
+        }
 //            //漏斗-支付订单
 //            [Statistical event:@"OrderPayment"];
-//
+        
 //            BOOL fullpay = [[respond.respondData objectForKey:@"fullpay"]boolValue];
-//
-//            //钱包金额 是否满足 全额支付
+        
+            //钱包金额 是否满足 全额支付
 //            if (fullpay) {
-//
-//                //漏斗-支付成功
-//                [Statistical event:@"PaySuccess"];
-//
+        
+                //                //漏斗-支付成功
+                //                [Statistical event:@"PaySuccess"];
+                
 //                PaySuccessViewController *allOrderView = [[PaySuccessViewController alloc]init];
 //                allOrderView.hidesBottomBarWhenPushed = YES;
 //                [self.navigationController pushViewController:allOrderView animated:YES];
-//
+                
 //            } else {
-//
+                
 //                CGFloat balanceFloat = [[respond.respondData valueForKey:@"balance"]floatValue];
 //                NSString *balanceStr = [NSString stringWithFormat:@"%0.1f",balanceFloat];
 //                [Tools saveObject:balanceStr forKey:User_WalletBalance];
-//
+//                
 //                NSDictionary *aplipay = [respond.respondData objectForKey:@"aplipay"];
 //                NSDictionary *wxpay = [respond.respondData objectForKey:@"wxpay"];
 //                NSDictionary *charge = [respond.respondData objectForKey:@"charge"];
-//
+//                
 //                AppPay *pay = [AppPay alloc];
 //                if ([paymentView.payType isEqual:@"1"]) {
 //                    //支付宝支付
 //                    outTradeNo = [aplipay valueForKey:@"out_trade_no"];
 //                    [pay initWithDicctionary:aplipay fromPay:@"Alpay" payDelegate:self];
 //                }
-//
+//                
 //                if ([paymentView.payType isEqual:@"2"]) {
 //                    //微信支付
 //                    outTradeNo = [wxpay valueForKey:@"out_trade_no"];
 //                    [pay initWithDicctionary:wxpay fromPay:@"Wxpay" payDelegate:self];
 //                }
-//
+//                
 //                if ([paymentView.payType isEqual:@"5"] || [paymentView.payType isEqual:@"6"]) {
 //                    //网银支付
 //                    outTradeNo = [charge valueForKey:@"out_trade_no"];
 //                    [pay initWithDicctionary:charge fromPay:@"UnionPay" payDelegate:self];
 //                }
-//            }
-//
+////            }
+//        
 //            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshCart" object:nil];          //通知购物车列表更新
 //            [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateOrderNumber" object:nil];    //通知订单数量更新
 //            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStockOne" object:nil];      //通知秒杀库存量更新
 //            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshProductDetail" object:nil]; //通知详情购物车数量更新
-//
-//        } else {
-//            submitView.submitButton.userInteractionEnabled = YES;
-//
+        
+        } else {
+            submitView.submitButton.userInteractionEnabled = YES;
+            NSLog(@"chu cuo");
 //            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:respond.error_msg delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
 //            [alter show];
-//        }
-//
-//    }
-//}
+        }
+        
+    }
+    
+
 
 // ----------------------------------------------------------------------------------------
 // 支付状态回调
@@ -921,8 +948,8 @@ static CGFloat submitViewHeight = 52;
 // 文本框失去first responder 时，执行
 // ----------------------------------------------------------------------------------------
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    //    ConfirmOrderEntity *entity = [_data objectAtIndex:textField.tag];
-    //    entity.note = textField.text;
+        ConfirmOrderEntity *entity = [_data objectAtIndex:textField.tag];
+        entity.note = textField.text;
 }
 
 // ----------------------------------------------------------------------------------------
@@ -930,6 +957,8 @@ static CGFloat submitViewHeight = 52;
 // ----------------------------------------------------------------------------------------
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
+    ConfirmOrderEntity *entity = [_data objectAtIndex:textField.tag];
+    entity.note = textField.text;
     return YES;
 }
 

@@ -18,6 +18,7 @@
 @synthesize espressPrice;
 @synthesize products;
 @synthesize note;
+@synthesize cartId;
 //@synthesize skuLinkId;
 //@synthesize skuValue;
 //@synthesize isActive;
@@ -38,6 +39,7 @@
     espressPrice= [attributes valueForKey:@"freight_amount"];
     products = [attributes valueForKey:@"goodList"];
     sumPrice = [attributes valueForKey:@"count_price"];
+    cartId = [attributes valueForKey:@"cart_id"];
 //    skuLinkId = [attributes valueForKey:@"skuLinkId"];
 //    skuValue = [attributes valueForKey:@"skuValue"];
 //    isActive = [attributes valueForKey:@"isActive"];

@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString *espressPrice;//配送费
 @property (nonatomic, strong) NSArray *products;
 @property (nonatomic, strong) NSString *note;
+@property (nonatomic, strong) NSString *cartId;
 //@property (nonatomic, strong) NSString *discountText;
 //@property (nonatomic, strong) NSString *discountType;
 //@property (nonatomic, strong) NSString *skuLinkId; //规格id

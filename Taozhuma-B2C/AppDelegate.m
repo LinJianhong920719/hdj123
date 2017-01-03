@@ -261,20 +261,48 @@ BMKMapManager* _mapManager;
 }
 
 #pragma mark (友盟回调)
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    BOOL result = [UMSocialSnsService handleOpenURL:url];
-    if (result == FALSE) {
-        //调用其他SDK，例如支付宝SDK等
-        if ([url.host isEqualToString:@"safepay"]) {
-            //跳转支付宝钱包进行支付，处理支付结果
-            [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-                NSLog(@"result = %@",resultDic);
-            }];
-        }
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+//{
+//    BOOL result = [UMSocialSnsService handleOpenURL:url];
+//    if (result == FALSE) {
+//        //调用其他SDK，例如支付宝SDK等
+//        if ([url.host isEqualToString:@"safepay"]) {
+//            //跳转支付宝钱包进行支付，处理支付结果
+//            [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+//                NSLog(@"result = %@",resultDic);
+//            }];
+//        }
+//    }
+//    return result;
+//}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    
+    if ([url.host isEqualToString:@"safepay"]) {
+        //跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            NSLog(@"result = %@",resultDic);
+        }];
     }
-    return result;
+    return YES;
 }
+
+// NOTE: 9.0以后使用新API接口
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+    if ([url.host isEqualToString:@"safepay"]) {
+        //跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            NSLog(@"result = %@",resultDic);
+        }];
+    }
+    return YES;
+}
+
+
 #pragma mark (推送)
 
 - (void)umeng_Message:(NSDictionary *)launchOptions {
