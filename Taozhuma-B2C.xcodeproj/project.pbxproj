@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		002701B71E19F99A00E6B0E0 /* ChooseAdressListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 002701B51E19F99A00E6B0E0 /* ChooseAdressListViewController.m */; };
 		002701BC1E19FA2B00E6B0E0 /* ChooseAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 002701BA1E19FA2B00E6B0E0 /* ChooseAddressCell.m */; };
 		002701BD1E19FA2B00E6B0E0 /* ChooseAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 002701BB1E19FA2B00E6B0E0 /* ChooseAddressCell.xib */; };
 		002701C01E19FD2E00E6B0E0 /* ChooseAddressEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 002701BF1E19FD2E00E6B0E0 /* ChooseAddressEntity.m */; };
+		003916CA1E1B9F8D0091EA21 /* pay_fail.png in Resources */ = {isa = PBXBuildFile; fileRef = 003916C81E1B9F8D0091EA21 /* pay_fail.png */; };
+		003916CB1E1B9F8D0091EA21 /* pay_success.png in Resources */ = {isa = PBXBuildFile; fileRef = 003916C91E1B9F8D0091EA21 /* pay_success.png */; };
+		003916D81E1BA4110091EA21 /* PaySuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 003916D31E1BA4110091EA21 /* PaySuccessViewController.m */; };
+		003916D91E1BA4110091EA21 /* PaySuccessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 003916D41E1BA4110091EA21 /* PaySuccessViewController.xib */; };
+		003916DA1E1BA4110091EA21 /* ChooseAdressListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 003916D71E1BA4110091EA21 /* ChooseAdressListViewController.m */; };
+		003916DE1E1BA47C0091EA21 /* PayFailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 003916DC1E1BA47C0091EA21 /* PayFailViewController.m */; };
+		003916DF1E1BA47C0091EA21 /* PayFailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 003916DD1E1BA47C0091EA21 /* PayFailViewController.xib */; };
 		00B6E0B41E139C1F00CE4C7F /* HotProCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B6E0B21E139C1F00CE4C7F /* HotProCollectionViewCell.m */; };
 		00B6E0B51E139C1F00CE4C7F /* HotProCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B6E0B31E139C1F00CE4C7F /* HotProCollectionViewCell.xib */; };
 		0A025F851CDAEE1F00AFE6C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A025F841CDAEE1F00AFE6C7 /* main.m */; };
@@ -311,13 +317,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		002701B51E19F99A00E6B0E0 /* ChooseAdressListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAdressListViewController.m; sourceTree = "<group>"; };
-		002701B61E19F99A00E6B0E0 /* ChooseAdressListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAdressListViewController.h; sourceTree = "<group>"; };
 		002701B91E19FA2B00E6B0E0 /* ChooseAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAddressCell.h; sourceTree = "<group>"; };
 		002701BA1E19FA2B00E6B0E0 /* ChooseAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAddressCell.m; sourceTree = "<group>"; };
 		002701BB1E19FA2B00E6B0E0 /* ChooseAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseAddressCell.xib; sourceTree = "<group>"; };
 		002701BE1E19FD2E00E6B0E0 /* ChooseAddressEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAddressEntity.h; sourceTree = "<group>"; };
 		002701BF1E19FD2E00E6B0E0 /* ChooseAddressEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAddressEntity.m; sourceTree = "<group>"; };
+		003916C81E1B9F8D0091EA21 /* pay_fail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pay_fail.png; sourceTree = "<group>"; };
+		003916C91E1B9F8D0091EA21 /* pay_success.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pay_success.png; sourceTree = "<group>"; };
+		003916D21E1BA4110091EA21 /* PaySuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaySuccessViewController.h; sourceTree = "<group>"; };
+		003916D31E1BA4110091EA21 /* PaySuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaySuccessViewController.m; sourceTree = "<group>"; };
+		003916D41E1BA4110091EA21 /* PaySuccessViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaySuccessViewController.xib; sourceTree = "<group>"; };
+		003916D61E1BA4110091EA21 /* ChooseAdressListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAdressListViewController.h; sourceTree = "<group>"; };
+		003916D71E1BA4110091EA21 /* ChooseAdressListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAdressListViewController.m; sourceTree = "<group>"; };
+		003916DB1E1BA47C0091EA21 /* PayFailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayFailViewController.h; sourceTree = "<group>"; };
+		003916DC1E1BA47C0091EA21 /* PayFailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayFailViewController.m; sourceTree = "<group>"; };
+		003916DD1E1BA47C0091EA21 /* PayFailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PayFailViewController.xib; sourceTree = "<group>"; };
 		00B6E0B11E139C1F00CE4C7F /* HotProCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotProCollectionViewCell.h; sourceTree = "<group>"; };
 		00B6E0B21E139C1F00CE4C7F /* HotProCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotProCollectionViewCell.m; sourceTree = "<group>"; };
 		00B6E0B31E139C1F00CE4C7F /* HotProCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HotProCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -854,15 +868,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		002701B41E19F97E00E6B0E0 /* ChooseAddressView */ = {
-			isa = PBXGroup;
-			children = (
-				002701B51E19F99A00E6B0E0 /* ChooseAdressListViewController.m */,
-				002701B61E19F99A00E6B0E0 /* ChooseAdressListViewController.h */,
-			);
-			name = ChooseAddressView;
-			sourceTree = "<group>";
-		};
 		002701B81E19F9D300E6B0E0 /* ChooseAddressCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -871,6 +876,37 @@
 				002701BB1E19FA2B00E6B0E0 /* ChooseAddressCell.xib */,
 			);
 			name = ChooseAddressCell;
+			sourceTree = "<group>";
+		};
+		003916C71E1B9F6D0091EA21 /* PayView */ = {
+			isa = PBXGroup;
+			children = (
+				003916C81E1B9F8D0091EA21 /* pay_fail.png */,
+				003916C91E1B9F8D0091EA21 /* pay_success.png */,
+			);
+			name = PayView;
+			sourceTree = "<group>";
+		};
+		003916D11E1BA4110091EA21 /* PayView */ = {
+			isa = PBXGroup;
+			children = (
+				003916DB1E1BA47C0091EA21 /* PayFailViewController.h */,
+				003916DC1E1BA47C0091EA21 /* PayFailViewController.m */,
+				003916DD1E1BA47C0091EA21 /* PayFailViewController.xib */,
+				003916D21E1BA4110091EA21 /* PaySuccessViewController.h */,
+				003916D31E1BA4110091EA21 /* PaySuccessViewController.m */,
+				003916D41E1BA4110091EA21 /* PaySuccessViewController.xib */,
+			);
+			path = PayView;
+			sourceTree = "<group>";
+		};
+		003916D51E1BA4110091EA21 /* ChooseAddressView */ = {
+			isa = PBXGroup;
+			children = (
+				003916D61E1BA4110091EA21 /* ChooseAdressListViewController.h */,
+				003916D71E1BA4110091EA21 /* ChooseAdressListViewController.m */,
+			);
+			path = ChooseAddressView;
 			sourceTree = "<group>";
 		};
 		0A025F771CDAEE1F00AFE6C7 = {
@@ -1111,7 +1147,8 @@
 		0A13F7B01CDB322500AF5392 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				002701B41E19F97E00E6B0E0 /* ChooseAddressView */,
+				003916D11E1BA4110091EA21 /* PayView */,
+				003916D51E1BA4110091EA21 /* ChooseAddressView */,
 				37D50BB51D76A9160051C9F5 /* OrderView */,
 				37CA1F741D71659500DCF2AB /* MyWalletView */,
 				37CA1F701D71633C00DCF2AB /* UserInfoView */,
@@ -1619,6 +1656,7 @@
 		37AC72431CEEBE0600110155 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				003916C71E1B9F6D0091EA21 /* PayView */,
 				375B54291D77FBC600AFCC1A /* ConfirmOrderView */,
 				37BD3A081D6FE35700BAACF7 /* AddressView */,
 				370E31AB1D6E89E50016FD77 /* CouponsView */,
@@ -2100,6 +2138,7 @@
 				37BFE2EB1CF2E5F50001081D /* set.png in Resources */,
 				37BFE2EF1CF2E5F50001081D /* user_coupon.png in Resources */,
 				0A027F001CE18D5600B95294 /* Intro3-667.jpg in Resources */,
+				003916D91E1BA4110091EA21 /* PaySuccessViewController.xib in Resources */,
 				37FE5F301D6C565300012513 /* collection_rel.png in Resources */,
 				37BD3A0C1D6FE35700BAACF7 /* address_location.png in Resources */,
 				0A027EFD1CE18D5600B95294 /* Intro2-736.jpg in Resources */,
@@ -2107,6 +2146,7 @@
 				37BFE2EC1CF2E5F50001081D /* share.png in Resources */,
 				37C3A5981D6972DB00E7E398 /* search_hot.png in Resources */,
 				37FE5F241D6C2E5400012513 /* deta_collect_active.png in Resources */,
+				003916CA1E1B9F8D0091EA21 /* pay_fail.png in Resources */,
 				0A027F051CE18D5600B95294 /* Intro4-736.jpg in Resources */,
 				37038A7A1D7AAA4500DD3486 /* AllOrderCell.xib in Resources */,
 				0A027EFB1CE18D5600B95294 /* Intro2-568.jpg in Resources */,
@@ -2119,6 +2159,7 @@
 				37FE5F271D6C2E5400012513 /* plus_active.png in Resources */,
 				370E31B11D6E89E50016FD77 /* coupon_useless.png in Resources */,
 				370C5E521D7561D100B93FC4 /* ELCAssetPicker.xib in Resources */,
+				003916CB1E1B9F8D0091EA21 /* pay_success.png in Resources */,
 				37AC72471CEEDDB100110155 /* 暂无图片.png in Resources */,
 				37FE5F2F1D6C565300012513 /* collection_null.png in Resources */,
 				37FC00631D702A4300EE8D58 /* Address.plist in Resources */,
@@ -2126,6 +2167,7 @@
 				37AC724E1CEEDE3B00110155 /* address.png in Resources */,
 				37AC72501CEEDE3B00110155 /* drop-down.png in Resources */,
 				37BFE2EA1CF2E5F50001081D /* order_quality.png in Resources */,
+				003916DF1E1BA47C0091EA21 /* PayFailViewController.xib in Resources */,
 				0AB9296D1CE3012C00E98D62 /* UMSocialLocalizable.strings in Resources */,
 				37C3A5971D6972DB00E7E398 /* search_history.png in Resources */,
 				0AB9296F1CE3012C00E98D62 /* UMSCommentDetailController.xib in Resources */,
@@ -2250,6 +2292,7 @@
 				378A61641D4636B600F34DD9 /* RegisteredViewController.m in Sources */,
 				37CA1F7D1D7166D200DCF2AB /* MyWalletViewController.m in Sources */,
 				0A608B811CE5BD1300EDB38A /* LViewController.m in Sources */,
+				003916DE1E1BA47C0091EA21 /* PayFailViewController.m in Sources */,
 				0A13F80B1CDB3E3100AF5392 /* TabBarController.m in Sources */,
 				0A0B14971CDD9B9F006DD011 /* AFAutoPurgingImageCache.m in Sources */,
 				37341FCF1D76725800E69A2F /* ClassProductListViewController.m in Sources */,
@@ -2257,12 +2300,12 @@
 				37038A751D7AA99600DD3486 /* AllOrdersListViewController.m in Sources */,
 				0A13F7F01CDB374A00AF5392 /* UIImage+MultiFormat.m in Sources */,
 				370373301D659FA80055349A /* MBProgressHUD.m in Sources */,
-				002701B71E19F99A00E6B0E0 /* ChooseAdressListViewController.m in Sources */,
 				370E31BF1D6E8FD90016FD77 /* CouponsEntity.m in Sources */,
 				370E31BB1D6E8CE60016FD77 /* OverdueCouponsCell.m in Sources */,
 				37491E1D1D6D926C0033C48D /* CouponsViewController.m in Sources */,
 				37D50BBB1D76A95D0051C9F5 /* ConfirmOrderEntity.m in Sources */,
 				0A0B14931CDD9B9F006DD011 /* AFSecurityPolicy.m in Sources */,
+				003916DA1E1BA4110091EA21 /* ChooseAdressListViewController.m in Sources */,
 				37D50BCA1D76AE4A0051C9F5 /* ConfirmSectionFooterView.m in Sources */,
 				0A0B146D1CDD9B90006DD011 /* HYBNetworking.m in Sources */,
 				37472E9D1D693C5E00F9CD6C /* ClassifyModel.m in Sources */,
@@ -2272,6 +2315,7 @@
 				0A025F881CDAEE1F00AFE6C7 /* AppDelegate.m in Sources */,
 				0A0B149C1CDD9B9F006DD011 /* UIImageView+AFNetworking.m in Sources */,
 				0A13F7EE1CDB374A00AF5392 /* UIButton+WebCache.m in Sources */,
+				003916D81E1BA4110091EA21 /* PaySuccessViewController.m in Sources */,
 				0A13F8031CDB381F00AF5392 /* CustomNavigationController.m in Sources */,
 				37472EA61D69467B00F9CD6C /* SearchViewController.m in Sources */,
 				370C5E4D1D7561D100B93FC4 /* ELCAssetTablePicker.m in Sources */,

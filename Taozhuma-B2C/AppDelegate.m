@@ -297,6 +297,7 @@ BMKMapManager* _mapManager;
         //跳转支付宝钱包进行支付，处理支付结果
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
             NSLog(@"result = %@",resultDic);
+            
         }];
     }
     return YES;

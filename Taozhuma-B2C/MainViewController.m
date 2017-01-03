@@ -21,7 +21,7 @@
 #import "HotProductEntity.h"
 #import "HotProCollectionViewCell.h"
 #import "ChooseAdressListViewController.h"
-
+#import "PaySuccessViewController.h"
 
 #define kMidViewWidth   250
 #define kMidViewHeight  50
@@ -515,10 +515,13 @@
 -(void)onClickImage{
     
     NSLog(@"图片被点击!");
-    SearchViewController *searchView= [[SearchViewController alloc]init];
-    searchView.hidesBottomBarWhenPushed = YES;
-    searchView.navigationController.navigationBarHidden = YES;
-    [self.navigationController pushViewController:searchView animated:YES];
+    PaySuccessViewController *sc1= [[PaySuccessViewController alloc]initWithNibName:@"PaySuccessViewController" bundle:[NSBundle mainBundle]];
+    sc1.title = @"支付成功";
+    [self.navigationController pushViewController:sc1 animated:YES];
+//    SearchViewController *searchView= [[SearchViewController alloc]init];
+//    searchView.hidesBottomBarWhenPushed = YES;
+//    searchView.navigationController.navigationBarHidden = YES;
+//    [self.navigationController pushViewController:searchView animated:YES];
 }
 #pragma mark -接口数据
 //获取公告图片
