@@ -50,7 +50,7 @@
     [super loadView];
     [self loadData];
 
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refCart:) name:@"refCart" object:nil];
     //取消scrollview内容自动调整
     self.automaticallyAdjustsScrollViewInsets = NO;
     

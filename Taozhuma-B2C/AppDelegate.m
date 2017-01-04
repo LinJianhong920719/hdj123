@@ -20,6 +20,7 @@
 #import "UMSocialQQHandler.h"
 #import <CloudPushSDK/CloudPushSDK.h>
 #import <AlipaySDK/AlipaySDK.h>
+#import "WXApi.h"
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -53,6 +54,10 @@ BMKMapManager* _mapManager;
     }
     //百度定位
     [self initBDLocationManager];
+    
+    //微信支付
+    [WXApi registerApp:@"wx69b0d0dbc086b71f"];
+    
     //友盟分享
 //    [self umeng_share];
     
@@ -261,21 +266,6 @@ BMKMapManager* _mapManager;
 }
 
 #pragma mark (友盟回调)
-//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-//{
-//    BOOL result = [UMSocialSnsService handleOpenURL:url];
-//    if (result == FALSE) {
-//        //调用其他SDK，例如支付宝SDK等
-//        if ([url.host isEqualToString:@"safepay"]) {
-//            //跳转支付宝钱包进行支付，处理支付结果
-//            [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-//                NSLog(@"result = %@",resultDic);
-//            }];
-//        }
-//    }
-//    return result;
-//}
-
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
@@ -298,11 +288,43 @@ BMKMapManager* _mapManager;
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
             NSLog(@"result = %@",resultDic);
             
+            NSString *payStatus = [resultDic valueForKey:@"resultStatus"];
+            NSLog(@"resultStatus:%@",[resultDic valueForKey:@"resultStatus"]);
+            if ([payStatus intValue] == 9000) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"alipaySuccess" object:nil];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+            }else{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"alipayFail" object:nil];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+            }
+            
         }];
+        return YES;
+    }else{
+        return [WXApi handleOpenURL:url delegate:self];
     }
-    return YES;
+    
 }
-
+/*微信支付回调*/
+- (void)onResp:(BaseResp *)resp
+{
+    //支付返回结果，实际支付结果需要去微信服务器端查询
+    NSString *strMsg = [NSString stringWithFormat:@"支付结果"];
+    switch (resp.errCode) {
+        case WXSuccess:
+            strMsg = @"支付结果：成功！";
+            NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"alipaySuccess" object:nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+            break;
+        default:
+            strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
+            NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"alipayFail" object:nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+            break;
+    }
+}
 
 #pragma mark (推送)
 

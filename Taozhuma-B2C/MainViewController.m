@@ -519,6 +519,7 @@
     PayFailViewController *sc1= [[PayFailViewController alloc]initWithNibName:@"PayFailViewController" bundle:[NSBundle mainBundle]];
     sc1.title = @"支付失败";
     [self.navigationController pushViewController:sc1 animated:YES];
+    //勿删
 //    SearchViewController *searchView= [[SearchViewController alloc]init];
 //    searchView.hidesBottomBarWhenPushed = YES;
 //    searchView.navigationController.navigationBarHidden = YES;

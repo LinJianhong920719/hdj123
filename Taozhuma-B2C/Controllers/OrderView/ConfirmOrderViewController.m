@@ -15,8 +15,8 @@
 #import "CouponsEntity.h"
 #import "MyCartViewController.h"
 //#import "ProductDetailsViewController.h"
-//#import "PaySuccessViewController.h"
-//#import "PayFailureViewController.h"
+#import "PaySuccessViewController.h"
+#import "PayFailViewController.h"
 //#import "AppPay.h"
 //#import "Pingpp.h"
 #import "AddressModuleView.h"
@@ -26,6 +26,7 @@
 #import "ConfirmSectionFooterView.h"
 #import "CouponsViewController.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import "WXApi.h"
 
 static CGFloat tableViewSectionHeaderHeight = 35;
 static CGFloat tableViewSectionFooterHeight = 105;
@@ -55,6 +56,9 @@ static CGFloat submitViewHeight = 52;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coupon:) name:@"myCoupon"object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myAddress:) name:@"myaddress"object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessMethod) name:@"alipaySuccess" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payFailMethod) name:@"alipayFail" object:nil];
     
     //取消scrollview内容自动调整
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -561,14 +565,14 @@ static CGFloat submitViewHeight = 52;
 // ----------------------------------------------------------------------------------------
 - (void)confirmClick:(id)sender {
     
-//        if ([paymentView.payType isEqualToString:@"2"]) {
-//            /* 检测是否已安装微信 */
-//            if (![WXApi isWXAppInstalled]) {
-//                UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:@"请先安装微信" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-//                [alter show];
-//                return;
-//            }
-//        }
+        if ([paymentView.payType isEqualToString:@"2"]) {
+            /* 检测是否已安装微信 */
+            if (![WXApi isWXAppInstalled]) {
+                UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:@"请先安装微信" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                [alter show];
+                return;
+            }
+        }
     
     //检查有无收货地址
     if (addressView.addressID == nil) {
@@ -623,22 +627,7 @@ static CGFloat submitViewHeight = 52;
 // 立即购买订单提交
 // ----------------------------------------------------------------------------------------
 - (void)submitProData:(NSString *)noteStr {
-    
-    //    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-    //                         [Tools stringForKey:KEY_USER_ID],          @"uid",
-    //                         addressView.addressID,                     @"addressId",
-    //                         _proId,                                     @"pid",
-    //                         _proNum,                                    @"num",
-    //                         noteStr,                                   @"messages",
-    //                         @"1",                                      @"consigneeType",
-    //                         paymentView.payType,                       @"payMethod",
-    //                         paymentView.walletType,                    @"wallet",
-    //                         paymentView.vouchersNO,                    @"couponNo",
-    //                         nil];
-    //    NSString *xpoint = @"addOrderByPurchase.do?";
-    //    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-    //        [self interfaceData:respond setResult:error];
-    //    }];
+
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          [Tools stringForKey:KEY_USER_ID],@"userId",
                          noteStr,@"info",
@@ -708,14 +697,38 @@ static CGFloat submitViewHeight = 52;
     if ([statusMsg intValue] == 200) {
         
         NSString *payInfo = [[dic valueForKey:@"data"] valueForKey:@"Payinfo"];
-        if (payInfo != nil) {
-            //应用注册scheme,在AliSDKDemo-Info.plist定义URL types
-            NSString *appScheme = @"hdj";
+        if ([paymentView.payType isEqual:@"1"] && payInfo != nil) {
+            //应用注册scheme,在Info.plist定义URL types
+            NSString *appScheme = @"wx69b0d0dbc086b71f";
         
             // NOTE: 调用支付结果开始支付
             [[AlipaySDK defaultService] payOrder:payInfo fromScheme:appScheme callback:^(NSDictionary *resultDic) {
                 NSLog(@"reslut = %@",resultDic);
             }];
+        }else if([paymentView.payType isEqual:@"2"]){
+            NSDictionary *wxDic = [dic valueForKey:@"data"];
+            PayReq *request = [[PayReq alloc] init];
+            /** 商家向财付通申请的商家id */
+            request.partnerId = [wxDic valueForKey:@"partnerid"];
+            /** 预支付订单 */
+            request.prepayId = [wxDic valueForKey:@"prepayid"];
+            /** 商家根据财付通文档填写的数据和签名 */
+            request.package = [wxDic valueForKey:@"package"];
+            /** 随机串，防重发 */
+            request.nonceStr= [wxDic valueForKey:@"noncestr"];
+            /** 时间戳，防重发 */
+            request.timeStamp= [[wxDic valueForKey:@"timestamp"] intValue];
+            /** 商家根据微信开放平台文档对数据做的签名 */
+            request.sign= [wxDic valueForKey:@"sign"];
+            /*! @brief 发送请求到微信，等待微信返回onResp
+             *
+             * 函数调用后，会切换到微信的界面。第三方应用程序等待微信返回onResp。微信在异步处理完成后一定会调用onResp。支持以下类型
+             * SendAuthReq、SendMessageToWXReq、PayReq等。
+             * @param req 具体的发送请求，在调用函数后，请自己释放。
+             * @return 成功返回YES，失败返回NO。
+             */
+            [WXApi sendReq: request];
+            
         }
 //            //漏斗-支付订单
 //            [Statistical event:@"OrderPayment"];
@@ -986,5 +999,16 @@ static CGFloat submitViewHeight = 52;
         addressDrive.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:addressDrive animated:YES];
 }
-
+-(void)paySuccessMethod{
+    submitView.submitButton.userInteractionEnabled = YES;
+    PaySuccessViewController *sc= [[PaySuccessViewController alloc]initWithNibName:@"PaySuccessViewController" bundle:[NSBundle mainBundle]];
+    sc.title = @"支付成功";
+    [self.navigationController pushViewController:sc animated:YES];
+}
+-(void)payFailMethod{
+    submitView.submitButton.userInteractionEnabled = YES;
+    PayFailViewController *sf= [[PayFailViewController alloc]initWithNibName:@"PayFailViewController" bundle:[NSBundle mainBundle]];
+    sf.title = @"支付失败";
+    [self.navigationController pushViewController:sf animated:YES];
+}
 @end

@@ -318,12 +318,13 @@
                 
                 count = [NSString stringWithFormat: @"%d",count.intValue-1];
                 countLabel.text = count;
-                
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
                 
             }else if ([pMode isEqualToString:@"inc"]){
                 noLabel.text = [NSString stringWithFormat: @"%d",noLabel.text.intValue+1];
                 count = [NSString stringWithFormat: @"%d",count.intValue+1];
                 countLabel.text = count;
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
             }
         }else if ([statusMsg intValue] == 4002){
             [self showHUDText:@"暂无数据"];

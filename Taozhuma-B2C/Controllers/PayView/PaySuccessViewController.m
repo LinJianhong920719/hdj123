@@ -35,6 +35,8 @@
 */
 
 - (IBAction)backMainView:(id)sender {
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+//    [self.navigationController popToRootViewControllerAnimated:YES];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 @end

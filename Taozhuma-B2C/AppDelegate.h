@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "WXApi.h"
 #import <BaiduMapAPI_Base/BMKBaseComponent.h>
 #import <BaiduMapAPI_Location/BMKLocationComponent.h>
-@interface AppDelegate : UIResponder <UIApplicationDelegate, BMKGeneralDelegate,BMKLocationServiceDelegate>{
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate, BMKGeneralDelegate,BMKLocationServiceDelegate,WXApiDelegate>{
     BMKLocationService* _locService;
 }
 
