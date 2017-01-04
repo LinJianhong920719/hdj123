@@ -590,7 +590,7 @@
     [UMSocialData defaultData].extConfig.title = @"分享的title";
     [UMSocialData defaultData].extConfig.qqData.url = @"http://baidu.com";
     [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:@"507fcab25270157b37000010"
+                                         appKey:UmengAppkey
                                       shareText:@"友盟社会化分享让您快速实现分享等社会化功能，http://umeng.com/social"
                                      shareImage:[UIImage imageNamed:@"icon"]
                                 shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone]

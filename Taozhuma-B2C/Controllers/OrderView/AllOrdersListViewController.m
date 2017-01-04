@@ -122,7 +122,7 @@
     _mTableView.tableHeaderView = headerView;
     _mTableView.tableFooterView = footerView;
     
-    _mTableView.hidden = YES;
+//    _mTableView.hidden = YES;
     _data = [[NSMutableArray alloc]init];
     
 }
@@ -302,8 +302,14 @@
             //获取成功，无数据情况
             
         }else{
-            NSString *addId     = [dic valueForKey:@"data"];
-            NSLog(@"data:%@",addId);
+            NSArray *orderData = [dic valueForKey:@"data"];
+            NSLog(@"orderData:%@",orderData);
+            for (NSDictionary *dic in orderData) {
+                AllOrderEntity *allOrderEntity = [[AllOrderEntity alloc]initWithAttributes:dic];
+                [_data addObject:allOrderEntity];
+                [_mTableView reloadData];
+            }
+            
         }
         
     } fail:^(NSError *error) {
@@ -352,7 +358,8 @@
 // 设置 cell 行高
 // ----------------------------------------------------------------------------------------
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 76;
+    AllOrderCell *cell = (AllOrderCell *)[self tableView:_mTableView cellForRowAtIndexPath:indexPath];
+    return cell.frame.size.height;
 }
 
 // ----------------------------------------------------------------------------------------
@@ -360,8 +367,8 @@
 // 设置分区数量
 // ----------------------------------------------------------------------------------------
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 10;
-//    return [_data count];
+//    return 10;
+    return [_data count];
 }
 
 // ----------------------------------------------------------------------------------------
@@ -369,10 +376,10 @@
 // 设置每个分区的 cell 行数
 // ----------------------------------------------------------------------------------------
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    AllOrderEntity *entity = [_data objectAtIndex:section];
+    AllOrderEntity *entity = [_data objectAtIndex:section];
     //获取分组里面的数组
-    return 2;
-//    return [entity._carts count];
+//    return 2;
+    return [entity._carts count];
 }
 
 // ----------------------------------------------------------------------------------------
@@ -389,39 +396,29 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-//    if ([_data count] > 0) {
-//        
-//        AllOrderEntity *entity = [_data objectAtIndex:[indexPath section]];
-//        NSArray *carts = [entity._carts objectAtIndex:[indexPath row]];
-        [cell.shopImage setFrame:CGRectMake(PROPORTION414*20, 7, 60, 61)];
-//
-//        if ([self isBlankString:[carts valueForKey:@"product_img"]]) {
-//            cell.shopImage.image = [UIImage imageNamed:@"wm-default100"];
-//        } else {
-//            [cell.shopImage sd_setImageWithURL:[NSURL URLWithString:[carts valueForKey:@"product_img"]] placeholderImage:[UIImage imageNamed:@"wm-default100"]];
-//        }
-//        
+    if ([_data count] > 0) {
+
+        AllOrderEntity *entity = [_data objectAtIndex:[indexPath section]];
+        NSArray *carts = [entity._carts objectAtIndex:[indexPath row]];
+
+        if ([self isBlankString:[carts valueForKey:@"good_image"]]) {
+            cell.shopImage.image = [UIImage imageNamed:@"暂无图片"];
+        } else {
+            [cell.shopImage sd_setImageWithURL:[NSURL URLWithString:[carts valueForKey:@"good_image"]] placeholderImage:[UIImage imageNamed:@"暂无图片"]];
+        }
         cell.shopImage.layer.borderWidth = 0.5;
         cell.shopImage.layer.borderColor = [LINECOLOR_DEFAULT CGColor];
         
         cell.shopName.numberOfLines = 2;
-//        cell.shopName.text = [carts valueForKey:@"product_name"];
+        cell.shopName.text = [carts valueForKey:@"good_name"];
         cell.shopName.textColor = UIColorWithRGBA(102, 100, 100, 1);
-        CGSize size = [cell.shopName.text sizeWithFont: cell.shopName.font constrainedToSize:CGSizeMake( 170, 1000) lineBreakMode:NSLineBreakByCharWrapping];
-        [cell.shopName setFrame:CGRectMake( viewRight(cell.shopImage)+10, 12, 170, size.height+1)];
-//
-        [cell.shopPrice setFrame:CGRectMake( DEVICE_SCREEN_SIZE_WIDTH-(PROPORTION414*20+61), 12, 61, 20)];
-        cell.shopPrice.textColor = UIColorWithRGBA(63, 58, 57, 1);
-        cell.shopPrice.font = [UIFont systemFontOfSize:13];
-//        cell.shopPrice.text = [NSString stringWithFormat:@"¥ %0.2f",[[carts valueForKey:@"product_price"] floatValue]];
-        cell.shopPrice.textAlignment = NSTextAlignmentRight;
-//
-        [cell.shopNum setFrame:CGRectMake( DEVICE_SCREEN_SIZE_WIDTH-(PROPORTION414*20+61), 32, 61, 18 )];
-        cell.shopNum.textColor = UIColorWithRGBA(181, 181, 182, 1);
-        cell.shopNum.font = [UIFont systemFontOfSize:10];
-//        cell.shopNum.text = [NSString stringWithFormat:@"x%@",[carts valueForKey:@"nums"]];
+
+        cell.shopPrice.text = [NSString stringWithFormat:@"¥ %0.2f",[[carts valueForKey:@"good_price"] floatValue]];
+        cell.shopPrice.textAlignment = NSTextAlignmentLeft;
+
+        cell.shopNum.text = [NSString stringWithFormat:@"x%@",[carts valueForKey:@"nums"]];
         cell.shopNum.textAlignment = NSTextAlignmentRight;
-//    }
+    }
     return cell;
 }
 
@@ -477,45 +474,40 @@
     [line2 setBackgroundColor:UIColorWithRGBA(238, 239, 239, 1)];
     [view addSubview:line2];
     
-    NSString *orderStatus = @"1";
-        NSString *orderIsCancel = @"1";
-        NSString *orderIsRefuse = @"1";
-//    AllOrderEntity *entity = [_data objectAtIndex:section];
-//    NSString *orderStatus = entity.orderStatus;
+
+    AllOrderEntity *entity = [_data objectAtIndex:section];
+    NSString *orderStatus = entity.orderStatus;
 //    NSString *orderIsCancel = entity.isCancel;
 //    NSString *orderIsRefuse = entity.isRefuse;
     
     //店铺模块
     EMAsyncImageView *shopLogo = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(PROPORTION414*20, 7, 16, 16)];
-    shopLogo.image = [UIImage imageNamed:@"store"];
+    
+    if ([self isBlankString:entity.shopLogo]) {
+        shopLogo.image = [UIImage imageNamed:@"store"];
+    } else {
+
+        NSString *images = entity.shopLogo;
+        [shopLogo sd_setImageWithURL:[NSURL URLWithString:images] placeholderImage:[UIImage imageNamed:@"store"]];
+    }
     [view addSubview:shopLogo];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(PROPORTION414*30+17, 0, 81, 32)];
-    label.textColor = UIColorWithRGBA(137, 137, 137, 1);
-    label.font = [UIFont boldSystemFontOfSize:14];
+    label.textColor = UIColorWithRGBA(102, 102, 102, 1);
+    label.font = [UIFont boldSystemFontOfSize:12];
     label.backgroundColor = [UIColor clearColor];
-//    label.text = [NSString stringWithFormat:@"%@",entity.shopName];
+    label.text = [NSString stringWithFormat:@"%@",entity.shopName];
     [view addSubview:label];
     
     UILabel *state = [[UILabel alloc] initWithFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-(PROPORTION414*20+61), 0, 61, 32)];
-    state.textColor = PRODUCT_COLOR;
+    state.textColor = RGB(255, 80, 0);
     state.font = [UIFont boldSystemFontOfSize:11];
     state.backgroundColor = [UIColor clearColor];
-//    if([orderStatus isEqualToString:@"待支付"]&&[orderIsCancel isEqualToString:@"0"]){
-//        state.text = @"尚未付款";
-//    }else if([orderStatus isEqualToString:@"待支付"]&&[orderIsCancel isEqualToString:@"1"]){
-//        state.text = @"交易关闭";
-//    }else if([orderStatus isEqualToString:@"待发货"]&&[orderIsRefuse isEqualToString:@"0"]){
-//        state.text = @"等待配送";
-//    }else if([orderStatus isEqualToString:@"待发货"]&&[orderIsRefuse isEqualToString:@"2"]){
-//        state.text = @"等待接收";
-//    }else if([orderStatus isEqualToString:@"待发货"]&&[orderIsRefuse isEqualToString:@"1"]){
-//        state.text = @"交易关闭";
-//    }else if ([orderStatus isEqualToString:@"待收货"]){
-//        state.text = @"卖家已配送";
-//    }else {
-//        state.text = @"交易成功";
-//    }
+    if([orderStatus intValue] == 0){
+        state.text = @"等待付款";
+    }else if([orderStatus intValue] == 2){
+        state.text = @"交易成功";
+    }
     state.textAlignment = NSTextAlignmentRight;
     [view addSubview:state];
     
@@ -524,7 +516,7 @@
     
     //箭头图标
     EMAsyncImageView *arrowLogo = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(viewRight(label)+PROPORTION414*10, 12, 8, 9)];
-    arrowLogo.image = [UIImage imageNamed:@""];
+    arrowLogo.image = [UIImage imageNamed:@"address_go"];
     [view addSubview:arrowLogo];
     
     //进入店铺详情按钮
@@ -541,7 +533,7 @@
 // 设置分区 Footer 展示内容
 // ----------------------------------------------------------------------------------------
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-//    AllOrderEntity *entity = [_data objectAtIndex:section];
+    AllOrderEntity *entity = [_data objectAtIndex:section];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 103)];
     [view setBackgroundColor:[UIColor whiteColor]];
@@ -559,9 +551,9 @@
     
     //订单总额模块
     UILabel *freight = [[UILabel alloc] initWithFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-(PROPORTION414*20+65), 22, 65, 42)];
-    freight.font = [UIFont systemFontOfSize:13];
-    freight.textColor = UIColorWithRGBA(63, 58, 57, 1);
-//    freight.text =[NSString stringWithFormat:@"¥ %0.2f",[entity.allPrice floatValue]];
+    freight.font = [UIFont systemFontOfSize:12];
+    freight.textColor = UIColorWithRGBA(255, 80, 0, 1);
+    freight.text =[NSString stringWithFormat:@"¥ %0.2f",[entity.allPrice floatValue]];
     freight.textAlignment = NSTextAlignmentRight;
     [view addSubview:freight];
     
@@ -569,30 +561,30 @@
     [freight setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-(PROPORTION414*20+nickNameSize.width), 22, nickNameSize.width, 42)];
     
     UILabel *freightLabel = [[UILabel alloc] initWithFrame:CGRectMake(freight.frame.origin.x-35-PROPORTION414*8,22, 35, 42)];
-    freightLabel.font = [UIFont systemFontOfSize:13];
-    freightLabel.textColor = UIColorWithRGBA(181, 181, 182, 1);
-    freightLabel.text =@"实付:";
+    freightLabel.font = [UIFont systemFontOfSize:12];
+    freightLabel.textColor = UIColorWithRGBA(102, 102, 102, 1);
+    freightLabel.text =@"合计:";
     freightLabel.textAlignment = NSTextAlignmentRight;
     [view addSubview:freightLabel];
     
     UILabel *price = [[UILabel alloc] initWithFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-(PROPORTION414*20+65), 0, 65, 42)];
-    price.font = [UIFont systemFontOfSize:13];
-    price.textColor = UIColorWithRGBA(63, 58, 57, 1);
-//    price.text =[NSString stringWithFormat:@"¥ %@",entity.freight];
+    price.font = [UIFont systemFontOfSize:12];
+    price.textColor = UIColorWithRGBA(102, 102, 102, 1);
+    price.text =[NSString stringWithFormat:@"¥ %@",entity.freight];
     price.textAlignment = NSTextAlignmentRight;
     [view addSubview:price];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(price.frame.origin.x-10-PROPORTION414*8, 0, 35, 42)];
-    label.font = [UIFont systemFontOfSize:13];
-    label.textColor = UIColorWithRGBA(181, 181, 182, 1);
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(price.frame.origin.x-15-PROPORTION414*8, 0, 45, 42)];
+    label.font = [UIFont systemFontOfSize:12];
+    label.textColor = UIColorWithRGBA(102, 102, 102, 1);
     label.text =@"配送费:";
     label.textAlignment = NSTextAlignmentRight;
     [view addSubview:label];
     
     UILabel *num = [[UILabel alloc] initWithFrame:CGRectMake(freightLabel.frame.origin.x-PROPORTION414*13-70, 22, 70, 42)];
-    num.font = [UIFont systemFontOfSize:13];
-    num.textColor = FONTS_COLOR;
-//    num.text =[NSString stringWithFormat:@"共%@件产品",entity.num];
+    num.font = [UIFont systemFontOfSize:12];
+    num.textColor = UIColorWithRGBA(102, 102, 102, 1);;
+    num.text =[NSString stringWithFormat:@"共%@件产品",entity.num];
     num.textAlignment = NSTextAlignmentRight;
     [view addSubview:num];
     
@@ -602,15 +594,15 @@
     //付款收货评价按钮模块
      btnConfirm = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnConfirm setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-67, 71, 67, 25)];
-//    btnConfirm.tag = [entity.oid integerValue];
-//    if ([entity.orderStatus isEqualToString:@"待支付"]&& [entity.isCancel intValue] ==0) {
-//    
-//        
-//        [btnConfirm setTitle:@"立即付款" forState:UIControlStateNormal];
-//        [btnConfirm setTitleColor:PRODUCT_COLOR forState:UIControlStateNormal];
-//        btnConfirm.layer.borderColor = [PRODUCT_COLOR CGColor];
-//        btnConfirm.tag = section;
-//        [btnConfirm addTarget:self action:@selector(immediatePayment:) forControlEvents:UIControlEventTouchUpInside];
+    btnConfirm.tag = [entity.oid integerValue];
+    if ([entity.orderStatus intValue]==0) {
+    
+        
+        [btnConfirm setTitle:@"立即付款" forState:UIControlStateNormal];
+        [btnConfirm setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        btnConfirm.layer.borderColor = [RGB(255, 80, 0) CGColor];
+        btnConfirm.tag = section;
+        [btnConfirm addTarget:self action:@selector(immediatePayment:) forControlEvents:UIControlEventTouchUpInside];
     
 
 //        UIActionSheet *paySheet = [[UIActionSheet alloc] initWithTitle:@"选择支付方式" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"钱包支付" otherButtonTitles:@"支付宝支付", @"微信支付", nil];
@@ -665,20 +657,20 @@
 //            [btnConfirm setTitleColor:FONTS_COLOR forState:UIControlStateNormal];
 //            btnConfirm.layer.borderColor = [UIColorWithRGBA(114, 113, 113, 1) CGColor];
 //        }
-//        
-//    }
-//    
-//    
-//    btnConfirm.titleLabel.font = [UIFont systemFontOfSize: 14.0];
-//    btnConfirm.layer.borderWidth = 0.5;
-//    btnConfirm.layer.cornerRadius = 3;
-//    [view addSubview:btnConfirm];
+        
+    }
+    
+    
+    btnConfirm.titleLabel.font = [UIFont systemFontOfSize: 14.0];
+    btnConfirm.layer.borderWidth = 0.5;
+    btnConfirm.layer.cornerRadius = 3;
+    [view addSubview:btnConfirm];
     
     //取消订单模块
     
 //    UIButton *btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
 //    
-//    if ([entity.orderStatus isEqualToString:@"待支付"]&& [entity.isCancel intValue] ==0)  {
+//    if ([entity.orderStatus intValue] ==0)  {
 //        
 //        [btnCancel setTitle:@"取消订单" forState:UIControlStateNormal];
 //        [btnCancel setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-142, 71, 67, 25)];

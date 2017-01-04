@@ -473,7 +473,7 @@
         for (UIView *view in headerView.subviews) {
             [view removeFromSuperview];
         }
-        UIImageView *hotProImg = [[UIImageView alloc]initWithFrame:CGRectMake(10,10,ScreenWidth-20, 13)];
+        UIImageView *hotProImg = [[UIImageView alloc]initWithFrame:CGRectMake(0,10,ScreenWidth, 11)];
         hotProImg.image = [UIImage imageNamed:@"pro-hot"];
         [headerView addSubview:hotProImg];
         return headerView;
