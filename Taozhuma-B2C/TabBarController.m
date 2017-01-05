@@ -9,13 +9,12 @@
 #import "TabBarController.h"
 #import "ViewController.h"
 #import "MainViewController.h"
+#import "MainListViewController.h"
 #import "JTNavigationController.h"
 #import "AppConfig.h"
 #import "MineViewControllers.h"
 #import "MyCartViewController.h"
 #import "ClassifyViewController.h"
-
-#define Main_TabBarHeight 50
 
 @interface TabBarController ()
 
@@ -38,7 +37,7 @@
     
     [Tools saveInteger:1 forKey:KEY_TabBarNum];
 
-    MainViewController *firstVC = [[MainViewController alloc] init];
+    MainListViewController *firstVC = [[MainListViewController alloc] init];
     UITabBarItem *firstItem = [[UITabBarItem alloc] initWithTitle:nil image:[self imageWithImageName:@"Home_Normal"] selectedImage:[self imageWithImageName:@"Home_Normal_S"]];
     firstItem.tag = 1;
     firstVC.tabBarItem = firstItem;

@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "EMAsyncImageView.h"
+#import "MainProductEntity.h"
+#import "BaseViewController.h"
+
+#define CellIdentifier @"MainViewCell"
 
 @interface MainViewCell : UITableViewCell
+
+@property (strong, nonatomic) BaseViewController *viewController;
 
 @property (weak, nonatomic) IBOutlet UIImageView *titleImage;//标题前面的颜色条
 @property (weak, nonatomic) IBOutlet UILabel *titleName;//标题名称
@@ -34,8 +39,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *thirdProductBtn;
 @property (weak, nonatomic) IBOutlet UIButton *fourProductBtn;
 
-
-
-
+- (void)configWith:(MainProductEntity *)model;
 
 @end

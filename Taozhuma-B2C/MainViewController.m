@@ -272,7 +272,6 @@
     NSInteger row = [indexPath row];
     NSLog(@"row:%ld",(long)row);
     
-    static NSString *CellIdentifier = @"MainViewCell";
     MainViewCell *cell = (MainViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -653,7 +652,6 @@
 //获取首页地址信息
 - (void)indexAddressMsg {
   _loactionLabel.text = [Tools objectForKey:COMMUNITYNAME];
- 
 }
 
 

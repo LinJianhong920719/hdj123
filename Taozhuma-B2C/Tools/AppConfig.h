@@ -8,7 +8,6 @@
 
 #import "Tools.h"
 #import "UIFont.h"
-#import "UIColor.h"
 #import "GlobalDefine.h"
 #import "Analytics.h"
 

@@ -9,6 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface GBTopLineViewModel : NSObject
+
 @property (nonatomic,copy) NSString *type;
 @property (nonatomic,copy) NSString *title;
+@property (nonatomic,copy) NSString *image;
+@property (nonatomic,copy) NSString *intro;
+
+- (id)initWithDictionary:(NSDictionary*)dictionary;
+
 @end

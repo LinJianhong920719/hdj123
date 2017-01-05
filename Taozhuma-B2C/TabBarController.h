@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define Main_TabBarHeight 50
+
 @interface TabBarController : UITabBarController
 
 @end

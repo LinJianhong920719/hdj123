@@ -10,4 +10,16 @@
 
 @implementation GBTopLineViewModel
 
+- (id)initWithDictionary:(NSDictionary*)dictionary
+{
+    self = [super init];
+    if (self) {
+        self.title = [dictionary valueForKey:@"title"];
+        self.image = [dictionary valueForKey:@"image"];
+        self.intro = [dictionary valueForKey:@"intro"];
+        self.type  = [dictionary valueForKey:@"type"];
+    }
+    return self;
+}
+
 @end

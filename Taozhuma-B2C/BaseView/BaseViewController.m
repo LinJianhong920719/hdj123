@@ -20,6 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.navigationController setNavigationBarHidden:YES];
+    
     [self setNaviBarTitle:self.title];
     UILabel *titleView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
     titleView.text = self.title;
