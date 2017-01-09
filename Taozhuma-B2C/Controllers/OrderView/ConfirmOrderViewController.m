@@ -704,6 +704,17 @@ static CGFloat submitViewHeight = 52;
             // NOTE: 调用支付结果开始支付
             [[AlipaySDK defaultService] payOrder:payInfo fromScheme:appScheme callback:^(NSDictionary *resultDic) {
                 NSLog(@"reslut = %@",resultDic);
+                //没有安装支付宝时调用网页版，回调功能
+                NSString *memo = [resultDic valueForKey:@"memo"];
+                NSString *resultStatus = [resultDic valueForKey:@"resultStatus"];
+
+                if ([resultStatus integerValue] == 9000) {
+                    memo = @"支付成功";
+                    [self paySuccessMethod];
+                }else{
+                    memo = @"支付失败";
+                    [self payFailMethod];
+                }
             }];
         }else if([paymentView.payType isEqual:@"2"]){
             NSDictionary *wxDic = [dic valueForKey:@"data"];

@@ -17,9 +17,10 @@
 @property (nonatomic, strong) NSString *shopId;//店铺id
 @property (nonatomic, strong) NSString *orderStatus;//订单状态
 @property (nonatomic, strong) NSString *allPrice;//总额
-//@property (nonatomic, strong) NSString *isCancel;//是否取消
-//@property (nonatomic, strong) NSString *isDiscuss;//是否评论
-//@property (nonatomic, strong) NSString *isRefuse;//是否拒绝
+@property (nonatomic, strong) NSString *isCancel;//是否取消
+@property (nonatomic, strong) NSString *isDiscuss;//是否评论
+@property (nonatomic, strong) NSString *isRefuse;//是否拒绝
+@property (nonatomic, strong) NSString *shipping_status;//配送状态
 @property (nonatomic, strong) NSString *freight;//运费
 //@property (nonatomic, strong) NSString *sendPrice;//起送价
 @property (nonatomic, strong) NSMutableArray *_carts;

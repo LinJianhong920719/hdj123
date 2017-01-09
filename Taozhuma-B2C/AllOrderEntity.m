@@ -18,12 +18,13 @@
 @synthesize _carts;
 @synthesize oid;//订单id
 @synthesize orderSn;//订单号
-//@synthesize isCancel;//是否取消
+@synthesize isCancel;//是否取消
 @synthesize shopId;//店铺id
 @synthesize shopLogo;//店铺LOGO
-//@synthesize isDiscuss;//是否评论
+@synthesize isDiscuss;//是否评论
 @synthesize freight;//运费
-//@synthesize isRefuse;//是否拒绝
+@synthesize isRefuse;//是否拒绝
+@synthesize shipping_status;//配送状态
 //@synthesize sendPrice;//起送价
 //@synthesize errorMsg;
 - (id)initWithAttributes:(NSDictionary *)attributes {
@@ -40,11 +41,12 @@
     oid = [attributes valueForKey:@"order_total_id"];
     orderSn = [attributes valueForKey:@"order_sn"];
     shopLogo = [attributes valueForKey:@"sj_image"];
-//    isCancel = [attributes valueForKey:@"is_cancel_order"];
+    isCancel = [attributes valueForKey:@"is_cancel_order"];
     shopId = [attributes valueForKey:@"shop_id"];
-//    isDiscuss = [attributes valueForKey:@"is_discuss"];
+    isDiscuss = [attributes valueForKey:@"is_denial_orders"];
     freight = [attributes valueForKey:@"sj_freight_amount"];
-//    isRefuse = [attributes valueForKey:@"is_denial_orders"];
+    isRefuse = [attributes valueForKey:@"is_denial_orders"];
+    shipping_status = [attributes valueForKey:@"shipping_status"];
 //    sendPrice = [attributes valueForKey:@"bid_price"];
 //    errorMsg = [attributes valueForKey:@"error_msg"];
     
