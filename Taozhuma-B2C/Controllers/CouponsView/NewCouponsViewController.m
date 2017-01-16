@@ -184,7 +184,7 @@
 }
 -(void)refeshOrder{
     //    _pageno = 1;
-    //    [self loadData];
+        [self loadData];
 }
 
 - (void)setupFooter
@@ -284,49 +284,44 @@
     
 }
 
--(void)post
-{
-         //对请求路径的说明
-         //http://120.25.226.186:32812/login
-         //协议头+主机地址+接口名称
-         //协议头(http://)+主机地址(120.25.226.186:32812)+接口名称(login)
-         //POST请求需要修改请求方法为POST，并把参数转换为二进制数据设置为请求体
+-(void)post{
+    // 1. URL
+    NSString *path = [NSString stringWithFormat:@"/Api/Coupon/activate?"];
+    NSURL *url  = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVICE_URL,path]];
     
-         //1.创建会话对象
-         NSURLSession *session = [NSURLSession sharedSession];
+    // 2. 请求(可以改的请求)
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    // ? POST
+    // 默认就是GET请求
+    request.HTTPMethod = @"POST";
+    // ? 数据体
+    NSString *str = [NSString stringWithFormat:@"card_num=%@&userId=%@", cardNumberField.text, [Tools stringForKey:KEY_USER_ID]];
+    // 将字符串转换成数据
+    request.HTTPBody = [str dataUsingEncoding:NSUTF8StringEncoding];
     
-         //2.根据会话对象创建task
-         NSURL *url = [NSURL URLWithString:@"http://120.25.77.182/Api/Coupon/activate?"];
-    
-         //3.创建可变的请求对象
-         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    
-         //4.修改请求方法为POST
-         request.HTTPMethod = @"POST";
-    
-        NSString *bodyStr = [bodyStr stringByAppendingFormat:@"card_num=%@&userId=%@",cardNumberField.text, [Tools stringForKey:KEY_USER_ID]];
-         //5.设置请求体
-        request.HTTPBody = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
-    
-         //6.根据会话对象创建一个Task(发送请求）
-         /*
-                  第一个参数：请求对象
-                  第二个参数：completionHandler回调（请求完成【成功|失败】的回调）
-                             data：响应体信息（期望的数据）
-                             response：响应头信息，主要是对服务器端的描述
-                             error：错误信息，如果请求失败，则error有值
-                  */
-         NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    // 3. 连接,异步
+    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         
-                 //8.解析数据
-                 NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-                 NSLog(@"333:%@",dict);
-             
-             }];
+        if (connectionError == nil) {
+            // 网络请求结束之后执行!
+            // 将Data转换成字符串
+            NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            
+            // num = 2
+            NSLog(@"%@ %@", str, [NSThread currentThread]);
+            
+            // 更新界面
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSLog(@"str:%@",str);
+                [self refeshOrder];
+                
+            }];
+        }
+    }];
     
-         //7.执行任务
-         [dataTask resume];
-     }
+}
+
+
 
 //去掉小数点之后的0；
 -(NSString*)removeFloatAllZero:(NSString*)string
