@@ -7,6 +7,7 @@
 //
 
 #import "PaySuccessViewController.h"
+#import "OrderListViewController.h"
 
 @interface PaySuccessViewController ()
 
@@ -37,6 +38,9 @@
 - (IBAction)backMainView:(id)sender {
     [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
 //    [self.navigationController popToRootViewControllerAnimated:YES];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
+    allOrderView.title = @"我的订单";
+    allOrderView.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:allOrderView animated:YES];
 }
 @end

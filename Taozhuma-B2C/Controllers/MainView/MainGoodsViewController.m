@@ -83,7 +83,7 @@
     
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          @"185", @"comId",
-                         [NSNumber numberWithInteger:_pageno], @"pageNo",
+                         [NSNumber numberWithInteger:_pageno], @"pager",
                          nil];
     NSString *xpoint = [NSString stringWithFormat:@"/Api/Goods/HotSell?"];
     

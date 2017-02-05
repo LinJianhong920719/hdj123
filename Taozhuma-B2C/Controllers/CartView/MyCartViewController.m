@@ -54,6 +54,8 @@
     //取消scrollview内容自动调整
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    
+    
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 32)];
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 65)];
     
@@ -100,6 +102,8 @@
     [btnDetermine.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
     //    btnDetermine.layer.cornerRadius = 2;
     [btnDetermine addTarget:self action:@selector(determineClick:) forControlEvents:UIControlEventTouchUpInside];
+    //进入页面时没有商品选择，故无法点击提交按钮
+    btnDetermine.userInteractionEnabled = NO;
     [settlementView addSubview:btnDetermine];
     
     //删除按钮
@@ -543,6 +547,7 @@
 - (void) refCart:(NSNotification*) notification {
     [stoData removeAllObjects];
     [proData removeAllObjects];
+    btnDetermine.userInteractionEnabled = YES;
     [self loadData];
     
     [self totalLocation];
@@ -605,7 +610,7 @@
     } else {
         [self changeStore:[shopId integerValue] setChooseTag:@"1"];
     }
-    
+    btnDetermine.userInteractionEnabled = YES;
     [self totalPriceAndNum];
 }
 

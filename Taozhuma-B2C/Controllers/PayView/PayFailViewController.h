@@ -10,5 +10,7 @@
 #import "BaseViewController.h"
 
 @interface PayFailViewController : BaseViewController
+//重新支付
+- (IBAction)payAgain:(id)sender;
 
 @end
