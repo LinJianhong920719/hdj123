@@ -154,7 +154,7 @@
 - (UITableView *)TableView {
     if (_tableView == nil) {
         
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 44, [UIScreen mainScreen].bounds.size.width/4-10, [UIScreen mainScreen].bounds.size.height-110) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ViewOrignY+1, [UIScreen mainScreen].bounds.size.width/4-9, [UIScreen mainScreen].bounds.size.height-110) style:UITableViewStylePlain];
         //_tableView.backgroundColor = [UIColor redColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -175,7 +175,7 @@
     if (_collectionView == nil) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/4, 64, [UIScreen mainScreen].bounds.size.width*3/4-10, [UIScreen mainScreen].bounds.size.height - 110) collectionViewLayout:layout];//初始化，并设置布局方式
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/4, ViewOrignY+1, [UIScreen mainScreen].bounds.size.width*3/4-10, [UIScreen mainScreen].bounds.size.height - 110) collectionViewLayout:layout];//初始化，并设置布局方式
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
@@ -372,7 +372,11 @@
     _isRelate = YES;
 }
 
-
+-(void)viewWillAppear:(BOOL)animated{
+    //进入页面时默认选择tableView的第一个选项
+    NSIndexPath * selIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+    [_tableView selectRowAtIndexPath:selIndex animated:YES scrollPosition:UITableViewScrollPositionTop];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

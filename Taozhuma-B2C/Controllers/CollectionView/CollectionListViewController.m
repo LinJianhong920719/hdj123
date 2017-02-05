@@ -59,7 +59,7 @@
 #pragma mark - 初始化UI界面
 
 - (void)initUI {
-    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 300)];
+    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 65)];
     tableFooterView.backgroundColor = [UIColor clearColor];
     
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ViewOrignY, DEVICE_SCREEN_SIZE_WIDTH, DEVICE_SCREEN_SIZE_HEIGHT) style:UITableViewStylePlain];
@@ -67,7 +67,7 @@
     _tableView.dataSource = self;
     _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
     _tableView.showsVerticalScrollIndicator = NO;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_tableView];
 

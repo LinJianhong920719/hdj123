@@ -32,6 +32,7 @@
     NSString *count;
     NSString *cartTNum;
     UIView *baseView;
+    NSString *goodsDateType;
 }
 
 @end
@@ -142,7 +143,7 @@
     if ([self isBlankString:goodsSizeStr]) {
         productSizeDet.text = @"好当家";
     }else{
-        productSizeDet.text = shopNameStr;
+        productSizeDet.text = goodsSizeStr;
         
     }
     
@@ -165,9 +166,14 @@
     UILabel *productDateDet = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(shopName)+20, viewBottom(productSizeDet), DEVICE_SCREEN_SIZE_WIDTH-70, 36)];
     if ([self isBlankString:goodsDateStr]) {
         productDateDet.text = @"好当家";
-    }else{
-        productDateDet.text = goodsDateStr;
+    }else if([goodsDateType isEqualToString:@"0"]){
+        //拼接商品保质期
+        goodsDateStr = [NSString stringWithFormat:@"%@%@",goodsDateStr,@"日"];
+    }else if([goodsDateType isEqualToString:@"1"]){
+        //拼接商品保质期
+        goodsDateStr = [NSString stringWithFormat:@"%@%@",goodsDateStr,@"个月"];
     }
+    productDateDet.text = goodsDateStr;
     
     productDateDet.textColor = FONTS_COLOR51;
     productDateDet.textAlignment = NSTextAlignmentLeft;
@@ -374,12 +380,13 @@
             }else{
                 isCollect = false;
             }
-            shopNameStr = [[dic valueForKey:@"data"]valueForKey:@"shop_name"];
-            goodsSizeStr = [[dic valueForKey:@"data"]valueForKey:@"good_size"];
-            goodsDateStr = [[dic valueForKey:@"data"]valueForKey:@"Shelf_life"];
-            goodsMsgStr = [[dic valueForKey:@"data"]valueForKey:@"good_introduce"];
-            cartNum = [[dic valueForKey:@"data"]valueForKey:@"cart_num"];
-            cartTNum = [[dic valueForKey:@"data"]valueForKey:@"cart_t_num"];
+            shopNameStr = [[dic valueForKey:@"data"]valueForKey:@"shop_name"];//店铺名字
+            goodsSizeStr = [[dic valueForKey:@"data"]valueForKey:@"good_size"];//商品规格
+            goodsDateStr = [[dic valueForKey:@"data"]valueForKey:@"shelf_life"];//保质期限
+            goodsDateType = [[dic valueForKey:@"data"]valueForKey:@"shelf_type"];//保质期类型 0日1月
+            goodsMsgStr = [[dic valueForKey:@"data"]valueForKey:@"good_introduce"];//商品介绍
+            cartNum = [[dic valueForKey:@"data"]valueForKey:@"cart_num"];//购物车总数量
+            cartTNum = [[dic valueForKey:@"data"]valueForKey:@"cart_t_num"];//当前商品在购物车的数量
             
             [self initUI];
         }

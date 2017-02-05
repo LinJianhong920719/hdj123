@@ -651,6 +651,7 @@
 
 //获取首页地址信息
 - (void)indexAddressMsg {
+    NSLog(@"COMMUNITYNAME:%@",[Tools objectForKey:COMMUNITYNAME]);
   _loactionLabel.text = [Tools objectForKey:COMMUNITYNAME];
 }
 

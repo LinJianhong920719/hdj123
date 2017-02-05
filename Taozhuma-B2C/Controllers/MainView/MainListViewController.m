@@ -21,6 +21,7 @@
 
 #import "ChooseAdressListViewController.h"
 #import "PayFailViewController.h"
+#import "SearchViewController.h"
 
 @interface MainListViewController () <UITableViewDelegate, UITableViewDataSource, SDCycleScrollViewDelegate>
 
@@ -83,7 +84,7 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /**
@@ -153,14 +154,14 @@
 
 - (void)onClickImage {
     DLog(@"图片被点击!");
-    PayFailViewController *vc = [[PayFailViewController alloc]initWithNibName:@"PayFailViewController" bundle:[NSBundle mainBundle]];
-    vc.title = @"支付失败";
-    [self.navigationController pushViewController:vc animated:YES];
+//    PayFailViewController *vc = [[PayFailViewController alloc]initWithNibName:@"PayFailViewController" bundle:[NSBundle mainBundle]];
+//    vc.title = @"支付失败";
+//    [self.navigationController pushViewController:vc animated:YES];
     //勿删
-    //    SearchViewController *vc = [[SearchViewController alloc]init];
-    //    vc.hidesBottomBarWhenPushed = YES;
-    //    vc.navigationController.navigationBarHidden = YES;
-    //    [self.navigationController pushViewController:vc animated:YES];
+        SearchViewController *vc = [[SearchViewController alloc]init];
+        vc.hidesBottomBarWhenPushed = YES;
+        vc.navigationController.navigationBarHidden = YES;
+        [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UIScrollView
