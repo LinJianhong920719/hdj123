@@ -1,19 +1,19 @@
 //
-//  AllOrdersListViewController.m
+//  WaitOrdersListViewController.m
 //  订单列表
 //
 //  Created by yusaiyan on 15/6/1.
 //  Copyright (c) 2015年 liyoro. All rights reserved.
 //
 
-#import "AllOrdersListViewController.h"
+#import "WaitOrdersListViewController.h"
 
 #import "AllOrderEntity.h"
 #import "AllOrderCell.h"
 #import "UIImageView+WebCache.h"
 //#import "ZSDPaymentView.h"
 //#import "OrdersDetailsController.h"
-#import "CommentOrderViewController.h"
+//#import "OrderCommentViewController.h"
 //#import "ZCTradeView.h"
 //#import "AppPay.h"
 //#import "HMTMainViewController.h"
@@ -21,7 +21,7 @@
 
 
 
-@interface AllOrdersListViewController () <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
+@interface WaitOrdersListViewController () <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
     UIView *baseView;
 //    ZSDPaymentView *payment;
     NSString *oid;
@@ -43,7 +43,7 @@
 @property (nonatomic, assign) BOOL pageType;
 @end
 
-@implementation AllOrdersListViewController
+@implementation WaitOrdersListViewController
 
 - (void)loadView {
     [super loadView];
@@ -299,7 +299,7 @@
     
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          [Tools stringForKey:KEY_USER_ID],@"userId",
-                         @"0",@"type",
+                         @"2",@"type",
                          [NSString stringWithFormat:@"%d",pager],@"pager",
                          nil];
     NSString *path = [NSString stringWithFormat:@"/Api/Order/showList?"];
@@ -323,7 +323,7 @@
             
         }else{
             NSArray *orderData = [dic valueForKey:@"data"];
-            NSLog(@"orderData:%@",orderData);
+            
             for (NSDictionary *dic in orderData) {
                 AllOrderEntity *allOrderEntity = [[AllOrderEntity alloc]initWithAttributes:dic];
                 [_data addObject:allOrderEntity];
@@ -501,6 +501,7 @@
     NSString *orderIsRefuse = entity.isRefuse;
     NSString *orderShippingStatus = entity.shipping_status;
     NSString *orderIsDiscuss = entity.isDiscuss;
+
     
     //店铺模块
     EMAsyncImageView *shopLogo = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(PROPORTION414*20, 7, 16, 16)];
@@ -622,7 +623,7 @@
     //付款收货评价按钮模块
      btnConfirm = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnConfirm setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-67, 71, 67, 25)];
-    btnConfirm.tag = [entity.oid integerValue];
+//    btnConfirm.tag = [entity.oid integerValue];
     
     if([entity.orderStatus intValue] == 0 && [entity.isCancel intValue] == 0){
         [btnConfirm setTitle:@"立即付款" forState:UIControlStateNormal];
@@ -665,7 +666,10 @@
             btnConfirm.layer.borderColor = [UIColorWithRGBA(114, 113, 113, 1) CGColor];
         }
     }
-
+    //两个数字进行拼接 中间用13568来做分割符
+    NSString* string = [NSString stringWithFormat:@"%@13568%@",entity.oid,entity.shopId];
+    
+    btnConfirm.tag = [string integerValue];
     btnConfirm.titleLabel.font = [UIFont systemFontOfSize: 14.0];
     btnConfirm.layer.borderWidth = 0.5;
     btnConfirm.layer.cornerRadius = 3;
@@ -711,9 +715,9 @@
         }
     }
     //两个数字进行拼接 中间用13568来做分割符
-    NSString* string = [NSString stringWithFormat:@"%@13568%@",entity.oid,entity.shopId];
+    NSString* string1 = [NSString stringWithFormat:@"%@13568%@",entity.oid,entity.shopId];
     
-    btnCancel.tag = [string integerValue];
+    btnCancel.tag = [string1 integerValue];
     
     [btnCancel setTitleColor:FONTS_COLOR forState:UIControlStateNormal];
     btnCancel.layer.borderColor = [UIColorWithRGBA(114, 113, 113, 1) CGColor];
@@ -850,6 +854,7 @@
 // ----------------------------------------------------------------------------------------
 - (IBAction)btnConfirmClick:(id)sender {
     UIButton *btn = (UIButton*)sender;
+    oid = [NSString stringWithFormat:@"%ld",(long)btn.tag];
     NSArray *array = [oid componentsSeparatedByString:@"13568"];
     NSLog(@"%@",[array objectAtIndex:1]);
     NSLog(@"%@",[array objectAtIndex:0]);
@@ -892,34 +897,6 @@
     } fail:^(NSError *error) {
         
     }];
-//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         @"edit",@"act",
-//                         @"e3dc653e2d68697346818dfc0b208322",@"key",
-//                         [NSString stringWithFormat:@"%ld",(long)btn.tag],           @"oid",
-//                         [Tools stringForKey:KEY_USER_ID],        @"uid",
-//                         @"3",                                  @"status",
-//                         nil];
-//    NSLog(@"dic:%@",dic);
-//    NSString *xpoint = ORDERXPOINT;
-//    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-//        if (error) {
-//        } else {
-//            
-//            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//            hud.mode = MBProgressHUDModeText;
-//            hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
-//            hud.removeFromSuperViewOnHide = YES;
-//            [hud hide:YES afterDelay:2];
-//            
-//            if (respond.result == 1) {
-//                hud.detailsLabelText = @"收货成功";
-//                [self performSelector:@selector(refreshData:) withObject:nil afterDelay:2.0];
-//            } else {
-//                hud.detailsLabelText = @"操作失败,请重试";
-//            }
-//            
-//        }
-//    }];
     
 }
 

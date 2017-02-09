@@ -33,10 +33,10 @@
         return nil;
     }
     _carts = [[NSMutableArray alloc]init];
-    num = [attributes valueForKey:@"num"];//WU
+    num = [attributes valueForKey:@"nums"];//WU
     shopName = [attributes valueForKey:@"sj_shop_name"];
-    orderStatus = [attributes valueForKey:@"order_status"];
-    allPrice= [attributes valueForKey:@"amount"];
+    orderStatus = [attributes valueForKey:@"pay_status"];
+    allPrice= [attributes valueForKey:@"real_amount"];
     _carts = [attributes valueForKey:@"goodInfo"];
     oid = [attributes valueForKey:@"order_total_id"];
     orderSn = [attributes valueForKey:@"order_sn"];

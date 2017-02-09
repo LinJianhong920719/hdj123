@@ -1,19 +1,20 @@
 //
-//  AllOrdersListViewController.m
+//  EvaluationOrdersListViewController.m
 //  订单列表
 //
 //  Created by yusaiyan on 15/6/1.
 //  Copyright (c) 2015年 liyoro. All rights reserved.
 //
 
-#import "AllOrdersListViewController.h"
+#import "EvaluationOrdersListViewController.h"
 
 #import "AllOrderEntity.h"
 #import "AllOrderCell.h"
 #import "UIImageView+WebCache.h"
+#import "CommentOrderViewController.h"
 //#import "ZSDPaymentView.h"
 //#import "OrdersDetailsController.h"
-#import "CommentOrderViewController.h"
+//#import "OrderCommentViewController.h"
 //#import "ZCTradeView.h"
 //#import "AppPay.h"
 //#import "HMTMainViewController.h"
@@ -21,7 +22,7 @@
 
 
 
-@interface AllOrdersListViewController () <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
+@interface EvaluationOrdersListViewController () <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
     UIView *baseView;
 //    ZSDPaymentView *payment;
     NSString *oid;
@@ -43,7 +44,7 @@
 @property (nonatomic, assign) BOOL pageType;
 @end
 
-@implementation AllOrdersListViewController
+@implementation EvaluationOrdersListViewController
 
 - (void)loadView {
     [super loadView];
@@ -299,7 +300,7 @@
     
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          [Tools stringForKey:KEY_USER_ID],@"userId",
-                         @"0",@"type",
+                         @"3",@"type",
                          [NSString stringWithFormat:@"%d",pager],@"pager",
                          nil];
     NSString *path = [NSString stringWithFormat:@"/Api/Order/showList?"];
@@ -323,7 +324,6 @@
             
         }else{
             NSArray *orderData = [dic valueForKey:@"data"];
-            NSLog(@"orderData:%@",orderData);
             for (NSDictionary *dic in orderData) {
                 AllOrderEntity *allOrderEntity = [[AllOrderEntity alloc]initWithAttributes:dic];
                 [_data addObject:allOrderEntity];
@@ -631,7 +631,7 @@
         btnConfirm.backgroundColor = RGB(255, 80, 0);
         btnConfirm.tag = section;
         [btnConfirm addTarget:self action:@selector(immediatePayment:) forControlEvents:UIControlEventTouchUpInside];
-    }else if([entity.orderStatus intValue] == 1 && [entity.isCancel intValue] == 0 &&[entity.isRefuse intValue] == 0){
+    }else if([entity.orderStatus intValue] == 1 && [entity.isCancel intValue] == 0 &&[entity.isRefuse intValue] == 0 && [entity.shipping_status intValue] == 1){
         [btnConfirm setTitle:@"到达确认" forState:UIControlStateNormal];
         [btnConfirm setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         btnConfirm.layer.borderColor = [RGB(255, 80, 0) CGColor];
@@ -665,7 +665,7 @@
             btnConfirm.layer.borderColor = [UIColorWithRGBA(114, 113, 113, 1) CGColor];
         }
     }
-
+    btnConfirm.tag = section;
     btnConfirm.titleLabel.font = [UIFont systemFontOfSize: 14.0];
     btnConfirm.layer.borderWidth = 0.5;
     btnConfirm.layer.cornerRadius = 3;
@@ -850,48 +850,7 @@
 // ----------------------------------------------------------------------------------------
 - (IBAction)btnConfirmClick:(id)sender {
     UIButton *btn = (UIButton*)sender;
-    NSArray *array = [oid componentsSeparatedByString:@"13568"];
-    NSLog(@"%@",[array objectAtIndex:1]);
-    NSLog(@"%@",[array objectAtIndex:0]);
-    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         [Tools stringForKey:KEY_USER_ID],@"user_id",
-                         [array objectAtIndex:1],@"shop_id",
-                         [array objectAtIndex:0],@"order_total_id",
-                         @"2",@"status",
-                         nil];
-    NSString *path = [NSString stringWithFormat:@"/Api/Shop/updStatus?"];
-    NSLog(@"dic:%@",dic);
-    [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
-        
-        NSDictionary *dic = response;
-        NSString *statusMsg = [dic valueForKey:@"status"];
-        if([statusMsg intValue] == 4001){
-            //弹框提示获取失败
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"获取失败!";
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
-            return;
-        }else if ([statusMsg intValue] == 201){
-            //获取成功，无数据情况
-            
-        }else{
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.detailsLabelText = @"收货成功";
-            hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:1];
-            [self performSelector:@selector(refreshData:) withObject:nil afterDelay:1.0];
-            
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
+    
 //    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
 //                         @"edit",@"act",
 //                         @"e3dc653e2d68697346818dfc0b208322",@"key",
@@ -929,11 +888,12 @@
 - (IBAction)btnCommentsClick:(id)sender {
     UIButton *btn = (UIButton*)sender;
     
-//    OrderCommentViewController * CommentslView = [[OrderCommentViewController alloc]init];
+    CommentOrderViewController * CommentslView = [[CommentOrderViewController alloc]init];
 //    CommentslView.oid = [NSString stringWithFormat:@"%ld",(long)btn.tag];
-//    CommentslView.title = @"订单评价";
-//    CommentslView.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:CommentslView animated:YES];
+    CommentslView.data = [_data objectAtIndex:btn.tag];
+    CommentslView.title = @"订单评价";
+    CommentslView.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:CommentslView animated:YES];
 }
 
 // ----------------------------------------------------------------------------------------

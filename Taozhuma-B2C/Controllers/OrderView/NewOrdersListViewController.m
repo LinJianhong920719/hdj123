@@ -1,19 +1,19 @@
 //
-//  AllOrdersListViewController.m
+//  NewOrdersListViewController.m
 //  订单列表
 //
 //  Created by yusaiyan on 15/6/1.
 //  Copyright (c) 2015年 liyoro. All rights reserved.
 //
 
-#import "AllOrdersListViewController.h"
+#import "NewOrdersListViewController.h"
 
 #import "AllOrderEntity.h"
 #import "AllOrderCell.h"
 #import "UIImageView+WebCache.h"
 //#import "ZSDPaymentView.h"
 //#import "OrdersDetailsController.h"
-#import "CommentOrderViewController.h"
+//#import "OrderCommentViewController.h"
 //#import "ZCTradeView.h"
 //#import "AppPay.h"
 //#import "HMTMainViewController.h"
@@ -21,7 +21,7 @@
 
 
 
-@interface AllOrdersListViewController () <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
+@interface NewOrdersListViewController () <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
     UIView *baseView;
 //    ZSDPaymentView *payment;
     NSString *oid;
@@ -43,7 +43,7 @@
 @property (nonatomic, assign) BOOL pageType;
 @end
 
-@implementation AllOrdersListViewController
+@implementation NewOrdersListViewController
 
 - (void)loadView {
     [super loadView];
@@ -299,7 +299,7 @@
     
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          [Tools stringForKey:KEY_USER_ID],@"userId",
-                         @"0",@"type",
+                         @"1",@"type",
                          [NSString stringWithFormat:@"%d",pager],@"pager",
                          nil];
     NSString *path = [NSString stringWithFormat:@"/Api/Order/showList?"];
@@ -323,7 +323,6 @@
             
         }else{
             NSArray *orderData = [dic valueForKey:@"data"];
-            NSLog(@"orderData:%@",orderData);
             for (NSDictionary *dic in orderData) {
                 AllOrderEntity *allOrderEntity = [[AllOrderEntity alloc]initWithAttributes:dic];
                 [_data addObject:allOrderEntity];
@@ -850,48 +849,7 @@
 // ----------------------------------------------------------------------------------------
 - (IBAction)btnConfirmClick:(id)sender {
     UIButton *btn = (UIButton*)sender;
-    NSArray *array = [oid componentsSeparatedByString:@"13568"];
-    NSLog(@"%@",[array objectAtIndex:1]);
-    NSLog(@"%@",[array objectAtIndex:0]);
-    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         [Tools stringForKey:KEY_USER_ID],@"user_id",
-                         [array objectAtIndex:1],@"shop_id",
-                         [array objectAtIndex:0],@"order_total_id",
-                         @"2",@"status",
-                         nil];
-    NSString *path = [NSString stringWithFormat:@"/Api/Shop/updStatus?"];
-    NSLog(@"dic:%@",dic);
-    [HYBNetworking updateBaseUrl:SERVICE_URL];
-    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
-        
-        NSDictionary *dic = response;
-        NSString *statusMsg = [dic valueForKey:@"status"];
-        if([statusMsg intValue] == 4001){
-            //弹框提示获取失败
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"获取失败!";
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
-            return;
-        }else if ([statusMsg intValue] == 201){
-            //获取成功，无数据情况
-            
-        }else{
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.detailsLabelText = @"收货成功";
-            hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:1];
-            [self performSelector:@selector(refreshData:) withObject:nil afterDelay:1.0];
-            
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
+    
 //    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
 //                         @"edit",@"act",
 //                         @"e3dc653e2d68697346818dfc0b208322",@"key",

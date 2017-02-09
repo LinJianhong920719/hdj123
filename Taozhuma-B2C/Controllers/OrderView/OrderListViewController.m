@@ -12,6 +12,9 @@
 #import "OverdueCouponsViewController.h"
 #import "CustomViewController.h"
 #import "AllOrdersListViewController.h"
+#import "NewOrdersListViewController.h"
+#import "WaitOrdersListViewController.h"
+#import "EvaluationOrdersListViewController.h"
 
 
 //获取控制器的宽高
@@ -122,7 +125,7 @@ NSLog(@"y;%f",_MeScroolView.frame.origin.y);
     
     [self setNaviBarTitle:@"我的订单"];
 
-    [self initWithAddVCARY:@[[AllOrdersListViewController new],[UseCouponsViewController new],[OverdueCouponsViewController new],[OverdueCouponsViewController new]]TitleS:@[@"全部",@"待付款",@"待收货",@"待评价"]];
+    [self initWithAddVCARY:@[[AllOrdersListViewController new],[NewOrdersListViewController new],[WaitOrdersListViewController new],[EvaluationOrdersListViewController new]]TitleS:@[@"全部",@"待付款",@"待收货",@"待评价"]];
     
 //    [self initWithAddVCARY]
 }
