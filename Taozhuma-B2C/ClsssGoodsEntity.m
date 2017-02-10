@@ -21,10 +21,10 @@
         return nil;
     }
     
-        catId = [attributes valueForKey:@"id"];
-        catName = [attributes valueForKey:@"cat_name"];
-        catPid = [attributes valueForKey:@"cat_pid"];
-        catImage = [attributes valueForKey:@"image"];
+    catId = [attributes valueForKey:@"id"];
+    catName = [attributes valueForKey:@"cat_name"];
+    catPid = [attributes valueForKey:@"cat_pid"];
+    catImage = [attributes valueForKey:@"image"];
     return self;
 }
 

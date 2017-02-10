@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0022E2B31E4D619900608D30 /* OrdersDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0022E2B11E4D619900608D30 /* OrdersDetailsController.m */; };
+		0022E2B61E4D686200608D30 /* OrderDetailEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0022E2B51E4D686200608D30 /* OrderDetailEntity.m */; };
 		002701BC1E19FA2B00E6B0E0 /* ChooseAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 002701BA1E19FA2B00E6B0E0 /* ChooseAddressCell.m */; };
 		002701BD1E19FA2B00E6B0E0 /* ChooseAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 002701BB1E19FA2B00E6B0E0 /* ChooseAddressCell.xib */; };
 		002701C01E19FD2E00E6B0E0 /* ChooseAddressEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 002701BF1E19FD2E00E6B0E0 /* ChooseAddressEntity.m */; };
@@ -342,6 +344,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0022E2B11E4D619900608D30 /* OrdersDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersDetailsController.m; sourceTree = "<group>"; };
+		0022E2B21E4D619900608D30 /* OrdersDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrdersDetailsController.h; sourceTree = "<group>"; };
+		0022E2B41E4D686200608D30 /* OrderDetailEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailEntity.h; sourceTree = "<group>"; };
+		0022E2B51E4D686200608D30 /* OrderDetailEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailEntity.m; sourceTree = "<group>"; };
 		002701B91E19FA2B00E6B0E0 /* ChooseAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAddressCell.h; sourceTree = "<group>"; };
 		002701BA1E19FA2B00E6B0E0 /* ChooseAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAddressCell.m; sourceTree = "<group>"; };
 		002701BB1E19FA2B00E6B0E0 /* ChooseAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseAddressCell.xib; sourceTree = "<group>"; };
@@ -1743,6 +1749,8 @@
 				371AE8F71E129F3600B00A8B /* HotProductEntity.m */,
 				002701BE1E19FD2E00E6B0E0 /* ChooseAddressEntity.h */,
 				002701BF1E19FD2E00E6B0E0 /* ChooseAddressEntity.m */,
+				0022E2B41E4D686200608D30 /* OrderDetailEntity.h */,
+				0022E2B51E4D686200608D30 /* OrderDetailEntity.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -2054,6 +2062,8 @@
 		37D50BB51D76A9160051C9F5 /* OrderView */ = {
 			isa = PBXGroup;
 			children = (
+				0022E2B11E4D619900608D30 /* OrdersDetailsController.m */,
+				0022E2B21E4D619900608D30 /* OrdersDetailsController.h */,
 				00FA43071E4C083200551532 /* EvaluationOrdersListViewController.h */,
 				00FA43081E4C083200551532 /* EvaluationOrdersListViewController.m */,
 				00FA43041E4BFFCE00551532 /* WaitOrdersListViewController.h */,
@@ -2546,6 +2556,7 @@
 				370C5E501D7561D100B93FC4 /* ELCOverlayImageView.m in Sources */,
 				37BFE2FE1CF2F5CA0001081D /* MineOrderCellView.m in Sources */,
 				0A13F7E81CDB374A00AF5392 /* SDWebImageCompat.m in Sources */,
+				0022E2B61E4D686200608D30 /* OrderDetailEntity.m in Sources */,
 				37B6AF701CF3244400A12DC2 /* CartCell.m in Sources */,
 				00FA43091E4C083300551532 /* EvaluationOrdersListViewController.m in Sources */,
 				370C5E4F1D7561D100B93FC4 /* ELCImagePickerController.m in Sources */,
@@ -2558,6 +2569,7 @@
 				3756FFAC1CEDAB7100922D5B /* WHCircleImageView.m in Sources */,
 				37038A7D1D7AAA6600DD3486 /* AllOrderEntity.m in Sources */,
 				37FE5F181D6C2A8800012513 /* ImageScrollView.m in Sources */,
+				0022E2B31E4D619900608D30 /* OrdersDetailsController.m in Sources */,
 				0A156F051E1CC43700AB25E5 /* JLWaterfallFlowLayout.m in Sources */,
 				37D50BC81D76AE4A0051C9F5 /* ConfirmSubmitView.m in Sources */,
 				0A608B7F1CE5BD1300EDB38A /* LCnterView.m in Sources */,

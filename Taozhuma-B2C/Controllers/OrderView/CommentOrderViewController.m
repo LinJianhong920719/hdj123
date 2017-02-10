@@ -39,7 +39,7 @@
     [submitBtn setFrame:CGRectMake(20, 0, DEVICE_SCREEN_SIZE_WIDTH-40, 30)];
     submitBtn.backgroundColor = UIColorWithRGBA(255, 80, 0, 1);
     [submitBtn setTitle:@"发表评价" forState:UIControlStateNormal];
-    submitBtn.titleLabel.font = [UIFont systemFontOfSize:12.0f];
+    submitBtn.titleLabel.font = [UIFont systemFontOfSize:13.0f];
     [submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [submitBtn addTarget:self action:@selector(sumbit) forControlEvents:UIControlEventTouchUpInside];
     
