@@ -12,7 +12,7 @@
 #import "AllOrderCell.h"
 #import "UIImageView+WebCache.h"
 //#import "ZSDPaymentView.h"
-//#import "OrdersDetailsController.h"
+#import "OrdersDetailsController.h"
 //#import "OrderCommentViewController.h"
 //#import "ZCTradeView.h"
 //#import "AppPay.h"
@@ -447,14 +447,12 @@
 // ----------------------------------------------------------------------------------------
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-//    AllOrderEntity *entity = [_data objectAtIndex:[indexPath section]];
-//    OrdersDetailsController *ordersDetails = [[OrdersDetailsController alloc]init];
-//    ordersDetails.title = @"订单详情";
-//    ordersDetails.hidesBottomBarWhenPushed = YES;
-//    ordersDetails.orderID =  entity.oid;
-//    ordersDetails.navigationController.navigationBarHidden = YES;
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMyTrade" object:nil];
-//    [self.navigationController pushViewController:ordersDetails animated:YES];
+    AllOrderEntity *entity = [_data objectAtIndex:[indexPath section]];
+    OrdersDetailsController *ordersDetails = [[OrdersDetailsController alloc]init];
+    ordersDetails.title = @"订单详情";
+    ordersDetails.orderId = entity.oid;
+    ordersDetails.shopId = entity.shopId;
+    [self.navigationController pushViewController:ordersDetails animated:YES];
     
 }
 

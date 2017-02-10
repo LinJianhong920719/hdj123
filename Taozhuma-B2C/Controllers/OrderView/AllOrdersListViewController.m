@@ -451,11 +451,8 @@
     AllOrderEntity *entity = [_data objectAtIndex:[indexPath section]];
     OrdersDetailsController *ordersDetails = [[OrdersDetailsController alloc]init];
     ordersDetails.title = @"订单详情";
-//    ordersDetails.hidesBottomBarWhenPushed = YES;
     ordersDetails.orderId = entity.oid;
     ordersDetails.shopId = entity.shopId;
-//    ordersDetails.navigationController.navigationBarHidden = YES;
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMyTrade" object:nil];
     [self.navigationController pushViewController:ordersDetails animated:YES];
     
 }

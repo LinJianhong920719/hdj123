@@ -20,4 +20,8 @@
 @property (nonatomic, strong) NSMutableArray* orderData;//订单数组
 @property (nonatomic, strong) NSMutableArray* addressData;//地址数组
 @property (nonatomic, strong) NSMutableArray* shopData;//店铺数组
+@property (nonatomic, strong) NSMutableArray* couponData;//优惠券数组
+@property (nonatomic, strong) NSString* orderSn;//订单编号
+@property (nonatomic, strong) NSString* payStatus;//支付状态
+@property (nonatomic, strong) NSString* tradeType;//支付类型
 @end

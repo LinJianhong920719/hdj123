@@ -19,6 +19,15 @@
 
 @interface OrdersDetailsController () <UITableViewDataSource,UITableViewDelegate>{
     UIView* headView;
+    UILabel* orderTime;
+    UILabel* remark;
+    UILabel* orderNo;
+    UILabel* orderStatus;
+    UILabel* payType;
+    UILabel* userLab;
+    UILabel* phone;
+    UILabel* address;
+    UILabel* delivery;
 }
 
 @end
@@ -35,7 +44,6 @@
     
     [self loadData];
     [self initBottomBtn];
-//    [self setupHeader];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,7 +67,7 @@
     orderStatusLab.backgroundColor = [UIColor whiteColor];
     [headView addSubview:orderStatusLab];
     //订单状态
-    UILabel* orderStatus = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(orderStatusLab), 10, DEVICE_SCREEN_SIZE_WIDTH-labWidth, 30)];
+    orderStatus = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(orderStatusLab), 10, DEVICE_SCREEN_SIZE_WIDTH-labWidth, 30)];
     orderStatus.text = @"订单状态";
     orderStatus.textAlignment = NSTextAlignmentLeft;
     orderStatus.font = [UIFont systemFontOfSize:12.0f];
@@ -80,7 +88,7 @@
     orderNoLab.backgroundColor = [UIColor whiteColor];
     [headView addSubview:orderNoLab];
     //订单编号
-    UILabel* orderNo = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(orderStatusLab), viewBottom(line1), DEVICE_SCREEN_SIZE_WIDTH-labWidth, 30)];
+    orderNo = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(orderStatusLab), viewBottom(line1), DEVICE_SCREEN_SIZE_WIDTH-labWidth, 30)];
     orderNo.text = @"订单编号";
     orderNo.textAlignment = NSTextAlignmentLeft;
     orderNo.font = [UIFont systemFontOfSize:12.0f];
@@ -101,7 +109,7 @@
     orderTimeLab.backgroundColor = [UIColor whiteColor];
     [headView addSubview:orderTimeLab];
     //下单时间
-    UILabel* orderTime = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(orderStatusLab), viewBottom(line2), DEVICE_SCREEN_SIZE_WIDTH-labWidth, 30)];
+    orderTime = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(orderStatusLab), viewBottom(line2), DEVICE_SCREEN_SIZE_WIDTH-labWidth, 30)];
     orderTime.text = @"下单时间";
     orderTime.textAlignment = NSTextAlignmentLeft;
     orderTime.font = [UIFont systemFontOfSize:12.0f];
@@ -122,8 +130,7 @@
     payTypeLab.backgroundColor = [UIColor whiteColor];
     [headView addSubview:payTypeLab];
     //支付方式
-    UILabel* payType = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(orderStatusLab), viewBottom(line3), DEVICE_SCREEN_SIZE_WIDTH-labWidth, 30)];
-    payType.text = @"支付方式";
+    payType = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(orderStatusLab), viewBottom(line3), DEVICE_SCREEN_SIZE_WIDTH-labWidth, 30)];
     payType.textAlignment = NSTextAlignmentLeft;
     payType.font = [UIFont systemFontOfSize:12.0f];
     payType.textColor = FONTS_COLOR102;
@@ -143,7 +150,7 @@
     remarkLab.backgroundColor = [UIColor whiteColor];
     [headView addSubview:remarkLab];
     //备注
-    UILabel* remark = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(orderStatusLab), viewBottom(line4), DEVICE_SCREEN_SIZE_WIDTH-labWidth, 30)];
+    remark = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(orderStatusLab), viewBottom(line4), DEVICE_SCREEN_SIZE_WIDTH-labWidth, 30)];
     remark.text = @"备注";
     remark.textAlignment = NSTextAlignmentLeft;
     remark.font = [UIFont systemFontOfSize:12.0f];
@@ -169,16 +176,14 @@
     [headView addSubview:line6];
     
     //收货人
-    UILabel* userLab = [[UILabel alloc]initWithFrame:CGRectMake(0, viewBottom(line6), DEVICE_SCREEN_SIZE_WIDTH-100, 30)];
-    userLab.text = @"  李嘉诚";
+    userLab = [[UILabel alloc]initWithFrame:CGRectMake(0, viewBottom(line6), DEVICE_SCREEN_SIZE_WIDTH-100, 30)];
     userLab.textAlignment = NSTextAlignmentLeft;
     userLab.font = [UIFont systemFontOfSize:14.0f];
     userLab.textColor = FONTS_COLOR102;
     userLab.backgroundColor = [UIColor whiteColor];
     [headView addSubview:userLab];
     //联系方式
-    UILabel* phone = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(userLab), viewBottom(line6), 100, 30)];
-    phone.text = @"13824122955";
+    phone = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(userLab), viewBottom(line6), 100, 30)];
     phone.textAlignment = NSTextAlignmentLeft;
     phone.font = [UIFont systemFontOfSize:12.0f];
     phone.textColor = FONTS_COLOR102;
@@ -186,7 +191,7 @@
     [headView addSubview:phone];
     
     //地址
-    UILabel* address = [[UILabel alloc]initWithFrame:CGRectMake(0, viewBottom(userLab), DEVICE_SCREEN_SIZE_WIDTH, 30)];
+    address = [[UILabel alloc]initWithFrame:CGRectMake(0, viewBottom(userLab), DEVICE_SCREEN_SIZE_WIDTH, 30)];
     address.text = @"  广东省 潮州市 潮安县 详细地址";
     address.textAlignment = NSTextAlignmentLeft;
     address.font = [UIFont systemFontOfSize:12.0f];
@@ -281,6 +286,14 @@
             _addressData = [[dic valueForKey:@"data"] valueForKey:@"address_info"];
             //店铺数据
             _shopData = [[dic valueForKey:@"data"] valueForKey:@"shop_info"];
+            //优惠券数据
+            _couponData = [[dic valueForKey:@"data"] valueForKey:@"coupon_info"];
+            //订单编号
+            _orderSn = [[dic valueForKey:@"data"] valueForKey:@"order_sn"];
+            //支付状态
+            _payStatus = [[dic valueForKey:@"data"] valueForKey:@"pay_status"];
+            //支付类型
+            _tradeType =[[dic valueForKey:@"data"] valueForKey:@"trade_type"];
             
             if([[[dic valueForKey:@"data"] valueForKey:@"good_info"] count] > 0 && [[dic valueForKey:@"data"] valueForKey:@"good_info"] != nil){
                 for(NSDictionary *allOrderEntity in [[dic valueForKey:@"data"] valueForKey:@"good_info"]){
@@ -290,6 +303,32 @@
                     
                 }
                 [_mTableView reloadData];
+                
+                //下单时间
+                orderTime.text = [_orderData valueForKey:@"create_time"];
+                //备注
+                remark.text = [_orderData valueForKey:@"user_remark"];
+                //订单编号
+                orderNo.text = _orderSn;
+                //支付类型及支付方式
+                if ([_payStatus integerValue] == 0) {
+                    orderStatus.text = @"未支付";
+                }else {
+                    orderStatus.text = @"已支付";
+                    //只有已支付了才能显示支付类型
+                    if ([_tradeType integerValue] == 1) {
+                        payType.text =  @"支付宝支付";
+                    }else {
+                        payType.text =  @"微信支付";
+                    }
+                }
+                //收货人
+                userLab.text = [NSString stringWithFormat:@"  %@",[_addressData valueForKey:@"guest_name"]];
+                //联系方式
+                phone.text = [_addressData valueForKey:@"mobile"];
+                //收货地址
+                address.text = [NSString stringWithFormat:@"%@ %@ %@ %@",[_addressData valueForKey:@"province"],[_addressData valueForKey:@"city"],[_addressData valueForKey:@"area"],[_addressData valueForKey:@"address"]];
+                
             }else{
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 hud.mode = MBProgressHUDModeText;
@@ -487,9 +526,9 @@
     deliveryLab.textColor = FONTS_COLOR102;
     [view addSubview:deliveryLab];
     //配送费
-    UILabel* delivery = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(deliveryLab), 0, DEVICE_SCREEN_SIZE_WIDTH-labWidth-20, 30)];
-    delivery.text = @"5元";
+    delivery = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(deliveryLab), 0, DEVICE_SCREEN_SIZE_WIDTH-labWidth-20, 30)];
     delivery.textAlignment = NSTextAlignmentRight;
+    delivery.text = [NSString stringWithFormat:@"%@元",[_orderData valueForKey:@"freight_amount"]];
     delivery.font = [UIFont systemFontOfSize:12.0f];
     delivery.textColor = FONTS_COLOR102;
     [view addSubview:delivery];
@@ -507,7 +546,7 @@
     [view addSubview:couponsLab];
     //优惠券
     UILabel* coupons = [[UILabel alloc]initWithFrame:CGRectMake(viewRight(couponsLab), viewBottom(line2), DEVICE_SCREEN_SIZE_WIDTH-labWidth-20, 30)];
-    coupons.text = @"优惠5元";
+    coupons.text = [NSString stringWithFormat:@"优惠%@元",[_couponData valueForKey:@"exp_value"]];
     coupons.textAlignment = NSTextAlignmentRight;
     coupons.font = [UIFont systemFontOfSize:12.0f];
     coupons.textColor = FONTS_COLOR102;
@@ -538,7 +577,7 @@
     
     //实付
     UILabel* payLab = [[UILabel alloc]initWithFrame:CGRectMake(0, viewBottom(line4), DEVICE_SCREEN_SIZE_WIDTH-15, 40)];
-    payLab.text = @"实付：￥50.00";
+    payLab.text = [NSString stringWithFormat:@"实付：￥%@",[_orderData valueForKey:@"real_amount"]];
     payLab.textAlignment = NSTextAlignmentRight;
     payLab.font = [UIFont systemFontOfSize:12.0f];
     payLab.backgroundColor = UIColorWithRGBA(238, 239, 239, 1);
