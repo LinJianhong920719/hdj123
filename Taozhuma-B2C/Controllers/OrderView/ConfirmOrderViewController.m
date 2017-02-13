@@ -40,6 +40,7 @@ static CGFloat submitViewHeight = 52;
     ConfirmSubmitView   *submitView;
     NSString *outTradeNo;
     NSArray *array;
+    NSString *addId;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -503,7 +504,7 @@ static CGFloat submitViewHeight = 52;
             [hud hide:YES afterDelay:2];
             return;
         }else{
-            NSString *addId     = [[[dic valueForKey:@"data"]objectAtIndex:0] valueForKey:@"id"];
+            addId     = [[[dic valueForKey:@"data"]objectAtIndex:0] valueForKey:@"id"];
             NSString *name      = [[[dic valueForKey:@"data"]objectAtIndex:0] valueForKey:@"guest_name"];
             NSString *phone     = [[[dic valueForKey:@"data"]objectAtIndex:0] valueForKey:@"mobile"];
             NSString *address   = [[[dic valueForKey:@"data"]objectAtIndex:0] valueForKey:@"address"];
@@ -514,28 +515,7 @@ static CGFloat submitViewHeight = 52;
     } fail:^(NSError *error) {
         
     }];
-    
-    //    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-    //                         [Tools stringForKey:KEY_USER_ID],          @"uid",
-    //                         nil];
-    //    NSString *xpoint = @"defaultAddress.do?";
-    //    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-    //        if (error) {
-    //
-    //        } else {
-    //
-    //            if (respond.result == 1) {
-    //
-    //                NSString *addId     = [respond.respondData valueForKey:@"addId"];
-    //                NSString *name      = [respond.respondData valueForKey:@"name"];
-    //                NSString *phone     = [respond.respondData valueForKey:@"tel"];
-    //                NSString *address   = [respond.respondData valueForKey:@"address"];
-    //                NSString *isRemote  = [respond.respondData valueForKey:@"isRemote"];
-    //
-    //                [self setAddressID:addId nameText:name phoneText:phone addressText:address remoteText:isRemote];
-    //            }
-    //        }
-    //    }];
+
 }
 
 // ----------------------------------------------------------------------------------------
@@ -633,7 +613,7 @@ static CGFloat submitViewHeight = 52;
                          noteStr,@"info",
                          paymentView.payType ,@"pay_type",
                          @"1",@"coupon_id",
-                         @"1",@"address_id",
+                         addId,@"address_id",
                          nil];
     NSString *path = [NSString stringWithFormat:@"/Api/Order/Commit?"];
     NSLog(@"dic:%@",dic);
@@ -694,7 +674,17 @@ static CGFloat submitViewHeight = 52;
 - (void)interfaceData:(NSDictionary *)response setResult:(NSString *)status {
     NSDictionary *dic = response;
     NSString *statusMsg = [dic valueForKey:@"status"];
-    if ([statusMsg intValue] == 200) {
+    if ([statusMsg intValue] == 502) {
+        //弹框提示获取失败
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = [dic valueForKey:@"message"];
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        submitView.submitButton.userInteractionEnabled = YES;
+        return;
+    }else if ([statusMsg intValue] == 200) {
         
         NSString *payInfo = [[dic valueForKey:@"data"] valueForKey:@"Payinfo"];
         if ([paymentView.payType isEqual:@"1"] && payInfo != nil) {
@@ -740,6 +730,9 @@ static CGFloat submitViewHeight = 52;
              */
             [WXApi sendReq: request];
             
+        }else if([paymentView.payType isEqual:@"3"]){
+            //支付成功
+            [self paySuccessMethod];
         }
 //            //漏斗-支付订单
 //            [Statistical event:@"OrderPayment"];
@@ -786,7 +779,7 @@ static CGFloat submitViewHeight = 52;
 //                }
 ////            }
 //        
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshCart" object:nil];          //通知购物车列表更新
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshCart" object:nil];          //通知购物车列表更新
 //            [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateOrderNumber" object:nil];    //通知订单数量更新
 //            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStockOne" object:nil];      //通知秒杀库存量更新
 //            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshProductDetail" object:nil]; //通知详情购物车数量更新

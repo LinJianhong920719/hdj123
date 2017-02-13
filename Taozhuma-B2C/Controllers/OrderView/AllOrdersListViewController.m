@@ -579,7 +579,7 @@
     UILabel *freight = [[UILabel alloc] initWithFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-(PROPORTION414*20+65), 22, 65, 42)];
     freight.font = [UIFont systemFontOfSize:12];
     freight.textColor = UIColorWithRGBA(255, 80, 0, 1);
-    freight.text =[NSString stringWithFormat:@"¥ %0.2f",[entity.allPrice floatValue]+[entity.freight floatValue]];
+    freight.text =[NSString stringWithFormat:@"¥ %0.2f",[entity.allPrice floatValue]];
     freight.textAlignment = NSTextAlignmentRight;
     [view addSubview:freight];
     
@@ -890,35 +890,7 @@
     } fail:^(NSError *error) {
         
     }];
-//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         @"edit",@"act",
-//                         @"e3dc653e2d68697346818dfc0b208322",@"key",
-//                         [NSString stringWithFormat:@"%ld",(long)btn.tag],           @"oid",
-//                         [Tools stringForKey:KEY_USER_ID],        @"uid",
-//                         @"3",                                  @"status",
-//                         nil];
-//    NSLog(@"dic:%@",dic);
-//    NSString *xpoint = ORDERXPOINT;
-//    [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-//        if (error) {
-//        } else {
-//            
-//            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//            hud.mode = MBProgressHUDModeText;
-//            hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
-//            hud.removeFromSuperViewOnHide = YES;
-//            [hud hide:YES afterDelay:2];
-//            
-//            if (respond.result == 1) {
-//                hud.detailsLabelText = @"收货成功";
-//                [self performSelector:@selector(refreshData:) withObject:nil afterDelay:2.0];
-//            } else {
-//                hud.detailsLabelText = @"操作失败,请重试";
-//            }
-//            
-//        }
-//    }];
-    
+
 }
 
 // ----------------------------------------------------------------------------------------
@@ -968,32 +940,46 @@
 }
 
 // ----------------------------------------------------------------------------------------
-// 钱包支付
+// 立即支付 -- 钱包支付
 // ----------------------------------------------------------------------------------------
 - (void)chooseWallet {
-    
-//    //判断钱包是否有密码
-//    NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                          @"check",                         @"act",
-//                          @"e3dc653e2d68697346818dfc0b208322",       @"key",
-//                          [Tools stringForKey:KEY_USER_ID],@"uid",
-//                          nil];
-//    NSLog(@"dic:%@", dics);
-//    NSString *xpoint = WALLETXPOINT;
-//    [MailWorldRequest requestWithParams:dics xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-//        if (error) {
-//        } else {
-//            if ([[respond.respondData valueForKey:@"wallet_pwd"] integerValue]  == 1) {
-//                
-//                [self performSelector: @selector(payPassword) withObject:self afterDelay:0.5];
-//                
-//            } else {
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"尚未设置钱包密码"message:@"请点击“我的钱包”设置钱包密码" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
-//                alert.tag=130;
-//                [alert show];
-//            }
-//        }
-//    }];
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],@"user_id",
+                         @"3",@"trade_type",
+                         oid,@"order_total_id",
+                         shopId,@"shop_id",
+                         nil];
+    NSString *path = [NSString stringWithFormat:@"/Api/Order/rePay?"];
+    NSLog(@"dic:%@",dic);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        if([statusMsg intValue] == 502){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"钱包余额不足";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }else if ([statusMsg intValue] == 201){
+            //获取成功，无数据情况
+            
+        }else if ([statusMsg intValue] == 200){
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.detailsLabelText = @"支付成功";
+            hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:1];
+            [self performSelector:@selector(refreshData:) withObject:nil afterDelay:1.0];
+            
+        }
+    } fail:^(NSError *error) {
+        
+    }];
 }
 
 - (void)payPassword {

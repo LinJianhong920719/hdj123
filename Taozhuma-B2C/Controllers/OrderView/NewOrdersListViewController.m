@@ -578,7 +578,7 @@
     UILabel *freight = [[UILabel alloc] initWithFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-(PROPORTION414*20+65), 22, 65, 42)];
     freight.font = [UIFont systemFontOfSize:12];
     freight.textColor = UIColorWithRGBA(255, 80, 0, 1);
-    freight.text =[NSString stringWithFormat:@"¥ %0.2f",[entity.allPrice floatValue]+[entity.freight floatValue]];
+    freight.text =[NSString stringWithFormat:@"¥ %0.2f",[entity.allPrice floatValue]];
     freight.textAlignment = NSTextAlignmentRight;
     [view addSubview:freight];
     
