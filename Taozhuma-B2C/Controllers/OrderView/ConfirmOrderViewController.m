@@ -24,7 +24,7 @@
 #import "ConfirmSubmitView.h"
 #import "ConfirmSectionHeaderView.h"
 #import "ConfirmSectionFooterView.h"
-#import "CouponsViewController.h"
+#import "ChooseCouponsViewController.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
 
@@ -40,7 +40,10 @@ static CGFloat submitViewHeight = 52;
     ConfirmSubmitView   *submitView;
     NSString *outTradeNo;
     NSArray *array;
-    NSString *addId;
+    NSString* addId;
+    NSString* couponsId;
+    CGFloat totalPrice;
+    CGFloat logisticsCost;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -150,13 +153,36 @@ static CGFloat submitViewHeight = 52;
 // ----------------------------------------------------------------------------------------
 - (void)coupon:(NSNotification*)notification {
     
-        CouponsEntity *entity = [notification object];
+    CouponsEntity *entity = [notification object];
+    NSString *couponContext = @"尚未使用优惠券";
+    NSUInteger expValue = [entity.expValue integerValue];
+    //0直减1满50 2满100
+    if ([entity.type integerValue] == 0  && totalPrice - expValue > 0) {
+        couponContext = [NSString stringWithFormat:@"直减%lu元",(unsigned long)expValue];
+        paymentView.countCoupon.text = couponContext;
+    }else if ([entity.type integerValue] == 1 && totalPrice > 50){
+        couponContext = [NSString stringWithFormat:@"满50减%lu元",(unsigned long)expValue];
+        paymentView.countCoupon.text = couponContext;
+    }else if([entity.type integerValue] == 2 && totalPrice > 50){
+        couponContext = [NSString stringWithFormat:@"满100减%lu元",(unsigned long)expValue];
+        paymentView.countCoupon.text = couponContext;
+    }else{
+        //尚未使用优惠券
+        couponContext = @"尚未使用优惠券";
+        paymentView.countCoupon.text = couponContext;
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"优惠券类型不匹配!";
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        return;
+    }
+    couponsId = entity.couponsID;
     
-        paymentView.countCoupon.text = [NSString stringWithFormat:@"减免 %@ 元",entity.expValue];
-    
-        //记录优惠金额
-        submitView.coupons = [entity.expValue floatValue];
-        [submitView reloadDisplayData];
+    //记录优惠金额
+    submitView.coupons = [entity.expValue floatValue];
+    [submitView reloadDisplayData];
 }
 
 // ----------------------------------------------------------------------------------------
@@ -166,7 +192,7 @@ static CGFloat submitViewHeight = 52;
     
         AddressEntity *entity = [notification object];//获取到传递的对象
     
-        NSString *addId     = entity.addressID;
+        addId     = entity.addressID;
         NSString *name      = entity.guestName;
         NSString *phone     = entity.mobile;
         NSString *address   = entity.address;
@@ -317,8 +343,8 @@ static CGFloat submitViewHeight = 52;
             [hud hide:YES afterDelay:2];
             return;
         }else{
-            CGFloat totalPrice = 0;
-            CGFloat logisticsCost = 0;
+            totalPrice = 0;
+            logisticsCost = 0;
             
             //            BOOL pursePay = [[respond.respondData valueForKey:@"isWallte"]boolValue];
             BOOL pursePay = YES;//判断是否使用钱包
@@ -607,12 +633,14 @@ static CGFloat submitViewHeight = 52;
 // 立即购买订单提交
 // ----------------------------------------------------------------------------------------
 - (void)submitProData:(NSString *)noteStr {
-
+    if (couponsId == nil) {
+        couponsId = @"0";
+    }
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          [Tools stringForKey:KEY_USER_ID],@"userId",
                          noteStr,@"info",
                          paymentView.payType ,@"pay_type",
-                         @"1",@"coupon_id",
+                         couponsId,@"coupon_id",
                          addId,@"address_id",
                          nil];
     NSString *path = [NSString stringWithFormat:@"/Api/Order/Commit?"];
@@ -997,11 +1025,11 @@ static CGFloat submitViewHeight = 52;
 }
 -(void)chooseCoupon{
     NSLog(@"选择优惠券");
-        CouponsViewController *addressDrive = [[CouponsViewController alloc]init];
-        addressDrive.title = @"优惠券";
-//        addressDrive.chooseTag = @"1";
-        addressDrive.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:addressDrive animated:YES];
+        ChooseCouponsViewController *couponsView = [[ChooseCouponsViewController alloc]init];
+        couponsView.title = @"优惠券";
+        couponsView.chooseTag = @"1";
+        couponsView.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:couponsView animated:YES];
 }
 -(void)paySuccessMethod{
     submitView.submitButton.userInteractionEnabled = YES;

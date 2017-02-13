@@ -206,7 +206,7 @@
     
     //优惠券数量显示
     _countCoupon = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth*0.60, 0, 100, 40)];
-    _countCoupon.text = @"暂无可用优惠券";
+    _countCoupon.text = @"选择优惠券";
     _countCoupon.font = [UIFont systemFontOfSize:12.0];
     _countCoupon.textColor = FONTS_COLOR153;
 //    countCoupon.backgroundColor = [UIColor redColor];

@@ -12,6 +12,9 @@
 		002701BC1E19FA2B00E6B0E0 /* ChooseAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 002701BA1E19FA2B00E6B0E0 /* ChooseAddressCell.m */; };
 		002701BD1E19FA2B00E6B0E0 /* ChooseAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 002701BB1E19FA2B00E6B0E0 /* ChooseAddressCell.xib */; };
 		002701C01E19FD2E00E6B0E0 /* ChooseAddressEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 002701BF1E19FD2E00E6B0E0 /* ChooseAddressEntity.m */; };
+		0027D8EC1E51818100EE81CE /* WithdrawalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0027D8EA1E51818100EE81CE /* WithdrawalViewController.m */; };
+		0027D8ED1E51818100EE81CE /* WithdrawalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0027D8EB1E51818100EE81CE /* WithdrawalViewController.xib */; };
+		0027D8F11E51853200EE81CE /* ChooseCouponsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0027D8F01E51853200EE81CE /* ChooseCouponsViewController.m */; };
 		0031455A1E4B08C7006E8163 /* NewOrdersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 003145581E4B08C7006E8163 /* NewOrdersListViewController.m */; };
 		003916CA1E1B9F8D0091EA21 /* pay_fail.png in Resources */ = {isa = PBXBuildFile; fileRef = 003916C81E1B9F8D0091EA21 /* pay_fail.png */; };
 		003916CB1E1B9F8D0091EA21 /* pay_success.png in Resources */ = {isa = PBXBuildFile; fileRef = 003916C91E1B9F8D0091EA21 /* pay_success.png */; };
@@ -353,6 +356,11 @@
 		002701BB1E19FA2B00E6B0E0 /* ChooseAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseAddressCell.xib; sourceTree = "<group>"; };
 		002701BE1E19FD2E00E6B0E0 /* ChooseAddressEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAddressEntity.h; sourceTree = "<group>"; };
 		002701BF1E19FD2E00E6B0E0 /* ChooseAddressEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAddressEntity.m; sourceTree = "<group>"; };
+		0027D8E91E51818100EE81CE /* WithdrawalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WithdrawalViewController.h; sourceTree = "<group>"; };
+		0027D8EA1E51818100EE81CE /* WithdrawalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WithdrawalViewController.m; sourceTree = "<group>"; };
+		0027D8EB1E51818100EE81CE /* WithdrawalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WithdrawalViewController.xib; sourceTree = "<group>"; };
+		0027D8EF1E51853200EE81CE /* ChooseCouponsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseCouponsViewController.h; sourceTree = "<group>"; };
+		0027D8F01E51853200EE81CE /* ChooseCouponsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCouponsViewController.m; sourceTree = "<group>"; };
 		002F5C091E2CCBDE002979CB /* Taozhuma-B2C.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Taozhuma-B2C.entitlements"; sourceTree = "<group>"; };
 		003145581E4B08C7006E8163 /* NewOrdersListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewOrdersListViewController.m; sourceTree = "<group>"; };
 		003145591E4B08C7006E8163 /* NewOrdersListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewOrdersListViewController.h; sourceTree = "<group>"; };
@@ -959,6 +967,15 @@
 			name = ChooseAddressCell;
 			sourceTree = "<group>";
 		};
+		0027D8EE1E51853200EE81CE /* ChooseCouponsView */ = {
+			isa = PBXGroup;
+			children = (
+				0027D8EF1E51853200EE81CE /* ChooseCouponsViewController.h */,
+				0027D8F01E51853200EE81CE /* ChooseCouponsViewController.m */,
+			);
+			path = ChooseCouponsView;
+			sourceTree = "<group>";
+		};
 		003916C71E1B9F6D0091EA21 /* PayView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1237,6 +1254,7 @@
 		0A13F7B01CDB322500AF5392 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0027D8EE1E51853200EE81CE /* ChooseCouponsView */,
 				0A156EF71E1CC3CA00AB25E5 /* MainView */,
 				003916D11E1BA4110091EA21 /* PayView */,
 				003916D51E1BA4110091EA21 /* ChooseAddressView */,
@@ -2035,6 +2053,9 @@
 			children = (
 				37CA1F7B1D7166D200DCF2AB /* MyWalletViewController.h */,
 				37CA1F7C1D7166D200DCF2AB /* MyWalletViewController.m */,
+				0027D8E91E51818100EE81CE /* WithdrawalViewController.h */,
+				0027D8EA1E51818100EE81CE /* WithdrawalViewController.m */,
+				0027D8EB1E51818100EE81CE /* WithdrawalViewController.xib */,
 			);
 			path = MyWalletView;
 			sourceTree = "<group>";
@@ -2398,6 +2419,7 @@
 				370C5E531D7561D100B93FC4 /* ELCAssetTablePicker.xib in Resources */,
 				370E31AF1D6E89E50016FD77 /* coupon_none.png in Resources */,
 				37B6AF901CF32C4200A12DC2 /* plus.png in Resources */,
+				0027D8ED1E51818100EE81CE /* WithdrawalViewController.xib in Resources */,
 				370E31B71D6E89F30016FD77 /* EffectiveCouponsCell.xib in Resources */,
 				37EACEBC1D6A93CA00674EE9 /* ProductCell.xib in Resources */,
 				37AE2B821CEFF91300DC7007 /* sdRefeshView_arrow@2x.png in Resources */,
@@ -2481,6 +2503,7 @@
 				378A61671D46393000F34DD9 /* RegisterViewControllerNew.m in Sources */,
 				370372A91D6593370055349A /* CellView.m in Sources */,
 				0A13F8051CDB381F00AF5392 /* UtilityFunc.m in Sources */,
+				0027D8EC1E51818100EE81CE /* WithdrawalViewController.m in Sources */,
 				0A156F181E1CD41600AB25E5 /* UILabel+Ext.m in Sources */,
 				0A13F80E1CDB3E9100AF5392 /* ViewController.m in Sources */,
 				37D50BCD1D76AED10051C9F5 /* AddressModuleView.m in Sources */,
@@ -2543,6 +2566,7 @@
 				0A156F101E1CD22C00AB25E5 /* UIColor+Hex.m in Sources */,
 				37B6AF7F1CF325F300A12DC2 /* CartProductEntity.m in Sources */,
 				3756FFAD1CEDAB7100922D5B /* WHCirCleImageViewCell.m in Sources */,
+				0027D8F11E51853200EE81CE /* ChooseCouponsViewController.m in Sources */,
 				0A13F7ED1CDB374A00AF5392 /* SDWebImagePrefetcher.m in Sources */,
 				0A156F391E1CF3A300AB25E5 /* MainBannerModel.m in Sources */,
 				0A156F141E1CD3F200AB25E5 /* UIViewExt.m in Sources */,

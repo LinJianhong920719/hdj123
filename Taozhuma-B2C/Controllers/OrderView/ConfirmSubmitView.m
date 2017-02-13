@@ -72,10 +72,10 @@
     
     if (_isRemote) {
         subtotalPrice.text = [NSString stringWithFormat:@"应付金额:￥%0.2f",_total+_freight-_coupons];
-        freightLabel.text = [NSString stringWithFormat:@"(含运费%0.2f)",_freight];
+//        freightLabel.text = [NSString stringWithFormat:@"(含运费%0.2f)",_freight];
     } else {
         subtotalPrice.text = [NSString stringWithFormat:@"应付金额:￥%0.2f",_total-_coupons];
-        freightLabel.text = [NSString stringWithFormat:@"(含运费%0.2)",0.0];
+//        freightLabel.text = [NSString stringWithFormat:@"(含运费%0.2)",0.0];
     }
 }
 
