@@ -61,8 +61,8 @@ static CGFloat submitViewHeight = 52;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coupon:) name:@"myCoupon"object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myAddress:) name:@"myaddress"object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessMethod) name:@"alipaySuccess" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payFailMethod) name:@"alipayFail" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessMethod:) name:@"alipaySuccess" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payFailMethod:) name:@"alipayFail" object:nil];
     
     //取消scrollview内容自动调整
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -124,7 +124,7 @@ static CGFloat submitViewHeight = 52;
 // ----------------------------------------------------------------------------------------
 - (void)wxCallback:(NSNotification*)notification {
     
-    //    [self queryPayStatus];
+//    [self queryPayStatus];
     //
     //    NSArray *obj = [notification object];
     //
@@ -190,14 +190,14 @@ static CGFloat submitViewHeight = 52;
 // ----------------------------------------------------------------------------------------
 - (void)myAddress:(NSNotification*)notification {
     
-        AddressEntity *entity = [notification object];//获取到传递的对象
+    AddressEntity *entity = [notification object];//获取到传递的对象
     
-        addId     = entity.addressID;
-        NSString *name      = entity.guestName;
-        NSString *phone     = entity.mobile;
-        NSString *address   = entity.address;
+    addId     = entity.addressID;
+    NSString *name      = entity.guestName;
+    NSString *phone     = entity.mobile;
+    NSString *address   = entity.address;
     
-        [self setAddressID:addId nameText:name phoneText:phone addressText:address remoteText:@"1"];
+    [self setAddressID:addId nameText:name phoneText:phone addressText:address remoteText:@"1"];
 }
 
 #pragma mark - 绘制UI
@@ -233,13 +233,13 @@ static CGFloat submitViewHeight = 52;
     [paymentView.couponBtn addTarget:self action:@selector(chooseCoupon) forControlEvents:UIControlEventTouchUpInside];
     //显示钱包余额
     //    NSString *userWalletBalance = [Tools stringForKey:User_WalletBalance];
-//    NSString *userWalletBalance = @"123";
-//    if (userWalletBalance) {
-//        userWalletBalance = [NSString stringWithFormat:@"¥ %@",userWalletBalance];
-//    } else {
-//        userWalletBalance = @"¥ 0.0";
-//    }
-//    paymentView.walletBalance.text = userWalletBalance;
+    //    NSString *userWalletBalance = @"123";
+    //    if (userWalletBalance) {
+    //        userWalletBalance = [NSString stringWithFormat:@"¥ %@",userWalletBalance];
+    //    } else {
+    //        userWalletBalance = @"¥ 0.0";
+    //    }
+    //    paymentView.walletBalance.text = userWalletBalance;
     
     [self loadDefaultAddressData];
     [self loadWelletBalanceData];
@@ -258,11 +258,11 @@ static CGFloat submitViewHeight = 52;
 
 - (void)addressClick:(id)sender {
     
-        AddressViewController *addressDrive = [[AddressViewController alloc]init];
-        addressDrive.title = @"地址管理";
-        addressDrive.chooseTag = @"1";
-        addressDrive.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:addressDrive animated:YES];
+    AddressViewController *addressDrive = [[AddressViewController alloc]init];
+    addressDrive.title = @"地址管理";
+    addressDrive.chooseTag = @"1";
+    addressDrive.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:addressDrive animated:YES];
     
 }
 
@@ -303,10 +303,10 @@ static CGFloat submitViewHeight = 52;
             [hud hide:YES afterDelay:2];
             return;
         }else{
-
+            
             NSString *amount = [[dic valueForKey:@"data"]valueForKey:@"amount"];
             paymentView.money.text = [NSString stringWithFormat:@"¥ %@",amount];
-
+            
             
         }
         
@@ -357,13 +357,13 @@ static CGFloat submitViewHeight = 52;
                 ConfirmOrderEntity *entity = [[ConfirmOrderEntity alloc]initWithAttributes:temList];
                 entity.note = @"";
                 [_data addObject:entity];
-//                for(int j=0;j<[[entity.products valueForKey:@"good_price"] count];j++){
-//                    NSString *goodPrice = [entity.products valueForKey:@"good_price"] indexOfObject:j];
-//                    NSString *nums = [entity.products valueForKey:@"nums"] indexOfObject:j];
-//                   totalPrice += [goodPrice floatValue]*[nums floatValue];
-//                }
-            
-            totalPrice += [entity.sumPrice floatValue];
+                //                for(int j=0;j<[[entity.products valueForKey:@"good_price"] count];j++){
+                //                    NSString *goodPrice = [entity.products valueForKey:@"good_price"] indexOfObject:j];
+                //                    NSString *nums = [entity.products valueForKey:@"nums"] indexOfObject:j];
+                //                   totalPrice += [goodPrice floatValue]*[nums floatValue];
+                //                }
+                
+                totalPrice += [entity.sumPrice floatValue];
                 //                logisticsCost += [entity.espressPrice integerValue];
             }
             
@@ -541,7 +541,7 @@ static CGFloat submitViewHeight = 52;
     } fail:^(NSError *error) {
         
     }];
-
+    
 }
 
 // ----------------------------------------------------------------------------------------
@@ -571,14 +571,14 @@ static CGFloat submitViewHeight = 52;
 // ----------------------------------------------------------------------------------------
 - (void)confirmClick:(id)sender {
     
-        if ([paymentView.payType isEqualToString:@"2"]) {
-            /* 检测是否已安装微信 */
-            if (![WXApi isWXAppInstalled]) {
-                UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:@"请先安装微信" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                [alter show];
-                return;
-            }
+    if ([paymentView.payType isEqualToString:@"2"]) {
+        /* 检测是否已安装微信 */
+        if (![WXApi isWXAppInstalled]) {
+            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:@"请先安装微信" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alter show];
+            return;
         }
+    }
     
     //检查有无收货地址
     if (addressView.addressID == nil) {
@@ -590,7 +590,7 @@ static CGFloat submitViewHeight = 52;
         [hud hide:YES afterDelay:2];
         return;
     }
-
+    
     NSString *result;
     NSData *jsonData;
     NSMutableDictionary *mtableDictionart = [[NSMutableDictionary alloc]init];
@@ -608,24 +608,24 @@ static CGFloat submitViewHeight = 52;
     result = [[NSString alloc] initWithData:jsonData  encoding:NSUTF8StringEncoding];
     
     NSLog(@"result:%@",result);
-//    NSString *noteStr = [result componentsJoinedByString:@","];
+    //    NSString *noteStr = [result componentsJoinedByString:@","];
     
     //锁定提交按钮 避免连续点击
     submitView.submitButton.userInteractionEnabled = NO;
     [self submitProData:result];
-//    switch (_from) {
-//        case 1: {
-//            [self submitProData:noteStr];
-//        }   break;
-//        case 2: {
-//            [self submitCartData:noteStr];
-//        }   break;
-//        case 3: {
-//            [self submitComboData:noteStr];
-//        }   break;
-//        default:
-//            break;
-//    }
+    //    switch (_from) {
+    //        case 1: {
+    //            [self submitProData:noteStr];
+    //        }   break;
+    //        case 2: {
+    //            [self submitCartData:noteStr];
+    //        }   break;
+    //        case 3: {
+    //            [self submitComboData:noteStr];
+    //        }   break;
+    //        default:
+    //            break;
+    //    }
     
 }
 
@@ -718,21 +718,22 @@ static CGFloat submitViewHeight = 52;
         if ([paymentView.payType isEqual:@"1"] && payInfo != nil) {
             //应用注册scheme,在Info.plist定义URL types
             NSString *appScheme = @"wx69b0d0dbc086b71f";
-        
+            
             // NOTE: 调用支付结果开始支付
             [[AlipaySDK defaultService] payOrder:payInfo fromScheme:appScheme callback:^(NSDictionary *resultDic) {
                 NSLog(@"reslut = %@",resultDic);
                 //没有安装支付宝时调用网页版，回调功能
                 NSString *memo = [resultDic valueForKey:@"memo"];
                 NSString *resultStatus = [resultDic valueForKey:@"resultStatus"];
-
+                NSInteger resultTag;
                 if ([resultStatus integerValue] == 9000) {
                     memo = @"支付成功";
-                    [self paySuccessMethod];
+                    resultTag = 0;
                 }else{
                     memo = @"支付失败";
-                    [self payFailMethod];
+                    resultTag = 1;
                 }
+                [self callbackResult:resultTag resultTitle:memo payType:@"1" errorContent:memo];
             }];
         }else if([paymentView.payType isEqual:@"2"]){
             NSDictionary *wxDic = [dic valueForKey:@"data"];
@@ -760,90 +761,46 @@ static CGFloat submitViewHeight = 52;
             
         }else if([paymentView.payType isEqual:@"3"]){
             //支付成功
-            [self paySuccessMethod];
+            [self callbackResult:0 resultTitle:@"支付成功" payType:@"3" errorContent:@"支付成功"];
         }
-//            //漏斗-支付订单
-//            [Statistical event:@"OrderPayment"];
+   
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshCart" object:nil];          //通知购物车列表更新
+        //            [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateOrderNumber" object:nil];    //通知订单数量更新
+        //            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStockOne" object:nil];      //通知秒杀库存量更新
+        //            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshProductDetail" object:nil]; //通知详情购物车数量更新
         
-//            BOOL fullpay = [[respond.respondData objectForKey:@"fullpay"]boolValue];
-        
-            //钱包金额 是否满足 全额支付
-//            if (fullpay) {
-        
-                //                //漏斗-支付成功
-                //                [Statistical event:@"PaySuccess"];
-                
-//                PaySuccessViewController *allOrderView = [[PaySuccessViewController alloc]init];
-//                allOrderView.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:allOrderView animated:YES];
-                
-//            } else {
-                
-//                CGFloat balanceFloat = [[respond.respondData valueForKey:@"balance"]floatValue];
-//                NSString *balanceStr = [NSString stringWithFormat:@"%0.1f",balanceFloat];
-//                [Tools saveObject:balanceStr forKey:User_WalletBalance];
-//                
-//                NSDictionary *aplipay = [respond.respondData objectForKey:@"aplipay"];
-//                NSDictionary *wxpay = [respond.respondData objectForKey:@"wxpay"];
-//                NSDictionary *charge = [respond.respondData objectForKey:@"charge"];
-//                
-//                AppPay *pay = [AppPay alloc];
-//                if ([paymentView.payType isEqual:@"1"]) {
-//                    //支付宝支付
-//                    outTradeNo = [aplipay valueForKey:@"out_trade_no"];
-//                    [pay initWithDicctionary:aplipay fromPay:@"Alpay" payDelegate:self];
-//                }
-//                
-//                if ([paymentView.payType isEqual:@"2"]) {
-//                    //微信支付
-//                    outTradeNo = [wxpay valueForKey:@"out_trade_no"];
-//                    [pay initWithDicctionary:wxpay fromPay:@"Wxpay" payDelegate:self];
-//                }
-//                
-//                if ([paymentView.payType isEqual:@"5"] || [paymentView.payType isEqual:@"6"]) {
-//                    //网银支付
-//                    outTradeNo = [charge valueForKey:@"out_trade_no"];
-//                    [pay initWithDicctionary:charge fromPay:@"UnionPay" payDelegate:self];
-//                }
-////            }
-//        
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshCart" object:nil];          //通知购物车列表更新
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateOrderNumber" object:nil];    //通知订单数量更新
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshStockOne" object:nil];      //通知秒杀库存量更新
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshProductDetail" object:nil]; //通知详情购物车数量更新
-        
-        } else {
-            submitView.submitButton.userInteractionEnabled = YES;
-            NSLog(@"chu cuo");
-//            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:respond.error_msg delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-//            [alter show];
-        }
-        
+    } else {
+        submitView.submitButton.userInteractionEnabled = YES;
+        NSLog(@"chu cuo");
+        //            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:respond.error_msg delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        //            [alter show];
     }
     
+}
+
 
 
 // ----------------------------------------------------------------------------------------
-// 支付状态回调
+// 网页页面支付状态回调
 // ----------------------------------------------------------------------------------------
-- (void)callbackResult:(NSInteger)result resultTitle:(NSString *)title errorContent:(NSString *)error {
+- (void)callbackResult:(NSInteger)result resultTitle:(NSString *)title payType:(NSString *)paytype errorContent:(NSString *)error {
+
+    if (result == 0) {
+        //支付成功
+        submitView.submitButton.userInteractionEnabled = YES;
+        PaySuccessViewController *sc= [[PaySuccessViewController alloc]initWithNibName:@"PaySuccessViewController" bundle:[NSBundle mainBundle]];
+        sc.title = @"支付成功";
+        [self.navigationController pushViewController:sc animated:YES];
+    } else {
+        //支付失败
+        submitView.submitButton.userInteractionEnabled = YES;
+        PayFailViewController *sf= [[PayFailViewController alloc]initWithNibName:@"PayFailViewController" bundle:[NSBundle mainBundle]];
+        sf.title = @"支付失败";
+        sf.payType = paytype;
+        [self.navigationController pushViewController:sf animated:YES];
+    }
     
-    //    [self queryPayStatus];
-    //
-    //    if (result == 0) {
-    //        //漏斗-支付成功
-    //        [Statistical event:@"PaySuccess"];
-    //
-    //        PaySuccessViewController *allOrderView = [[PaySuccessViewController alloc]init];
-    //        allOrderView.hidesBottomBarWhenPushed = YES;
-    //        [self.navigationController pushViewController:allOrderView animated:YES];
-    //    } else {
-    //        PayFailureViewController *payFailureView = [[PayFailureViewController alloc]init];
-    //        payFailureView.hidesBottomBarWhenPushed = YES;
-    //        [self.navigationController pushViewController:payFailureView animated:YES];
-    //    }
-    //
-    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateOrderNumber" object:nil];    //通知订单数量更新
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateOrderNumber" object:nil];    //通知订单数量更新
 }
 
 // ----------------------------------------------------------------------------------------
@@ -975,14 +932,14 @@ static CGFloat submitViewHeight = 52;
     ConfirmOrderEntity *entity = [_data objectAtIndex:section];
     
     ConfirmSectionFooterView *sectionFooterView = [[ConfirmSectionFooterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, tableViewSectionFooterHeight)];
-        sectionFooterView.price = entity.sumPrice;
-
-        sectionFooterView.number = entity.allCount;
-        sectionFooterView.preferential = entity.espressPrice;
-        sectionFooterView.textField.delegate = self;
-        sectionFooterView.textField.tag = section;
-        sectionFooterView.textField.text = entity.note;
-        [sectionFooterView reloadDisplayData];
+    sectionFooterView.price = entity.sumPrice;
+    
+    sectionFooterView.number = entity.allCount;
+    sectionFooterView.preferential = entity.espressPrice;
+    sectionFooterView.textField.delegate = self;
+    sectionFooterView.textField.tag = section;
+    sectionFooterView.textField.text = entity.note;
+    [sectionFooterView reloadDisplayData];
     
     return sectionFooterView;
 }
@@ -993,8 +950,8 @@ static CGFloat submitViewHeight = 52;
 // 文本框失去first responder 时，执行
 // ----------------------------------------------------------------------------------------
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-        ConfirmOrderEntity *entity = [_data objectAtIndex:textField.tag];
-        entity.note = textField.text;
+    ConfirmOrderEntity *entity = [_data objectAtIndex:textField.tag];
+    entity.note = textField.text;
 }
 
 // ----------------------------------------------------------------------------------------
@@ -1025,22 +982,20 @@ static CGFloat submitViewHeight = 52;
 }
 -(void)chooseCoupon{
     NSLog(@"选择优惠券");
-        ChooseCouponsViewController *couponsView = [[ChooseCouponsViewController alloc]init];
-        couponsView.title = @"优惠券";
-        couponsView.chooseTag = @"1";
-        couponsView.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:couponsView animated:YES];
+    ChooseCouponsViewController *couponsView = [[ChooseCouponsViewController alloc]init];
+    couponsView.title = @"优惠券";
+    couponsView.chooseTag = @"1";
+    couponsView.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:couponsView animated:YES];
 }
--(void)paySuccessMethod{
-    submitView.submitButton.userInteractionEnabled = YES;
-    PaySuccessViewController *sc= [[PaySuccessViewController alloc]initWithNibName:@"PaySuccessViewController" bundle:[NSBundle mainBundle]];
-    sc.title = @"支付成功";
-    [self.navigationController pushViewController:sc animated:YES];
+//客户端支付成功回调页面
+-(void)paySuccessMethod:(NSNotification*)notification{
+    NSString *obj = [notification object];
+    [self callbackResult:0 resultTitle:@"支付成功" payType:obj errorContent:@"支付成功"];
 }
--(void)payFailMethod{
-    submitView.submitButton.userInteractionEnabled = YES;
-    PayFailViewController *sf= [[PayFailViewController alloc]initWithNibName:@"PayFailViewController" bundle:[NSBundle mainBundle]];
-    sf.title = @"支付失败";
-    [self.navigationController pushViewController:sf animated:YES];
+//客户端支付失败回调页面
+-(void)payFailMethod:(NSNotification*)notification{
+    NSString *obj = [notification object];
+    [self callbackResult:1 resultTitle:@"支付失败" payType:obj errorContent:@"支付失败"];
 }
 @end

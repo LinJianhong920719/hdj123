@@ -294,7 +294,7 @@ BMKMapManager* _mapManager;
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"alipaySuccess" object:nil];
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
             }else{
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"alipayFail" object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"alipayFail" object:@"1"];
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
             }
             
@@ -320,7 +320,7 @@ BMKMapManager* _mapManager;
         default:
             strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
             NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"alipayFail" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"alipayFail" object:@"2"];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
             break;
     }

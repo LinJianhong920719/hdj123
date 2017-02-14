@@ -10,6 +10,8 @@
 #import "BaseViewController.h"
 
 @interface PayFailViewController : BaseViewController
+
+@property (nonatomic, strong) NSString* payType;
 //重新支付
 - (IBAction)payAgain:(id)sender;
 

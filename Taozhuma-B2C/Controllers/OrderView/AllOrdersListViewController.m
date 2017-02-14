@@ -57,7 +57,7 @@
    
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(grabSingle:) name:@"GrabSingle" object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshPassword:) name:@"refreshPassword"object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData:) name:@"refreshByOrderDetail"object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData:) name:@"refreshByOrderDetail"object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(immediatePayment:) name:@"immediatePayment"object:nil];
     
 //    [Tools saveInteger:2 forKey:KEY_WX_CALLBACK];
@@ -323,7 +323,7 @@
             
         }else{
             NSArray *orderData = [dic valueForKey:@"data"];
-            NSLog(@"orderData:%@",orderData);
+//            NSLog(@"orderData:%@",orderData);
             for (NSDictionary *dic in orderData) {
                 AllOrderEntity *allOrderEntity = [[AllOrderEntity alloc]initWithAttributes:dic];
                 [_data addObject:allOrderEntity];
@@ -620,7 +620,9 @@
     //付款收货评价按钮模块
      btnConfirm = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnConfirm setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-67, 71, 67, 25)];
-    btnConfirm.tag = [entity.oid integerValue];
+    //两个数字进行拼接 中间用13568来做分割符
+    NSString* string13568 = [NSString stringWithFormat:@"%@13568%@",entity.oid,entity.shopId];
+    btnConfirm.tag = [string13568 integerValue];
     
     if([entity.orderStatus intValue] == 0 && [entity.isCancel intValue] == 0){
         [btnConfirm setTitle:@"立即付款" forState:UIControlStateNormal];
@@ -663,7 +665,7 @@
             btnConfirm.layer.borderColor = [UIColorWithRGBA(114, 113, 113, 1) CGColor];
         }
     }
-
+    
     btnConfirm.titleLabel.font = [UIFont systemFontOfSize: 14.0];
     btnConfirm.layer.borderWidth = 0.5;
     btnConfirm.layer.cornerRadius = 3;
@@ -805,7 +807,7 @@
 // ----------------------------------------------------------------------------------------
 - (void)immediatePayment:(id)sender {
     UIButton *btn = (UIButton *)sender;
-     NSLog(@"%@",btn);
+     NSLog(@"btn:%@",btn);
 
     allEntity = [_data objectAtIndex:btn.tag];
     oid = allEntity.oid;

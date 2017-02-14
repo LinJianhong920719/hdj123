@@ -11,13 +11,16 @@
 #import "ProductDetailViewController.h"
 #import "OrderDetailEntity.h"
 #import "SearchViewController.h"
-
+#import <AlipaySDK/AlipaySDK.h>
+#import "WXApi.h"
+#import "PaySuccessViewController.h"
+#import "PayFailViewController.h"
 
 #define Reality_viewHeight ScreenHeight-ViewOrignY-40-50
 #define Reality_viewWidth ScreenWidth
 #define labWidth 80
 
-@interface OrdersDetailsController () <UITableViewDataSource,UITableViewDelegate>{
+@interface OrdersDetailsController () <UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>{
     UIView* headView;
     UILabel* orderTime;
     UILabel* remark;
@@ -28,6 +31,9 @@
     UILabel* phone;
     UILabel* address;
     UILabel* delivery;
+    UIButton* canelBtn;//左边的按钮
+    UIButton* submitBtn;//右边的按钮
+    
 }
 
 @end
@@ -44,6 +50,10 @@
     
     [self loadData];
     [self initBottomBtn];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessMethod:) name:@"alipaySuccess" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payFailMethod:) name:@"alipayFail" object:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,7 +66,7 @@
     
     headView = [[UIView alloc]initWithFrame:CGRectMake(0, ViewOrignY, DEVICE_SCREEN_SIZE_WIDTH, 275)];
     headView.backgroundColor = UIColorWithRGBA(238, 239, 239, 1);
-//    [self.view addSubview:headView];
+    //    [self.view addSubview:headView];
     
     //订单状态lab
     UILabel* orderStatusLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, labWidth, 30)];
@@ -204,21 +214,24 @@
     
 }
 -(void)initBottomBtn{
-    UIButton* canelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //左边的按钮
+    canelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [canelBtn setFrame:CGRectMake(0, DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH/2, 40)];
     canelBtn.backgroundColor = UIColorWithRGBA(221, 221, 221, 1);
     [canelBtn setTitle:@"取消订单" forState:UIControlStateNormal];
     [canelBtn setTitleColor:FONTS_COLOR102 forState:UIControlStateNormal];
+    [canelBtn addTarget:self action:@selector(btndelClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:canelBtn];
     
-    UIButton* submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    //右边的按钮
+    submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [submitBtn setFrame:CGRectMake(viewRight(canelBtn), DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH/2, 40)];
     submitBtn.backgroundColor = UIColorWithRGBA(255, 80, 0, 1);
     [submitBtn setTitle:@"立即付款" forState:UIControlStateNormal];
     [submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [submitBtn addTarget:self action:@selector(btnCommentsClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:submitBtn];
-    
-    
     
 }
 - (void)initUI {
@@ -258,6 +271,7 @@
         
         NSDictionary *dic = response;
         NSString *statusMsg = [dic valueForKey:@"status"];
+        NSLog(@"response:%@",response);
         if([statusMsg intValue] == 4001){
             //弹框提示获取失败
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -295,6 +309,7 @@
             //支付类型
             _tradeType =[[dic valueForKey:@"data"] valueForKey:@"trade_type"];
             
+            //cell数据添加
             if([[[dic valueForKey:@"data"] valueForKey:@"good_info"] count] > 0 && [[dic valueForKey:@"data"] valueForKey:@"good_info"] != nil){
                 for(NSDictionary *allOrderEntity in [[dic valueForKey:@"data"] valueForKey:@"good_info"]){
                     NSLog(@"allOrderEntity:%@",allOrderEntity);
@@ -328,6 +343,73 @@
                 phone.text = [_addressData valueForKey:@"mobile"];
                 //收货地址
                 address.text = [NSString stringWithFormat:@"%@ %@ %@ %@",[_addressData valueForKey:@"province"],[_addressData valueForKey:@"city"],[_addressData valueForKey:@"area"],[_addressData valueForKey:@"address"]];
+                
+                //
+                if([_payStatus integerValue] == 0 && [[_orderData valueForKey:@"is_cancel_order"] intValue] == 0){
+                    //立即付款
+                    //左边按钮
+                    [canelBtn setTitle:@"取消订单" forState:UIControlStateNormal];
+                    canelBtn.tag = 1;
+                    //右边按钮
+                    [submitBtn setTitle:@"立即支付" forState:UIControlStateNormal];
+                    submitBtn.tag = 1;
+                    
+                }else if([_payStatus integerValue] == 1 && [[_orderData valueForKey:@"is_cancel_order"] intValue] == 0 &&[[_orderData valueForKey:@"is_denial_orders"] intValue] == 0 && [[_orderData valueForKey:@"shipping_status"] intValue] == 0){
+                    //到达确认
+                    //左边按钮
+                    canelBtn.hidden = YES;
+                    //右边按钮
+                    [submitBtn setTitle:@"到达确认" forState:UIControlStateNormal];
+                    [submitBtn setFrame:CGRectMake(0, DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH, 40)];
+                    submitBtn.tag = 2;
+                    
+                    
+                }else if ([_payStatus integerValue] == 1 && [[_orderData valueForKey:@"is_cancel_order"] intValue] == 0 && [[_orderData valueForKey:@"is_denial_orders"] intValue] == 1){
+                    //商家拒单
+                    //左边按钮
+                    [canelBtn setTitle:@"删除订单" forState:UIControlStateNormal];
+                    canelBtn.tag = 2;
+                    //右边按钮
+                    [submitBtn setTitle:@"商家拒单" forState:UIControlStateNormal];
+                    submitBtn.enabled = NO;
+                    [submitBtn setFrame:CGRectMake(viewRight(canelBtn), DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH/2, 40)];
+                    
+                    
+                }else if ([_payStatus integerValue] == 0 && [[_orderData valueForKey:@"is_cancel_order"] intValue] == 1 && [[_orderData valueForKey:@"is_denial_orders"] intValue] == 0){
+                    //交易结束
+                    //左边按钮
+                    [canelBtn setTitle:@"删除订单" forState:UIControlStateNormal];
+                    canelBtn.tag = 2;
+                    //右边按钮
+                    [submitBtn setTitle:@"交易结束" forState:UIControlStateNormal];
+                    submitBtn.enabled = NO;
+                    [submitBtn setFrame:CGRectMake(viewRight(canelBtn), DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH/2, 40)];
+                    
+                    
+                }else if ([_payStatus integerValue] == 1 && [[_orderData valueForKey:@"is_cancel_order"] intValue] == 0 && [[_orderData valueForKey:@"is_denial_orders"] intValue] == 0 && [[_orderData valueForKey:@"shipping_status"] intValue] == 2){
+                    if([[_orderData valueForKey:@"is_discuss"] intValue] == 0){
+                        //评论
+                        //左边按钮
+                        [canelBtn setTitle:@"删除订单" forState:UIControlStateNormal] ;
+                        canelBtn.tag = 2;
+                        //右边按钮
+                        [submitBtn setTitle:@"评论" forState:UIControlStateNormal];
+                        submitBtn.tag = 3;
+                        
+                    }
+                    else {
+                        //评论
+                        //左边按钮
+                        [canelBtn setTitle:@"删除订单" forState:UIControlStateNormal] ;
+                        canelBtn.tag = 2;
+                        //右边按钮
+                        [submitBtn setTitleColor:UIColorWithRGBA(221, 221, 221, 1) forState:UIControlStateNormal];
+                        [submitBtn setTitle:@"已评论" forState:UIControlStateNormal];
+                    }
+                }
+                
+                
+                
                 
             }else{
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -591,6 +673,311 @@
     
     return view;
 }
+// ----------------------------------------------------------------------------------------
+// 立即支付 -- 钱包支付
+// ----------------------------------------------------------------------------------------
+- (void)chooseWallet {
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],@"user_id",
+                         @"3",@"trade_type",
+                         _orderId,@"order_total_id",
+                         _shopId,@"shop_id",
+                         nil];
+    NSString *path = [NSString stringWithFormat:@"/Api/Order/rePay?"];
+    NSLog(@"dic:%@",dic);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        if([statusMsg intValue] == 502){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"钱包余额不足";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }else if ([statusMsg intValue] == 201){
+            //获取成功，无数据情况
+            
+        }else if ([statusMsg intValue] == 200){
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.detailsLabelText = @"支付成功";
+            hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:1];
+            //返回前一个页面
+            [self.navigationController popViewControllerAnimated:YES];
+            //刷新订单页面数据
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshByOrderDetail" object:nil];
+            
+        }
+    } fail:^(NSError *error) {
+        
+    }];
+}
+// ----------------------------------------------------------------------------------------
+// 立即支付 -- 支付宝支付、微信支付
+// ----------------------------------------------------------------------------------------
 
+- (void)performPay:(NSString *)payMethod {
+    
+    if ([payMethod isEqualToString:@"2"]) {
+        /* 检测是否已安装微信 */
+        if (![WXApi isWXAppInstalled]) {
+            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:@"请先安装微信" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alter show];
+            return;
+        }
+    }
+    
+    //支付接口
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],@"user_id",
+                         payMethod,@"trade_type",
+                         _orderId,@"order_total_id",
+                         _shopId,@"shop_id",
+                         nil];
+    NSString *path = [NSString stringWithFormat:@"/Api/Order/rePay?"];
+    NSLog(@"dic:%@",dic);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        if ([statusMsg intValue] == 201){
+            //获取成功，无数据情况
+            
+        }else if ([statusMsg intValue] == 200){
+            //支付宝支付
+            NSString *payInfo = [[dic valueForKey:@"data"] valueForKey:@"Payinfo"];
+            if ([payMethod isEqual:@"1"] && payInfo != nil) {
+                //应用注册scheme,在Info.plist定义URL types
+                NSString *appScheme = @"wx69b0d0dbc086b71f";
+                
+                // NOTE: 调用支付结果开始支付
+                [[AlipaySDK defaultService] payOrder:payInfo fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+                    NSLog(@"reslut = %@",resultDic);
+                    //没有安装支付宝时调用网页版，回调功能
+                    NSString *memo = [resultDic valueForKey:@"memo"];
+                    NSString *resultStatus = [resultDic valueForKey:@"resultStatus"];
+                    NSInteger resultTag;
+                    if ([resultStatus integerValue] == 9000) {
+                        memo = @"支付成功";
+                        resultTag = 0;
+                    }else{
+                        memo = @"支付失败";
+                        resultTag = 1;
+                    }
+                    [self callbackResult:resultTag resultTitle:memo payType:@"1" errorContent:memo];
+                }];
+            }
+        
+        }else if([payMethod isEqual:@"2"]){
+            NSDictionary *wxDic = [dic valueForKey:@"data"];
+            PayReq *request = [[PayReq alloc] init];
+            /** 商家向财付通申请的商家id */
+            request.partnerId = [wxDic valueForKey:@"partnerid"];
+            /** 预支付订单 */
+            request.prepayId = [wxDic valueForKey:@"prepayid"];
+            /** 商家根据财付通文档填写的数据和签名 */
+            request.package = [wxDic valueForKey:@"package"];
+            /** 随机串，防重发 */
+            request.nonceStr= [wxDic valueForKey:@"noncestr"];
+            /** 时间戳，防重发 */
+            request.timeStamp= [[wxDic valueForKey:@"timestamp"] intValue];
+            /** 商家根据微信开放平台文档对数据做的签名 */
+            request.sign= [wxDic valueForKey:@"sign"];
+            /*! @brief 发送请求到微信，等待微信返回onResp
+             *
+             * 函数调用后，会切换到微信的界面。第三方应用程序等待微信返回onResp。微信在异步处理完成后一定会调用onResp。支持以下类型
+             * SendAuthReq、SendMessageToWXReq、PayReq等。
+             * @param req 具体的发送请求，在调用函数后，请自己释放。
+             * @return 成功返回YES，失败返回NO。
+             */
+            [WXApi sendReq: request];
+        }
+    }fail:^(NSError *error) {
+        
+    }];
+    
+
+}
+
+// ----------------------------------------------------------------------------------------
+// 网页页面支付状态回调
+// ----------------------------------------------------------------------------------------
+- (void)callbackResult:(NSInteger)result resultTitle:(NSString *)title payType:(NSString *)paytype errorContent:(NSString *)error {
+    
+    if (result == 0) {
+        //支付成功
+        PaySuccessViewController *sc= [[PaySuccessViewController alloc]initWithNibName:@"PaySuccessViewController" bundle:[NSBundle mainBundle]];
+        sc.title = @"支付成功";
+        [self.navigationController pushViewController:sc animated:YES];
+    } else {
+        //支付失败
+        PayFailViewController *sf= [[PayFailViewController alloc]initWithNibName:@"PayFailViewController" bundle:[NSBundle mainBundle]];
+        sf.title = @"支付失败";
+        sf.payType = paytype;
+        [self.navigationController pushViewController:sf animated:YES];
+    }
+}
+
+//客户端支付成功回调页面
+-(void)paySuccessMethod:(NSNotification*)notification{
+    NSString *obj = [notification object];
+    [self callbackResult:0 resultTitle:@"支付成功" payType:obj errorContent:@"支付成功"];
+}
+//客户端支付失败回调页面
+-(void)payFailMethod:(NSNotification*)notification{
+    NSString *obj = [notification object];
+    [self callbackResult:1 resultTitle:@"支付失败" payType:obj errorContent:@"支付失败"];
+}
+
+//左边按钮事件
+-(IBAction)btndelClick:(id)sender{
+    UIButton *btn = (UIButton *)sender;
+    NSLog(@"btn:%ld",(long)btn.tag);
+    //取消订单
+    if ((long)btn.tag == 1) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定取消订单？"message:@"取消之后将无法恢复" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
+        alert.tag=110;
+        [alert show];
+        //删除订单
+    }else if ((long)btn.tag == 2){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定删除订单？"message:@"删除之后将无法恢复" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
+        alert.tag=120;
+        [alert show];
+    }
+}
+//右边按钮事件
+-(IBAction)btnCommentsClick:(id)sender{
+    UIButton *btn = (UIButton *)sender;
+    NSLog(@"btn:%ld",(long)btn.tag);
+    if ((long)btn.tag == 1) {
+        UIActionSheet *paySheet = [[UIActionSheet alloc] initWithTitle:@"选择支付方式" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"钱包支付" otherButtonTitles:@"支付宝支付", @"微信支付", nil];
+        paySheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+        
+        [paySheet showInView:self.view];
+    }
+}
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 110) {
+        
+        if (buttonIndex == 1) {
+            //取消订单
+            
+            NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                 [Tools stringForKey:KEY_USER_ID],@"user_id",
+                                 _shopId,@"shop_id",
+                                 _orderId,@"order_total_id",
+                                 @"3",@"status",
+                                 nil];
+            NSString *path = [NSString stringWithFormat:@"/Api/Shop/updStatus?"];
+            NSLog(@"dic:%@",dic);
+            [HYBNetworking updateBaseUrl:SERVICE_URL];
+            [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+                
+                NSDictionary *dic = response;
+                NSString *statusMsg = [dic valueForKey:@"status"];
+                if([statusMsg intValue] == 4001){
+                    //弹框提示获取失败
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"获取失败!";
+                    hud.yOffset = -50.f;
+                    hud.removeFromSuperViewOnHide = YES;
+                    [hud hide:YES afterDelay:2];
+                    return;
+                }else if ([statusMsg intValue] == 201){
+                    //获取成功，无数据情况
+                    
+                }else{
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.detailsLabelText = @"取消成功";
+                    hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+                    hud.removeFromSuperViewOnHide = YES;
+                    [hud hide:YES afterDelay:1];
+                    //返回前一个页面
+                    [self.navigationController popViewControllerAnimated:YES];
+                    //刷新订单页面数据
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshByOrderDetail" object:nil];
+                    
+                }
+                
+            } fail:^(NSError *error) {
+                
+            }];
+        }
+    }
+    
+    if (alertView.tag == 120) {
+        if (buttonIndex == 1) {
+            NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                 [Tools stringForKey:KEY_USER_ID],@"user_id",
+                                 _shopId,@"shop_id",
+                                 _orderId,@"order_total_id",
+                                 @"6",@"status",
+                                 nil];
+            NSString *path = [NSString stringWithFormat:@"/Api/Shop/updStatus?"];
+            NSLog(@"dic:%@",dic);
+            [HYBNetworking updateBaseUrl:SERVICE_URL];
+            [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+                
+                NSDictionary *dic = response;
+                NSString *statusMsg = [dic valueForKey:@"status"];
+                if([statusMsg intValue] == 4001){
+                    //弹框提示获取失败
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.labelText = @"获取失败!";
+                    hud.yOffset = -50.f;
+                    hud.removeFromSuperViewOnHide = YES;
+                    [hud hide:YES afterDelay:2];
+                    return;
+                }else if ([statusMsg intValue] == 201){
+                    //获取成功，无数据情况
+                    
+                }else{
+                    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    hud.mode = MBProgressHUDModeText;
+                    hud.detailsLabelText = @"删除成功";
+                    hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+                    hud.removeFromSuperViewOnHide = YES;
+                    [hud hide:YES afterDelay:1];
+                    //返回前一个页面
+                    [self.navigationController popViewControllerAnimated:YES];
+                    //刷新订单页面数据
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshByOrderDetail" object:nil];
+                    
+                }
+                
+            } fail:^(NSError *error) {
+                
+            }];
+        }
+    }
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == 3) {
+        return;
+    }
+    
+    if (buttonIndex == 0) {
+        [self chooseWallet];
+    } else {
+        NSString *payType = [NSString stringWithFormat:@"%ld",(long)buttonIndex + 1];
+        [self performPay:payType];
+    }
+    
+}
 
 @end
