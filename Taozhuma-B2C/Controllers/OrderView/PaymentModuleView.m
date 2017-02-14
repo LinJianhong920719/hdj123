@@ -177,7 +177,7 @@
         
         payBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, originY+32, ScreenWidth, optionsHeight)];
         [payBtn setImage:[UIImage imageNamed:btnImageName] forState:UIControlStateNormal];
-        [payBtn setImageEdgeInsets:UIEdgeInsetsMake(10.0, ScreenWidth-38, 10.0, 20.0)];
+        [payBtn setImageEdgeInsets:UIEdgeInsetsMake(10.0, ScreenWidth-38, 10.0, 18.0)];
         [payBtn setTag:additionalTag+i];
        
         [payBtn addTarget:self action:@selector(payClick:) forControlEvents:UIControlEventTouchUpInside];
