@@ -712,6 +712,16 @@ static CGFloat submitViewHeight = 52;
         [hud hide:YES afterDelay:2];
         submitView.submitButton.userInteractionEnabled = YES;
         return;
+    }else if ([statusMsg intValue] == 500){
+        //弹框提示获取失败
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"支付错误!";
+        hud.yOffset = -50.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:2];
+        return;
+        
     }else if ([statusMsg intValue] == 200) {
         
         NSString *payInfo = [[dic valueForKey:@"data"] valueForKey:@"Payinfo"];

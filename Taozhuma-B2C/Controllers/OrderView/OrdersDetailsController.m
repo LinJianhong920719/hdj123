@@ -701,6 +701,16 @@
         }else if ([statusMsg intValue] == 201){
             //获取成功，无数据情况
             
+        }else if ([statusMsg intValue] == 500){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"支付错误!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+            
         }else if ([statusMsg intValue] == 200){
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             hud.mode = MBProgressHUDModeText;
@@ -732,7 +742,7 @@
             return;
         }
     }
-    
+    NSLog(@"payMethod:%@",payMethod);
     //支付接口
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          [Tools stringForKey:KEY_USER_ID],@"user_id",
@@ -748,6 +758,16 @@
         NSString *statusMsg = [dic valueForKey:@"status"];
         if ([statusMsg intValue] == 201){
             //获取成功，无数据情况
+            
+        }else if ([statusMsg intValue] == 500){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"支付错误!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
             
         }else if ([statusMsg intValue] == 200){
             //支付宝支付
@@ -974,7 +994,7 @@
     if (buttonIndex == 0) {
         [self chooseWallet];
     } else {
-        NSString *payType = [NSString stringWithFormat:@"%ld",(long)buttonIndex + 1];
+        NSString *payType = [NSString stringWithFormat:@"%ld",(long)buttonIndex];
         [self performPay:payType];
     }
     
