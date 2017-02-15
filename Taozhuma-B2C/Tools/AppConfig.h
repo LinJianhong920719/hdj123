@@ -146,5 +146,6 @@
 #define PROPORTION                  (DEVICE_SCREEN_SIZE_WIDTH/320.0f)
 #define PROPORTION414               (DEVICE_SCREEN_SIZE_WIDTH/414.0f)
 @interface AppConfig : NSObject
-
+/*======================= 用户充值标示 =======================*/
+#define KEY_RECHARGE_TAG @"key_recharge_tag"
 @end

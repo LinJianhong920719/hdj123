@@ -10,10 +10,11 @@
 
 @interface MyWalletEntity : NSObject
 
-@property (nonatomic, strong) NSString *payTitle;
-@property (nonatomic, strong) NSString *payDate;
-@property (nonatomic, strong) NSString *payMoney;
-@property (nonatomic, strong) NSString *balance;
+@property (nonatomic, strong) NSString *uid;
+@property (nonatomic, strong) NSString *message;
+@property (nonatomic, strong) NSString *createTime;
+@property (nonatomic, strong) NSString *val;
+@property (nonatomic, strong) NSString *left_val;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 

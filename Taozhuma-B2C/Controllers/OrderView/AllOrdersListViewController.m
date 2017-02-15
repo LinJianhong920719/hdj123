@@ -14,10 +14,10 @@
 //#import "ZSDPaymentView.h"
 #import "OrdersDetailsController.h"
 #import "CommentOrderViewController.h"
-//#import "ZCTradeView.h"
-//#import "AppPay.h"
-//#import "HMTMainViewController.h"
-//#import "TakeOutEntity.h"
+#import <AlipaySDK/AlipaySDK.h>
+#import "WXApi.h"
+#import "PaySuccessViewController.h"
+#import "PayFailViewController.h"
 
 
 
@@ -59,7 +59,8 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshPassword:) name:@"refreshPassword"object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData:) name:@"refreshByOrderDetail"object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(immediatePayment:) name:@"immediatePayment"object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessMethod:) name:@"alipaySuccess" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payFailMethod:) name:@"alipayFail" object:nil];
 //    [Tools saveInteger:2 forKey:KEY_WX_CALLBACK];
     
     //取消scrollview内容自动调整
@@ -741,54 +742,107 @@
     if (buttonIndex == 0) {
         [self chooseWallet];
     } else {
-        NSString *payType = [NSString stringWithFormat:@"%ld",(long)buttonIndex + 1];
+        NSString *payType = [NSString stringWithFormat:@"%ld",(long)buttonIndex];
         [self performPay:payType];
     }
     
 }
 
-#pragma mark -
+// ----------------------------------------------------------------------------------------
+// 立即支付 -- 支付宝支付、微信支付
+// ----------------------------------------------------------------------------------------
 
 - (void)performPay:(NSString *)payMethod {
+    
+    if ([payMethod isEqualToString:@"2"]) {
+        /* 检测是否已安装微信 */
+        if (![WXApi isWXAppInstalled]) {
+            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:@"请先安装微信" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+            [alter show];
+            return;
+        }
+    }
+    NSLog(@"payMethod:%@",payMethod);
     //支付接口
-//    NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                          @"paid",                                          @"act",
-//                          @"e3dc653e2d68697346818dfc0b208322",            @"key",
-//                          [Tools stringForKey:KEY_USER_ID],               @"uid",
-//                          oid,                                              @"oid",
-//                          allPrice,                                         @"paymoney",
-//                          payMethod,                                          @"pay_method",
-//                          @"",                                              @"pay_pass",
-//                          shopId,                                           @"sid",
-//                          nil];
-//    NSLog(@"dic:%@", dics);
-//    NSString *xpoint = ORDERXPOINT;
-//    [MailWorldRequest requestWithParams:dics xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-//        if (error) {
-//        } else {
-//            
-//            if (respond.result == 1) {
-//                
-//                NSDictionary *aplipay = respond.respondData ;
-//                NSDictionary *wxpay = respond.respondData ;
-//                
-//                AppPay *pay = [AppPay alloc];
-//                if ([payMethod isEqual:@"2"]) {
-//                    //支付宝支付
-//                    [pay initWithDicctionary:aplipay fromPay:@"Alpay" payDelegate:self];
-//                }
-//                
-//                if([payMethod isEqual:@"3"]) {
-//                    //微信支付
-//                    [pay initWithDicctionary:wxpay fromPay:@"Wxpay" payDelegate:self];
-//                }
-//                
-//            } else {
-//                UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示信息" message:respond.error_msg delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-//                [alter show];
-//            }
-//        }
-//    }];
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],@"user_id",
+                         payMethod,@"trade_type",
+                         oid,@"order_total_id",
+                         shopId,@"shop_id",
+                         nil];
+    NSString *path = [NSString stringWithFormat:@"/Api/Order/rePay?"];
+    NSLog(@"dic:%@",dic);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        if ([statusMsg intValue] == 201){
+            //获取成功，无数据情况
+            
+        }else if ([statusMsg intValue] == 500){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"支付错误!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+            
+        }else if ([statusMsg intValue] == 200){
+            //支付宝支付
+            NSString *payInfo = [[dic valueForKey:@"data"] valueForKey:@"Payinfo"];
+            if ([payMethod isEqual:@"1"] && payInfo != nil) {
+                //应用注册scheme,在Info.plist定义URL types
+                NSString *appScheme = @"wx69b0d0dbc086b71f";
+                
+                // NOTE: 调用支付结果开始支付
+                [[AlipaySDK defaultService] payOrder:payInfo fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+                    NSLog(@"reslut = %@",resultDic);
+                    //没有安装支付宝时调用网页版，回调功能
+                    NSString *memo = [resultDic valueForKey:@"memo"];
+                    NSString *resultStatus = [resultDic valueForKey:@"resultStatus"];
+                    NSInteger resultTag;
+                    if ([resultStatus integerValue] == 9000) {
+                        memo = @"支付成功";
+                        resultTag = 0;
+                    }else{
+                        memo = @"支付失败";
+                        resultTag = 1;
+                    }
+                    [self callbackResult:resultTag resultTitle:memo payType:@"1" errorContent:memo];
+                }];
+            }
+            
+        }else if([payMethod isEqual:@"2"]){
+            NSDictionary *wxDic = [dic valueForKey:@"data"];
+            PayReq *request = [[PayReq alloc] init];
+            /** 商家向财付通申请的商家id */
+            request.partnerId = [wxDic valueForKey:@"partnerid"];
+            /** 预支付订单 */
+            request.prepayId = [wxDic valueForKey:@"prepayid"];
+            /** 商家根据财付通文档填写的数据和签名 */
+            request.package = [wxDic valueForKey:@"package"];
+            /** 随机串，防重发 */
+            request.nonceStr= [wxDic valueForKey:@"noncestr"];
+            /** 时间戳，防重发 */
+            request.timeStamp= [[wxDic valueForKey:@"timestamp"] intValue];
+            /** 商家根据微信开放平台文档对数据做的签名 */
+            request.sign= [wxDic valueForKey:@"sign"];
+            /*! @brief 发送请求到微信，等待微信返回onResp
+             *
+             * 函数调用后，会切换到微信的界面。第三方应用程序等待微信返回onResp。微信在异步处理完成后一定会调用onResp。支持以下类型
+             * SendAuthReq、SendMessageToWXReq、PayReq等。
+             * @param req 具体的发送请求，在调用函数后，请自己释放。
+             * @return 成功返回YES，失败返回NO。
+             */
+            [WXApi sendReq: request];
+        }
+    }fail:^(NSError *error) {
+        
+    }];
+    
+    
 }
 
 
@@ -1146,7 +1200,33 @@
 //    // Dispose of any resources that can be recreated.
 //}
 
+//客户端支付成功回调页面
+-(void)paySuccessMethod:(NSNotification*)notification{
+    NSString *obj = [notification object];
+    [self callbackResult:0 resultTitle:@"支付成功" payType:obj errorContent:@"支付成功"];
+}
+//客户端支付失败回调页面
+-(void)payFailMethod:(NSNotification*)notification{
+    NSString *obj = [notification object];
+    [self callbackResult:1 resultTitle:@"支付失败" payType:obj errorContent:@"支付失败"];
+}
 
-
-
+// ----------------------------------------------------------------------------------------
+// 网页页面支付状态回调
+// ----------------------------------------------------------------------------------------
+- (void)callbackResult:(NSInteger)result resultTitle:(NSString *)title payType:(NSString *)paytype errorContent:(NSString *)error {
+    
+    if (result == 0) {
+        //支付成功
+        PaySuccessViewController *sc= [[PaySuccessViewController alloc]initWithNibName:@"PaySuccessViewController" bundle:[NSBundle mainBundle]];
+        sc.title = @"支付成功";
+        [self.navigationController pushViewController:sc animated:YES];
+    } else {
+        //支付失败
+        PayFailViewController *sf= [[PayFailViewController alloc]initWithNibName:@"PayFailViewController" bundle:[NSBundle mainBundle]];
+        sf.title = @"支付失败";
+        sf.payType = paytype;
+        [self.navigationController pushViewController:sf animated:YES];
+    }
+}
 @end

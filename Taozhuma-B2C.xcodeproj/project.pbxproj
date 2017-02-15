@@ -25,6 +25,8 @@
 		003916DF1E1BA47C0091EA21 /* PayFailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 003916DD1E1BA47C0091EA21 /* PayFailViewController.xib */; };
 		00B6E0B41E139C1F00CE4C7F /* HotProCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B6E0B21E139C1F00CE4C7F /* HotProCollectionViewCell.m */; };
 		00B6E0B51E139C1F00CE4C7F /* HotProCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B6E0B31E139C1F00CE4C7F /* HotProCollectionViewCell.xib */; };
+		00F203021E542889009756B8 /* RechargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00F203001E542889009756B8 /* RechargeViewController.m */; };
+		00F203031E542889009756B8 /* RechargeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00F203011E542889009756B8 /* RechargeViewController.xib */; };
 		00FA43061E4BFFCE00551532 /* WaitOrdersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FA43051E4BFFCE00551532 /* WaitOrdersListViewController.m */; };
 		00FA43091E4C083300551532 /* EvaluationOrdersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FA43081E4C083200551532 /* EvaluationOrdersListViewController.m */; };
 		00FA430C1E4C413800551532 /* CommentOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FA430B1E4C413800551532 /* CommentOrderViewController.m */; };
@@ -377,6 +379,9 @@
 		00B6E0B11E139C1F00CE4C7F /* HotProCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotProCollectionViewCell.h; sourceTree = "<group>"; };
 		00B6E0B21E139C1F00CE4C7F /* HotProCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotProCollectionViewCell.m; sourceTree = "<group>"; };
 		00B6E0B31E139C1F00CE4C7F /* HotProCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HotProCollectionViewCell.xib; sourceTree = "<group>"; };
+		00F202FF1E542889009756B8 /* RechargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RechargeViewController.h; sourceTree = "<group>"; };
+		00F203001E542889009756B8 /* RechargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RechargeViewController.m; sourceTree = "<group>"; };
+		00F203011E542889009756B8 /* RechargeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RechargeViewController.xib; sourceTree = "<group>"; };
 		00FA43041E4BFFCE00551532 /* WaitOrdersListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitOrdersListViewController.h; sourceTree = "<group>"; };
 		00FA43051E4BFFCE00551532 /* WaitOrdersListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitOrdersListViewController.m; sourceTree = "<group>"; };
 		00FA43071E4C083200551532 /* EvaluationOrdersListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvaluationOrdersListViewController.h; sourceTree = "<group>"; };
@@ -2056,6 +2061,9 @@
 				0027D8E91E51818100EE81CE /* WithdrawalViewController.h */,
 				0027D8EA1E51818100EE81CE /* WithdrawalViewController.m */,
 				0027D8EB1E51818100EE81CE /* WithdrawalViewController.xib */,
+				00F202FF1E542889009756B8 /* RechargeViewController.h */,
+				00F203001E542889009756B8 /* RechargeViewController.m */,
+				00F203011E542889009756B8 /* RechargeViewController.xib */,
 			);
 			path = MyWalletView;
 			sourceTree = "<group>";
@@ -2400,6 +2408,7 @@
 				37B2BB241D7413620046934A /* u-num-ipt.png in Resources */,
 				37FC006A1D702FA300EE8D58 /* LTPickerView.xib in Resources */,
 				375B54301D77FBC600AFCC1A /* address2.png in Resources */,
+				00F203031E542889009756B8 /* RechargeViewController.xib in Resources */,
 				0A156F1D1E1CDB7400AB25E5 /* MainGoodsViewCell.xib in Resources */,
 				37FE5F251D6C2E5400012513 /* deta_share.png in Resources */,
 				0A027F031CE18D5600B95294 /* Intro4-568.jpg in Resources */,
@@ -2531,6 +2540,7 @@
 				370C5E4C1D7561D100B93FC4 /* ELCAssetCell.m in Sources */,
 				37038A751D7AA99600DD3486 /* AllOrdersListViewController.m in Sources */,
 				0A156F1C1E1CDB7400AB25E5 /* MainGoodsViewCell.m in Sources */,
+				00F203021E542889009756B8 /* RechargeViewController.m in Sources */,
 				0A13F7F01CDB374A00AF5392 /* UIImage+MultiFormat.m in Sources */,
 				370373301D659FA80055349A /* MBProgressHUD.m in Sources */,
 				370E31BF1D6E8FD90016FD77 /* CouponsEntity.m in Sources */,

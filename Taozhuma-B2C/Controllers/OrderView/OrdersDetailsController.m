@@ -15,6 +15,7 @@
 #import "WXApi.h"
 #import "PaySuccessViewController.h"
 #import "PayFailViewController.h"
+#import "CommentOrderViewController.h"
 
 #define Reality_viewHeight ScreenHeight-ViewOrignY-40-50
 #define Reality_viewWidth ScreenWidth
@@ -876,11 +877,62 @@
     UIButton *btn = (UIButton *)sender;
     NSLog(@"btn:%ld",(long)btn.tag);
     if ((long)btn.tag == 1) {
+        //立即支付
         UIActionSheet *paySheet = [[UIActionSheet alloc] initWithTitle:@"选择支付方式" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"钱包支付" otherButtonTitles:@"支付宝支付", @"微信支付", nil];
         paySheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
         
         [paySheet showInView:self.view];
     }
+    if ((long)btn.tag == 2) {
+        //到达确认
+        NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                             [Tools stringForKey:KEY_USER_ID],@"user_id",
+                             _shopId,@"shop_id",
+                             _orderId,@"order_total_id",
+                             @"2",@"status",
+                             nil];
+        NSString *path = [NSString stringWithFormat:@"/Api/Shop/updStatus?"];
+        NSLog(@"dic:%@",dic);
+        [HYBNetworking updateBaseUrl:SERVICE_URL];
+        [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
+            
+            NSDictionary *dic = response;
+            NSString *statusMsg = [dic valueForKey:@"status"];
+            if([statusMsg intValue] == 4001){
+                //弹框提示获取失败
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"获取失败!";
+                hud.yOffset = -50.f;
+                hud.removeFromSuperViewOnHide = YES;
+                [hud hide:YES afterDelay:2];
+                return;
+            }else if ([statusMsg intValue] == 201){
+                //获取成功，无数据情况
+                
+            }else{
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.detailsLabelText = @"收货成功";
+                hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
+                hud.removeFromSuperViewOnHide = YES;
+                [hud hide:YES afterDelay:1];
+                [self performSelector:@selector(backClick:) withObject:nil afterDelay:1.0];
+                
+            }
+            
+        } fail:^(NSError *error) {
+            
+        }];
+    }if ((long)btn.tag == 3) {
+        //评论
+        CommentOrderViewController * CommentslView = [[CommentOrderViewController alloc]init];
+        CommentslView.data = _data;
+        CommentslView.title = @"订单评价";
+        CommentslView.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:CommentslView animated:YES];
+    }
+    
 }
 #pragma mark - UIAlertViewDelegate
 
@@ -998,6 +1050,12 @@
         [self performPay:payType];
     }
     
+}
+
+// 返回上页
+- (IBAction)backClick:(id)sender {
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

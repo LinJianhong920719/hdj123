@@ -45,7 +45,8 @@ BMKMapManager* _mapManager;
     // Override point for customization after application launch.
 
     isStop = false;
-    
+    //程序开启时将用户充值标示设置为false，用以区分用户充值跟订单支付的函数回调
+    [Tools saveBool:false forKey:KEY_RECHARGE_TAG];
     // 要使用百度地图，请先启动BaiduMapManager
     _mapManager = [[BMKMapManager alloc]init];
     BOOL ret = [_mapManager start:@"dekD1hGpYbhaTFsj30yIyaFQ34nDLc0E" generalDelegate:self];
@@ -290,12 +291,23 @@ BMKMapManager* _mapManager;
             
             NSString *payStatus = [resultDic valueForKey:@"resultStatus"];
             NSLog(@"resultStatus:%@",[resultDic valueForKey:@"resultStatus"]);
-            if ([payStatus intValue] == 9000) {
+            //订单调用支付宝支付成功情况回调
+            if ([payStatus intValue] == 9000 && ![Tools stringForKey:KEY_RECHARGE_TAG]) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"alipaySuccess" object:nil];
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+            }else if ([payStatus intValue] == 9000 && [Tools stringForKey:KEY_RECHARGE_TAG]){
+                //用户充值成功情况回调
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeSuccess" object:nil];
             }else{
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"alipayFail" object:@"1"];
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+                //订单调用支付宝支付成功情况回调
+                if (![Tools stringForKey:KEY_RECHARGE_TAG]) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"alipayFail" object:@"1"];
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+                }else{
+                    //用户充值成功情况回调
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeFail" object:nil];
+                }
+                
             }
             
         }];
@@ -314,14 +326,22 @@ BMKMapManager* _mapManager;
         case WXSuccess:
             strMsg = @"支付结果：成功！";
             NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"alipaySuccess" object:nil];
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+            if ([Tools stringForKey:KEY_RECHARGE_TAG]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeSuccess" object:nil];
+            }else{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"alipaySuccess" object:nil];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+            }
             break;
         default:
             strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
             NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"alipayFail" object:@"2"];
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+            if ([Tools stringForKey:KEY_RECHARGE_TAG]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"rechargeFail" object:nil];
+            }else{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"alipayFail" object:@"2"];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"refCart" object:nil];
+            }
             break;
     }
 }

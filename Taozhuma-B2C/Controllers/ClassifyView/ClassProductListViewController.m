@@ -49,8 +49,9 @@
     [self initUI];
     [self loadData];
     [self setupHeader];
-//    [self setupFooter];
+    [self setupFooter];
     _sort = 1;
+    _pageno = 1;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -250,15 +251,15 @@
 
 - (void)loadData {
     if(_sort == 1){
-        sortStr = @"";
+        sortStr = @"time";
     }else if(_sort == 3){
         sortStr = @"priceAsc";
     }else if (_sort == 4){
         sortStr = @"priceDesc";
-    }else if(_sort == 4){
-        sortStr = @"priceAsc";
-    }else if (_sort == 4){
-        sortStr = @"priceDesc";
+    }else if(_sort == 5){
+        sortStr = @"salesAsc ";
+    }else if (_sort == 6){
+        sortStr = @"salesDesc";
     }
     NSLog(@"content:%@",catId);
     NSLog(@"userId:%@",[Tools stringForKey:KEY_USER_ID]);
@@ -266,6 +267,7 @@
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          catId,     @"catId",
                          sortStr,@"sort",
+                         [NSNumber numberWithInteger:_pageno],@"pager",
                          nil];
     
     NSString *path = [NSString stringWithFormat:@"/Api/Goods/showGdByCat?"];
@@ -335,7 +337,7 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             _pageno = 1;
             [self loadData];
-//            [_mTableView reloadData];
+            [_mTableView reloadData];
             [weakRefreshHeader endRefreshing];
         });
     };
@@ -360,7 +362,7 @@
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         _pageno ++;
-//        [self loadData];
+        [self loadData];
         [self.refreshFooter endRefreshing];
     });
 }

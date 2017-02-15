@@ -9,6 +9,9 @@
 #import "MyWalletViewController.h"
 #import "MyWalletEntity.h"
 #import "MyWalletCell.h"
+#import "RechargeViewController.h"
+#import "PaySuccessViewController.h"
+#import "WithdrawalViewController.h"
 
 #define Reality_viewHeight ScreenHeight-ViewOrignY-40-50
 #define Reality_viewWidth ScreenWidth
@@ -31,10 +34,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refeshData) name:@"refreshByWalletDetail"object:nil];
 
     [self initUI];
     [self loadData];
-//    [self setupHeader];
+    [self setupHeader];
+    [self setupFooter];
+    _pageno = 1;
     
 }
 
@@ -46,7 +52,7 @@
     
     _data = [[NSMutableArray alloc]init];
     
-    _mTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ViewOrignY-20, Reality_viewWidth, ScreenHeight) style:UITableViewStylePlain];
+    _mTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ViewOrignY, Reality_viewWidth, ScreenHeight-ViewOrignY) style:UITableViewStylePlain];
     _mTableView.delegate = self;
     _mTableView.dataSource = self;
     _mTableView.scrollsToTop = YES;
@@ -54,13 +60,14 @@
     _mTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     [self.view addSubview:_mTableView];
     
-    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Reality_viewWidth, 40)];
+    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Reality_viewWidth, 1)];
     [tableFooterView setBackgroundColor:[UIColor clearColor]];
     _mTableView.tableFooterView = tableFooterView;
     
     _mTableView.sectionHeaderHeight = 42;
     _mTableView.sectionFooterHeight = 10;
-    
+    //取消scrollview内容自动调整
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self initTableHeaderView];
 }
@@ -95,6 +102,7 @@
     rechargeBtn.titleLabel.textColor = [UIColor whiteColor];
     [rechargeBtn.layer setMasksToBounds:YES];
     [rechargeBtn.layer setCornerRadius:5.0]; //设置矩形四个圆角半径
+    [rechargeBtn addTarget:self action:@selector(recharge:) forControlEvents:UIControlEventTouchUpInside];
     [butView addSubview:rechargeBtn];
     
     UIButton *withdrawalBtn = [[UIButton alloc]initWithFrame:CGRectMake(viewRight(rechargeBtn)+10,5, DEVICE_SCREEN_SIZE_WIDTH/2-20, 30)];
@@ -104,6 +112,7 @@
     withdrawalBtn.titleLabel.textColor = [UIColor whiteColor];
     [withdrawalBtn.layer setMasksToBounds:YES];
     [withdrawalBtn.layer setCornerRadius:5.0]; //设置矩形四个圆角半径
+    [withdrawalBtn addTarget:self action:@selector(withdrawal:) forControlEvents:UIControlEventTouchUpInside];
     [butView addSubview:withdrawalBtn];
     
     UIView *butomView = [[UIView alloc]initWithFrame:CGRectMake(0, viewBottom(butView), DEVICE_SCREEN_SIZE_WIDTH, 10)];
@@ -130,6 +139,7 @@
 
 - (void)loadData {
     
+    //获取用户余额
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          [Tools stringForKey:KEY_USER_ID],@"userId",
                          nil];
@@ -153,7 +163,41 @@
             
             NSString *amount = [[dic valueForKey:@"data"]valueForKey:@"amount"];
             money.text = [NSString stringWithFormat:@"¥ %@",amount];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    //获取余额明细
+    NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],@"user_id",
+                          [NSNumber numberWithInteger:_pageno], @"pager",
+                         nil];
+    NSString *paths = [NSString stringWithFormat:@"/Api/Wallet/getWalletUserLog?"];
+    NSLog(@"dics:%@",dics);
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:paths refreshCache:YES emphasis:NO params:dics success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        if([statusMsg intValue] == 4001){
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"获取失败!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }else if([statusMsg intValue] == 200){
             
+            NSMutableArray *dataArray = [dic valueForKey:@"data"];
+            for (NSDictionary* dic in dataArray) {
+                MyWalletEntity* entity = [[MyWalletEntity alloc]initWithAttributes:dic];
+                [_data addObject:entity];
+            }
+            [_mTableView reloadData];
             
         }
         
@@ -173,19 +217,18 @@
     __weak SDRefreshHeaderView *weakRefreshHeader = refreshHeader;
     refreshHeader.beginRefreshingOperation = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            //            _pageno = 1;
+            _pageno = 1;
             [self loadData];
-            //            [_mTableView reloadData];
+            [_mTableView reloadData];
             [weakRefreshHeader endRefreshing];
         });
     };
     
     // 进入页面自动加载一次数据
-    [refreshHeader beginRefreshing];
+//    [refreshHeader beginRefreshing];
 }
--(void)refeshOrder{
-    //    _pageno = 1;
-    //    [self loadData];
+-(void)refeshData{
+    [self loadData];
 }
 
 - (void)setupFooter
@@ -199,8 +242,8 @@
 - (void)footerRefresh
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //        _pageno ++;
-        //        [self loadData];
+         _pageno ++;
+         [self loadData];
         [self.refreshFooter endRefreshing];
     });
 }
@@ -220,8 +263,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return _data.count;
-    return 10;
+    return _data.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -236,38 +278,22 @@
     
     if ([_data count] > 0) {
         MyWalletEntity *entity = [_data objectAtIndex:[indexPath row]];
-        cell.payTitle.text = @"123";
-        cell.payDate.text = @"123";
-        cell.payMoney.text = @"123";
-        cell.balance.text = @"123";
-        
-        
+        cell.payTitle.text = entity.message;
+        cell.payDate.text = entity.createTime;
+        cell.payMoney.text = entity.val;
+        cell.balance.text = [NSString stringWithFormat:@"余额:%@",entity.left_val];
     }
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    //    ProductEntity *entity = [_data objectAtIndex:[indexPath row]];
-    
-    //    OrderDetailsViewController *detailsView = [[OrderDetailsViewController alloc]init];
-    //    detailsView.orderID = entity.orderID;
-    //    detailsView.title = @"订单详情";
-    //    detailsView.hidesBottomBarWhenPushed = YES;
-    //    [self.navigationController pushViewController:detailsView animated:YES];
-    
-    //    [_mTableView deselectRowAtIndexPath:indexPath animated:YES];
-}
 - (IBAction)backClick:(id)sender {
     // 返回上页
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 //点击键盘上的Return按钮响应的方法
 -(IBAction)nextOnKeyboard:(UITextField *)sender{
@@ -275,64 +301,25 @@
     
     
 }
-//兑换按钮
--(void)cardBtnClick:(UIButton*)btn{
-    NSLog(@"userId:%@",[Tools stringForKey:KEY_USER_ID]);
-    
-    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         cardNumberField.text,     @"card_num",
-                         [Tools stringForKey:KEY_USER_ID],@"userId",
-                         nil];
-    
-    NSString *path = [NSString stringWithFormat:@"/Api/Coupon/activate?"];
-    
-    [HYBNetworking updateBaseUrl:SERVICE_URL];
-    
-    [HYBNetworking postWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
-        NSDictionary *dic = response;
-        NSLog(@"response:%@",response);
-        NSString *statusMsg = [dic valueForKey:@"status"];
-        if([statusMsg intValue] == 4001){
-            //弹框提示获取失败
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"获取失败!";
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
-            return;
-        }if([statusMsg intValue] == 201){
-            //弹框提示获取失败
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"无数据";
-            hud.yOffset = -50.f;
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
-            return;
-        }if([statusMsg intValue] == 4002){
-            [self showHUDText:@"获取失败!"];
-        }else{
-            [self showHUDText:@"兑换成功!"];
-            [self loadData];
-            [_mTableView reloadData];
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
-    
+//充值按钮
+-(void)recharge:(UIButton*)btn{
+    RechargeViewController *vc= [[RechargeViewController alloc]initWithNibName:@"RechargeViewController" bundle:[NSBundle mainBundle]];
+    vc.title = @"充值";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+//提现按钮
+-(void)withdrawal:(UIButton*)btn{
+    WithdrawalViewController *vc= [[WithdrawalViewController alloc]initWithNibName:@"WithdrawalViewController" bundle:[NSBundle mainBundle]];
+    vc.title = @"提现";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 //去掉小数点之后的0；
 -(NSString*)removeFloatAllZero:(NSString*)string
 {
-    
     //    第二种方法
     NSString * testNumber = string;
     NSString * outNumber = [NSString stringWithFormat:@"%@",@(testNumber.floatValue)];
-    
-    
     return outNumber;
 }
 

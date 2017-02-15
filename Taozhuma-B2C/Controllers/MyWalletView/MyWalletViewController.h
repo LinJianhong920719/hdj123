@@ -10,5 +10,6 @@
 
 @interface MyWalletViewController : BaseViewController
 @property (nonatomic, strong) UITableView* mTableView;
+@property (nonatomic, assign) NSInteger pageno;
 
 @end

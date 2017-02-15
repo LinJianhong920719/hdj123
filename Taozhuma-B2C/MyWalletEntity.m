@@ -9,10 +9,6 @@
 #import "MyWalletEntity.h"
 
 @implementation MyWalletEntity
-@synthesize payTitle;
-@synthesize payDate;
-@synthesize payMoney;
-@synthesize balance;
 
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
@@ -20,15 +16,13 @@
     if (!self) {
         return nil;
     }
-    
-    payTitle = [attributes valueForKey:@"id"];
-    payDate = [attributes valueForKey:@"user_id"];
-    payMoney = [attributes valueForKey:@"com_id"];
-    balance = [attributes valueForKey:@"address"];
 
+    _uid = [attributes valueForKey:@"uid"];
+    _message = [attributes valueForKey:@"message"];
+    _createTime = [attributes valueForKey:@"create_time"];
+    _val = [attributes valueForKey:@"val"];
+    _left_val = [attributes valueForKey:@"left_val"];
 
-    
-    
     return self;
 }
 @end
