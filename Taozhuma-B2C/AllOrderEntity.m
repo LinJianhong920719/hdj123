@@ -24,6 +24,7 @@
 @synthesize isDiscuss;//是否评论
 @synthesize freight;//运费
 @synthesize isRefuse;//是否拒绝
+@synthesize isDelete;//是否删除
 @synthesize shipping_status;//配送状态
 //@synthesize sendPrice;//起送价
 //@synthesize errorMsg;
@@ -47,6 +48,7 @@
     freight = [attributes valueForKey:@"sj_freight_amount"];
     isRefuse = [attributes valueForKey:@"is_denial_orders"];
     shipping_status = [attributes valueForKey:@"shipping_status"];
+    isDelete = [attributes valueForKey:@"is_del_order"];
 //    sendPrice = [attributes valueForKey:@"bid_price"];
 //    errorMsg = [attributes valueForKey:@"error_msg"];
     

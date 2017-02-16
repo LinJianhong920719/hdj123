@@ -439,7 +439,7 @@
 }
 - (IBAction)backClick:(id)sender {
     // 返回上页
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

@@ -120,13 +120,29 @@ NSLog(@"y;%f",_MeScroolView.frame.origin.y);
 
 }
 
+//点击每个按钮然后选中对应的scroolview页面及选中按钮
+-(void)test:(NSInteger) i{
+
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect f = _LineView.frame;
+        f.origin.x = (i-1000)*(MeW/_VCAry.count);
+        _LineView.frame = f;
+        _MeScroolView.contentOffset = CGPointMake((i-1000)*MeW, 0);
+    }];
+    
+    
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setNaviBarTitle:@"我的订单"];
 
     [self initWithAddVCARY:@[[AllOrdersListViewController new],[NewOrdersListViewController new],[WaitOrdersListViewController new],[EvaluationOrdersListViewController new]]TitleS:@[@"全部",@"待付款",@"待收货",@"待评价"]];
-    
+    if (_i > 0) {
+        [self test:_i];
+    }
 //    [self initWithAddVCARY]
 }
 

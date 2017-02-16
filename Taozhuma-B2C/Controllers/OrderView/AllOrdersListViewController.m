@@ -495,11 +495,12 @@
     
 
     AllOrderEntity *entity = [_data objectAtIndex:section];
-    NSString *orderStatus = entity.orderStatus;
-    NSString *orderIsCancel = entity.isCancel;
-    NSString *orderIsRefuse = entity.isRefuse;
-    NSString *orderShippingStatus = entity.shipping_status;
-    NSString *orderIsDiscuss = entity.isDiscuss;
+    NSString *orderStatus = entity.orderStatus;//支付状态
+    NSString *orderIsCancel = entity.isCancel;//是否取消
+    NSString *orderIsRefuse = entity.isRefuse;//是否拒绝
+    NSString *orderShippingStatus = entity.shipping_status;//配送状态
+    NSString *orderIsDiscuss = entity.isDiscuss;//是否评论
+    NSString *orderIsDel = entity.isDelete;//是否删除
     
     //店铺模块
     EMAsyncImageView *shopLogo = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(PROPORTION414*20, 7, 16, 16)];
@@ -524,16 +525,22 @@
     state.textColor = RGB(255, 80, 0);
     state.font = [UIFont boldSystemFontOfSize:11];
     state.backgroundColor = [UIColor clearColor];
-    if([orderStatus intValue] == 0 && [orderIsCancel intValue] == 0){
+    if([orderStatus intValue] == 0 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
         state.text = @"等待付款";
-    }else if([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 &&[orderIsRefuse intValue] == 0){
+    }else if([orderStatus intValue] == 0 && [orderIsCancel intValue] == 1 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
+        state.text = @"交易失败";
+    }else if([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
         state.text = @"等待配送";
-    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsRefuse intValue] == 1){
+    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 1 && [orderIsDel intValue] == 0){
+        state.text = @"正在配送";
+    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 1 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
         state.text = @"交易失败";
-    }else if ([orderStatus intValue] == 0 && [orderIsCancel intValue] == 1 && [orderIsRefuse intValue] == 0){
-        state.text = @"交易失败";
-    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 2){
+    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 2 && [orderIsDel intValue] == 0){
         state.text = @"交易成功";
+    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 1 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 2 && [orderIsDel intValue] == 0){
+        state.text = @"交易成功";
+    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsRefuse intValue] == 1 && [orderShippingStatus intValue] == 3 && [orderIsDel intValue] == 0){
+        state.text = @"交易失败";
     }
     state.textAlignment = NSTextAlignmentRight;
     [view addSubview:state];
@@ -624,48 +631,59 @@
     //两个数字进行拼接 中间用13568来做分割符
     NSString* string13568 = [NSString stringWithFormat:@"%@13568%@",entity.oid,entity.shopId];
     btnConfirm.tag = [string13568 integerValue];
-    
-    if([entity.orderStatus intValue] == 0 && [entity.isCancel intValue] == 0){
+    NSString *orderStatus = entity.orderStatus;//支付状态
+    NSString *orderIsCancel = entity.isCancel;//是否取消
+    NSString *orderIsRefuse = entity.isRefuse;//是否拒绝
+    NSString *orderShippingStatus = entity.shipping_status;//配送状态
+    NSString *orderIsDiscuss = entity.isDiscuss;//是否评论
+    NSString *orderIsDel = entity.isDelete;//是否删除
+    if([orderStatus intValue] == 0 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
         [btnConfirm setTitle:@"立即付款" forState:UIControlStateNormal];
         [btnConfirm setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         btnConfirm.layer.borderColor = [RGB(255, 80, 0) CGColor];
         btnConfirm.backgroundColor = RGB(255, 80, 0);
         btnConfirm.tag = section;
         [btnConfirm addTarget:self action:@selector(immediatePayment:) forControlEvents:UIControlEventTouchUpInside];
-    }else if([entity.orderStatus intValue] == 1 && [entity.isCancel intValue] == 0 &&[entity.isRefuse intValue] == 0){
+    }else if ([orderStatus intValue] == 0 && [orderIsCancel intValue] == 1 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
+        [btnConfirm setTitle:@"交易结束" forState:UIControlStateNormal];
+        [btnConfirm setTitleColor:FONTS_COLOR forState:UIControlStateNormal];
+        btnConfirm.layer.borderColor = [UIColorWithRGBA(114, 113, 113, 1) CGColor];
+        
+    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
+        [btnConfirm setTitle:@"等待配送" forState:UIControlStateNormal];
+        [btnConfirm setTitleColor:FONTS_COLOR forState:UIControlStateNormal];
+        btnConfirm.layer.borderColor = [UIColorWithRGBA(114, 113, 113, 1) CGColor];
+        
+    }else if([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 1 && [orderIsDel intValue] == 0){
         [btnConfirm setTitle:@"到达确认" forState:UIControlStateNormal];
         [btnConfirm setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         btnConfirm.layer.borderColor = [RGB(255, 80, 0) CGColor];
         btnConfirm.backgroundColor = RGB(255, 80, 0);
         [btnConfirm addTarget:self action:@selector(btnConfirmClick:) forControlEvents:UIControlEventTouchUpInside];
 
-    }else if ([entity.orderStatus intValue] == 1 && [entity.isCancel intValue] == 0 && [entity.isRefuse intValue] == 1){
+    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 1 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
         [btnConfirm setTitle:@"商家拒单" forState:UIControlStateNormal];
         [btnConfirm setTitleColor:FONTS_COLOR forState:UIControlStateNormal];
         btnConfirm.layer.borderColor = [UIColorWithRGBA(114, 113, 113, 1) CGColor];
 
-    }else if ([entity.orderStatus intValue] == 0 && [entity.isCancel intValue] == 1 && [entity.isRefuse intValue] == 0){
-        [btnConfirm setTitle:@"交易结束" forState:UIControlStateNormal];
-        [btnConfirm setTitleColor:FONTS_COLOR forState:UIControlStateNormal];
-        btnConfirm.layer.borderColor = [UIColorWithRGBA(114, 113, 113, 1) CGColor];
+    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 2 && [orderIsDel intValue] == 0){
         
-    }else if ([entity.orderStatus intValue] == 1 && [entity.isCancel intValue] == 0 && [entity.isRefuse intValue] == 0 && [entity.shipping_status intValue] == 2){
-        if([entity.isDiscuss integerValue] == 0){
             btnConfirm.hidden =NO;
             [btnConfirm setTitle:@"评论" forState:UIControlStateNormal];
             [btnConfirm setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             btnConfirm.layer.borderColor = [RGB(255, 80, 0) CGColor];
             btnConfirm.backgroundColor = RGB(255, 80, 0);
             [btnConfirm addTarget:self action:@selector(btnCommentsClick:) forControlEvents:UIControlEventTouchUpInside];
-            
-        }
-        else {
-            
+    }else if([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 1 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 2 && [orderIsDel intValue] == 0) {
             [btnConfirm setTitle:@"已评论" forState:UIControlStateNormal];
             [btnConfirm setTitleColor:FONTS_COLOR forState:UIControlStateNormal];
             btnConfirm.layer.borderColor = [UIColorWithRGBA(114, 113, 113, 1) CGColor];
-        }
+    }else if([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0  && [orderIsRefuse intValue] == 1 && [orderShippingStatus intValue] == 3 && [orderIsDel intValue] == 0) {
+        [btnConfirm setTitle:@"已退款" forState:UIControlStateNormal];
+        [btnConfirm setTitleColor:FONTS_COLOR forState:UIControlStateNormal];
+        btnConfirm.layer.borderColor = [UIColorWithRGBA(114, 113, 113, 1) CGColor];
     }
+    
     
     btnConfirm.titleLabel.font = [UIFont systemFontOfSize: 14.0];
     btnConfirm.layer.borderWidth = 0.5;
@@ -675,42 +693,42 @@
     //取消订单模块
     
     UIButton *btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    if([entity.orderStatus intValue] == 0 && [entity.isCancel intValue] == 0){
+    if([orderStatus intValue] == 0 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
         [btnCancel setTitle:@"取消订单" forState:UIControlStateNormal];
         [btnCancel setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-142, 71, 67, 25)];
         
         [btnCancel addTarget:self action:@selector(btnCancelClick:) forControlEvents:UIControlEventTouchUpInside];
 
-    }else if([entity.orderStatus intValue] == 1 && [entity.isCancel intValue] == 0 &&[entity.isRefuse intValue] == 0){
+    }else if ([orderStatus intValue] == 0 && [orderIsCancel intValue] == 1 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
+        [btnCancel setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-142, 71, 67, 25)];
+        [btnCancel setTitle:@"删除订单" forState:UIControlStateNormal];
+        [btnCancel addTarget:self action:@selector(btndelClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+    }else if([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
         btnCancel.hidden = YES;
         
-    }else if ([entity.orderStatus intValue] == 1 && [entity.isCancel intValue] == 0 && [entity.isRefuse intValue] == 1){
+    }else if([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 1 && [orderIsDel intValue] == 0){
+        btnCancel.hidden = YES;
+    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 1 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
         [btnCancel setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-142, 71, 67, 25)];
         [btnCancel setTitle:@"删除订单" forState:UIControlStateNormal];
         [btnCancel addTarget:self action:@selector(btndelClick:) forControlEvents:UIControlEventTouchUpInside];
-
+    }else if ([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 1 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 2 && [orderIsDel intValue] == 0){
         
-    }else if ([entity.orderStatus intValue] == 0 && [entity.isCancel intValue] == 1 && [entity.isRefuse intValue] == 0){
+            [btnCancel setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-142, 71, 67, 25)];
+            [btnCancel setTitle:@"删除订单" forState:UIControlStateNormal];
+            [btnCancel addTarget:self action:@selector(btndelClick:) forControlEvents:UIControlEventTouchUpInside];
+    }else if([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 1 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 2 && [orderIsDel intValue] == 0){
+            [btnCancel setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-142, 71, 67, 25)];
+            [btnCancel setTitle:@"删除订单" forState:UIControlStateNormal];
+            [btnCancel addTarget:self action:@selector(btndelClick:) forControlEvents:UIControlEventTouchUpInside];
+    }else if([orderStatus intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsRefuse intValue] == 1 && [orderShippingStatus intValue] == 3 && [orderIsDel intValue] == 0){
         [btnCancel setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-142, 71, 67, 25)];
         [btnCancel setTitle:@"删除订单" forState:UIControlStateNormal];
         [btnCancel addTarget:self action:@selector(btndelClick:) forControlEvents:UIControlEventTouchUpInside];
-        
-        
-    }else if ([entity.orderStatus intValue] == 1 && [entity.isCancel intValue] == 0 && [entity.isRefuse intValue] == 0 && [entity.shipping_status intValue] == 2){
-        if([entity.isDiscuss integerValue] == 0){
-            [btnCancel setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-142, 71, 67, 25)];
-            [btnCancel setTitle:@"删除订单" forState:UIControlStateNormal];
-            [btnCancel addTarget:self action:@selector(btndelClick:) forControlEvents:UIControlEventTouchUpInside];
-            
-        }
-        else {
-            
-            [btnCancel setFrame:CGRectMake(DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*20-142, 71, 67, 25)];
-            [btnCancel setTitle:@"删除订单" forState:UIControlStateNormal];
-            [btnCancel addTarget:self action:@selector(btndelClick:) forControlEvents:UIControlEventTouchUpInside];
-
-        }
     }
+    
     //两个数字进行拼接 中间用13568来做分割符
     NSString* string = [NSString stringWithFormat:@"%@13568%@",entity.oid,entity.shopId];
     

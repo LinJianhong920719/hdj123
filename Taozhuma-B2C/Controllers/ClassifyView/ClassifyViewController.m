@@ -16,6 +16,7 @@
 #import "MBProgressHUD.h"
 #import "ClassProductListViewController.h"
 #import "ClassGoodsEntity.h"
+#import "SearchViewController.h"
 
 @interface ClassifyViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 {
@@ -27,6 +28,9 @@
     BOOL _isRelate;
     NSString *token;
     NSString *catId;
+    UIView *topView;
+    UIButton *but;
+    UITextField *searchLabel;
 }
 
 @end
@@ -37,7 +41,11 @@
     [super viewDidLoad];
     catId = @"1";
     [self hideNaviBarLeftBtn:YES];
-    [self setNaviBarTitle:@"商品分类"];
+    //隐藏导航栏
+    [self hideNaviBar:YES];
+    //初始化UI视图
+    [self initTopNav];
+//    [self setNaviBarTitle:@"商品分类"];
     
     [Tools getTokenMessage];
     token = [Tools stringForKey:TokenDatas];
@@ -57,7 +65,30 @@
     [self getClassMessage];
     
 }
-
+//初始化头部导航栏
+-(void)initTopNav{
+    //自定义导航栏
+    topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)];
+    topView.backgroundColor = BACK_DEFAULT;
+    
+    UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 24, DEVICE_SCREEN_SIZE_WIDTH, 30)];
+    UIImageView *searchImageView = [[UIImageView alloc]initWithFrame:CGRectMake(120*PROPORTION, 10, 10, 10)];
+    [searchImageView setImage:[UIImage imageNamed:@"icon_search"]];
+    [searchView addSubview:searchImageView];
+    UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(viewRight(searchImageView)+5, 0, 200, 30)];
+    
+    searchBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    [searchBtn setTitleColor:FONTS_COLOR102 forState:UIControlStateNormal];
+    [searchBtn setTitle:@"请输入商品名称" forState:UIControlStateNormal];
+    searchBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentLeft ;//设置文字位置
+    [searchBtn addTarget:self action:@selector(searchBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [searchView addSubview:searchBtn];
+    
+    [topView addSubview:searchView];
+    
+    [self.view addSubview:topView];
+    [self.view bringSubviewToFront:topView];
+}
 //获取大分类信息
 - (void)getCarGoods {
     
@@ -382,5 +413,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+//跳转到搜索页面
+- (IBAction)searchBtnClicked:(id)sender {
+    SearchViewController *searchView= [[SearchViewController alloc]init];
+    searchView.hidesBottomBarWhenPushed = YES;
+    searchView.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:searchView animated:YES];
+    
+}
 @end

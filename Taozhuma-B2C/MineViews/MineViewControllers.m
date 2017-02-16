@@ -539,33 +539,37 @@
  
         switch (button.tag) {
             case 1: {
-//                OrderListViewController *MyRefund = [[OrderListViewController alloc]init];
-//                MyRefund.title = @"退款维权";
-//                MyRefund.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:MyRefund animated:YES];
+                //待付款
+                OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
+                allOrderView.i = 1001;
+                allOrderView.title = title;
+                allOrderView.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:allOrderView animated:YES];
             }   break;
             case 2: {
-//                OrderListViewController *MyRefund = [[OrderListViewController alloc]init];
-//                MyRefund.title = @"退款维权";
-//                MyRefund.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:MyRefund animated:YES];
-            }break;
+                //待收货
+                OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
+                allOrderView.i = 1002;
+                allOrderView.title = title;
+                allOrderView.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:allOrderView animated:YES];
+            }   break;
             case 3: {
-//                OrderListViewController *MyRefund = [[OrderListViewController alloc]init];
-//                MyRefund.title = @"退款维权";
-//                MyRefund.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:MyRefund animated:YES];
+                //待评价
+                OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
+                allOrderView.i = 1003;
+                allOrderView.title = title;
+                allOrderView.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:allOrderView animated:YES];
             }break;
             case 4: {
-//                OrderListViewController *MyRefund = [[OrderListViewController alloc]init];
-//                MyRefund.title = @"退款维权";
-//                MyRefund.hidesBottomBarWhenPushed = YES;
-//                [self.navigationController pushViewController:MyRefund animated:YES];
+                //售后
+                
             }break;
    
             default: {
+                //全部订单
                 OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
-//                allOrderView.ptagid = [NSString stringWithFormat:@"%ld", (long)button.tag];
                 allOrderView.title = title;
                 allOrderView.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:allOrderView animated:YES];

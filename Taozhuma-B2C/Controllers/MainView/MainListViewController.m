@@ -341,7 +341,7 @@
     if (!_cycleView) {
         _cycleView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, ScreenWidth, turn5(140)) delegate:self placeholderImage:[UIImage imageNamed:@"loading-3"]];
         _cycleView.pageControlAliment = SDCycleScrollViewPageContolAlimentCenter;
-        _cycleView.currentPageDotColor = [UIColor redColor];
+        _cycleView.currentPageDotColor = UIColorWithRGBA(255, 214, 0, 1);
         _cycleView.autoScrollTimeInterval = 5.0;
         _cycleView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     }

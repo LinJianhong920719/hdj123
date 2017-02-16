@@ -15,6 +15,7 @@
     UIView   *_LineView;
     UIScrollView *_MeScroolView;
 }
+@property (nonatomic, assign) NSInteger i;
 
 - (void)initWithAddVCARY:(NSArray*)VCS TitleS:(NSArray*)TitleS;
 

@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSString *isCancel;//是否取消
 @property (nonatomic, strong) NSString *isDiscuss;//是否评论
 @property (nonatomic, strong) NSString *isRefuse;//是否拒绝
+@property (nonatomic, strong) NSString *isDelete;//是否删除
 @property (nonatomic, strong) NSString *shipping_status;//配送状态
 @property (nonatomic, strong) NSString *freight;//运费
 //@property (nonatomic, strong) NSString *sendPrice;//起送价
