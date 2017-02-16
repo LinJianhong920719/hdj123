@@ -29,6 +29,9 @@
     NSString *communityId;//小区id
     NSString *communityName;//小区名称
     UIAlertView *alert;
+    NSString *provinceStr;
+    NSString *cityStr;
+    NSString *townStr;
 
 }
 
@@ -273,7 +276,10 @@
     AddressPickView *addressPickView = [AddressPickView shareInstance];
     [self.view addSubview:addressPickView];
     addressPickView.block = ^(NSString *province,NSString *city,NSString *town){
-        NSLog(@"%@",[NSString stringWithFormat:@"%@ %@ %@",province,city,town]);
+        provinceStr = province;
+        cityStr = city;
+        townStr = town;
+        NSLog(@"address:%@",[NSString stringWithFormat:@"%@ %@ %@",province,city,town]);
         userAreaField.text = [NSString stringWithFormat:@"%@%@%@",province,city,town];
         
     };
@@ -403,6 +409,9 @@
                           userPhoneField.text,@"mobile",
                           sexNum,@"gender",
                           @"0",@"level",
+                          provinceStr,@"province",
+                          cityStr,@"city",
+                          townStr,@"area",
                           nil];
     
     NSString *xpoint = @"/Api/User/addAddress?";

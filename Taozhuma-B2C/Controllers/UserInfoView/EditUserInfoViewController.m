@@ -166,6 +166,12 @@
 //打开相机
 - (void)touch_photo {
     // for iphone
+    UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
+    //判断是否有摄像头
+    if(![UIImagePickerController isSourceTypeAvailable:sourceType])
+    {
+        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
     imagePicker = [[UIImagePickerController alloc] init];
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;

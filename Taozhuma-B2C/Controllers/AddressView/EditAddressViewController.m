@@ -29,6 +29,13 @@
     NSString *communityId;//小区id
     NSString *communityName;//小区名称
     UIAlertView *alert;
+    NSString *provinceStr;
+    NSString *cityStr;
+    NSString *townStr;
+    
+    NSString* address;
+    NSString* guestName;
+    NSString* mobile;
 
 }
 
@@ -275,6 +282,9 @@
     AddressPickView *addressPickView = [AddressPickView shareInstance];
     [self.view addSubview:addressPickView];
     addressPickView.block = ^(NSString *province,NSString *city,NSString *town){
+        provinceStr = province;
+        cityStr = city;
+        townStr = town;
         NSLog(@"%@",[NSString stringWithFormat:@"%@ %@ %@",province,city,town]);
         userAreaField.text = [NSString stringWithFormat:@"%@%@%@",province,city,town];
         
@@ -335,6 +345,7 @@
     [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dics success:^(id response) {
         
         NSDictionary *dic = response;
+        NSLog(@"response:%@",response);
         NSString *statusMsg = [dic valueForKey:@"status"];
         
         if([statusMsg intValue] == 4001){
@@ -350,6 +361,7 @@
             for(NSDictionary *com in data){
                 [comNameArray addObject:[com valueForKey:@"com_name"]];
                 [comIdArray addObject:[com valueForKey:@"id"]];
+                communityId = [com valueForKey:@"com_id"];
             }
 
         }
@@ -393,7 +405,23 @@
                 userSexField.text = @"女";
             }
             userPhoneField.text = [data valueForKey:@"mobile"];
-//            myUITextView.text = [data valueForKey:@"address"];
+            userAreaField.text = [NSString stringWithFormat:@"%@ %@ %@",[data valueForKey:@"province"],[data valueForKey:@"city"],[data valueForKey:@"area"]];
+            userComField.text = [data valueForKey:@"com_name"];
+            
+            NSArray *array = [[data valueForKey:@"address"] componentsSeparatedByString:[data valueForKey:@"com_name"]]; //从字符A中分隔成2个元素的数组
+            
+            userAddressField.text = [array objectAtIndex:1];
+            
+            //保存数据
+            communityId = [data valueForKey:@"com_id"];
+            address = [data valueForKey:@"address"];
+            guestName = [data valueForKey:@"guest_name"];
+            mobile = [data valueForKey:@"mobile"];
+            sexNum = [data valueForKey:@"gender"];
+            provinceStr = [data valueForKey:@"province"];
+            cityStr = [data valueForKey:@"city"];
+            townStr =[data valueForKey:@"area"];
+            
             
             
         }
@@ -451,6 +479,9 @@
                           sexNum,@"gender",
                           @"0",@"level",
                           addressId,@"id",
+                          provinceStr,@"province",
+                          cityStr,@"city",
+                          townStr,@"area",
                           nil];
     
     NSString *xpointa = @"/Api/User/updAddress?";
