@@ -272,30 +272,6 @@
     } fail:^(NSError *error) {
         
     }];
-    //        [MailWorldRequest requestWithParams:dic xpoint:xpoint andBlock:^(MailWorldRequest *respond, NSError *error) {
-    //            if (error) {
-    //                [HUD removeFromSuperview];
-    //            } else {
-    //                if (respond.result == 1) {
-    //                    if(respond.respondData > 0){
-    //                        name.text = [NSString stringWithFormat:@"%@",[respond.respondData valueForKey:@"nikename"]];
-    //                        [Tools saveObject:[respond.respondData valueForKey:@"nikename"] forKey:KEY_NIKE_NAME];
-    //                        if ([respond.respondData valueForKey:@"head_icon"]==nil) {
-    //
-    //                            headImage.image = [UIImage imageNamed:@"wm-088"];
-    //                        } else {
-    //
-    //                            [Tools saveObject:[respond.respondData valueForKey:@"head_icon"] forKey:KEY_HEAD_ICON];
-    //                            [headImage sd_setImageWithURL:[NSURL URLWithString:[respond.respondData valueForKey:@"head_icon"]] placeholderImage:[UIImage imageNamed:@"wm-088"]];
-    //                        }
-    //                        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshInfos" object:nil];
-    //                    }
-    //
-    //                    [HUD removeFromSuperview];
-    //
-    //                }
-    //            }
-    //        }];
     
 }
 
@@ -331,7 +307,7 @@
         hud.removeFromSuperViewOnHide = YES;
         [hud hide:YES afterDelay:2];
         return;
-    }else if(imageData.length == 0 && name.text == niceName){
+    }else if(imageData.length == 0 && [name.text isEqualToString:niceName] ){
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.detailsLabelText = @"信息无变化";
@@ -341,66 +317,76 @@
         [hud hide:YES afterDelay:2];
         return;
     }
-   
+    //没有修改图片情况
     if(imageData.length == 0){
-        //对请求路径的说明
-        //http://120.25.226.186:32812/login
-        //协议头+主机地址+接口名称
-        //协议头(http://)+主机地址(120.25.226.186:32812)+接口名称(login)
-        //POST请求需要修改请求方法为POST，并把参数转换为二进制数据设置为请求体
-        NSString *xpoint = @"/Api/User/edit?";
-        NSString *string = [SERVICE_URL stringByAppendingString:xpoint];
-        //1.创建会话对象
-        NSURLSession *session = [NSURLSession sharedSession];
+
+        // 1. URL
+        NSString *path = [NSString stringWithFormat:@"/Api/User/edit?"];
+        NSURL *url  = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVICE_URL,path]];
         
-        //2.根据会话对象创建task
-        NSURL *url = [NSURL URLWithString:string];
-        
-        //3.创建可变的请求对象
+        // 2. 请求(可以改的请求)
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        
-        //4.修改请求方法为POST
+        // ? POST
+        // 默认就是GET请求
         request.HTTPMethod = @"POST";
+        // ? 数据体
+        NSString *str = [NSString stringWithFormat:@"userId=%@&nickname=%@", [Tools stringForKey:KEY_USER_ID], name.text];
+        // 将字符串转换成数据
+        request.HTTPBody = [str dataUsingEncoding:NSUTF8StringEncoding];
         
-        //5.设置请求体;
-        request.HTTPBody = [[NSString stringWithFormat:@"userId=%@,&nickname=%@", [Tools stringForKey:KEY_USER_ID], name.text] dataUsingEncoding:NSUTF8StringEncoding];
-        
-        
-        //6.根据会话对象创建一个Task(发送请求）
-        /*
-         第一个参数：请求对象
-         第二个参数：completionHandler回调（请求完成【成功|失败】的回调）
-         data：响应体信息（期望的数据）
-         response：响应头信息，主要是对服务器端的描述
-         error：错误信息，如果请求失败，则error有值
-         */
-        NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        // 3. 连接,异步
+        [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
             
-            //8.解析数据
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            NSLog(@"333:%@",dict);
-            NSString *statusMsg = [dict valueForKey:@"status"];
-            if ([statusMsg intValue] == 201) {
-                //弹框提示获取失败
-                [self showHUDText:@"暂无数据"];
+            if (connectionError == nil) {
+                // 网络请求结束之后执行!
+                // 将Data转换成字符串
+                NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 
-            }else if ([statusMsg intValue] == 4001) {
-                //弹框提示获取失败
-                [self showHUDText:@"获取失败!"];
+                // num = 2
+                NSLog(@"%@ %@", str, [NSThread currentThread]);
                 
-            } else {
-                [self showHUDText:@"修改成功!"];
-                [self performSelector:@selector(backClick:) withObject:nil afterDelay:0.5];
+                // 更新界面
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    NSLog(@"str:%@",str);
+                    NSDictionary *dic = [self dictionaryWithJsonString:str];
+                    NSString* statusMsg = [dic valueForKey:@"status"];
+                    if ([statusMsg intValue] == 201) {
+                        //弹框提示获取失败
+                        [self showHUDText:@"暂无数据"];
+                        
+                    }else if ([statusMsg intValue] == 4001) {
+                        //弹框提示获取失败
+                        [self showHUDText:@"获取失败!"];
+                        
+                    } else {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMineView" object:nil];  //通知我的页面刷新
+                        //弹框提示获取成功
+                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                        hud.mode = MBProgressHUDModeText;
+                        hud.labelText = @"修改成功!";
+                        hud.yOffset = -50.f;
+                        hud.removeFromSuperViewOnHide = YES;
+                        [hud hide:YES afterDelay:2];
+                        [self performSelector:@selector(backClicks:) withObject:nil afterDelay:0.5];
+                    }
+                    
+                    
+                }];
             }
         }];
-        
-        //7.执行任务
-        [dataTask resume];
     }else{
-        NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                             [Tools stringForKey:KEY_USER_ID],      @"userId",
-                             name.text,                        @"nickname",
-                             nil];
+        NSDictionary *dic;
+        if ([name.text isEqualToString:niceName] ) {
+            dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                   [Tools stringForKey:KEY_USER_ID],      @"userId",
+                   nil];
+        }else{
+            dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                   [Tools stringForKey:KEY_USER_ID],      @"userId",
+                   name.text,                        @"nickname",
+                   nil];
+        }
+        
         NSLog(@"dic:%@",dic);
         NSString *xpoint = @"/Api/User/edit?";
         [HYBNetworking updateBaseUrl:SERVICE_URL];
@@ -425,9 +411,15 @@
                                        [self showHUDText:@"获取失败!"];
                                        
                                    } else {
-                                       
-                                       [self showHUDText:@"修改成功!"];
-                                       [self performSelector:@selector(backClick:) withObject:nil afterDelay:0.5];
+                                       [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshMineView" object:nil];  //通知我的页面刷新
+                                       //弹框提示获取成功
+                                       MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                                       hud.mode = MBProgressHUDModeText;
+                                       hud.labelText = @"修改成功!";
+                                       hud.yOffset = -50.f;
+                                       hud.removeFromSuperViewOnHide = YES;
+                                       [hud hide:YES afterDelay:2];
+                                       [self performSelector:@selector(backClicks:) withObject:nil afterDelay:0.5];
                                    }
                                }
                                   fail:^(NSError *error) {
@@ -435,7 +427,7 @@
                                       
                                   }];
     }
-
+    
     
 }
 
@@ -443,9 +435,29 @@
     
     [self loadData];
 }
-- (IBAction)backClick:(id)sender {
+- (IBAction)backClicks:(id)sender {
     // 返回上页
     [self.navigationController popViewControllerAnimated:YES];
 }
-
+/*!
+ * @brief 把格式化的JSON格式的字符串转换成字典
+ * @param jsonString JSON格式的字符串
+ * @return 返回字典
+ */
+- (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString {
+    if (jsonString == nil) {
+        return nil;
+    }
+    
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    if(err) {
+        NSLog(@"json解析失败：%@",err);
+        return nil;
+    }
+    return dic;
+}
 @end

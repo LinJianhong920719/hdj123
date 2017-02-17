@@ -594,6 +594,7 @@ static CGFloat submitViewHeight = 52;
     NSString *result;
     NSData *jsonData;
     NSMutableDictionary *mtableDictionart = [[NSMutableDictionary alloc]init];
+
     //商家id:留言 保存成字符串
     for (int i = 0; i < _data.count; i ++) {
         ConfirmOrderEntity *entity = [_data objectAtIndex:i];
@@ -636,6 +637,8 @@ static CGFloat submitViewHeight = 52;
     if (couponsId == nil) {
         couponsId = @"0";
     }
+    NSLog(@"noteStr:%@",noteStr);
+    
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
                          [Tools stringForKey:KEY_USER_ID],@"userId",
                          noteStr,@"info",

@@ -40,7 +40,7 @@
         
         NSDictionary *alipay = [NSDictionary dictionaryWithObjectsAndKeys:@"支付宝" ,@"title", @"安全快捷，可支持银行卡支付", @"content", @"zfb.png", @"imageName", alipayType, @"payType", @"1", @"status",nil];
         NSDictionary *wxpay = [NSDictionary dictionaryWithObjectsAndKeys:@"微信支付" ,@"title", @"推荐已在微信中绑定银行卡的用户使用", @"content", @"wxzf.png", @"imageName", wxpayType, @"payType", @"0", @"status",nil];
-        NSDictionary *wallet = [NSDictionary dictionaryWithObjectsAndKeys:@"钱包支付" ,@"title", @"用户钱包支付支付", @"content", @"user_wallet.png", @"imageName", walletType, @"payType", @"0", @"status",nil];
+        NSDictionary *wallet = [NSDictionary dictionaryWithObjectsAndKeys:@"钱包支付" ,@"title", @"用户钱包支付支付", @"content", @"qianbao.png", @"imageName", walletType, @"payType", @"0", @"status",nil];
 //        NSDictionary *applepay = [NSDictionary dictionaryWithObjectsAndKeys:@"苹果支付" ,@"title", @"applePay快捷支付", @"content", @"apple-pay.png", @"imageName", appleType, @"payType", @"0", @"status",nil];
         
         data = @[alipay, wxpay, wallet];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		001FA68D1E56D063007F3AAC /* qianbao.png in Resources */ = {isa = PBXBuildFile; fileRef = 001FA68C1E56D063007F3AAC /* qianbao.png */; };
 		0022E2B31E4D619900608D30 /* OrdersDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0022E2B11E4D619900608D30 /* OrdersDetailsController.m */; };
 		0022E2B61E4D686200608D30 /* OrderDetailEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0022E2B51E4D686200608D30 /* OrderDetailEntity.m */; };
 		002701BC1E19FA2B00E6B0E0 /* ChooseAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 002701BA1E19FA2B00E6B0E0 /* ChooseAddressCell.m */; };
@@ -349,6 +350,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		001FA68C1E56D063007F3AAC /* qianbao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qianbao.png; sourceTree = "<group>"; };
 		0022E2B11E4D619900608D30 /* OrdersDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersDetailsController.m; sourceTree = "<group>"; };
 		0022E2B21E4D619900608D30 /* OrdersDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrdersDetailsController.h; sourceTree = "<group>"; };
 		0022E2B41E4D686200608D30 /* OrderDetailEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailEntity.h; sourceTree = "<group>"; };
@@ -1820,6 +1822,7 @@
 		375B54291D77FBC600AFCC1A /* ConfirmOrderView */ = {
 			isa = PBXGroup;
 			children = (
+				001FA68C1E56D063007F3AAC /* qianbao.png */,
 				3727D4A31D7D461C00CA148F /* order_null.png */,
 				375B543A1D781C2C00AFCC1A /* icon-rmb.png */,
 				375B54381D77FECB00AFCC1A /* hdjaddress.png */,
@@ -2364,6 +2367,7 @@
 				37BFE2EF1CF2E5F50001081D /* user_coupon.png in Resources */,
 				0A027F001CE18D5600B95294 /* Intro3-667.jpg in Resources */,
 				003916D91E1BA4110091EA21 /* PaySuccessViewController.xib in Resources */,
+				001FA68D1E56D063007F3AAC /* qianbao.png in Resources */,
 				37FE5F301D6C565300012513 /* collection_rel.png in Resources */,
 				37BD3A0C1D6FE35700BAACF7 /* address_location.png in Resources */,
 				0A027EFD1CE18D5600B95294 /* Intro2-736.jpg in Resources */,

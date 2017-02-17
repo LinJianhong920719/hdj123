@@ -57,7 +57,7 @@
    
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(grabSingle:) name:@"GrabSingle" object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshPassword:) name:@"refreshPassword"object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData:) name:@"refreshByOrderDetail"object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData:) name:@"refreshByOrderDetail"object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(immediatePayment:) name:@"immediatePayment"object:nil];
     
 //    [Tools saveInteger:2 forKey:KEY_WX_CALLBACK];
@@ -111,10 +111,9 @@
 
 - (void)initTableView {
     
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 33)];
-    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 118)];
-    
-    _mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, ViewOrignY-viewBottom(headerView)-60, DEVICE_SCREEN_SIZE_WIDTH,DEVICE_SCREEN_SIZE_HEIGHT-ViewOrignY-50+viewBottom(headerView)+viewBottom(footerView)) style:UITableViewStylePlain];
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+    _mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH,DEVICE_SCREEN_SIZE_HEIGHT-ViewOrignY-50) style:UITableViewStyleGrouped];
     _mTableView.delegate = self;
     _mTableView.dataSource = self;
     _mTableView.backgroundColor = UIColorWithRGBA(238, 239, 239, 1);
@@ -320,7 +319,13 @@
             return;
         }else if ([statusMsg intValue] == 201){
             //获取成功，无数据情况
-            
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"无数据!";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
         }else{
             NSArray *orderData = [dic valueForKey:@"data"];
             for (NSDictionary *dic in orderData) {

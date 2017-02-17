@@ -270,6 +270,16 @@
         }
         modifyStr = [modifyArray componentsJoinedByString:@","];
         submitStr = [submitArray componentsJoinedByString:@","];
+        if (submitStr == nil || [submitStr isEqualToString:@""]) {
+            //弹框提示获取失败
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"请选择商品";
+            hud.yOffset = -50.f;
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES afterDelay:2];
+            return;
+        }
     }
     
         ConfirmOrderViewController *confirmOrderView= [[ConfirmOrderViewController alloc]init];

@@ -56,7 +56,8 @@
     [self initUI];
     //自定义数据
     [self customData];
-    
+    //读取用户数据
+    [self loadUserData];
     [self initTableHeaderView];
 }
 
@@ -96,11 +97,64 @@
 - (void) refreshMine:(NSNotification*) notification{
 
     [self customData];
+    [self loadUserData];
     [self initUI];
 }
 - (void) Update:(NSNotification*) notification{
     [self initUI];
 }
+//读取用户信息（头像，昵称）
+- (void)loadUserData {
+    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                         [Tools stringForKey:KEY_USER_ID],     @"uid",
+                         nil];
+    NSLog(@"%@", dic);
+    NSString *xpoint = @"/Api/User/getInfo";
+    
+    [HYBNetworking updateBaseUrl:SERVICE_URL];
+    [HYBNetworking getWithUrl:xpoint refreshCache:YES emphasis:NO params:dic success:^(id response) {
+        
+        NSDictionary *dic = response;
+        NSString *statusMsg = [dic valueForKey:@"status"];
+        NSLog(@"statusMsg:%@",statusMsg);
+        
+        
+        
+        if ([statusMsg intValue] == 201) {
+            //弹框提示获取失败
+            [self showHUDText:@"暂无数据"];
+            
+        }else if ([statusMsg intValue] == 4001) {
+            //弹框提示获取失败
+            [self showHUDText:@"获取失败!"];
+            
+        } else {
+            
+            NSArray *data = [dic valueForKey:@"data"];
+            
+            if ([data count] > 0) {
+                [Tools saveObject:[data valueForKey:@"u_nickname"] forKey:KEY_USER_NAME];
+                [Tools saveObject:[data valueForKey:@"u_image"] forKey:KEY_USER_IMAGE];
+                
+                userName.text = [NSString stringWithFormat:@"%@",[data valueForKey:@"u_nickname"]];
+                if ([data valueForKey:@"u_image"]==nil) {
+                    logoImageView.image = [UIImage imageNamed:@"user_default"];
+                } else {
+                    [logoImageView sd_setImageWithURL:[NSURL URLWithString:[data valueForKey:@"u_image"]] placeholderImage:[UIImage imageNamed:@"head_bg"]];
+                }
+            }
+            
+            
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+
+    
+}
+
 - (void)initUI {
     
     UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, DEVICE_SCREEN_SIZE_WIDTH, 180)];
@@ -169,6 +223,7 @@
     [setShareButton setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];//设置按钮的图片
     [setShareButton setImageEdgeInsets:UIEdgeInsetsMake(8, 8, 8, 8) ];//将按钮的上下左右都缩进8个单位
     [setShareButton addTarget:self action:@selector(ShareClick:) forControlEvents:UIControlEventTouchUpInside];//为按钮增加时间侦听
+    setShareButton.hidden = YES;
     [headView addSubview:setShareButton];
     
     

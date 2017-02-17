@@ -339,14 +339,21 @@
                     }
                 }
                 //收货人
-                userLab.text = [NSString stringWithFormat:@"  %@",[_addressData valueForKey:@"guest_name"]];
+                userLab.text = [NSString stringWithFormat:@"   %@",[_addressData valueForKey:@"guest_name"]];
                 //联系方式
                 phone.text = [_addressData valueForKey:@"mobile"];
                 //收货地址
-                address.text = [NSString stringWithFormat:@"%@ %@ %@ %@",[_addressData valueForKey:@"province"],[_addressData valueForKey:@"city"],[_addressData valueForKey:@"area"],[_addressData valueForKey:@"address"]];
+                address.text = [NSString stringWithFormat:@"   %@ %@ %@ %@",[_addressData valueForKey:@"province"],[_addressData valueForKey:@"city"],[_addressData valueForKey:@"area"],[_addressData valueForKey:@"address"]];
+                
+                NSString *orderStatus1 = _payStatus;//支付状态
+                NSString *orderIsCancel = [_orderData valueForKey:@"is_cancel_order"];//是否取消
+                NSString *orderIsRefuse = [_orderData valueForKey:@"is_denial_orders"];//是否拒绝
+                NSString *orderShippingStatus = [_orderData valueForKey:@"shipping_status"];//配送状态
+                NSString *orderIsDiscuss = [_orderData valueForKey:@"is_discuss"];//是否评论
+                NSString *orderIsDel = [_orderData valueForKey:@"is_del_order"];//是否删除
                 
                 //
-                if([_payStatus integerValue] == 0 && [[_orderData valueForKey:@"is_cancel_order"] intValue] == 0){
+                if([orderStatus1 intValue] == 0 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
                     //立即付款
                     //左边按钮
                     [canelBtn setTitle:@"取消订单" forState:UIControlStateNormal];
@@ -355,7 +362,28 @@
                     [submitBtn setTitle:@"立即支付" forState:UIControlStateNormal];
                     submitBtn.tag = 1;
                     
-                }else if([_payStatus integerValue] == 1 && [[_orderData valueForKey:@"is_cancel_order"] intValue] == 0 &&[[_orderData valueForKey:@"is_denial_orders"] intValue] == 0 && [[_orderData valueForKey:@"shipping_status"] intValue] == 0){
+                }else if ([orderStatus1 intValue] == 0 && [orderIsCancel intValue] == 1 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
+                    //交易取消
+                    //左边按钮
+                    [canelBtn setTitle:@"删除订单" forState:UIControlStateNormal];
+                    canelBtn.tag = 2;
+                    //右边按钮
+                    [submitBtn setTitle:@"交易取消" forState:UIControlStateNormal];
+                    submitBtn.enabled = NO;
+                    [submitBtn setFrame:CGRectMake(viewRight(canelBtn), DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH/2, 40)];
+                    
+                    
+                }else if([orderStatus1 intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
+                    //到达确认
+                    //左边按钮
+                    canelBtn.hidden = YES;
+                    //右边按钮
+                    submitBtn.enabled = NO;
+                    [submitBtn setTitle:@"等待配送" forState:UIControlStateNormal];
+                    [submitBtn setFrame:CGRectMake(0, DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH, 40)];
+                    
+                    
+                }else if([orderStatus1 intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 1 && [orderIsDel intValue] == 0){
                     //到达确认
                     //左边按钮
                     canelBtn.hidden = YES;
@@ -365,7 +393,7 @@
                     submitBtn.tag = 2;
                     
                     
-                }else if ([_payStatus integerValue] == 1 && [[_orderData valueForKey:@"is_cancel_order"] intValue] == 0 && [[_orderData valueForKey:@"is_denial_orders"] intValue] == 1){
+                }else if ([orderStatus1 intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 1 && [orderShippingStatus intValue] == 0 && [orderIsDel intValue] == 0){
                     //商家拒单
                     //左边按钮
                     [canelBtn setTitle:@"删除订单" forState:UIControlStateNormal];
@@ -376,29 +404,20 @@
                     [submitBtn setFrame:CGRectMake(viewRight(canelBtn), DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH/2, 40)];
                     
                     
-                }else if ([_payStatus integerValue] == 0 && [[_orderData valueForKey:@"is_cancel_order"] intValue] == 1 && [[_orderData valueForKey:@"is_denial_orders"] intValue] == 0){
-                    //交易结束
-                    //左边按钮
-                    [canelBtn setTitle:@"删除订单" forState:UIControlStateNormal];
-                    canelBtn.tag = 2;
-                    //右边按钮
-                    [submitBtn setTitle:@"交易结束" forState:UIControlStateNormal];
-                    submitBtn.enabled = NO;
-                    [submitBtn setFrame:CGRectMake(viewRight(canelBtn), DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH/2, 40)];
+                }else if ([orderStatus1 intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 0 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 2 && [orderIsDel intValue] == 0){
                     
-                    
-                }else if ([_payStatus integerValue] == 1 && [[_orderData valueForKey:@"is_cancel_order"] intValue] == 0 && [[_orderData valueForKey:@"is_denial_orders"] intValue] == 0 && [[_orderData valueForKey:@"shipping_status"] intValue] == 2){
-                    if([[_orderData valueForKey:@"is_discuss"] intValue] == 0){
                         //评论
                         //左边按钮
-                        [canelBtn setTitle:@"删除订单" forState:UIControlStateNormal] ;
-                        canelBtn.tag = 2;
+                    canelBtn.hidden = YES;
+//                        [canelBtn setTitle:@"删除订单" forState:UIControlStateNormal] ;
+//                        canelBtn.tag = 2;
                         //右边按钮
-                        [submitBtn setTitle:@"评论" forState:UIControlStateNormal];
-                        submitBtn.tag = 3;
-                        
-                    }
-                    else {
+                    submitBtn.hidden = YES;
+//                        [submitBtn setTitle:@"评论" forState:UIControlStateNormal];
+//                        submitBtn.tag = 3;
+                    
+                    
+                }else if([orderStatus1 intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsDiscuss intValue] == 1 && [orderIsRefuse intValue] == 0 && [orderShippingStatus intValue] == 2 && [orderIsDel intValue] == 0) {
                         //评论
                         //左边按钮
                         [canelBtn setTitle:@"删除订单" forState:UIControlStateNormal] ;
@@ -406,19 +425,20 @@
                         //右边按钮
                         [submitBtn setTitleColor:UIColorWithRGBA(221, 221, 221, 1) forState:UIControlStateNormal];
                         [submitBtn setTitle:@"已评论" forState:UIControlStateNormal];
-                    }
+                    
+                }else if([orderStatus1 intValue] == 1 && [orderIsCancel intValue] == 0 && [orderIsRefuse intValue] == 1 && [orderShippingStatus intValue] == 3 && [orderIsDel intValue] == 0) {
+                    //评论
+                    canelBtn.hidden = YES;
+                    //右边按钮
+                    submitBtn.enabled = NO;
+                    [submitBtn setTitle:@"已退款" forState:UIControlStateNormal];
+                    [submitBtn setFrame:CGRectMake(0, DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH, 40)];
+                    
                 }
                 
                 
                 
                 
-            }else{
-                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                hud.mode = MBProgressHUDModeText;
-                hud.labelText = @"无数据";
-                hud.yOffset = -50.f;
-                hud.removeFromSuperViewOnHide = YES;
-                [hud hide:YES afterDelay:2];
             }
             
         }
@@ -917,6 +937,8 @@
                 hud.detailsLabelFont = [UIFont boldSystemFontOfSize:16];
                 hud.removeFromSuperViewOnHide = YES;
                 [hud hide:YES afterDelay:1];
+                //刷新订单页面数据
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshByOrderDetail" object:nil];
                 [self performSelector:@selector(backClick:) withObject:nil afterDelay:1.0];
                 
             }
@@ -925,7 +947,8 @@
             
         }];
     }if ((long)btn.tag == 3) {
-        //评论
+        
+        //评论(暂时无实现)
         CommentOrderViewController * CommentslView = [[CommentOrderViewController alloc]init];
         CommentslView.data = _data;
         CommentslView.title = @"订单评价";
@@ -1055,7 +1078,7 @@
 // 返回上页
 - (IBAction)backClick:(id)sender {
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
