@@ -88,7 +88,7 @@
     
     _data = [[NSMutableArray alloc]init];
     
-    _mTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ViewOrignY+5, Reality_viewWidth, ScreenHeight-100) style:UITableViewStylePlain];
+    _mTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, ViewOrignY+5, Reality_viewWidth, ScreenHeight-ViewOrignY-5) style:UITableViewStylePlain];
     _mTableView.delegate = self;
     _mTableView.dataSource = self;
     _mTableView.scrollsToTop = YES;
@@ -109,8 +109,8 @@
 
 
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         searchField.text,     @"content",
-                         @"汇",     @"content",
+                         searchField.text,     @"content",
+//                         @"汇",     @"content",
                          nil];
     
     NSString *path = [NSString stringWithFormat:@"/Api/Community/Search?"];

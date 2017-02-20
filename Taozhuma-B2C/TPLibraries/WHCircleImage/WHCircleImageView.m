@@ -167,7 +167,7 @@
     
     page.numberOfPages = self.ImageUrlArray.count;
     
-    page.currentPageIndicatorTintColor = [UIColor yellowColor];
+    page.currentPageIndicatorTintColor = UIColorWithRGBA(255, 80, 0, 1);
     
     page.pageIndicatorTintColor = [UIColor whiteColor];
     

@@ -105,7 +105,7 @@ BMKMapManager* _mapManager;
     //网络状态监控
     [self networkChanged];
     
-    [self loadIndexAddressMsg];
+    
 
 
     
@@ -639,8 +639,9 @@ BMKMapManager* _mapManager;
             [Tools saveDouble:userLocation.location.coordinate.longitude forKey:CURRENT_LONGITUDE];
             NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
             [_locService stopUserLocationService];
+            [self loadIndexAddressMsg];
 //            //通知 发出
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refAddress" object:nil];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"refAddressMessage" object:nil];
 //        }
 //        isStop = true;
     }

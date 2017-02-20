@@ -99,6 +99,7 @@
     [self customData];
     [self loadUserData];
     [self initUI];
+    [self initTableHeaderView];
 }
 - (void) Update:(NSNotification*) notification{
     [self initUI];
@@ -127,6 +128,10 @@
         }else if ([statusMsg intValue] == 4001) {
             //弹框提示获取失败
             [self showHUDText:@"获取失败!"];
+            
+        }else if ([statusMsg intValue] == 4002) {
+            logoImageView.image = [UIImage imageNamed:@"user_default"];
+            userName.text = [Tools stringForKey:KEY_USER_NAME];
             
         } else {
             
@@ -292,7 +297,6 @@
     [self.navigationController pushViewController:registeredView animated:YES];
 }
 -(IBAction)editUserInfoImage:(id)sender{
-    NSLog(@"该方法尚未实现");
     EditUserInfoViewController *registeredView = [[EditUserInfoViewController alloc]init];
     registeredView.title = @"修改信息";
     registeredView.hidesBottomBarWhenPushed = YES;
@@ -594,28 +598,57 @@
  
         switch (button.tag) {
             case 1: {
-                //待付款
-                OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
-                allOrderView.i = 1001;
-                allOrderView.title = title;
-                allOrderView.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:allOrderView animated:YES];
+                if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+                    //待付款
+                    OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
+                    allOrderView.i = 1001;
+                    allOrderView.title = title;
+                    allOrderView.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:allOrderView animated:YES];
+                }else{
+                    RegisterViewControllerNew *registeredView = [[RegisterViewControllerNew alloc]init];
+                    registeredView.title = @"快捷登陆";
+                    registeredView.hidesBottomBarWhenPushed = YES;
+                    registeredView.navigationController.navigationBarHidden = YES;
+                    [self.navigationController pushViewController:registeredView animated:YES];
+                    
+                }
+                
             }   break;
             case 2: {
-                //待收货
-                OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
-                allOrderView.i = 1002;
-                allOrderView.title = title;
-                allOrderView.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:allOrderView animated:YES];
+                if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+                    //待收货
+                    OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
+                    allOrderView.i = 1002;
+                    allOrderView.title = title;
+                    allOrderView.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:allOrderView animated:YES];
+                }else{
+                    RegisterViewControllerNew *registeredView = [[RegisterViewControllerNew alloc]init];
+                    registeredView.title = @"快捷登陆";
+                    registeredView.hidesBottomBarWhenPushed = YES;
+                    registeredView.navigationController.navigationBarHidden = YES;
+                    [self.navigationController pushViewController:registeredView animated:YES];
+                    
+                }
+                
             }   break;
             case 3: {
-                //待评价
-                OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
-                allOrderView.i = 1003;
-                allOrderView.title = title;
-                allOrderView.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:allOrderView animated:YES];
+                if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+                    //待评价
+                    OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
+                    allOrderView.i = 1003;
+                    allOrderView.title = title;
+                    allOrderView.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:allOrderView animated:YES];
+                }else{
+                    RegisterViewControllerNew *registeredView = [[RegisterViewControllerNew alloc]init];
+                    registeredView.title = @"快捷登陆";
+                    registeredView.hidesBottomBarWhenPushed = YES;
+                    registeredView.navigationController.navigationBarHidden = YES;
+                    [self.navigationController pushViewController:registeredView animated:YES];
+                }
+                
             }break;
             case 4: {
                 //售后
@@ -623,11 +656,19 @@
             }break;
    
             default: {
-                //全部订单
-                OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
-                allOrderView.title = title;
-                allOrderView.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:allOrderView animated:YES];
+                if([Tools boolForKey:KEY_IS_LOGIN]== YES){
+                    //全部订单
+                    OrderListViewController *allOrderView = [[OrderListViewController alloc]init];
+                    allOrderView.title = title;
+                    allOrderView.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:allOrderView animated:YES];
+                }else{
+                    RegisterViewControllerNew *registeredView = [[RegisterViewControllerNew alloc]init];
+                    registeredView.title = @"快捷登陆";
+                    registeredView.hidesBottomBarWhenPushed = YES;
+                    registeredView.navigationController.navigationBarHidden = YES;
+                    [self.navigationController pushViewController:registeredView animated:YES];
+                }
             }   break;
                 
         }

@@ -80,9 +80,9 @@
     if (!_pageno) {
         _pageno = 1;
     }
-    
+//    @"185"
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         @"185", @"comId",
+                         [Tools stringForKey: COMMUNITYID], @"comId",
                          [NSNumber numberWithInteger:_pageno], @"pager",
                          nil];
     NSString *xpoint = [NSString stringWithFormat:@"/Api/Goods/HotSell?"];

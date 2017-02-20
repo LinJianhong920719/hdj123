@@ -43,14 +43,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _sort = 1;
+    _pageno = 1;
     [self hideNaviBar:YES];
     [self initTopNav];
     [self initUI];
     [self loadData];
     [self setupHeader];
-//    [self setupFooter];
-    _sort = 1;
+    [self setupFooter];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -187,7 +188,8 @@
 
 //按钮点击方法
 -(IBAction)dragInside:(id)sender {
-    
+    [_data removeAllObjects];
+    _pageno = 1;
     UIButton *btn = (UIButton *)sender;
     if (btn.tag == 1001) {
         NSLog(@"_sort:%ld",(long)_sort);
@@ -197,12 +199,13 @@
         
         [secondImage setImage:[UIImage imageNamed:@"sort"]];
         [thirdImage setImage:[UIImage imageNamed:@"sort"]];
-
+        _sort = 1;
         [self loadData];
     }
     else if (btn.tag == 1002) {
         NSLog(@"_sort:%ld",(long)_sort);
         [firstLabel setTextColor:FONTS_COLOR102];
+        [thirdLabel setTextColor:FONTS_COLOR102];
         [thirdImage setImage:[UIImage imageNamed:@"sort"]];
         if(_sort == 3){
             _sort = 4;
@@ -223,6 +226,7 @@
     else if (btn.tag == 1003) {
         NSLog(@"_sort:%ld",(long)_sort);
         [firstLabel setTextColor:FONTS_COLOR102];
+        [secondLabel setTextColor:FONTS_COLOR102];
         [secondImage setImage:[UIImage imageNamed:@"sort"]];
         if(_sort == 5){
             _sort = 6;
@@ -248,15 +252,15 @@
 
 - (void)loadData {
     if(_sort == 1){
-        sortStr = @"";
+        sortStr = @"time";
     }else if(_sort == 3){
         sortStr = @"priceAsc";
     }else if (_sort == 4){
         sortStr = @"priceDesc";
-    }else if(_sort == 4){
-        sortStr = @"priceAsc";
-    }else if (_sort == 4){
-        sortStr = @"priceDesc";
+    }else if(_sort == 5){
+        sortStr = @"salesAsc ";
+    }else if (_sort == 6){
+        sortStr = @"salesDesc";
     }
     NSLog(@"content:%@",content);
     NSLog(@"userId:%@",[Tools stringForKey:KEY_USER_ID]);
@@ -265,6 +269,7 @@
                          content,     @"content",
                          [Tools stringForKey:KEY_USER_ID],@"userId",
                          sortStr,@"sort",
+                         [NSNumber numberWithInteger:_pageno],@"pager",
                          nil];
     
     NSString *path = [NSString stringWithFormat:@"/Api/Goods/searchGoods?"];
@@ -295,8 +300,9 @@
             return;
         }if([statusMsg intValue] == 4002){
             [self showHUDText:@"获取失败!"];
+        }if([statusMsg intValue] == 502){
+            [self showHUDText:@"获取失败!"];
         }else{
-            [_data removeAllObjects];
             if([[dic valueForKey:@"data"] count] > 0 && [dic valueForKey:@"data"] != nil){
                 for(NSDictionary *proDiction in [dic valueForKey:@"data"]){
                     
@@ -334,7 +340,7 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             _pageno = 1;
             [self loadData];
-//            [_mTableView reloadData];
+            [_mTableView reloadData];
             [weakRefreshHeader endRefreshing];
         });
     };
@@ -344,7 +350,7 @@
 }
 -(void)refeshOrder{
     _pageno = 1;
-//    [self loadData];
+    [self loadData];
 }
 
 - (void)setupFooter
@@ -359,7 +365,7 @@
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         _pageno ++;
-//        [self loadData];
+        [self loadData];
         [self.refreshFooter endRefreshing];
     });
 }

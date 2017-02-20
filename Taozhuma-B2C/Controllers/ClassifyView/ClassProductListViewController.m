@@ -200,7 +200,7 @@
         
         [secondImage setImage:[UIImage imageNamed:@"sort"]];
         [thirdImage setImage:[UIImage imageNamed:@"sort"]];
-
+        _sort = 1;
         [self loadData];
     }
     else if (btn.tag == 1002) {
@@ -226,6 +226,7 @@
     else if (btn.tag == 1003) {
         NSLog(@"_sort:%ld",(long)_sort);
         [firstLabel setTextColor:FONTS_COLOR102];
+        [secondLabel setTextColor:FONTS_COLOR102];
         [secondImage setImage:[UIImage imageNamed:@"sort"]];
         if(_sort == 5){
             _sort = 6;
@@ -347,7 +348,7 @@
 }
 -(void)refeshOrder{
     _pageno = 1;
-//    [self loadData];
+    [self loadData];
 }
 
 - (void)setupFooter

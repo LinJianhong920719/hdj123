@@ -73,8 +73,8 @@
     }
     else if([productContext count] == 1){
         advProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
-        advProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
-        
+//        advProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
+        advProductImage =  [attributes valueForKey:@"cat_image"];
         fristProductId = @"";
         fristProductImage = @"";
         firstProductName = @"";
@@ -92,7 +92,8 @@
     }
     else if([productContext count] == 2){
         advProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
-        advProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
+//        advProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
+        advProductImage =  [attributes valueForKey:@"cat_image"];
         
         fristProductId = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"id"];
         fristProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_image"];
@@ -111,7 +112,8 @@
     }
     else if([productContext count] == 3){
         advProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
-        advProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
+//        advProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
+        advProductImage =  [attributes valueForKey:@"cat_image"];
         
         fristProductId = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"id"];
         fristProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_image"];
@@ -130,7 +132,27 @@
     }
     else if([productContext count] == 4){
         advProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
-        advProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
+//        advProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
+        advProductImage =  [attributes valueForKey:@"cat_image"];
+        
+        fristProductId = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"id"];
+        fristProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_image"];
+        firstProductName = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_name"];
+        firstProductPirce = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_price"];
+        
+        secondProductId = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"id"];
+        secondProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_image"];
+        secondProductName = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_name"];
+        secondProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_price"];
+        
+        thirdProductId = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"id"];
+        thirdProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_image"];
+        thirdProductName =[[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_name"];
+        thirdProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_price"];
+    }else{
+        advProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
+        //        advProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
+        advProductImage =  [attributes valueForKey:@"cat_image"];
         
         fristProductId = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"id"];
         fristProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_image"];

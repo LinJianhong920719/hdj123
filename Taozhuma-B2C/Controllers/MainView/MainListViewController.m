@@ -97,6 +97,7 @@
     
     //获取首页地址
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(indexAddressMsg) name:@"refAddress" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(indexAddressMsg) name:@"refAddressMessage" object:nil];
     //选择小区后的回调刷新
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refCommunity:) name:@"refCommunity" object:nil];
 }
@@ -341,7 +342,7 @@
     if (!_cycleView) {
         _cycleView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, ScreenWidth, turn5(140)) delegate:self placeholderImage:[UIImage imageNamed:@"loading-3"]];
         _cycleView.pageControlAliment = SDCycleScrollViewPageContolAlimentCenter;
-        _cycleView.currentPageDotColor = UIColorWithRGBA(255, 214, 0, 1);
+        _cycleView.currentPageDotColor = UIColorWithRGBA(255, 80, 0, 1);
         _cycleView.autoScrollTimeInterval = 5.0;
         _cycleView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     }
@@ -400,12 +401,12 @@
 #pragma mark - 接口访问
 
 /**
- 列表数据
+ 列表数据 @"185"
  */
 - (void)loadData {
 
     NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
-                          @"185",   @"comId",
+                          [Tools stringForKey: COMMUNITYID]  ,   @"comId",
                           nil];
     
     NSString *xpoint = @"/Api/Goods/showIndex?";

@@ -63,6 +63,7 @@
 }
 
 - (void)setLoactionName:(NSString *)str {
+    NSLog(@"str:%@",str);
     if (![Tools isBlankString:str]) {
         loactionLabel.text = str;
         

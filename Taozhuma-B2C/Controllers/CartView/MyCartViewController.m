@@ -1091,20 +1091,20 @@
 
 #pragma mark TableViewCell 删除
 //删除按钮的文字样式
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return @"删除";
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return @"删除";
+//}
 
 //继承该方法时,左右滑动会出现删除按钮(自定义按钮),点击按钮时的操作
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *rowArray = [sectionArray objectAtIndex:[indexPath section]];
-    NSInteger row = [[rowArray objectAtIndex:[indexPath row]]integerValue];
-    
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"确定要从购物车移除此件商品吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    alert.tag = row;
-    [alert show];
-    
-}
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSArray *rowArray = [sectionArray objectAtIndex:[indexPath section]];
+//    NSInteger row = [[rowArray objectAtIndex:[indexPath row]]integerValue];
+//    
+//    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"确定要从购物车移除此件商品吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+//    alert.tag = row;
+//    [alert show];
+//    
+//}
 - (void)delCartClick:(id)sender {
     UIButton *btn = (UIButton*)sender;
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"确定要从购物车移除此件商品吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
@@ -1349,5 +1349,11 @@
     //    labelPreferential.text = [NSString stringWithFormat:@"为你节省：¥%0.1f",preferential];
     
 }
+
+#pragma mark - UIAlertViewDelegate
+
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//   
+//}
 
 @end
