@@ -270,7 +270,7 @@
         }
         modifyStr = [modifyArray componentsJoinedByString:@","];
         submitStr = [submitArray componentsJoinedByString:@","];
-        if (submitStr == nil || [submitStr isEqualToString:@""]) {
+        if ([self isBlankString:submitStr]) {
             //弹框提示获取失败
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             hud.mode = MBProgressHUDModeText;
