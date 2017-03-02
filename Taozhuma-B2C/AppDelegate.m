@@ -21,6 +21,7 @@
 #import <CloudPushSDK/CloudPushSDK.h>
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
+#import <UserNotifications/UserNotifications.h>
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -92,8 +93,9 @@ BMKMapManager* _mapManager;
     // 友盟推送
    // [self umeng_Message:launchOptions];
     //阿里云推送
-    [CloudPushSDK handleLaunching:launchOptions];
+    
     [self initCloudPush];
+    [CloudPushSDK handleLaunching:launchOptions];
     
     [self registerAPNS:application];
     [self registerMessageReceive];
@@ -166,9 +168,10 @@ BMKMapManager* _mapManager;
 //
 //    [Tools saveObject:token forKey:DeviceToken];
     
-    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+    NSLog(@"sss:%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
                   stringByReplacingOccurrencesOfString: @">" withString: @""]
                  stringByReplacingOccurrencesOfString: @" " withString: @""]);
+    NSLog(@"deviceToken:%@",deviceToken);
     //苹果推送注册成功回调，将苹果返回的deviceToken上传到CloudPush服务器
     [CloudPushSDK registerDevice:deviceToken withCallback:^(CloudPushCallbackResult *res) {
         if (res.success) {
@@ -200,6 +203,7 @@ BMKMapManager* _mapManager;
     // iOS badge 清0
     application.applicationIconBadgeNumber = 0;
     // 通知打开回执上报
+//    [CloudPushSDK sendNotificationAck:userInfo];
     [CloudPushSDK handleReceiveRemoteNotification:userInfo];
 }
 
@@ -209,7 +213,42 @@ BMKMapManager* _mapManager;
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
     [application registerForRemoteNotifications];
 }
+// ----------------------------------------------------------------------------------------
+// iOS10新增：处理前台收到通知的代理方法
+// ----------------------------------------------------------------------------------------
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+    
+    NSDictionary * userInfo = notification.request.content.userInfo;
+    if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        //应用处于前台时的远程推送接受
+        //关闭友盟自带的弹出框
+        [UMessage setAutoAlert:NO];
+        //必须加这句代码
+        [UMessage didReceiveRemoteNotification:userInfo];
+        
+    } else {
+        //应用处于前台时的本地推送接受
+    }
+    //当应用处于前台时提示设置，需要哪个可以设置哪一个
+    completionHandler(UNNotificationPresentationOptionSound|UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionAlert);
+}
 
+// ----------------------------------------------------------------------------------------
+// iOS10新增：处理后台点击通知的代理方法
+// ----------------------------------------------------------------------------------------
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    
+    NSDictionary * userInfo = response.notification.request.content.userInfo;
+    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        //应用处于后台时的远程推送接受
+        //必须加这句代码
+        [UMessage didReceiveRemoteNotification:userInfo];
+        
+    } else {
+        //应用处于后台时的本地推送接受
+    }
+    
+}
 #pragma mark - 引导图
 
 - (void)guideManager {
@@ -534,52 +573,7 @@ BMKMapManager* _mapManager;
     
 }
 
-#pragma mark - 获取物流公司数据
 
-//- (void)loadLogisticsCompanyData {
-//    
-//    NSString *path = [NSString stringWithFormat:@"logistics.do?"];
-//    
-//    [HYBNetworking updateBaseUrl:SERVICE_URL];
-//    [HYBNetworking postWithUrl:path refreshCache:YES emphasis:NO params:nil success:^(id response) {
-//        [HYBNetworking response:response success:^(id result, NSString *success_msg) {
-//            
-//            [Tools saveObject:result forKey:SaveData_LogisticsCompany];
-//            
-//        } fail:^(NSString *error_msg) {
-//            
-//        }];
-//    } fail:^(NSError *error) {
-//    }];
-//    
-//}
-
-//获取公告图片
-//-(void)loadBanner{
-//    NSMutableArray *pictureUrlArray = [[NSMutableArray alloc]init];
-//    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                         [Tools stringForKey:TokenData],     @"token",
-//                         nil];
-//    
-//    NSString *path = [NSString stringWithFormat:@"index.php/Api/Ad/show?"];
-//    
-//    [HYBNetworking updateBaseUrl:SERVICE_URL];
-//    [HYBNetworking getWithUrl:path refreshCache:YES emphasis:NO params:dic success:^(id response) {
-//        
-//        NSDictionary *dic = response;
-//        //        NSString *token = [[dic valueForKey:@"data"]valueForKey:@"token"];
-//        for (NSDictionary *temDic in [dic valueForKey:@"data"]) {
-//            NSString *pictureUrl = [dic valueForKey:@"image"];
-//            [pictureUrlArray addObject:pictureUrl];
-//        }
-//        NSLog(@"pictureUrlArray:%@",pictureUrlArray);
-//        
-//        
-//        
-//    } fail:^(NSError *error) {
-//        
-//    }];
-//}
 
 //获取Token信息
 -(void)getTokenMessage{
@@ -675,7 +669,7 @@ BMKMapManager* _mapManager;
 #pragma mark - 阿里云SDK初始化
 - (void)initCloudPush {
     // SDK初始化
-    [CloudPushSDK asyncInit:@"23447195" appSecret:@"7f29d16b8c2240c6ef65005aa3616011" callback:^(CloudPushCallbackResult *res) {
+    [CloudPushSDK asyncInit:@"23440826" appSecret:@"9b63e63786ebe8e51de391c74032ae11" callback:^(CloudPushCallbackResult *res) {
         if (res.success) {
             NSLog(@"Push SDK init success, deviceId: %@.", [CloudPushSDK getDeviceId]);
         } else {

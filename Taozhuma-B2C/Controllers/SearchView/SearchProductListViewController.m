@@ -326,6 +326,14 @@
         
     }];
 }
+//导航栏渐变
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    CGFloat minAlphaOffset = - 64;
+//    CGFloat maxAlphaOffset = 200;
+//    CGFloat offset = scrollView.contentOffset.y;
+//    CGFloat alpha = (offset - minAlphaOffset) / (maxAlphaOffset - minAlphaOffset);
+//    topView.alpha = alpha;
+//}
 
 #pragma mark - SDRefresh
 

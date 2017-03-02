@@ -216,7 +216,7 @@
 }
 -(void)initBottomBtn{
     //左边的按钮
-    canelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    canelBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [canelBtn setFrame:CGRectMake(0, DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH/2, 40)];
     canelBtn.backgroundColor = UIColorWithRGBA(221, 221, 221, 1);
     [canelBtn setTitle:@"取消订单" forState:UIControlStateNormal];
@@ -226,7 +226,7 @@
     
     
     //右边的按钮
-    submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    submitBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [submitBtn setFrame:CGRectMake(viewRight(canelBtn), DEVICE_SCREEN_SIZE_HEIGHT-40, DEVICE_SCREEN_SIZE_WIDTH/2, 40)];
     submitBtn.backgroundColor = UIColorWithRGBA(255, 80, 0, 1);
     [submitBtn setTitle:@"立即付款" forState:UIControlStateNormal];

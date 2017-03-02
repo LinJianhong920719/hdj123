@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		001B994D1E681101001BB6A2 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 001B994C1E681101001BB6A2 /* UserNotifications.framework */; };
 		001FA68D1E56D063007F3AAC /* qianbao.png in Resources */ = {isa = PBXBuildFile; fileRef = 001FA68C1E56D063007F3AAC /* qianbao.png */; };
 		001FA68F1E56D3BE007F3AAC /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 001FA68E1E56D3BE007F3AAC /* Accelerate.framework */; };
 		001FA6911E56D3D5007F3AAC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 001FA6901E56D3D5007F3AAC /* AVFoundation.framework */; };
@@ -353,6 +354,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		001B994C1E681101001BB6A2 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		001FA68C1E56D063007F3AAC /* qianbao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qianbao.png; sourceTree = "<group>"; };
 		001FA68E1E56D3BE007F3AAC /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		001FA6901E56D3D5007F3AAC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -928,6 +930,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				001B994D1E681101001BB6A2 /* UserNotifications.framework in Frameworks */,
 				001FA6931E56D3DE007F3AAC /* AudioToolbox.framework in Frameworks */,
 				001FA6911E56D3D5007F3AAC /* AVFoundation.framework in Frameworks */,
 				001FA68F1E56D3BE007F3AAC /* Accelerate.framework in Frameworks */,
@@ -1083,6 +1086,7 @@
 		0A025F9E1CDAEF3600AFE6C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				001B994C1E681101001BB6A2 /* UserNotifications.framework */,
 				001FA6921E56D3DE007F3AAC /* AudioToolbox.framework */,
 				001FA6901E56D3D5007F3AAC /* AVFoundation.framework */,
 				001FA68E1E56D3BE007F3AAC /* Accelerate.framework */,
