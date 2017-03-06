@@ -82,7 +82,8 @@
     }
 //    @"185"
     NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         [Tools stringForKey: COMMUNITYID], @"comId",
+//                         [Tools stringForKey: COMMUNITYID], @"comId",
+                         @"185", @"comId",
                          [NSNumber numberWithInteger:_pageno], @"pager",
                          nil];
     NSString *xpoint = [NSString stringWithFormat:@"/Api/Goods/HotSell?"];
@@ -134,7 +135,7 @@
         JLWaterfallFlowLayout *flowLayout = [[JLWaterfallFlowLayout alloc] init];
         flowLayout.colMargin = 10;//间距
         flowLayout.rowMargin = 10;//间距
-        flowLayout.colCount = 2;//控制列数
+        flowLayout.colCount = 1;//控制列数
         flowLayout.sectionInset = UIEdgeInsetsMake(0, 10, 10, 10);//视图边界
         flowLayout.delegate = self;
         

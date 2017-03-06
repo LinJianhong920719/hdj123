@@ -348,7 +348,7 @@
             cell.thirdProductPrice.text = [NSString stringWithFormat:@"￥%@",entity.thirdProductPrice];
         }
         
-        [cell.moreBtn addTarget:self action:@selector(moreClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.classBtn addTarget:self action:@selector(moreClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         [cell.firstProductBtn addTarget:self action:@selector(productClicked:) forControlEvents:UIControlEventTouchUpInside];
         cell.firstProductBtn.tag = entity.advProductId.intValue;

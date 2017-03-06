@@ -203,7 +203,7 @@ BMKMapManager* _mapManager;
     // iOS badge 清0
     application.applicationIconBadgeNumber = 0;
     // 通知打开回执上报
-//    [CloudPushSDK sendNotificationAck:userInfo];
+//    [CloudPushSDK handleLaunching:userInfo];
     [CloudPushSDK handleReceiveRemoteNotification:userInfo];
 }
 

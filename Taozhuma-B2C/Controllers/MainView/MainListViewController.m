@@ -406,7 +406,8 @@
 - (void)loadData {
 
     NSDictionary *dics = [[NSDictionary alloc]initWithObjectsAndKeys:
-                          [Tools stringForKey: COMMUNITYID]  ,   @"comId",
+//                          [Tools stringForKey: COMMUNITYID]  ,   @"comId",
+                          @"185"  ,   @"comId",
                           nil];
     
     NSString *xpoint = @"/Api/Goods/showIndex?";

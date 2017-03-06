@@ -32,6 +32,36 @@
 @property (nonatomic, strong) NSString *thirdProductName;//第叁个产品名称
 @property (nonatomic, strong) NSString *thirdProductPrice;//第叁个产品价格
 
+@property (nonatomic, strong) NSString *fourProductId;//第四个产品id
+@property (nonatomic, strong) NSString *fourProductImage;//第四个产品图片
+@property (nonatomic, strong) NSString *fourProductName;//第四个产品名称
+@property (nonatomic, strong) NSString *fourProductPrice;//第四个产品价格
+
+@property (nonatomic, strong) NSString *fiveProductId;//第五个产品id
+@property (nonatomic, strong) NSString *fiveProductImage;//第五个产品图片
+@property (nonatomic, strong) NSString *fiveProductName;//第五个产品名称
+@property (nonatomic, strong) NSString *fiveProductPrice;//第五个产品价格
+
+@property (nonatomic, strong) NSString *sixProductId;//第六个产品id
+@property (nonatomic, strong) NSString *sixProductImage;//第六个产品图片
+@property (nonatomic, strong) NSString *sixProductName;//第六个产品名称
+@property (nonatomic, strong) NSString *sixProductPrice;//第六个产品价格
+
+@property (nonatomic, strong) NSString *sevenProductId;//第七个产品id
+@property (nonatomic, strong) NSString *sevenProductImage;//第七个产品图片
+@property (nonatomic, strong) NSString *sevenProductName;//第七个产品名称
+@property (nonatomic, strong) NSString *sevenProductPrice;//第七个产品价格
+
+@property (nonatomic, strong) NSString *eightProductId;//第八个产品id
+@property (nonatomic, strong) NSString *eightProductImage;//第八个产品图片
+@property (nonatomic, strong) NSString *eightProductName;//第八个产品名称
+@property (nonatomic, strong) NSString *eightProductPrice;//第八个产品价格
+
+@property (nonatomic, strong) NSString *nineProductId;//第九个产品id
+@property (nonatomic, strong) NSString *nineProductImage;//第九个产品图片
+@property (nonatomic, strong) NSString *nineProductName;//第九个产品名称
+@property (nonatomic, strong) NSString *nineProductPrice;//第九个产品价格
+
 - (id)initWithAttributes:(NSDictionary *)attributes;
 
 
