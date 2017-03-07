@@ -22,6 +22,8 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
 #import <UserNotifications/UserNotifications.h>
+#import <MeiQiaSDK/MQManager.h>
+#import "MQServiceToViewInterface.h"
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -107,6 +109,9 @@ BMKMapManager* _mapManager;
     //网络状态监控
     [self networkChanged];
     
+    //美洽
+    [self MQManagerInit:@"2664720be18d7fa45b7d53b3f3a82b65"];
+    
     
 
 
@@ -144,12 +149,13 @@ BMKMapManager* _mapManager;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    //App 进入后台时，关闭美洽服务
+    [MQManager closeMeiqiaService];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    //App 进入前台时，开启美洽服务
+    [MQManager openMeiqiaService];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -572,7 +578,19 @@ BMKMapManager* _mapManager;
     }];
     
 }
-
+- (void)MQManagerInit:(NSString *)MQAppkey{
+    [MQManager initWithAppkey:MQAppkey completion:^(NSString *clientId, NSError *error) {
+        if (!error) {
+            NSLog(@"美洽 SDK：初始化成功");
+        } else {
+            NSLog(@"error:%@",error);
+        }
+        
+        [MQServiceToViewInterface getUnreadMessagesWithCompletion:^(NSArray *messages, NSError *error) {
+            NSLog(@">> unread message count: %d", (int)messages.count);
+        }];
+    }];
+}
 
 
 //获取Token信息

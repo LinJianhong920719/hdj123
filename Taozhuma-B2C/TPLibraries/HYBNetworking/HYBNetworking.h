@@ -56,7 +56,7 @@ typedef NS_ENUM(NSUInteger, HYBRequestType) {
 };
 
 typedef NS_ENUM(NSUInteger, HYBNetworkStatus) {
-    kHYBNetworkStatusUnknown          = -1,//未知网络
+    kHYBNetworkStatusUnknown          = 0,//未知网络
     kHYBNetworkStatusNotReachable     = 0,//网络无连接
     kHYBNetworkStatusReachableViaWWAN = 1,//2，3，4G网络
     kHYBNetworkStatusReachableViaWiFi = 2,//WIFI网络

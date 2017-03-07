@@ -20,6 +20,18 @@
 #import "MyWalletViewController.h"
 #import "UMSocial.h"
 #import "OrderListViewController.h"
+#import "MQChatViewManager.h"
+#import "MQChatDeviceUtil.h"
+#import <MeiQiaSDK/MeiQiaSDK.h>
+#import "NSArray+MQFunctional.h"
+#import "MQBundleUtil.h"
+#import "MQAssetUtil.h"
+#import "MQImageUtil.h"
+#import "MQToast.h"
+
+static CGFloat const kMQButtonVerticalSpacing   = 16.0;
+static CGFloat const kMQButtonHeight            = 42.0;
+static CGFloat const kMQButtonToBottomSpacing   = 128.0;
 
 @interface MineViewControllers () <UITableViewDataSource,UITableViewDelegate> {
     NSArray *_data;
@@ -487,10 +499,22 @@
         } break;
         case 5: {
             //客服电话
-            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",@"1008611"];
-            UIWebView * callWebview = [[UIWebView alloc] init];
-            [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
-            [self.view addSubview:callWebview];
+//            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",@"1008611"];
+//            UIWebView * callWebview = [[UIWebView alloc] init];
+//            [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
+//            [self.view addSubview:callWebview];
+            NSLog(@"name:%@",[Tools stringForKey:KEY_USER_NAME]);
+            //美洽
+            MQChatViewManager *chatViewManager = [[MQChatViewManager alloc] init];
+            [chatViewManager.chatViewStyle setEnableOutgoingAvatar:NO];
+            [chatViewManager.chatViewStyle setEnableRoundAvatar:YES];
+            
+            [chatViewManager setClientInfo:@{@"name":[Tools stringForKey:KEY_USER_NAME]} override:YES];
+            [chatViewManager pushMQChatViewControllerInViewController:self];
+            
+            [chatViewManager setRecordMode:MQRecordModeDuckOther];
+            [chatViewManager setPlayMode:MQPlayModeMixWithOther];
+            
         } break;
         case 6: {
             //帮助中心
@@ -526,6 +550,24 @@
 //        } break;
     }
 }
+static int indicator_tag = 10;
+- (void)removeIndecatorForView:(UIView *)view {
+    UIView *v = [view viewWithTag:indicator_tag];
+    if (v) {
+        [v removeFromSuperview];
+    }
+}
+- (void)updateUnreadMessageCount {
+    [MQServiceToViewInterface getUnreadMessagesWithCompletion:^(NSArray *messages, NSError *error) {
+        
+        NSUInteger count = [[messages filter:^BOOL(MQMessage *message) {
+            return message.fromType != MQMessageFromTypeClient;
+        }] count];
+        
+        NSLog(@"unreade message count: %lu",(unsigned long)count);
+    }];
+}
+
 //
 ////判断钱包是否有密码
 //- (void)isPassWord{
@@ -652,6 +694,16 @@
             }break;
             case 4: {
                 //售后
+                //美洽
+                MQChatViewManager *chatViewManager = [[MQChatViewManager alloc] init];
+                [chatViewManager.chatViewStyle setEnableOutgoingAvatar:NO];
+                [chatViewManager.chatViewStyle setEnableRoundAvatar:YES];
+                
+                [chatViewManager setClientInfo:@{@"name":[Tools stringForKey:KEY_USER_NAME]} override:YES];
+                [chatViewManager pushMQChatViewControllerInViewController:self];
+                
+                [chatViewManager setRecordMode:MQRecordModeDuckOther];
+                [chatViewManager setPlayMode:MQPlayModeMixWithOther];
                 
             }break;
    
