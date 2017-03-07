@@ -211,7 +211,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(JLWaterfallFlowLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    return CGSizeMake(ScreenWidth, 40);
+    return CGSizeMake(ScreenWidth, 20);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(JLWaterfallFlowLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
@@ -243,7 +243,7 @@
         _hotIV = [[UIImageView alloc]init];
         _hotIV.frame = CGRectMake(10, 10, ScreenWidth - 20, 12);
         _hotIV.contentMode = UIViewContentModeScaleAspectFill;
-        _hotIV.image = [UIImage imageNamed:@"pro-hot"];
+//        _hotIV.image = [UIImage imageNamed:@"pro-hot"];
         _hotIV.backgroundColor = self.view.backgroundColor;
     }
     return _hotIV;

@@ -102,7 +102,7 @@
     //高度
     CGFloat height = 0;
     if ([self.delegate respondsToSelector:@selector(collectionView:layout:heightForWidth:atIndexPath:)]) {
-        height = [self.delegate collectionView:self.collectionView layout:self heightForWidth:width atIndexPath:indexPath];
+        height = [self.delegate collectionView:self.collectionView layout:self heightForWidth:20 atIndexPath:indexPath];
     }
     
     CGFloat x = self.sectionInset.left + (width + self.colMargin) * minCol;

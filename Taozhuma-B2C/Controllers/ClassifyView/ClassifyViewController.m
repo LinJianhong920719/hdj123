@@ -326,7 +326,7 @@
     }
     
     ClassGoodsEntity *entity = [cartGooods_arr objectAtIndex:[indexPath row]];
-    NSLog(@"TENAME:%@",entity.catName);
+//    NSLog(@"TENAME:%@",entity.catName);
     cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.font = [UIFont systemFontOfSize:10];
     cell.textLabel.textColor = [UIColor colorWithRed:102/255.0f green:102/255.0f  blue:102/255.0f  alpha:1];
