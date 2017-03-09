@@ -72,7 +72,7 @@
     }
     productTypeName = [attributes valueForKey:@"cat_name"];
     productContext = [attributes valueForKey:@"context"];
-
+    advProductId = [attributes valueForKey:@"cat_id"];
     
     proArray = [[NSMutableArray alloc]init];
     
@@ -95,35 +95,6 @@
         thirdProductName = @"";
         thirdProductPrice = @"";
         
-        fourProductId = @"";//第四个产品id
-        fourProductImage = @"";//第四个产品图片
-        fourProductName = @"";//第四个产品名称
-        fourProductPrice = @"";//第四个产品价格
-        
-        fiveProductId = @"";//第五个产品id
-        fiveProductImage = @"";//第五个产品图片
-        fiveProductName = @"";//第五个产品名称
-        fiveProductPrice = @"";//第五个产品价格
-        
-        sixProductId = @"";//第六个产品id
-        sixProductImage = @"";//第六个产品图片
-        sixProductName = @"";//第六个产品名称
-        sixProductPrice = @"";//第六个产品价格
-        
-        sevenProductId = @"";//第七个产品id
-        sevenProductImage = @"";//第七个产品图片
-        sevenProductName = @"";//第七个产品名称
-        sevenProductPrice = @"";//第七个产品价格
-        
-        eightProductId = @"";//第八个产品id
-        eightProductImage = @"";//第八个产品图片
-        eightProductName = @"";//第八个产品名称
-        eightProductPrice = @"";//第八个产品价格
-        
-        nineProductId = @"";//第九个产品id
-        nineProductImage = @"";//第九个产品图片
-        nineProductName = @"";//第九个产品名称
-        nineProductPrice = @"";//第九个产品价格
     }
     else if([productContext count] == 1){
         
@@ -142,35 +113,7 @@
         thirdProductName = @"";
         thirdProductPrice = @"";
         
-        fourProductId = @"";//第四个产品id
-        fourProductImage = @"";//第四个产品图片
-        fourProductName = @"";//第四个产品名称
-        fourProductPrice = @"";//第四个产品价格
         
-        fiveProductId = @"";//第五个产品id
-        fiveProductImage = @"";//第五个产品图片
-        fiveProductName = @"";//第五个产品名称
-        fiveProductPrice = @"";//第五个产品价格
-        
-        sixProductId = @"";//第六个产品id
-        sixProductImage = @"";//第六个产品图片
-        sixProductName = @"";//第六个产品名称
-        sixProductPrice = @"";//第六个产品价格
-        
-        sevenProductId = @"";//第七个产品id
-        sevenProductImage = @"";//第七个产品图片
-        sevenProductName = @"";//第七个产品名称
-        sevenProductPrice = @"";//第七个产品价格
-        
-        eightProductId = @"";//第八个产品id
-        eightProductImage = @"";//第八个产品图片
-        eightProductName = @"";//第八个产品名称
-        eightProductPrice = @"";//第八个产品价格
-        
-        nineProductId = @"";//第九个产品id
-        nineProductImage = @"";//第九个产品图片
-        nineProductName = @"";//第九个产品名称
-        nineProductPrice = @"";//第九个产品价格
     }
     else if([productContext count] == 2){
         
@@ -188,36 +131,6 @@
         thirdProductImage = @"";
         thirdProductName = @"";
         thirdProductPrice = @"";
-        
-        fourProductId = @"";//第四个产品id
-        fourProductImage = @"";//第四个产品图片
-        fourProductName = @"";//第四个产品名称
-        fourProductPrice = @"";//第四个产品价格
-        
-        fiveProductId = @"";//第五个产品id
-        fiveProductImage = @"";//第五个产品图片
-        fiveProductName = @"";//第五个产品名称
-        fiveProductPrice = @"";//第五个产品价格
-        
-        sixProductId = @"";//第六个产品id
-        sixProductImage = @"";//第六个产品图片
-        sixProductName = @"";//第六个产品名称
-        sixProductPrice = @"";//第六个产品价格
-        
-        sevenProductId = @"";//第七个产品id
-        sevenProductImage = @"";//第七个产品图片
-        sevenProductName = @"";//第七个产品名称
-        sevenProductPrice = @"";//第七个产品价格
-        
-        eightProductId = @"";//第八个产品id
-        eightProductImage = @"";//第八个产品图片
-        eightProductName = @"";//第八个产品名称
-        eightProductPrice = @"";//第八个产品价格
-        
-        nineProductId = @"";//第九个产品id
-        nineProductImage = @"";//第九个产品图片
-        nineProductName = @"";//第九个产品名称
-        nineProductPrice = @"";//第九个产品价格
         
     }
     else if([productContext count] == 3){
@@ -237,320 +150,32 @@
         thirdProductName =[[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_name"];
         thirdProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_price"];
         
-        fourProductId = @"";//第四个产品id
-        fourProductImage = @"";//第四个产品图片
-        fourProductName = @"";//第四个产品名称
-        fourProductPrice = @"";//第四个产品价格
         
-        fiveProductId = @"";//第五个产品id
-        fiveProductImage = @"";//第五个产品图片
-        fiveProductName = @"";//第五个产品名称
-        fiveProductPrice = @"";//第五个产品价格
-        
-        sixProductId = @"";//第六个产品id
-        sixProductImage = @"";//第六个产品图片
-        sixProductName = @"";//第六个产品名称
-        sixProductPrice = @"";//第六个产品价格
-        
-        sevenProductId = @"";//第七个产品id
-        sevenProductImage = @"";//第七个产品图片
-        sevenProductName = @"";//第七个产品名称
-        sevenProductPrice = @"";//第七个产品价格
-        
-        eightProductId = @"";//第八个产品id
-        eightProductImage = @"";//第八个产品图片
-        eightProductName = @"";//第八个产品名称
-        eightProductPrice = @"";//第八个产品价格
-        
-        nineProductId = @"";//第九个产品id
-        nineProductImage = @"";//第九个产品图片
-        nineProductName = @"";//第九个产品名称
-        nineProductPrice = @"";//第九个产品价格
     }
-    else if([productContext count] == 4){
-        
-        fristProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
-        fristProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
-        firstProductName = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_name"];
-        firstProductPirce = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_price"];
-        
-        secondProductId = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"id"];
-        secondProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_image"];
-        secondProductName = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_name"];
-        secondProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_price"];
-        
-        thirdProductId = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"id"];
-        thirdProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_image"];
-        thirdProductName =[[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_name"];
-        thirdProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_price"];
-        
-        fourProductId = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"id"];
-        fourProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_image"];
-        fourProductName =[[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_name"];
-        fourProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_price"];
-        
-        fiveProductId = @"";//第五个产品id
-        fiveProductImage = @"";//第五个产品图片
-        fiveProductName = @"";//第五个产品名称
-        fiveProductPrice = @"";//第五个产品价格
-        
-        sixProductId = @"";//第六个产品id
-        sixProductImage = @"";//第六个产品图片
-        sixProductName = @"";//第六个产品名称
-        sixProductPrice = @"";//第六个产品价格
-        
-        sevenProductId = @"";//第七个产品id
-        sevenProductImage = @"";//第七个产品图片
-        sevenProductName = @"";//第七个产品名称
-        sevenProductPrice = @"";//第七个产品价格
-        
-        eightProductId = @"";//第八个产品id
-        eightProductImage = @"";//第八个产品图片
-        eightProductName = @"";//第八个产品名称
-        eightProductPrice = @"";//第八个产品价格
-        
-        nineProductId = @"";//第九个产品id
-        nineProductImage = @"";//第九个产品图片
-        nineProductName = @"";//第九个产品名称
-        nineProductPrice = @"";//第九个产品价格
-    }else if([productContext count] == 5){
-        
-        fristProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
-        fristProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
-        firstProductName = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_name"];
-        firstProductPirce = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_price"];
-        
-        secondProductId = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"id"];
-        secondProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_image"];
-        secondProductName = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_name"];
-        secondProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_price"];
-        
-        thirdProductId = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"id"];
-        thirdProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_image"];
-        thirdProductName =[[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_name"];
-        thirdProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_price"];
-        
-       
-        fourProductId = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"id"];
-        fourProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_image"];
-        fourProductName =[[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_name"];
-        fourProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_price"];
-       
-        fiveProductId = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"id"];
-        fiveProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_image"];
-        fiveProductName =[[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_name"];
-        fiveProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_price"];
-        
-        sixProductId = @"";//第六个产品id
-        sixProductImage = @"";//第六个产品图片
-        sixProductName = @"";//第六个产品名称
-        sixProductPrice = @"";//第六个产品价格
-        
-        sevenProductId = @"";//第七个产品id
-        sevenProductImage = @"";//第七个产品图片
-        sevenProductName = @"";//第七个产品名称
-        sevenProductPrice = @"";//第七个产品价格
-        
-        eightProductId = @"";//第八个产品id
-        eightProductImage = @"";//第八个产品图片
-        eightProductName = @"";//第八个产品名称
-        eightProductPrice = @"";//第八个产品价格
-        
-        nineProductId = @"";//第九个产品id
-        nineProductImage = @"";//第九个产品图片
-        nineProductName = @"";//第九个产品名称
-        nineProductPrice = @"";//第九个产品价格
-    }else if([productContext count] == 6){
-        
-        fristProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
-        fristProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
-        firstProductName = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_name"];
-        firstProductPirce = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_price"];
-        
-        secondProductId = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"id"];
-        secondProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_image"];
-        secondProductName = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_name"];
-        secondProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_price"];
-        
-        thirdProductId = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"id"];
-        thirdProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_image"];
-        thirdProductName =[[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_name"];
-        thirdProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_price"];
-        
-        
-        fourProductId = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"id"];
-        fourProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_image"];
-        fourProductName =[[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_name"];
-        fourProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_price"];
-        
-        fiveProductId = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"id"];
-        fiveProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_image"];
-        fiveProductName =[[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_name"];
-        fiveProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_price"];
-        
-        sixProductId = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"id"];
-        sixProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_image"];
-        sixProductName =[[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_name"];
-        sixProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_price"];
-        
-        sevenProductId = @"";//第七个产品id
-        sevenProductImage = @"";//第七个产品图片
-        sevenProductName = @"";//第七个产品名称
-        sevenProductPrice = @"";//第七个产品价格
-        
-        eightProductId = @"";//第八个产品id
-        eightProductImage = @"";//第八个产品图片
-        eightProductName = @"";//第八个产品名称
-        eightProductPrice = @"";//第八个产品价格
-        
-        nineProductId = @"";//第九个产品id
-        nineProductImage = @"";//第九个产品图片
-        nineProductName = @"";//第九个产品名称
-        nineProductPrice = @"";//第九个产品价格
-    }else if([productContext count] == 7){
-        
-        fristProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
-        fristProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
-        firstProductName = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_name"];
-        firstProductPirce = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_price"];
-        
-        secondProductId = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"id"];
-        secondProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_image"];
-        secondProductName = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_name"];
-        secondProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_price"];
-        
-        thirdProductId = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"id"];
-        thirdProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_image"];
-        thirdProductName =[[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_name"];
-        thirdProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_price"];
-        
-        
-        fourProductId = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"id"];
-        fourProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_image"];
-        fourProductName =[[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_name"];
-        fourProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_price"];
-        
-        fiveProductId = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"id"];
-        fiveProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_image"];
-        fiveProductName =[[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_name"];
-        fiveProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_price"];
-        
-        sixProductId = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"id"];
-        sixProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_image"];
-        sixProductName =[[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_name"];
-        sixProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_price"];
-        
-        sevenProductId = [[[attributes valueForKey:@"context"]objectAtIndex:6]valueForKey:@"id"];
-        sevenProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:6]valueForKey:@"good_image"];
-        sevenProductName =[[[attributes valueForKey:@"context"]objectAtIndex:6]valueForKey:@"good_name"];
-        sevenProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:6]valueForKey:@"good_price"];
-        
-        eightProductId = @"";//第八个产品id
-        eightProductImage = @"";//第八个产品图片
-        eightProductName = @"";//第八个产品名称
-        eightProductPrice = @"";//第八个产品价格
-        
-        nineProductId = @"";//第九个产品id
-        nineProductImage = @"";//第九个产品图片
-        nineProductName = @"";//第九个产品名称
-        nineProductPrice = @"";//第九个产品价格
-    }else if([productContext count] == 8){
-        
-        fristProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
-        fristProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
-        firstProductName = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_name"];
-        firstProductPirce = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_price"];
-        
-        secondProductId = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"id"];
-        secondProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_image"];
-        secondProductName = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_name"];
-        secondProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_price"];
-        
-        thirdProductId = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"id"];
-        thirdProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_image"];
-        thirdProductName =[[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_name"];
-        thirdProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_price"];
-        
-        
-        fourProductId = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"id"];
-        fourProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_image"];
-        fourProductName =[[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_name"];
-        fourProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_price"];
-        
-        fiveProductId = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"id"];
-        fiveProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_image"];
-        fiveProductName =[[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_name"];
-        fiveProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_price"];
-        
-        sixProductId = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"id"];
-        sixProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_image"];
-        sixProductName =[[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_name"];
-        sixProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_price"];
-        
-        sevenProductId = [[[attributes valueForKey:@"context"]objectAtIndex:6]valueForKey:@"id"];
-        sevenProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:6]valueForKey:@"good_image"];
-        sevenProductName =[[[attributes valueForKey:@"context"]objectAtIndex:6]valueForKey:@"good_name"];
-        sevenProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:6]valueForKey:@"good_price"];
-        
-        
-        eightProductId = [[[attributes valueForKey:@"context"]objectAtIndex:7]valueForKey:@"id"];
-        eightProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:7]valueForKey:@"good_image"];
-        eightProductName =[[[attributes valueForKey:@"context"]objectAtIndex:7]valueForKey:@"good_name"];
-        eightProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:7]valueForKey:@"good_price"];
-        
-        nineProductId = @"";//第九个产品id
-        nineProductImage = @"";//第九个产品图片
-        nineProductName = @"";//第九个产品名称
-        nineProductPrice = @"";//第九个产品价格
-    }else if([productContext count] == 9){
-        
-        fristProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
-        fristProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
-        firstProductName = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_name"];
-        firstProductPirce = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_price"];
-        
-        secondProductId = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"id"];
-        secondProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_image"];
-        secondProductName = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_name"];
-        secondProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_price"];
-        
-        thirdProductId = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"id"];
-        thirdProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_image"];
-        thirdProductName =[[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_name"];
-        thirdProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_price"];
-        
-        
-        fourProductId = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"id"];
-        fourProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_image"];
-        fourProductName =[[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_name"];
-        fourProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_price"];
-        
-        fiveProductId = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"id"];
-        fiveProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_image"];
-        fiveProductName =[[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_name"];
-        fiveProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:4]valueForKey:@"good_price"];
-        
-        sixProductId = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"id"];
-        sixProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_image"];
-        sixProductName =[[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_name"];
-        sixProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_price"];
-        
-        sevenProductId = [[[attributes valueForKey:@"context"]objectAtIndex:6]valueForKey:@"id"];
-        sevenProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_image"];
-        sevenProductName =[[[attributes valueForKey:@"context"]objectAtIndex:6]valueForKey:@"good_name"];
-        sevenProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:5]valueForKey:@"good_price"];
-        
-        eightProductId = [[[attributes valueForKey:@"context"]objectAtIndex:7]valueForKey:@"id"];
-        eightProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:7]valueForKey:@"good_image"];
-        eightProductName =[[[attributes valueForKey:@"context"]objectAtIndex:7]valueForKey:@"good_name"];
-        eightProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:7]valueForKey:@"good_price"];
-        
-        
-        nineProductId = [[[attributes valueForKey:@"context"]objectAtIndex:8]valueForKey:@"id"];
-        nineProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:8]valueForKey:@"good_image"];
-        nineProductName =[[[attributes valueForKey:@"context"]objectAtIndex:8]valueForKey:@"good_name"];
-        nineProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:8]valueForKey:@"good_price"];
-    }
+//    else if([productContext count] == 4){
+//        
+//        fristProductId = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"id"];
+//        fristProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_image"];
+//        firstProductName = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_name"];
+//        firstProductPirce = [[[attributes valueForKey:@"context"]objectAtIndex:0]valueForKey:@"good_price"];
+//        
+//        secondProductId = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"id"];
+//        secondProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_image"];
+//        secondProductName = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_name"];
+//        secondProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:1]valueForKey:@"good_price"];
+//        
+//        thirdProductId = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"id"];
+//        thirdProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_image"];
+//        thirdProductName =[[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_name"];
+//        thirdProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:2]valueForKey:@"good_price"];
+//        
+//        fourProductId = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"id"];
+//        fourProductImage = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_image"];
+//        fourProductName =[[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_name"];
+//        fourProductPrice = [[[attributes valueForKey:@"context"]objectAtIndex:3]valueForKey:@"good_price"];
+//        
+//        
+//    }
 
     
     return self;

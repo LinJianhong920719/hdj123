@@ -22,6 +22,7 @@
 #import "ChooseAdressListViewController.h"
 #import "PayFailViewController.h"
 #import "SearchViewController.h"
+#import "XFWkwebView.h"
 
 @interface MainListViewController () <UITableViewDelegate, UITableViewDataSource, SDCycleScrollViewDelegate>
 
@@ -349,9 +350,16 @@
     return _cycleView;
 }
 
+//点击banner图进行跳转
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
     MainBannerModel *model = [_bannerData objectAtIndex:index];
     DLog(@"点击banner : %ld  title ---> %@", index, model.banner_title);
+    
+    //webView跳转
+    XFWkwebView *webView = [[XFWkwebView alloc] init];
+    [webView loadWebURLSring:@"http://www.baidu.com"];
+    
+    [self.navigationController pushViewController:webView animated:YES];
 }
 
 #pragma mark - GBTopLineView

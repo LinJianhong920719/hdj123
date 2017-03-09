@@ -28,10 +28,8 @@
 #import "MQAssetUtil.h"
 #import "MQImageUtil.h"
 #import "MQToast.h"
+#import "XFWkwebView.h"
 
-static CGFloat const kMQButtonVerticalSpacing   = 16.0;
-static CGFloat const kMQButtonHeight            = 42.0;
-static CGFloat const kMQButtonToBottomSpacing   = 128.0;
 
 @interface MineViewControllers () <UITableViewDataSource,UITableViewDelegate> {
     NSArray *_data;
@@ -416,6 +414,7 @@ static CGFloat const kMQButtonToBottomSpacing   = 128.0;
             arrow.hidden = YES;
             [image setFrame:CGRectMake(85*PROPORTION, 12, 20, 20)];
             [label setFrame:CGRectMake(viewRight(image)+5, 12, 180, 20)];
+            
         }
     }
     
@@ -518,7 +517,11 @@ static CGFloat const kMQButtonToBottomSpacing   = 128.0;
         } break;
         case 6: {
             //帮助中心
+            //webView跳转
+            XFWkwebView *webView = [[XFWkwebView alloc] init];
+            [webView loadWebURLSring:@"http://www.baidu.com"];
             
+            [self.navigationController pushViewController:webView animated:YES];
             
         } break;
 //        case 7: {

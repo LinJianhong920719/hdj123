@@ -9,6 +9,8 @@
 #import "SetupViewController.h"
 #import "MineViewControllers.h"
 #import "RegisterViewControllerNew.h"
+#import "XFWkwebView.h"
+#import "AboutViewController.h"
 
 @interface SetupViewController ()<UITableViewDataSource,UITableViewDelegate> {
     NSArray *_data;
@@ -208,7 +210,12 @@
             
         } break;
         case 2: {
-            
+            //关于我们
+            AboutViewController *aboutUsView = [[AboutViewController alloc]init];
+            aboutUsView.title = @"关于我们";
+            aboutUsView.hidesBottomBarWhenPushed = YES;
+            aboutUsView.navigationController.navigationBarHidden = YES;
+            [self.navigationController pushViewController:aboutUsView animated:YES];
 
         } break;
         case 3: {
@@ -220,23 +227,7 @@
             hud.labelText = @"清除缓存成功";
             //通过多线程执行清除 避免执行过程中阻塞主线程 导致界面短时间无响应
             [NSThread detachNewThreadSelector:@selector(myThreadMainMethod) toTarget:self withObject:nil];        } break;
-        case 4: {
-            //关于我们
-            //            AboutUsViewController *aboutUsView = [[AboutUsViewController alloc]init];
-            //            aboutUsView.title = @"关于我们";
-            //            aboutUsView.helpId = @"2";
-            //            aboutUsView.hidesBottomBarWhenPushed = YES;
-            //            aboutUsView.navigationController.navigationBarHidden = YES;
-            //            [self.navigationController pushViewController:aboutUsView animated:YES];
-            
-            
-            //            HelpDetailsViewController *HelpDetails = [[HelpDetailsViewController alloc]init];
-            //            HelpDetails.title = @"关于我们";
-            //            HelpDetails.helpId = @"2";
-            //            HelpDetails.hidesBottomBarWhenPushed = YES;
-            //            HelpDetails.navigationController.navigationBarHidden = YES;
-            //            [self.navigationController pushViewController:HelpDetails animated:YES];
-        } break;
+        
         case 10: {
             if([Tools boolForKey:KEY_IS_LOGIN]== YES){
             //退出当前账号

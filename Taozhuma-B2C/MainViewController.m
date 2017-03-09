@@ -359,8 +359,8 @@
         [cell.thirdProductBtn addTarget:self action:@selector(productClicked:) forControlEvents:UIControlEventTouchUpInside];
         cell.thirdProductBtn.tag = entity.secondProductId.intValue;
         
-        [cell.fourProductBtn addTarget:self action:@selector(productClicked:) forControlEvents:UIControlEventTouchUpInside];
-        cell.fourProductBtn.tag = entity.thirdProductId.intValue;
+//        [cell.fourProductBtn addTarget:self action:@selector(productClicked:) forControlEvents:UIControlEventTouchUpInside];
+//        cell.fourProductBtn.tag = entity.thirdProductId.intValue;
         
         
     }

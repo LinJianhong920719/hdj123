@@ -181,7 +181,7 @@
     
     labelCount.text = @"合计：¥0.0";
     labelPreferential.text = @"为你节省：¥0.0";
-    labelPreferential.text = @"不含运费";
+    labelPreferential.text = @"暂无配送费";
 }
 //删除按钮方法
 - (IBAction)delCellClick:(id)sender {

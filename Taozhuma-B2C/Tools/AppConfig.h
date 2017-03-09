@@ -13,15 +13,14 @@
 
 
 #define ENVIRONMENT 0     // 环境 0.测试 1.正式
-#define VERSION     @"2.3"// 接口版本
+#define VERSION     @"1.0"// 接口版本
 
 #if                 ENVIRONMENT
-#define SERVICE_URL @"http://b2c.taozhuma.com/v"VERSION"/"
-#define WEB_URL     @"http://b2c.taozhuma.com/"
-#else
-//#define SERVICE_URL @"http://testb2c.taozhuma.com/v"VERSION"/"
 #define SERVICE_URL @"http://www.ihaodangjia.com/"
-#define WEB_URL     @"http://testb2c.taozhuma.com/"
+#define WEB_URL     @"http://www.ihaodangjia.com/"
+#else
+#define SERVICE_URL @"http://www.ihaodangjia.com/"
+#define WEB_URL     @"http://www.ihaodangjia.com/"
 
 //============================ token信息 ==========================//
 #define TokenDatas @"Token_datas"
@@ -93,16 +92,7 @@
 //#define RCIM_CS_ID                  @"KEFU145776931841628"  //客服Id
 
 //正式环境
-#define RCIM_APP_KEY                @"e5t4ouvptxjga"        //App Key
-#define RCIM_CS_ID                  @"KEFU145776932169996"  //客服ID
-#define RCIM_CS_MQID                @"taozhuma"             //美洽公众号ID
 
-#define RCIM_USER_TOKEN             @"rcim_user_token"      //融云客户端请求 Token
-
-#define KEY_IS_LOGIN_RCIM           @"is_login_rcimclient"  //是否登录融云
-
-#define AppIconBadgeNumber          [[RCIMClient sharedRCIMClient] getUnreadCount:@[@(ConversationType_APPSERVICE)]] //融云未读消息数
-#define ResetMessageCount_RCIM      @"resetTheMessageCount_RCIM" //重置未读消息数通知
 //==============================   设备信息   ==================================//
 #define DEVICE_SCREEN_SIZE_HEIGHT [[UIScreen mainScreen] bounds].size.height
 #define DEVICE_SCREEN_SIZE_WIDTH [[UIScreen mainScreen] bounds].size.width
