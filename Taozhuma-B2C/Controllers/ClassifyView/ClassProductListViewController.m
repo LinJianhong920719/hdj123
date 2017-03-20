@@ -248,6 +248,16 @@
     
 }
 
+//scrollView滚动时通知
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
+    //下拉自动刷新
+    CGFloat contentOffsetY = scrollView.contentOffset.y;
+    CGFloat collectionViewY = _mTableView.contentSize.height;
+    NSLog(@"contentOffsetY:%f",contentOffsetY);
+    NSLog(@"collectionViewY:%f",collectionViewY);
+}
+
 #pragma mark - 加载数据
 
 - (void)loadData {

@@ -248,9 +248,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0: {
+            
             return self.toplineView.height;
         }   break;
         case 1: {
+            
             MainViewCell *cell = (MainViewCell *)[self tableView:_mainTableView cellForRowAtIndexPath:indexPath];
             return cell.frame.size.height;
         }   break;
@@ -266,43 +268,34 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     switch (indexPath.section) {
+        //广播视图
         case 0: {
-            
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.contentView.backgroundColor = [UIColor whiteColor];
-            
             [cell.contentView addSubview:self.toplineView];
-            
             return cell;
-            
         }   break;
+        //tableViewCell视图
         case 1: {
-            
             MainViewCell *cell = (MainViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             if (cell == nil) {
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellIdentifier owner:self options:nil];
                 cell = [nib objectAtIndex:0];
             }
-            
             cell.viewController = self;
-            
             MainProductEntity *model = [_m_dataArray objectAtIndex:indexPath.row];
-            
             [cell configWith:model];
-            
             return cell;
             
         }   break;
+        //联动视图（底部CollectView）
         case 2: {
-            
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.contentView.backgroundColor = [UIColor whiteColor];
-            
             [cell.contentView addSubview:self.segView];
-            
             return cell;
             
         }   break;

@@ -492,9 +492,9 @@
     EMAsyncImageView *line1 = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(0, 0,DEVICE_SCREEN_SIZE_WIDTH, 1)];
     [line1 setBackgroundColor:UIColorWithRGBA(238, 239, 239, 1)];
     [view addSubview:line1];
-    EMAsyncImageView *line2 = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(0, 31,DEVICE_SCREEN_SIZE_WIDTH, 1)];
-    [line2 setBackgroundColor:UIColorWithRGBA(238, 239, 239, 1)];
-    [view addSubview:line2];
+//    EMAsyncImageView *line2 = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(0, 31,DEVICE_SCREEN_SIZE_WIDTH, 1)];
+//    [line2 setBackgroundColor:UIColorWithRGBA(238, 239, 239, 1)];
+//    [view addSubview:line2];
     
 
     AllOrderEntity *entity = [_data objectAtIndex:section];
@@ -576,10 +576,10 @@
     [view setBackgroundColor:[UIColor whiteColor]];
     
     //分割线
-    EMAsyncImageView *line1 = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(PROPORTION414*10, 0, DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*30, 1)];
-    [line1 setBackgroundColor:LINECOLOR_DEFAULT];
-    [view addSubview:line1];
-    EMAsyncImageView *line2 = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(PROPORTION414*10, 58, DEVICE_SCREEN_SIZE_WIDTH-30, 1)];
+//    EMAsyncImageView *line1 = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(PROPORTION414*10, 0, DEVICE_SCREEN_SIZE_WIDTH-PROPORTION414*30, 1)];
+//    [line1 setBackgroundColor:LINECOLOR_DEFAULT];
+//    [view addSubview:line1];
+    EMAsyncImageView *line2 = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(PROPORTION414*10, 58, DEVICE_SCREEN_SIZE_WIDTH, 1)];
     [line2 setBackgroundColor:LINECOLOR_DEFAULT];
     [view addSubview:line2];
     EMAsyncImageView *line3 = [[EMAsyncImageView alloc]initWithFrame:CGRectMake(0, 107, DEVICE_SCREEN_SIZE_WIDTH, 1)];
